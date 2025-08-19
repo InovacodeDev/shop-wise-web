@@ -17,12 +17,12 @@ function AdminPage() {
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
                         <FontAwesomeIcon icon={faShieldHalved} className="w-6 h-6" />
-                        {t`Painel do Administrador`}
+                        {t`Admin Dashboard`}
                     </CardTitle>
-                    <CardDescription>{t`Visão geral do sistema.`}</CardDescription>
+                    <CardDescription>{t`System overview.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`Bem-vindo ao painel de administração. Aqui você pode gerenciar usuários, visualizar relatórios e configurar o sistema.`}</p>
+                    <p>{t`Welcome to the admin dashboard. Here you can manage users, view reports, and configure the system.`}</p>
                 </CardContent>
             </Card>
         </div>

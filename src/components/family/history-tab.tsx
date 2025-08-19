@@ -152,8 +152,8 @@ export function HistoryTab() {
         if (!profile?.familyId) {
             toast({
                 variant: "destructive",
-                title: t`Erro`,
-                description: t`Você precisa estar logado para realizar esta ação.`,
+                title: t`Error`,
+                description: t`You need to be logged in to perform this action.`,
             });
             return;
         }
@@ -178,7 +178,7 @@ export function HistoryTab() {
             setPurchases((prev) => prev.filter((p) => p.id !== purchaseId));
 
             toast({
-                title: t`Sucesso!`,
+                title: t`Success!`,
                 description: t`Purchase deleted successfully.`,
             });
             trackEvent("purchase_deleted", { purchaseId });
@@ -186,7 +186,7 @@ export function HistoryTab() {
             console.error("Error deleting purchase:", error);
             toast({
                 variant: "destructive",
-                title: t`Erro`,
+                title: t`Error`,
                 description: t`An error occurred while deleting the purchase. Please try again.`,
             });
         }
@@ -232,9 +232,9 @@ export function HistoryTab() {
             <Card>
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
-                        <FontAwesomeIcon icon={faHistory} className="w-6 h-6" /> {t`Histórico de Compras`}
+                        <FontAwesomeIcon icon={faHistory} className="w-6 h-6" /> {t`Purchase History`}
                     </CardTitle>
-                    <CardDescription>{t`Visualize e filtre todas as suas compras passadas.`}</CardDescription>
+                    <CardDescription>{t`View and filter all your past purchases.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -244,7 +244,7 @@ export function HistoryTab() {
                                 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
                             />
                             <Input
-                                placeholder={t`Buscar por loja ou produto...`}
+                                placeholder={t`Search by store or product...`}
                                 className="pl-10"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -252,10 +252,10 @@ export function HistoryTab() {
                         </div>
                         <Select value={selectedStore} onValueChange={setSelectedStore}>
                             <SelectTrigger className="w-full md:w-[200px]">
-                                <SelectValue placeholder={t`Filtrar por loja`} />
+                                <SelectValue placeholder={t`Filter by store`} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="all">{t`Todas as lojas`}</SelectItem>
+                                <SelectItem value="all">{t`All stores`}</SelectItem>
                                 {availableStores.map((store) => (
                                     <SelectItem key={store} value={store}>
                                         {store}
@@ -265,14 +265,14 @@ export function HistoryTab() {
                         </Select>
                         <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
                             <SelectTrigger className="w-full md:w-[200px]">
-                                <SelectValue placeholder={t`Filtrar por período`} />
+                                <SelectValue placeholder={t`Filter by period`} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="all">{t`Todos os períodos`}</SelectItem>
-                                <SelectItem value="last_month">{t`Último mês`}</SelectItem>
-                                <SelectItem value="last_3_months">{t`Últimos 3 meses`}</SelectItem>
-                                <SelectItem value="last_6_months">{t`Últimos 6 meses`}</SelectItem>
-                                <SelectItem value="last_year">{t`Último ano`}</SelectItem>
+                                <SelectItem value="all">{t`All periods`}</SelectItem>
+                                <SelectItem value="last_month">{t`Last month`}</SelectItem>
+                                <SelectItem value="last_3_months">{t`Last 3 months`}</SelectItem>
+                                <SelectItem value="last_6_months">{t`Last 6 months`}</SelectItem>
+                                <SelectItem value="last_year">{t`Last year`}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
@@ -304,8 +304,8 @@ export function HistoryTab() {
                                 </div>
                             ) : (
                                 <EmptyState
-                                    title={t`Nenhuma Compra Encontrada`}
-                                    description={t`Tente ajustar seus filtros ou adicione uma nova compra para começar.`}
+                                    title={t`No Purchases Found`}
+                                    description={t`Try adjusting your filters or add a new purchase to get started.`}
                                 />
                             )}
                         </>
@@ -317,14 +317,14 @@ export function HistoryTab() {
                 <CardHeader>
                     <CardTitle className="text-xl font-headline flex items-center gap-2">
                         <FontAwesomeIcon icon={faLightbulb} className="w-5 h-5 text-primary" />{" "}
-                        {t`Recomendações e Insights`}
+                        {t`Recommendations and Insights`}
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <EmptyState
                         icon={faLightbulb}
-                        title={t`Ainda Sem Recomendações`}
-                        description={t`Conforme você adiciona mais compras, nossa IA irá gerar recomendações personalizadas para você aqui.`}
+                        title={t`No Recommendations Yet`}
+                        description={t`As you add more purchases, our AI will generate personalized recommendations for you here.`}
                     />
                 </CardContent>
             </Card>
@@ -389,7 +389,7 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
         try {
             await updatePurchaseItems(profile.familyId, purchase.id, items);
             toast({
-                title: t`Sucesso!`,
+                title: t`Success!`,
                 description: t`Purchase updated successfully.`,
             });
             trackEvent("purchase_items_updated", {
@@ -401,7 +401,7 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
             console.error("Error updating purchase:", error);
             toast({
                 variant: "destructive",
-                title: t`Erro`,
+                title: t`Error`,
                 description: t`An error occurred while updating the purchase. Please try again.`,
             });
         } finally {
@@ -442,7 +442,7 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
             </DialogTrigger>
             <DialogContent className="max-w-4xl">
                 <DialogHeader>
-                    <DialogTitle>{t`Detalhes da Compra: \${storeName}`}</DialogTitle>
+                    <DialogTitle>{t`Purchase Details: ${purchase.storeName}`}</DialogTitle>
                     <DialogDescription>
                         {purchase.date.toDate().toLocaleString("pt-BR", { dateStyle: "full", timeStyle: "short" })}
                         <span className="font-bold ml-4">Total: R$ {totalAmount.toFixed(2)}</span>
@@ -454,7 +454,7 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                             <TableRow>
                                 <TableHead>
                                     <FontAwesomeIcon icon={faBox} className="inline-block mr-1 w-4 h-4" />{" "}
-                                    {t`Produto`}
+                                    {t`Product`}
                                 </TableHead>
                                 <TableHead className="w-[120px]">
                                     <FontAwesomeIcon icon={faWeightHanging} className="inline-block mr-1 w-4 h-4" />{" "}
@@ -462,11 +462,11 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                                 </TableHead>
                                 <TableHead className="text-center w-[100px]">
                                     <FontAwesomeIcon icon={faHashtag} className="inline-block mr-1 w-4 h-4" />{" "}
-                                    {t`Quantidade`}
+                                    {t`Quantity`}
                                 </TableHead>
-                                <TableHead className="text-center w-[120px]">{t`Preço Unit.`}</TableHead>
-                                <TableHead className="text-right w-[120px]">{t`Preço Total`}</TableHead>
-                                <TableHead className="w-[100px] text-right">{t`Ações`}</TableHead>
+                                <TableHead className="text-center w-[120px]">{t`Unit Price`}</TableHead>
+                                <TableHead className="text-right w-[120px]">{t`Total Price`}</TableHead>
+                                <TableHead className="w-[100px] text-right">{t`Actions`}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -476,7 +476,7 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                                         <Input
                                             value={item.name}
                                             onChange={(e) => handleItemChange(index, "name", e.target.value)}
-                                            placeholder={t`Nome do item`}
+                                            placeholder={t`Item name`}
                                             disabled={editingItemId !== item.id}
                                         />
                                     </TableCell>
@@ -548,7 +548,7 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                     </Table>
                     <Button variant="outline" className="mt-4" onClick={handleAddItem} disabled={!!editingItemId}>
                         <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
-                        {t`Adicionar Item`}
+                        {t`Add Item`}
                     </Button>
                 </div>
                 <DialogFooter className="pt-4 border-t flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-4">
@@ -582,7 +582,7 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                     <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:gap-4">
                         <Button onClick={handleSaveChanges} disabled={isSaving || !isDirty || !!editingItemId}>
                             <FontAwesomeIcon icon={faSave} className="mr-2 h-4 w-4" />
-                            {isSaving ? t`Salvando...` : t`Salvar Alterações`}
+                            {isSaving ? t`Saving...` : t`Save Changes`}
                         </Button>
                     </div>
                 </DialogFooter>

@@ -62,7 +62,7 @@ export function ShoppingListComponent() {
                 return listDoc.id;
             } else {
                 const newListRef = await addDoc(listsRef, {
-                    name: t`Lista de Compras Principal`,
+                    name: t`Main Shopping List`,
                     createdAt: new Date(),
                     createdBy: userId,
                     status: "active",
@@ -84,10 +84,10 @@ export function ShoppingListComponent() {
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 const listItems = querySnapshot.docs.map(
                     (doc) =>
-                        ({
-                            id: doc.id,
-                            ...doc.data(),
-                        } as ListItem)
+                    ({
+                        id: doc.id,
+                        ...doc.data(),
+                    } as ListItem)
                 );
                 setItems(listItems);
                 setLoading(false);
@@ -167,8 +167,8 @@ export function ShoppingListComponent() {
             console.error("Failed to get suggestions:", error);
             toast({
                 variant: "destructive",
-                title: t`Erro ao buscar sugestões`,
-                description: error.message || t`Houve um problema ao contatar a IA. Por favor, tente novamente mais tarde.`,
+                title: t`Error fetching suggestions`,
+                description: error.message || t`There was a problem contacting the AI. Please try again later.`,
             });
         } finally {
             setIsLoadingSuggestions(false);
@@ -196,7 +196,7 @@ export function ShoppingListComponent() {
                 <Input
                     value={newItemName}
                     onChange={(e) => setNewItemName(e.target.value)}
-                    placeholder={t`Adicionar novo item...`}
+                    placeholder={t`Add new item...`}
                     className="flex-grow"
                     onKeyDown={handleKeyDown}
                 />
@@ -205,14 +205,14 @@ export function ShoppingListComponent() {
                         type="number"
                         value={newItemQty}
                         onChange={(e) => setNewItemQty(e.target.value)}
-                        placeholder={t`Qtd.`}
+                        placeholder={t`Qty.`}
                         className="w-20"
                         min="1"
                         onKeyDown={handleKeyDown}
                     />
                     <Select value={newItemUnit} onValueChange={setNewItemUnit}>
                         <SelectTrigger className="w-24">
-                            <SelectValue placeholder={t`Unid.`} />
+                            <SelectValue placeholder={t`Unit`} />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="un">un</SelectItem>
@@ -224,12 +224,12 @@ export function ShoppingListComponent() {
                     </Select>
                 </div>
                 <Button onClick={handleAddItem} className="w-full sm:w-auto mt-2 sm:mt-0">
-                    <FontAwesomeIcon icon={faPlus} className="mr-2 h-4 w-4" /> {t`Adicionar`}
+                    <FontAwesomeIcon icon={faPlus} className="mr-2 h-4 w-4" /> {t`Add`}
                 </Button>
             </div>
 
             <div className="space-y-2">
-                {loading && <p>{t`Carregando lista...`}</p>}
+                {loading && <p>{t`Loading list...`}</p>}
                 {items.map((item) => (
                     <div key={item.id} className="flex items-center gap-3 p-2 rounded-md hover:bg-muted/50">
                         <Checkbox
@@ -239,9 +239,8 @@ export function ShoppingListComponent() {
                         />
                         <label
                             htmlFor={`item-${item.id}`}
-                            className={`flex-grow text-sm font-medium ${
-                                item.checked ? "line-through text-muted-foreground" : ""
-                            }`}
+                            className={`flex-grow text-sm font-medium ${item.checked ? "line-through text-muted-foreground" : ""
+                                }`}
                         >
                             {item.name}
                         </label>
@@ -265,15 +264,15 @@ export function ShoppingListComponent() {
             <div>
                 <Button onClick={handleGetSuggestions} disabled={isLoadingSuggestions}>
                     <FontAwesomeIcon icon={faWandMagicSparkles} className="mr-2 h-4 w-4" />
-                    {isLoadingSuggestions ? t`Sugerindo itens...` : t`Sugerir Itens com IA`}
+                    {isLoadingSuggestions ? t`Suggesting items...` : t`Suggest Items with AI`}
                 </Button>
 
                 {suggestedItems.length > 0 && (
                     <Alert className="mt-4">
                         <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4" />
-                        <AlertTitle>{t`Sugestões Inteligentes`}</AlertTitle>
+                        <AlertTitle>{t`Smart Suggestions`}</AlertTitle>
                         <AlertDescription>
-                            <p className="mb-2">{t`Baseado no seu histórico de compras, você talvez precise de:`}</p>
+                            <p className="mb-2">{t`Based on your purchase history, you might need:`}</p>
                             <div className="flex flex-wrap gap-2">
                                 {suggestedItems.map((name) => (
                                     <Button
@@ -295,10 +294,10 @@ export function ShoppingListComponent() {
 
             <div className="flex gap-2">
                 <Button variant="outline">
-                    <FontAwesomeIcon icon={faShareNodes} className="mr-2 h-4 w-4" /> {t`Compartilhar`}
+                    <FontAwesomeIcon icon={faShareNodes} className="mr-2 h-4 w-4" /> {t`Share`}
                 </Button>
                 <Button variant="outline">
-                    <FontAwesomeIcon icon={faDownload} className="mr-2 h-4 w-4" /> {t`Exportar PDF`}
+                    <FontAwesomeIcon icon={faDownload} className="mr-2 h-4 w-4" /> {t`Export PDF`}
                 </Button>
             </div>
         </div>

@@ -17,12 +17,12 @@ function AdminNotificationsPage() {
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
                         <FontAwesomeIcon icon={faMessage} className="w-6 h-6" />
-                        {t`Gerenciar Notificações`}
+                        {t`Manage Notifications`}
                     </CardTitle>
-                    <CardDescription>{t`Envie e gerencie notificações globais.`}</CardDescription>
+                    <CardDescription>{t`Send and manage global notifications.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`As ferramentas de gerenciamento de notificações estarão aqui.`}</p>
+                    <p>{t`Notification management tools will be available here.`}</p>
                 </CardContent>
             </Card>
         </div>

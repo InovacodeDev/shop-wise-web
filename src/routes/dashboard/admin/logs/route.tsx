@@ -17,12 +17,12 @@ function AdminLogsPage() {
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
                         <FontAwesomeIcon icon={faFileLines} className="w-6 h-6" />
-                        {t`Logs do Sistema`}
+                        {t`System Logs`}
                     </CardTitle>
-                    <CardDescription>{t`Visualize os logs do sistema e da aplicação.`}</CardDescription>
+                    <CardDescription>{t`View system and application logs.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`O visualizador de logs estará aqui.`}</p>
+                    <p>{t`The logs viewer will be here.`}</p>
                 </CardContent>
             </Card>
         </div>

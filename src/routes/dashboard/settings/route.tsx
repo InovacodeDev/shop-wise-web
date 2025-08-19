@@ -53,20 +53,20 @@ function SettingsPage() {
         <div className="container mx-auto py-8">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-2xl font-headline">{t`Configurações`}</CardTitle>
-                    <CardDescription>{t`Gerencie sua conta, preferências e configurações de privacidade.`}</CardDescription>
+                    <CardTitle className="text-2xl font-headline">{t`Settings`}</CardTitle>
+                    <CardDescription>{t`Manage your account, preferences and privacy settings.`}</CardDescription>
                 </CardHeader>
                 <div className="p-6 pt-0">
                     <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
                         <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                             <TabsTrigger value="profile">
-                                <FontAwesomeIcon icon={faUser} className="mr-2 h-4 w-4" /> {t`Perfil`}
+                                <FontAwesomeIcon icon={faUser} className="mr-2 h-4 w-4" /> {t`Profile`}
                             </TabsTrigger>
                             <TabsTrigger value="preferences">
-                                <FontAwesomeIcon icon={faGears} className="mr-2 h-4 w-4" /> {t`Preferências`}
+                                <FontAwesomeIcon icon={faGears} className="mr-2 h-4 w-4" /> {t`Preferences`}
                             </TabsTrigger>
                             <TabsTrigger value="privacy">
-                                <FontAwesomeIcon icon={faShieldHalved} className="mr-2 h-4 w-4" /> {t`Privacidade e Segurança`}
+                                <FontAwesomeIcon icon={faShieldHalved} className="mr-2 h-4 w-4" /> {t`Privacy and Security`}
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="profile" className="mt-6">
@@ -80,23 +80,23 @@ function SettingsPage() {
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                         <FontAwesomeIcon icon={faTrash} className="w-5 h-5 text-destructive" />{" "}
-                                        {t`Apagar Todos os Meus Dados`}
+                                        {t`Delete All My Data`}
                                     </CardTitle>
-                                    <CardDescription>{t`Exclua permanentemente todo o seu histórico de compras e dados relacionados.`}</CardDescription>
+                                    <CardDescription>{t`Permanently delete all your purchase history and related data.`}</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <p className="text-sm text-muted-foreground">{t`Esta ação é irreversível. Todas as suas listas de compras, histórico e insights serão permanentemente apagados. Isso não pode ser desfeito.`}</p>
+                                    <p className="text-sm text-muted-foreground">{t`This action is irreversible. All your shopping lists, history and insights will be permanently deleted. This cannot be undone.`}</p>
                                 </CardContent>
                                 <CardFooter>
                                     <DeleteConfirmationDialog
                                         onConfirm={handleDeleteData}
                                         title={t`Are you absolutely sure?`}
-                                        description={t`Isso excluirá permanentemente todos os seus dados.`}
-                                        confirmButtonText={t`Sim, apagar meus dados`}
+                                        description={t`This will permanently delete all your data.`}
+                                        confirmButtonText={t`Yes, delete my data`}
                                         triggerButton={
                                             <Button variant="destructive">
                                                 <FontAwesomeIcon icon={faTrash} className="mr-2 h-4 w-4" />{" "}
-                                                {t`Apagar Todos os Dados`}
+                                                {t`Delete All Data`}
                                             </Button>
                                         }
                                     />
@@ -106,23 +106,23 @@ function SettingsPage() {
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                         <FontAwesomeIcon icon={faUserXmark} className="w-5 h-5 text-destructive" />{" "}
-                                        {t`Apagar Minha Conta`}
+                                        {t`Delete My Account`}
                                     </CardTitle>
-                                    <CardDescription>{t`Exclua permanentemente sua conta ShopWise.`}</CardDescription>
+                                    <CardDescription>{t`Permanently delete your ShopWise account.`}</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <p className="text-sm text-muted-foreground">{t`Esta ação é irreversível. Sua conta, perfil e todos os dados associados serão permanentemente apagados. Isso não pode ser desfeito.`}</p>
+                                    <p className="text-sm text-muted-foreground">{t`This action is irreversible. Your account, profile and all associated data will be permanently deleted. This cannot be undone.`}</p>
                                 </CardContent>
                                 <CardFooter>
                                     <DeleteConfirmationDialog
                                         onConfirm={handleDeleteAccount}
                                         title={t`Are you absolutely sure?`}
-                                        description={t`Isso excluirá permanentemente toda a sua conta.`}
-                                        confirmButtonText={t`Sim, apagar minha conta`}
+                                        description={t`This will permanently delete your account.`}
+                                        confirmButtonText={t`Yes, delete my account`}
                                         triggerButton={
                                             <Button variant="destructive">
                                                 <FontAwesomeIcon icon={faUserXmark} className="mr-2 h-4 w-4" />{" "}
-                                                {t`Apagar Conta`}
+                                                {t`Delete Account`}
                                             </Button>
                                         }
                                     />

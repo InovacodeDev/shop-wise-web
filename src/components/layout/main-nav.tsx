@@ -37,35 +37,35 @@ import { Button } from "../ui/button";
 import { trackEvent } from "@/services/analytics-service";
 import { Link, useRouter } from "@tanstack/react-router";
 
-const menuItems = [
-    { href: "/dashboard", label: "insights", icon: faHome },
-    { href: "/list", label: "shopping_list", icon: faList },
-    { href: "/scan", label: "add_purchase", icon: faPlusCircle },
-];
-
-const settingsMenuItems = [
-    { href: "/family", label: "family", icon: faUserGroup },
-    { href: "/settings", label: "my_account", icon: faUser },
-];
-
-const adminMenuItems = [
-    { href: "/admin", label: "dashboard", icon: faShieldHalved },
-    { href: "/admin/users", label: "manage_users", icon: faUsers },
-    { href: "/admin/reports", label: "usage_reports", icon: faChartColumn },
-    { href: "/admin/market-insights", label: "market_insights", icon: faShoppingBasket },
-    { href: "/admin/settings", label: "global_settings", icon: faCog },
-    { href: "/admin/notifications", label: "manage_notifications", icon: faMessage },
-    { href: "/admin/audit", label: "audit_and_tests", icon: faMicroscope },
-    { href: "/admin/security", label: "security", icon: faShield },
-    { href: "/admin/logs", label: "system_logs", icon: faFileLines },
-];
-
 export function MainNav() {
     const router = useRouter();
     const { profile } = useAuth();
     const { t } = useLingui();
     const isAdmin = profile?.isAdmin || false;
     const { state } = useSidebar();
+
+    const menuItems = [
+        { href: "/dashboard", label: t`Insights`, icon: faHome },
+        { href: "/list", label: t`Shopping List`, icon: faList },
+        { href: "/scan", label: t`Add Purchase`, icon: faPlusCircle },
+    ];
+
+    const settingsMenuItems = [
+        { href: "/family", label: t`Family`, icon: faUserGroup },
+        { href: "/settings", label: t`My Account`, icon: faUser },
+    ];
+
+    const adminMenuItems = [
+        { href: "/admin", label: t`Admin Dashboard`, icon: faShieldHalved },
+        { href: "/admin/users", label: t`Manage Users`, icon: faUsers },
+        { href: "/admin/reports", label: t`Usage Reports`, icon: faChartColumn },
+        { href: "/admin/market-insights", label: t`Market Insights`, icon: faShoppingBasket },
+        { href: "/admin/settings", label: t`Global Settings`, icon: faCog },
+        { href: "/admin/notifications", label: t`Manage Notifications`, icon: faMessage },
+        { href: "/admin/audit", label: t`Audit & Tests`, icon: faMicroscope },
+        { href: "/admin/security", label: t`Security`, icon: faShield },
+        { href: "/admin/logs", label: t`System Logs`, icon: faFileLines },
+    ];
 
     const handleSignOut = async () => {
         await signOut(auth);
@@ -87,7 +87,7 @@ export function MainNav() {
                 {menuItems.map((item) => (
                     <SidebarMenuItem key={item.href}>
                         <Link to={item.href}>
-                            <SidebarMenuButton isActive={isActive(item.href)} tooltip={t(item.label)} asChild={false}>
+                            <SidebarMenuButton isActive={isActive(item.href)} tooltip={item.label} asChild={false}>
                                 <FontAwesomeIcon icon={item.icon} className="h-5 w-5" />
                                 <span
                                     className={cn(
@@ -95,7 +95,7 @@ export function MainNav() {
                                         state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
                                     )}
                                 >
-                                    {t(item.label)}
+                                    {item.label}
                                 </span>
                             </SidebarMenuButton>
                         </Link>
@@ -109,12 +109,12 @@ export function MainNav() {
                         state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
                     )}
                 >
-                    {t`Configurações`}
+                    {t`Settings`}
                 </p>
                 {settingsMenuItems.map((item) => (
                     <SidebarMenuItem key={item.href}>
                         <Link to={item.href}>
-                            <SidebarMenuButton isActive={isActive(item.href)} tooltip={t(item.label)} asChild={false}>
+                            <SidebarMenuButton isActive={isActive(item.href)} tooltip={item.label} asChild={false}>
                                 <FontAwesomeIcon icon={item.icon} className="h-5 w-5" />
                                 <span
                                     className={cn(
@@ -122,7 +122,7 @@ export function MainNav() {
                                         state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
                                     )}
                                 >
-                                    {t(item.label)}
+                                    {item.label}
                                 </span>
                             </SidebarMenuButton>
                         </Link>
@@ -139,20 +139,20 @@ export function MainNav() {
                                         state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
                                     )}
                                 >
-                                    {t`Sair`}
+                                    {t`Sign out`}
                                 </span>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                            <AlertDialogTitle>{t`Você tem certeza que quer sair?`}</AlertDialogTitle>
-                            <AlertDialogDescription>{t`Você será redirecionado para a página inicial.`}</AlertDialogDescription>
+                            <AlertDialogTitle>{t`Are you sure you want to sign out?`}</AlertDialogTitle>
+                            <AlertDialogDescription>{t`You will be redirected to the home page.`}</AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogCancel>{t`Cancelar`}</AlertDialogCancel>
+                            <AlertDialogCancel>{t`Cancel`}</AlertDialogCancel>
                             <AlertDialogAction asChild>
-                                <Button onClick={handleSignOut}>{t`Sim, sair`}</Button>
+                                <Button onClick={handleSignOut}>{t`Yes, sign out`}</Button>
                             </AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
@@ -166,14 +166,14 @@ export function MainNav() {
                                 state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
                             )}
                         >
-                            {t`Administração`}
+                            {t`Administration`}
                         </p>
                         {adminMenuItems.map((item) => (
                             <SidebarMenuItem key={item.href}>
                                 <Link to={item.href}>
                                     <SidebarMenuButton
                                         isActive={isActive(item.href)}
-                                        tooltip={t(item.label)}
+                                        tooltip={item.label}
                                         asChild={false}
                                     >
                                         <FontAwesomeIcon icon={item.icon} className="h-5 w-5" />
@@ -183,7 +183,7 @@ export function MainNav() {
                                                 state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
                                             )}
                                         >
-                                            {t(item.label)}
+                                            {item.label}
                                         </span>
                                     </SidebarMenuButton>
                                 </Link>

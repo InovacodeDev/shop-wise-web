@@ -17,12 +17,12 @@ function AdminSecurityPage() {
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
                         <FontAwesomeIcon icon={faShield} className="w-6 h-6" />
-                        {t`Segurança`}
+                        {t`Security`}
                     </CardTitle>
-                    <CardDescription>{t`Gerencie as configurações e protocolos de segurança.`}</CardDescription>
+                    <CardDescription>{t`Manage security settings and protocols.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`A configuração de segurança estará aqui.`}</p>
+                    <p>{t`Security configuration will be here.`}</p>
                 </CardContent>
             </Card>
         </div>

@@ -15,8 +15,8 @@ function ListPage() {
         <div className="container mx-auto py-8">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-2xl font-headline">{t`Lista de Compras`}</CardTitle>
-                    <CardDescription>{t`Gerencie sua lista de compras ativa. Adicione, remova e marque itens.`}</CardDescription>
+                    <CardTitle className="text-2xl font-headline">{t`Shopping List`}</CardTitle>
+                    <CardDescription>{t`Manage your active shopping list. Add, remove and check items.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ShoppingListComponent />

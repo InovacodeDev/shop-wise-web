@@ -101,7 +101,7 @@ const getCategoryKey = (categoryName: string | undefined) => {
 };
 
 const ComparisonBadge = ({ value }: { value: number | null }) => {
-    const { t } = useLingui();
+    const { i18n, t } = useLingui();
     if (value === null) {
         return <div className="h-4 w-16 bg-muted rounded-md animate-pulse" />;
     }
@@ -114,7 +114,7 @@ const ComparisonBadge = ({ value }: { value: number | null }) => {
             <FontAwesomeIcon icon={icon} className="h-3 w-3" />
             <span>
                 {isPositive ? "+" : ""}
-                {value.toFixed(1)}% {t`vs mês passado`}
+                {value.toFixed(1)}% {t`vs last month`}
             </span>
         </p>
     );
@@ -149,52 +149,52 @@ function DashboardPage() {
     const [consumptionAnalysis, setConsumptionAnalysis] = useState<string | null>(null);
     const [isAnalysisLoading, setIsAnalysisLoading] = useState(false);
 
-    const chartConfig = useMemo(
+    const chartConfig = useMemo<any>(
         () => ({
-            total: { label: t("chart_label_total") },
+            total: { label: t`Total` },
             produce_and_eggs: {
-                label: t("category_produce_and_eggs"),
+                label: t`Produce and Eggs`,
                 color: "hsl(var(--color-category-produce-and-eggs))",
             },
             meat_and_seafood: {
-                label: t("category_meat_and_seafood"),
+                label: t`Meat and Seafood`,
                 color: "hsl(var(--color-category-meat-and-seafood))",
             },
             bakery_and_deli: {
-                label: t("category_bakery_and_deli"),
+                label: t`Bakery and Deli`,
                 color: "hsl(var(--color-category-bakery-and-deli))",
             },
             dairy_and_chilled: {
-                label: t("category_dairy_and_chilled"),
+                label: t`Dairy and Chilled`,
                 color: "hsl(var(--color-category-dairy-and-chilled))",
             },
             pantry_and_dry_goods: {
-                label: t("category_pantry_and_dry_goods"),
+                label: t`Pnatry and Dry goods`,
                 color: "hsl(var(--color-category-pantry-and-dry-goods))",
             },
             breakfast_and_snacks: {
-                label: t("category_breakfast_and_snacks"),
+                label: t`Breakfast and Snacks`,
                 color: "hsl(var(--color-category-breakfast-and-snacks))",
             },
-            frozen_foods: { label: t("category_frozen_foods"), color: "hsl(var(--color-category-frozen-foods))" },
-            beverages: { label: t("category_beverages"), color: "hsl(var(--color-category-beverages))" },
+            frozen_foods: { label: t`Frozen foods`, color: "hsl(var(--color-category-frozen-foods))" },
+            beverages: { label: t`Beverages`, color: "hsl(var(--color-category-beverages))" },
             cleaning_and_household: {
-                label: t("category_cleaning_and_household"),
+                label: t`Cleaning and household`,
                 color: "hsl(var(--color-category-cleaning-and-household))",
             },
-            personal_care: { label: t("category_personal_care"), color: "hsl(var(--color-category-personal-care))" },
+            personal_care: { label: t`Personal care`, color: "hsl(var(--color-category-personal-care))" },
             baby_and_child_care: {
-                label: t("category_baby_and_child_care"),
+                label: t`Baby and Child care`,
                 color: "hsl(var(--color-category-baby-and-child-care))",
             },
-            pet_supplies: { label: t("category_pet_supplies"), color: "hsl(var(--color-category-pet-supplies))" },
+            pet_supplies: { label: t`Pet supplies`, color: "hsl(var(--color-category-pet-supplies))" },
             home_and_general: {
-                label: t("category_home_and_general"),
+                label: t`Home and General`,
                 color: "hsl(var(--color-category-home-and-general))",
             },
-            pharmacy: { label: t("category_pharmacy"), color: "hsl(var(--color-category-pharmacy))" },
-            others: { label: t("category_others"), color: "hsl(var(--muted))" },
-            value: { label: t("chart_label_spending") },
+            pharmacy: { label: t`Pharmacy`, color: "hsl(var(--color-category-pharmacy))" },
+            others: { label: t`Others`, color: "hsl(var(--muted))" },
+            value: { label: t`Spending` },
         }),
         [t]
     );
@@ -209,7 +209,7 @@ function DashboardPage() {
             setLoading(true);
 
             const now = new Date();
-            const locale = dateLocales[i18n.language] || ptBR;
+            const locale = dateLocales[i18n.locale] || ptBR;
 
             // 1. Fetch all purchases for the family
             const purchasesRef = collection(db, Collections.Families, profile.familyId, "purchases");
@@ -301,15 +301,15 @@ function DashboardPage() {
                 lastMonthTotalSpent > 0
                     ? ((thisMonthTotalSpent - lastMonthTotalSpent) / lastMonthTotalSpent) * 100
                     : thisMonthTotalSpent > 0
-                    ? 100
-                    : 0
+                        ? 100
+                        : 0
             );
             setTotalItemsChange(
                 lastMonthTotalItems > 0
                     ? ((thisMonthTotalItems - lastMonthTotalItems) / lastMonthTotalItems) * 100
                     : thisMonthTotalItems > 0
-                    ? 100
-                    : 0
+                        ? 100
+                        : 0
             );
 
             // -- Process Bar Chart data (last 12 months) --
@@ -380,7 +380,7 @@ function DashboardPage() {
             setLoading(false);
         }
         fetchData();
-    }, [profile, i18n.language, chartConfig]);
+    }, [profile, i18n.locale, chartConfig]);
 
     useEffect(() => {
         const translatedData = spendingByCategory.map((item) => ({
@@ -388,7 +388,7 @@ function DashboardPage() {
             name: chartConfig[item.name as keyof typeof chartConfig]?.label || item.name,
         }));
         setTranslatedSpendingByCategory(translatedData);
-    }, [spendingByCategory, chartConfig, i18n.language]);
+    }, [spendingByCategory, chartConfig, i18n.locale]);
 
     const handleConsumptionAnalysis = async () => {
         if (consumptionAnalysis || profile?.plan !== "premium" || barChartData.length === 0) return;
@@ -408,7 +408,7 @@ function DashboardPage() {
 
             const result = await analyzeConsumptionData({
                 consumptionData: JSON.stringify(dataForAI),
-                language: i18n.language,
+                language: i18n.locale,
             });
 
             if (result.error) {
@@ -420,8 +420,8 @@ function DashboardPage() {
             console.error("Error fetching consumption analysis:", error);
             toast({
                 variant: "destructive",
-                title: t`Erro`,
-                description: error.message || t("error_fetching_analysis"),
+                title: t`Error`,
+                description: error.message || t`Error fetching consumption analysis.`,
             });
         } finally {
             setIsAnalysisLoading(false);
@@ -429,9 +429,12 @@ function DashboardPage() {
     };
 
     const topCategory = useMemo(() => {
-        if (translatedSpendingByCategory.length === 0) return { name: t("category_others"), value: 0 };
+        if (translatedSpendingByCategory.length === 0) return { name: t`Others`, value: 0 };
         return translatedSpendingByCategory.reduce((prev, current) => (prev.value > current.value ? prev : current));
     }, [translatedSpendingByCategory, t]);
+
+    // compute percentage string for the top category relative to the month's total
+    const topCategoryPercent = totalSpentMonth && totalSpentMonth > 0 ? ((topCategory.value / totalSpentMonth) * 100).toFixed(1) : "0";
 
     const getCategoryClass = (category?: string) => {
         if (!category) return "bg-secondary text-secondary-foreground";
@@ -487,15 +490,15 @@ function DashboardPage() {
             <div className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <InsightModal
-                        title={t`Gasto Mensal por Loja`}
-                        description={t`Uma divisão do seu gasto total do mês corrente, distribuído por cada loja.`}
+                        title={t`Monthly Spending by Store`}
+                        description={t`A breakdown of your total spending for the current month by store.`}
                         data={monthlySpendingByStore}
                         type="spendingByStore"
                     >
                         <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">
-                                    {t`Gasto Total (Mês)`}
+                                    {t`Total Spending (Month)`}
                                 </CardTitle>
                                 <FontAwesomeIcon icon={faDollarSign} className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
@@ -507,14 +510,14 @@ function DashboardPage() {
                     </InsightModal>
 
                     <InsightModal
-                        title={t`Itens Comprados Recentemente`}
-                        description={t`Uma lista dos itens mais recentes que você comprou no mês atual.`}
+                        title={t`Recently Purchased Items`}
+                        description={t`A list of the most recent items you purchased this month.`}
                         data={recentItems}
                         type="recentItems"
                     >
                         <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">{t`Itens Comprados (Mês)`}</CardTitle>
+                                <CardTitle className="text-sm font-medium">{t`Items Purchased (Month)`}</CardTitle>
                                 <FontAwesomeIcon icon={faShoppingBag} className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
@@ -525,8 +528,8 @@ function DashboardPage() {
                     </InsightModal>
 
                     <InsightModal
-                        title={t`Gasto por Categoria`}
-                        description={t`Uma visão detalhada de como seus gastos estão distribuídos entre as diferentes categorias de produtos este mês.`}
+                        title={t`Spending by Category`}
+                        description={t`A detailed view of how your spending is distributed across product categories this month.`}
                         data={translatedSpendingByCategory}
                         chartData={pieChartData}
                         chartConfig={chartConfig}
@@ -534,36 +537,34 @@ function DashboardPage() {
                     >
                         <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">{t`Categoria Principal (Mês)`}</CardTitle>
+                                <CardTitle className="text-sm font-medium">{t`Top Category (Month)`}</CardTitle>
                                 <FontAwesomeIcon icon={faChartSimple} className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">{topCategory.name}</div>
                                 <p className="text-xs text-muted-foreground">
-                                    {t`\${totalSpentMonth! > 0
-                                                ? ((topCategory.value / totalSpentMonth!) * 100).toFixed(1)
-                                                : "0"}% do gasto total`}
+                                    {t`${topCategoryPercent}% of total spending`}
                                 </p>
                             </CardContent>
                         </Card>
                     </InsightModal>
 
                     <InsightModal
-                        title={t`Oportunidades de Economia`}
-                        description={t`Nossa IA analisa suas compras para encontrar possíveis economias. Este recurso estará disponível em breve!`}
+                        title={t`Savings Opportunities`}
+                        description={t`Our AI analyzes your purchases to find potential savings. This feature will be available soon!`}
                         data={[]}
                         type="savingsOpportunities"
                     >
                         <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">
-                                    {t`Potencial de Economia`}
+                                    {t`Potential Savings`}
                                 </CardTitle>
                                 <FontAwesomeIcon icon={faArrowTrendUp} className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">R$ 0.00</div>
-                                <p className="text-xs text-muted-foreground">{t`Insights de economia da IA em breve!`}</p>
+                                <div className="text-2xl font-bold">{i18n.number(0.00, { style: 'currency' })}</div>
+                                <p className="text-xs text-muted-foreground">{t`AI savings insights coming soon!`}</p>
                             </CardContent>
                         </Card>
                     </InsightModal>
@@ -571,8 +572,8 @@ function DashboardPage() {
 
                 <div className="grid gap-6">
                     <InsightModal
-                        title={t`Visão Geral do Consumo`}
-                        description={t`Seu comportamento de gastos nos últimos 12 meses.`}
+                        title={t`Consumption Overview`}
+                        description={t`Your spending behavior over the last 12 months.`}
                         type="consumptionAnalysis"
                         analysis={consumptionAnalysis}
                         isLoading={isAnalysisLoading}
@@ -582,8 +583,8 @@ function DashboardPage() {
                     >
                         <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl col-span-1 lg:col-span-2">
                             <CardHeader>
-                                <CardTitle>{t`Visão Geral do Consumo`}</CardTitle>
-                                <CardDescription>{t`Seu comportamento de gastos nos últimos 12 meses.`}</CardDescription>
+                                <CardTitle>{t`Consumption Overview`}</CardTitle>
+                                <CardDescription>{t`Your spending behavior over the last 12 months.`}</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 {barChartData.length > 0 ? (
@@ -602,7 +603,7 @@ function DashboardPage() {
                                                     fontSize={12}
                                                     tickLine={false}
                                                     axisLine={false}
-                                                    tickFormatter={(value) => `R$${(value as number).toFixed(2)}`}
+                                                    tickFormatter={(value) => i18n.number(value as number, { style: 'currency' })}
                                                 />
                                                 <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
                                                 <ChartLegend content={<ChartLegendContent />} />
@@ -622,8 +623,8 @@ function DashboardPage() {
                                     </ChartContainer>
                                 ) : (
                                     <EmptyState
-                                        title={t`Dados Insuficientes`}
-                                        description={t`Comece a adicionar compras para ver a análise de seus gastos.`}
+                                        title={t`Insufficient Data`}
+                                        description={t`Start adding purchases to see your spending analysis.`}
                                         className="h-[350px]"
                                     />
                                 )}
@@ -634,8 +635,8 @@ function DashboardPage() {
 
                 <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
                     <CardHeader>
-                        <CardTitle>{t`Maiores Despesas (Este Mês)`}</CardTitle>
-                        <CardDescription>{t`Os produtos que mais impactaram seu orçamento este mês.`}</CardDescription>
+                        <CardTitle>{t`Top Expenses (This Month)`}</CardTitle>
+                        <CardDescription>{t`Products that had the biggest impact on your budget this month.`}</CardDescription>
                     </CardHeader>
                     <CardContent>
                         {topExpensesData.length > 0 ? (
@@ -644,34 +645,34 @@ function DashboardPage() {
                                     <TableRow>
                                         <TableHead>
                                             <FontAwesomeIcon icon={faBarcode} className="inline-block mr-1 w-4 h-4" />{" "}
-                                            {t`Cód. Barras`}
+                                            {t`Barcode`}
                                         </TableHead>
-                                        <TableHead>{t`Produto`}</TableHead>
+                                        <TableHead>{t`Product`}</TableHead>
                                         <TableHead>
                                             <FontAwesomeIcon icon={faCopyright} className="inline-block mr-1 w-4 h-4" />{" "}
-                                            {t`Marca`}
+                                            {t`Brand`}
                                         </TableHead>
                                         <TableHead className="w-[200px]">
                                             <FontAwesomeIcon icon={faTag} className="inline-block mr-1 w-4 h-4" />{" "}
-                                            {t`Categoria`}
+                                            {t`Category`}
                                         </TableHead>
                                         <TableHead className="w-[80px] text-center">
                                             <FontAwesomeIcon icon={faHashtag} className="inline-block mr-1 w-4 h-4" />{" "}
-                                            {t`Quantidade`}
+                                            {t`Quantity`}
                                         </TableHead>
                                         <TableHead className="text-right">
                                             <FontAwesomeIcon
                                                 icon={faScaleBalanced}
                                                 className="inline-block mr-1 w-4 h-4"
                                             />{" "}
-                                            {t`Preço Unit.`}
+                                            {t`Unit Price`}
                                         </TableHead>
                                         <TableHead className="text-right">
                                             <FontAwesomeIcon
                                                 icon={faDollarSign}
                                                 className="inline-block mr-1 w-4 h-4"
                                             />{" "}
-                                            {t`Preço Total`}
+                                            {t`Total Price`}
                                         </TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -683,7 +684,7 @@ function DashboardPage() {
                                             <TableCell>{item.brand}</TableCell>
                                             <TableCell>
                                                 <Badge variant="tag" className={cn(getCategoryClass(item.category))}>
-                                                    {t(`category_${getCategoryKey(item.category)}`)}
+                                                    {chartConfig[item.category ?? 'others'].label}
                                                 </Badge>
                                             </TableCell>
                                             <TableCell className="text-center">{item.quantity.toFixed(2)}</TableCell>
@@ -697,8 +698,8 @@ function DashboardPage() {
                             </Table>
                         ) : (
                             <EmptyState
-                                title={t`Nenhuma Despesa Este Mês`}
-                                description={t`Adicione uma nova compra para ver suas maiores despesas aqui.`}
+                                title={t`No Expenses This Month`}
+                                description={t`Add a new purchase to see your top expenses here.`}
                             />
                         )}
                     </CardContent>
@@ -709,7 +710,7 @@ function DashboardPage() {
                 <Button
                     className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg z-20"
                     size="icon"
-                    aria-label={t`Adicionar Compra`}
+                    aria-label={t`Add Purchase`}
                 >
                     <FontAwesomeIcon icon={faPlus} className="h-6 w-6" />
                 </Button>

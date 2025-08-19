@@ -51,8 +51,8 @@ export function PreferencesForm() {
         if (!user) {
             toast({
                 variant: "destructive",
-                title: t`Erro`,
-                description: t`Você precisa estar logado para salvar as preferências.`,
+                title: t`Error`,
+                description: t`You need to be logged in to save preferences.`,
             });
             return;
         }
@@ -63,15 +63,15 @@ export function PreferencesForm() {
             await reloadUser();
             form.reset(values);
             toast({
-                title: t`Sucesso!`,
-                description: t`Suas preferências foram salvas.`,
+                title: t`Success!`,
+                description: t`Your preferences have been saved.`,
             });
             trackEvent("preferences_updated", values);
         } catch (error: any) {
             toast({
                 variant: "destructive",
-                title: t`Erro ao Salvar`,
-                description: t("preferences_form_error_generic"),
+                title: t`Error Saving`,
+                description: t`An error occurred while saving your preferences. Please try again.`,
             });
         }
     }
@@ -81,35 +81,35 @@ export function PreferencesForm() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>{t`Preferências`}</CardTitle>
-                <CardDescription>{t`Personalize a aparência e o comportamento do aplicativo.`}</CardDescription>
+                <CardTitle>{t`Preferences`}</CardTitle>
+                <CardDescription>{t`Customize the look and behavior of the app.`}</CardDescription>
             </CardHeader>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <CardContent className="space-y-6">
                         <div>
-                            <h4 className="text-base font-medium mb-2">{t`Aparência`}</h4>
+                            <h4 className="text-base font-medium mb-2">{t`Appearance`}</h4>
                             <FormField
                                 control={form.control}
                                 name="theme"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>{t`Tema`}</FormLabel>
+                                        <FormLabel>{t`Theme`}</FormLabel>
                                         <Select onValueChange={field.onChange} value={field.value}>
                                             <FormControl>
                                                 <SelectTrigger>
                                                     <SelectValue
-                                                        placeholder={t`Selecione um tema`}
+                                                        placeholder={t`Select a theme`}
                                                     />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
                                                 <SelectItem value="light">
-                                                    {t`Claro`}
+                                                    {t`Light`}
                                                 </SelectItem>
-                                                <SelectItem value="dark">{t`Escuro`}</SelectItem>
+                                                <SelectItem value="dark">{t`Dark`}</SelectItem>
                                                 <SelectItem value="system">
-                                                    {t`Sistema`}
+                                                    {t`System`}
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>
@@ -122,7 +122,7 @@ export function PreferencesForm() {
                         <Separator />
 
                         <div>
-                            <h4 className="text-base font-medium mb-2">{t`Notificações`}</h4>
+                            <h4 className="text-base font-medium mb-2">{t`Notifications`}</h4>
                             <FormField
                                 control={form.control}
                                 name="notifications"
@@ -130,10 +130,10 @@ export function PreferencesForm() {
                                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                         <div className="space-y-0.5">
                                             <FormLabel className="text-base">
-                                                {t`Ativar notificações push`}
+                                                {t`Enable push notifications`}
                                             </FormLabel>
                                             <p className="text-sm text-muted-foreground">
-                                                {t`Receba atualizações e sugestões.`}
+                                                {t`Receive updates and suggestions.`}
                                             </p>
                                         </div>
                                         <FormControl>
@@ -146,7 +146,7 @@ export function PreferencesForm() {
                     </CardContent>
                     <CardFooter>
                         <Button type="submit" disabled={!isDirty || !isValid || isSubmitting}>
-                            {isSubmitting ? t`Salvando...` : t`Salvar Preferências`}
+                            {isSubmitting ? t`Saving...` : t`Save Preferences`}
                         </Button>
                     </CardFooter>
                 </form>

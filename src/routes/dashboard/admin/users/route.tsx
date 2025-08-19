@@ -17,12 +17,12 @@ function AdminUsersPage() {
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
                         <FontAwesomeIcon icon={faUsers} className="w-6 h-6" />
-                        {t`Gerenciar Usuários`}
+                        {t`Manage Users`}
                     </CardTitle>
-                    <CardDescription>{t`Visualize e gerencie todos os usuários registrados.`}</CardDescription>
+                    <CardDescription>{t`View and manage all registered users.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`A interface de gerenciamento de usuários estará aqui.`}</p>
+                    <p>{t`The user management interface will be here.`}</p>
                 </CardContent>
             </Card>
         </div>

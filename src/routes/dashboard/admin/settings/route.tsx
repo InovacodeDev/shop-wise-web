@@ -17,12 +17,12 @@ function AdminSettingsPage() {
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
                         <FontAwesomeIcon icon={faCog} className="w-6 h-6" />
-                        {t`Configurações Globais`}
+                        {t`Global Settings`}
                     </CardTitle>
-                    <CardDescription>{t`Configure as definições de toda a aplicação.`}</CardDescription>
+                    <CardDescription>{t`Configure application-wide settings.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`As opções de configuração global estarão aqui.`}</p>
+                    <p>{t`Global configuration options will be available here.`}</p>
                 </CardContent>
             </Card>
         </div>

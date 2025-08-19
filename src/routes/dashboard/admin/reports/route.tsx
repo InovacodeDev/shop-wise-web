@@ -18,12 +18,12 @@ function AdminReportsPage() {
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
                         <FontAwesomeIcon icon={faChartBar} className="w-6 h-6" />
-                        {t`Relatórios de Uso`}
+                        {t`Usage Reports`}
                     </CardTitle>
-                    <CardDescription>{t`Gere e visualize relatórios de uso do sistema.`}</CardDescription>
+                    <CardDescription>{t`Generate and view system usage reports.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`As ferramentas de relatório estarão disponíveis aqui.`}</p>
+                    <p>{t`Reporting tools will be available here.`}</p>
                 </CardContent>
             </Card>
         </div>

@@ -35,13 +35,13 @@ export function PlanForm() {
     const [billingCycle, setBillingCycle] = useState<BillingCycle>("monthly");
 
     const planFeatures = {
-        free: [t("plan_feature_free_1"), t("plan_feature_free_2"), t("plan_feature_free_3"), t("plan_feature_free_4")],
+        free: [t`Create and manage shopping lists`, t`Manual expense tracking`, t`Basic spending insights`, t`Sync across devices`],
         premium: [
-            t("plan_feature_premium_1"),
-            t("plan_feature_premium_2"),
-            t("plan_feature_premium_3"),
-            t("plan_feature_premium_4"),
-            t("plan_feature_premium_5"),
+            t`Automatic receipt scanning`,
+            t`Advanced AI-driven insights`,
+            t`Price comparison across stores`,
+            t`Personalized budgeting recommendations`,
+            t`Exportable reports and CSV`,
         ],
     };
 
@@ -77,8 +77,8 @@ export function PlanForm() {
         await new Promise((res) => setTimeout(res, 1500));
         setIsSaving(false);
         toast({
-            title: t`Sucesso!`,
-            description: t`Plano atualizado com sucesso!`,
+            title: t`Success!`,
+            description: t`Plan updated successfully!`,
         });
         trackEvent("plan_changed", {
             newPlan: values.plan,
@@ -99,8 +99,8 @@ export function PlanForm() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>{t`Gerenciar seu Plano`}</CardTitle>
-                <CardDescription>{t`Escolha o plano que melhor se adapta às suas necessidades.`}</CardDescription>
+                <CardTitle>{t`Manage your Plan`}</CardTitle>
+                <CardDescription>{t`Choose the plan that best fits your needs.`}</CardDescription>
             </CardHeader>
             <Form {...form}>
                 <form className="space-y-8">
@@ -127,12 +127,14 @@ export function PlanForm() {
                                             >
                                                 <CardHeader>
                                                     <CardTitle className="flex items-center justify-between">
-                                                        <span>{t`Grátis`}</span>
+                                                        <span>{t`Free`}</span>
+                                                        <span>{t`Free`}</span>
                                                         <span className="text-lg font-bold">
-                                                            {t("plan_free_price")}
+                                                            {t`Free`}
                                                         </span>
                                                     </CardTitle>
-                                                    <CardDescription>{t`Para pessoas e famílias pequenas que estão começando.`}</CardDescription>
+                                                    <CardDescription>{t`For individuals and small families starting out.`}</CardDescription>
+                                                    <CardDescription>{t`For individuals and small families starting out.`}</CardDescription>
                                                 </CardHeader>
                                                 <CardContent className="space-y-2 text-sm">
                                                     {planFeatures.free.map((feature) => (
@@ -170,11 +172,12 @@ export function PlanForm() {
                                                         </span>
                                                         <span className="text-lg font-bold">
                                                             {billingCycle === "monthly"
-                                                                ? t("plan_premium_price_monthly")
-                                                                : t("plan_premium_price_annually")}
+                                                                ? t`Premium — Monthly`
+                                                                : t`Premium — Annually`}
                                                         </span>
                                                     </CardTitle>
-                                                    <CardDescription>{t`Para quem deseja insights avançados e recursos de IA.`}</CardDescription>
+                                                    <CardDescription>{t`For those who want advanced insights and AI features.`}</CardDescription>
+                                                    <CardDescription>{t`For those who want advanced insights and AI features.`}</CardDescription>
                                                 </CardHeader>
                                                 <CardContent className="space-y-4 text-sm">
                                                     <Tabs
@@ -186,15 +189,15 @@ export function PlanForm() {
                                                     >
                                                         <TabsList className="grid w-full grid-cols-2">
                                                             <TabsTrigger value="monthly">
-                                                                {t("plan_billing_monthly")}
+                                                                {t`Monthly billing`}
                                                             </TabsTrigger>
                                                             <TabsTrigger value="annually" className="relative group">
-                                                                {t("plan_billing_annually")}
+                                                                {t`Annual billing`}
                                                                 <Badge
                                                                     variant="outline"
                                                                     className="ml-2 border-primary text-primary bg-primary/10 group-data-[state=active]:bg-white group-data-[state=active]:text-primary"
                                                                 >
-                                                                    {t("plan_annual_saving")}
+                                                                    {t`Save when billed annually`}
                                                                 </Badge>
                                                             </TabsTrigger>
                                                         </TabsList>
@@ -228,10 +231,10 @@ export function PlanForm() {
                             >
                                 <FontAwesomeIcon icon={faRocket} className="mr-2 h-4 w-4" />
                                 {isSaving
-                                    ? t`Processando...`
+                                    ? t`Processing...`
                                     : currentPlanIsPremium
-                                    ? t("plan_form_current_plan_button")
-                                    : t("plan_form_select_plan_button")}
+                                        ? t`Current Plan`
+                                        : t`Select Plan`}
                             </Button>
                         )}
                     </CardFooter>

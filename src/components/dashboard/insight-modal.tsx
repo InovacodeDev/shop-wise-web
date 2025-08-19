@@ -71,8 +71,8 @@ export function InsightModal({
         if (type !== "consumptionAnalysis" && (!data || data.length === 0)) {
             return (
                 <EmptyState
-                    title={t`Sem Dados para Exibir`}
-                    description={t`Não há dados disponíveis para o insight selecionado. Comece a adicionar compras para ver seus dados aqui.`}
+                    title={t`No Data to Display`}
+                    description={t`There is no data available for the selected insight. Start adding purchases to see your data here.`}
                 />
             );
         }
@@ -90,11 +90,11 @@ export function InsightModal({
                                     <TableRow>
                                         <TableHead>
                                             <FontAwesomeIcon icon={faStore} className="mr-2 h-4 w-4" />
-                                            {t`Loja`}
+                                            {t`Store`}
                                         </TableHead>
                                         <TableHead className="text-right">
                                             <FontAwesomeIcon icon={faDollarSign} className="mr-2 h-4 w-4" />
-                                            {t`Valor Gasto`}
+                                            {t`Amount Spent`}
                                         </TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -157,15 +157,15 @@ export function InsightModal({
                             <TableRow>
                                 <TableHead>
                                     <FontAwesomeIcon icon={faBox} className="mr-2 h-4 w-4" />
-                                    {t`Produto`}
+                                    {t`Product`}
                                 </TableHead>
                                 <TableHead>
                                     <FontAwesomeIcon icon={faCalendar} className="mr-2 h-4 w-4" />
-                                    {t`Data da Compra`}
+                                    {t`Purchase Date`}
                                 </TableHead>
                                 <TableHead className="text-right">
                                     <FontAwesomeIcon icon={faDollarSign} className="mr-2 h-4 w-4" />
-                                    {t`Preço`}
+                                    {t`Price`}
                                 </TableHead>
                             </TableRow>
                         </TableHeader>
@@ -189,11 +189,11 @@ export function InsightModal({
                                     <TableRow>
                                         <TableHead>
                                             <FontAwesomeIcon icon={faTags} className="mr-2 h-4 w-4" />
-                                            {t`Categoria`}
+                                            {t`Category`}
                                         </TableHead>
                                         <TableHead className="text-right">
                                             <FontAwesomeIcon icon={faDollarSign} className="mr-2 h-4 w-4" />
-                                            {t`Valor Gasto`}
+                                            {t`Amount Spent`}
                                         </TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -238,10 +238,10 @@ export function InsightModal({
                             <TableRow>
                                 <TableHead>
                                     <FontAwesomeIcon icon={faBox} className="mr-2 h-4 w-4" />
-                                    {t`Produto`}
+                                    {t`Product`}
                                 </TableHead>
-                                <TableHead>{t`Mais Barato em`}</TableHead>
-                                <TableHead className="text-right">{t`Economia Potencial`}</TableHead>
+                                <TableHead>{t`Cheapest at`}</TableHead>
+                                <TableHead className="text-right">{t`Potential Savings`}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -263,13 +263,13 @@ export function InsightModal({
                         <Alert className="border-primary/50 text-center">
                             <FontAwesomeIcon icon={faGem} className="h-5 w-5 text-primary" />
                             <AlertTitle className="text-lg font-bold text-primary">
-                                {t`Recurso Premium`}
+                                {t`Premium Feature`}
                             </AlertTitle>
-                            <DialogDescription>{t`Desbloqueie análises detalhadas de consumo e insights personalizados atualizando para nosso plano Premium.`}</DialogDescription>
+                            <DialogDescription>{t`Unlock detailed consumption analyses and personalized insights by upgrading to our Premium plan.`}</DialogDescription>
                             <Button asChild className="mt-4">
                                 <Link to="/dashboard/family" search={{ tab: 'plan' }}>
                                     <FontAwesomeIcon icon={faRocket} className="mr-2" />
-                                    {t`Atualize seu Plano`}
+                                    {t`Upgrade your Plan`}
                                 </Link>
                             </Button>
                         </Alert>
@@ -280,7 +280,7 @@ export function InsightModal({
                         <div className="space-y-4">
                             <div className="flex items-center gap-2 text-muted-foreground">
                                 <FontAwesomeIcon icon={faWandMagicSparkles} className="h-5 w-5 animate-pulse" />
-                                <p>{t`Nossa IA está analisando seus dados... isso pode levar um momento.`}</p>
+                                <p>{t`Our AI is analyzing your data... this may take a moment.`}</p>
                             </div>
                             <Skeleton className="h-6 w-3/4" />
                             <Skeleton className="h-4 w-full" />

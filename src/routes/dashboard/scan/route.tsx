@@ -27,8 +27,8 @@ function ScanPage() {
         if (!user || !profile || !profile.familyId) {
             toast({
                 variant: 'destructive',
-                title: t`Erro`,
-                description: t`Você precisa estar logado para realizar esta ação.`,
+                title: t`Error`,
+                description: t`You need to be logged in to perform this action.`,
             });
             return;
         }
@@ -38,13 +38,13 @@ function ScanPage() {
         if (result.error) {
              toast({
                 variant: 'destructive',
-                title: t`Erro ao Salvar`,
+                title: t`Save Error`,
                 description: result.error,
             });
         } else {
              toast({
-                title: t`Sucesso!`,
-                description: t`Compra salva com sucesso!`,
+                title: t`Success!`,
+                description: t`Purchase saved successfully!`,
             });
             trackEvent('purchase_saved', { 
                 method: entryMethod,
@@ -59,16 +59,16 @@ function ScanPage() {
         <div className="container mx-auto py-8">
             <Card>
                  <CardHeader>
-                    <CardTitle className="text-2xl font-headline">{t`Adicionar Nova Compra`}</CardTitle>
+                    <CardTitle className="text-2xl font-headline">{t`Add New Purchase`}</CardTitle>
                     <CardDescription>
-                        {t`Você pode importar uma compra de um cupom fiscal em PDF ou inserir os detalhes manualmente.`}
+                        {t`You can import a purchase from a PDF fiscal receipt or enter the details manually.`}
                     </CardDescription>
                 </CardHeader>
                 <div className="p-6 pt-0">
                     <Tabs defaultValue="scan" className="w-full">
                         <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="scan"><FontAwesomeIcon icon={faFilePdf} className="mr-2 h-4 w-4" /> {t`Importar PDF`}</TabsTrigger>
-                            <TabsTrigger value="manual"><FontAwesomeIcon icon={faKeyboard} className="mr-2 h-4 w-4" /> {t`Entrada Manual`}</TabsTrigger>
+                            <TabsTrigger value="scan"><FontAwesomeIcon icon={faFilePdf} className="mr-2 h-4 w-4" /> {t`Import PDF`}</TabsTrigger>
+                            <TabsTrigger value="manual"><FontAwesomeIcon icon={faKeyboard} className="mr-2 h-4 w-4" /> {t`Manual Entry`}</TabsTrigger>
                         </TabsList>
                         <TabsContent value="scan" className="mt-6">
                             <PdfImportComponent onSave={(data, prods) => handleSavePurchase(data, prods, 'import')} />

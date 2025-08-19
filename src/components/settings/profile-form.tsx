@@ -84,14 +84,14 @@ export function ProfileForm() {
             await reloadUser();
             profileForm.reset(values); // Resets the dirty state
             toast({
-                title: t`Sucesso!`,
-                description: t`Seu perfil foi atualizado.`,
+                title: t`Success!`,
+                description: t`Your profile has been updated.`,
             });
             trackEvent("profile_updated");
         } catch (error: any) {
             toast({
                 variant: "destructive",
-                title: t`Erro ao atualizar o perfil.`,
+                title: t`Error updating profile.`,
                 description: error.message,
             });
         }
@@ -109,13 +109,13 @@ export function ProfileForm() {
             await linkWithPopup(auth.currentUser, provider);
             await reloadUser();
             toast({
-                title: t`Conta Vinculada`,
-                description: t`Sua conta foi vinculada com sucesso.`,
+                title: t`Account Linked`,
+                description: t`Your account was linked successfully.`,
             });
         } catch (error: any) {
             toast({
                 variant: "destructive",
-                title: t`Erro ao Vincular Conta`,
+                title: t`Error Linking Account`,
                 description: error.message,
             });
         }
@@ -136,8 +136,8 @@ export function ProfileForm() {
         <div className="space-y-8">
             <Card>
                 <CardHeader>
-                    <CardTitle>{t`Informações do Perfil`}</CardTitle>
-                    <CardDescription>{t`Atualize seus dados pessoais.`}</CardDescription>
+                    <CardTitle>{t`Profile Information`}</CardTitle>
+                    <CardDescription>{t`Update your personal details.`}</CardDescription>
                 </CardHeader>
                 <Form {...profileForm}>
                     <form onSubmit={profileForm.handleSubmit(onProfileSubmit)}>
@@ -147,7 +147,7 @@ export function ProfileForm() {
                                 name="displayName"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>{t`Nome de Exibição`}</FormLabel>
+                                        <FormLabel>{t`Display Name`}</FormLabel>
                                         <FormControl>
                                             <Input {...field} />
                                         </FormControl>
@@ -164,7 +164,7 @@ export function ProfileForm() {
                                         <FormControl>
                                             <Input type="email" {...field} disabled />
                                         </FormControl>
-                                        <p className="text-xs text-muted-foreground">{t`Seu endereço de email não pode ser alterado.`}</p>
+                                        <p className="text-xs text-muted-foreground">{t`Your email address cannot be changed.`}</p>
                                         <FormMessage />
                                     </FormItem>
                                 )}
@@ -172,7 +172,7 @@ export function ProfileForm() {
                         </CardContent>
                         <CardFooter>
                             <Button type="submit" disabled={!isProfileDirty || !isProfileValid || isProfileSubmitting}>
-                                {t`Salvar Alterações`}
+                                {t`Save Changes`}
                             </Button>
                         </CardFooter>
                     </form>
@@ -181,8 +181,8 @@ export function ProfileForm() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>{t`Contas Vinculadas`}</CardTitle>
-                    <CardDescription>{t`Conecte outras contas para um login mais rápido.`}</CardDescription>
+                    <CardTitle>{t`Linked Accounts`}</CardTitle>
+                    <CardDescription>{t`Connect other accounts for faster login.`}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -195,7 +195,7 @@ export function ProfileForm() {
                             disabled={linkedProviders.includes("google.com")}
                             onClick={() => handleLinkAccount(googleProvider)}
                         >
-                            {linkedProviders.includes("google.com") ? t`Conectado` : t`Conectar`}
+                            {linkedProviders.includes("google.com") ? t`Connected` : t`Connect`}
                         </Button>
                     </div>
                     <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -208,7 +208,7 @@ export function ProfileForm() {
                             disabled={linkedProviders.includes("apple.com")}
                             onClick={() => handleLinkAccount(new OAuthProvider("apple.com"))}
                         >
-                            {linkedProviders.includes("apple.com") ? t`Conectado` : t`Conectar`}
+                            {linkedProviders.includes("apple.com") ? t`Connected` : t`Connect`}
                         </Button>
                     </div>
                 </CardContent>
@@ -216,8 +216,8 @@ export function ProfileForm() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>{t`Alterar Senha`}</CardTitle>
-                    <CardDescription>{t`Escolha uma senha nova e forte.`}</CardDescription>
+                    <CardTitle>{t`Change Password`}</CardTitle>
+                    <CardDescription>{t`Choose a new strong password.`}</CardDescription>
                 </CardHeader>
                 <Form {...passwordForm}>
                     <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)}>
@@ -227,7 +227,7 @@ export function ProfileForm() {
                                 name="currentPassword"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>{t`Senha Atual`}</FormLabel>
+                                        <FormLabel>{t`Current Password`}</FormLabel>
                                         <div className="relative">
                                             <FormControl>
                                                 <Input type={showCurrentPassword ? "text" : "password"} {...field} />
@@ -266,7 +266,7 @@ export function ProfileForm() {
                                 name="newPassword"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>{t`Nova Senha`}</FormLabel>
+                                        <FormLabel>{t`New Password`}</FormLabel>
                                         <div className="relative">
                                             <FormControl>
                                                 <Input type={showNewPassword ? "text" : "password"} {...field} />
@@ -306,7 +306,7 @@ export function ProfileForm() {
                                 type="submit"
                                 disabled={!isPasswordDirty || !isPasswordValid || isPasswordSubmitting}
                             >
-                                {t`Alterar Senha`}
+                                {t`Change Password`}
                             </Button>
                         </CardFooter>
                     </form>

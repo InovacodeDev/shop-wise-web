@@ -39,23 +39,23 @@ function FamilyPage() {
         <div className="container mx-auto py-8">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-2xl font-headline">{t`Configurações da Família`}</CardTitle>
-                    <CardDescription>{t`Gerencie a composição da sua família, estabelecimentos preferidos e seu plano.`}</CardDescription>
+                    <CardTitle className="text-2xl font-headline">{t`Family Settings`}</CardTitle>
+                    <CardDescription>{t`Manage your family composition, preferred stores, and your plan.`}</CardDescription>
                 </CardHeader>
                 <div className="p-6 pt-0">
                     <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
                         <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-                            <TabsTrigger value="composition">
-                                <FontAwesomeIcon icon={faUsers} className="mr-2 h-4 w-4" /> {t`Composição`}
+                                <TabsTrigger value="composition">
+                                <FontAwesomeIcon icon={faUsers} className="mr-2 h-4 w-4" /> {t`Composition`}
                             </TabsTrigger>
-                            <TabsTrigger value="markets">
-                                <FontAwesomeIcon icon={faStore} className="mr-2 h-4 w-4" /> {t`Estabelecimentos`}
+                                <TabsTrigger value="markets">
+                                <FontAwesomeIcon icon={faStore} className="mr-2 h-4 w-4" /> {t`Markets`}
                             </TabsTrigger>
-                            <TabsTrigger value="history">
-                                <FontAwesomeIcon icon={faHistory} className="mr-2 h-4 w-4" /> {t`Histórico de Compras`}
+                                <TabsTrigger value="history">
+                                <FontAwesomeIcon icon={faHistory} className="mr-2 h-4 w-4" /> {t`Purchase History`}
                             </TabsTrigger>
-                            <TabsTrigger value="plan">
-                                <FontAwesomeIcon icon={faGem} className="mr-2 h-4 w-4" /> {t`Plano`}
+                                <TabsTrigger value="plan">
+                                <FontAwesomeIcon icon={faGem} className="mr-2 h-4 w-4" /> {t`Plan`}
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="composition" className="mt-6">

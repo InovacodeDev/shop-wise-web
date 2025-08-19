@@ -6,7 +6,7 @@ import { useLingui } from '@lingui/react/macro';
 
 
 export const Route = createFileRoute('/dashboard/admin/audit')({
-  component: AdminAuditPage,
+    component: AdminAuditPage,
 })
 
 function AdminAuditPage() {
@@ -18,12 +18,12 @@ function AdminAuditPage() {
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
                         <FontAwesomeIcon icon={faMicroscope} className="w-6 h-6" />
-                        {t`Auditoria e Testes`}
+                        {t`Audit & Testing`}
                     </CardTitle>
-                    <CardDescription>{t`Realize auditorias e testes no sistema.`}</CardDescription>
+                    <CardDescription>{t`Run audits and tests on the system.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`As ferramentas de auditoria e teste estarão aqui.`}</p>
+                    <p>{t`Audit and testing tools will be available here.`}</p>
                 </CardContent>
             </Card>
         </div>

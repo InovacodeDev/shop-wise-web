@@ -109,7 +109,7 @@ const categoriesMap: Record<string, string[]> = {
 const mainCategories = Object.keys(categoriesMap);
 
 export function PdfImportComponent({ onSave }: PdfImportProps) {
-    const { t } = useLingui();
+    const { i18n, t } = useLingui();
     const [extractionResult, setExtractionResult] = useState<ExtractProductDataOutput | null>(null);
     const [debugResult, setDebugResult] = useState<string | null>(null);
     const [products, setProducts] = useState<Product[]>([]);
@@ -238,8 +238,8 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                 setProducts(finalResult.products.map((p, idx) => ({ ...p, id: Date.now() + idx })));
 
                 toast({
-                    title: t("scan_success_title"),
-                    description: t`Dados do PDF extraídos com sucesso. Por favor, revise os itens abaixo antes de salvar.`,
+                    title: t`PDF data extracted successfully`,
+                    description: t`PDF data was extracted successfully. Please review the items below before saving.`,
                 });
                 setProgress(100);
                 setIsLoading(false);
@@ -248,8 +248,8 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
             console.error("Failed to extract data:", error);
             toast({
                 variant: "destructive",
-                title: t("scan_error_title"),
-                description: error.message || t`Não conseguimos extrair os dados do PDF. Por favor, garanta que é um cupom fiscal eletrônico (NFC-e) válido e tente novamente. Se o erro persistir, você pode inserir os dados manualmente.`,
+                title: t`Failed to extract PDF data`,
+                description: error.message || t`We couldn't extract data from the PDF. Please ensure it's a valid electronic fiscal receipt (NFC-e) and try again. If the problem persists, you can enter the data manually.`,
             });
             handleCancelImport();
             setIsLoading(false);
@@ -283,7 +283,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
             setProducts(products.map((p) => (p.id === editingProduct.id ? editingProduct : p)));
             setIsEditDialogOpen(false);
             setEditingProduct(null);
-            toast({ title: t("edit_item_success_toast") });
+            toast({ title: t`Item updated successfully` });
         }
     };
 
@@ -291,13 +291,13 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
         const newItem: Product = {
             id: Date.now(),
             barcode: "",
-            name: "Novo Item",
-            volume: "1 un",
+            name: "New Item",
+            volume: "1 unit",
             quantity: 1,
             unitPrice: 0.0,
             price: 0.0,
-            category: "Mercearia",
-            subcategory: "Outros",
+            category: "Grocery",
+            subcategory: "Others",
             brand: "",
         };
         setProducts([...products, newItem]);
@@ -324,8 +324,8 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
             <CardContent className="flex flex-col items-center gap-8 p-0">
                 <Alert>
                     <FontAwesomeIcon icon={faFilePdf} />
-                    <AlertTitle>{t`Importar de PDF`}</AlertTitle>
-                    <AlertDescription>{t`Selecione o PDF do seu cupom fiscal eletrônico (NFC-e) para extrair os dados da compra automaticamente.`}</AlertDescription>
+                    <AlertTitle>{t`Import from PDF`}</AlertTitle>
+                    <AlertDescription>{t`Select the PDF of your electronic fiscal receipt (NFC-e) to automatically extract the purchase data.`}</AlertDescription>
                 </Alert>
 
                 <Input
@@ -340,7 +340,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                 {isLoading ? (
                     <div className="w-full space-y-2">
                         <Progress value={progress} />
-                        <p className="text-sm text-center text-muted-foreground">{t`Processando...`}...</p>
+                        <p className="text-sm text-center text-muted-foreground">{t`Processing...`}...</p>
                     </div>
                 ) : (
                     <Button
@@ -351,7 +351,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                         data-analytics-id="select-pdf-button"
                     >
                         <FontAwesomeIcon icon={faFilePdf} className="mr-2 h-5 w-5" />
-                        {t`Selecionar Arquivo PDF`}
+                        {t`Select PDF File`}
                     </Button>
                 )}
 
@@ -361,18 +361,18 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                     <FontAwesomeIcon icon={faHistory} className="w-5 h-5 text-primary" />{" "}
-                                    {t`Dados da Compra`}
+                                    {t`Purchase Data`}
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                                     <div className="flex items-center gap-2">
                                         <FontAwesomeIcon icon={faStore} className="w-4 h-4 text-muted-foreground" />
-                                        <strong>{t`Loja`}:</strong> {extractionResult.storeName}
+                                        <strong>{t`Store`}:</strong> {extractionResult.storeName}
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <FontAwesomeIcon icon={faCalendar} className="w-4 h-4 text-muted-foreground" />
-                                        <strong>{t`Data`}:</strong>{" "}
+                                        <strong>{t`Date`}:</strong>{" "}
                                         {new Date(extractionResult.date).toLocaleDateString("pt-BR", {
                                             timeZone: "UTC",
                                         })}
@@ -384,33 +384,33 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                         <TableRow>
                                             <TableHead>
                                                 <FontAwesomeIcon icon={faBox} className="inline-block mr-1 w-4 h-4" />{" "}
-                                                {t`Produto`}
+                                                {t`Product`}
                                             </TableHead>
                                             <TableHead>
                                                 <FontAwesomeIcon
                                                     icon={faCopyright}
                                                     className="inline-block mr-1 w-4 h-4"
                                                 />{" "}
-                                                {t`Marca`}
+                                                {t`Brand`}
                                             </TableHead>
                                             <TableHead className="w-[200px]">
                                                 <FontAwesomeIcon icon={faTags} className="inline-block mr-1 w-4 h-4" />{" "}
-                                                {t`Categoria`}
+                                                {t`Category`}
                                             </TableHead>
                                             <TableHead className="text-center w-[80px]">
                                                 <FontAwesomeIcon
                                                     icon={faHashtag}
                                                     className="inline-block mr-1 w-4 h-4"
                                                 />{" "}
-                                                {t`Quantidade`}
+                                                {t`Quantity`}
                                             </TableHead>
                                             <TableHead className="text-right w-[120px]">
-                                                {t`Preço Unit.`} (R$)
+                                                {t`Unit Price`} (R$)
                                             </TableHead>
                                             <TableHead className="text-right w-[120px]">
-                                                {t`Preço Total`} (R$)
+                                                {t`Total Price`} (R$)
                                             </TableHead>
-                                            <TableHead className="text-right w-[100px]">{t`Ações`}</TableHead>
+                                            <TableHead className="text-right w-[100px]">{t`Actions`}</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -467,21 +467,20 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                 </Table>
                                 <Button variant="outline" onClick={handleAddNewItem}>
                                     <FontAwesomeIcon icon={faPlusCircle} className="mr-2 h-4 w-4" />{" "}
-                                    {t`Adicionar Item Manualmente`}
+                                    {t`Add Item Manually`}
                                 </Button>
                             </CardContent>
                             <CardFooter className="flex-col items-end space-y-2 pt-6">
                                 <p className="font-semibold text-lg">
-                                    {t`Total`}: R$ {totalAmount.toFixed(2)}
+                                    {t`Total`}: {i18n.number(totalAmount, { style: 'currency' })}
                                 </p>
                                 {extractionResult.discount && extractionResult.discount > 0 && (
                                     <>
                                         <p className="font-semibold text-primary text-md">
-                                            {t("discounts_label")}: - R$ {extractionResult.discount.toFixed(2)}
+                                            {t`Discounts`}: - {i18n.number(extractionResult.discount, { style: 'currency' })}
                                         </p>
                                         <p className="font-bold text-xl text-accent">
-                                            {t("total_to_pay_label")}: R${" "}
-                                            {(totalAmount - extractionResult.discount).toFixed(2)}
+                                            {t`Total to Pay`}: {i18n.number(totalAmount - extractionResult.discount, { style: 'currency' })}
                                         </p>
                                     </>
                                 )}
@@ -492,7 +491,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                 <AccordionItem value="item-1">
                                     <AccordionTrigger>
                                         <span className="flex items-center gap-2">
-                                            <FontAwesomeIcon icon={faBug} /> {t("debug_raw_data_title")}
+                                            <FontAwesomeIcon icon={faBug} /> {t`Debug Raw Data`}
                                         </span>
                                     </AccordionTrigger>
                                     <AccordionContent>
@@ -505,7 +504,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                             <div className="flex w-full justify-between items-center">
                                 <Button variant="destructive" onClick={handleCancelImport} disabled={isSaving}>
                                     <FontAwesomeIcon icon={faTimesCircle} className="mr-2 h-4 w-4" />
-                                    {t("cancel_and_new_import_button")}
+                                    {t`Cancel and Start New Import`}
                                 </Button>
                                 <Button size="lg" onClick={handleConfirmPurchase} disabled={isSaving}>
                                     {isSaving ? (
@@ -513,7 +512,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                     ) : (
                                         <FontAwesomeIcon icon={faSave} className="mr-2 h-4 w-4" />
                                     )}
-                                    {isSaving ? t`Salvando...` : t`Confirmar e Salvar Compra`}
+                                    {isSaving ? t`Saving...` : t`Confirm and Save Purchase`}
                                 </Button>
                             </div>
                         </CardFooter>
@@ -524,8 +523,8 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>{t`Editar Item`}</DialogTitle>
-                        <DialogDescription>{t`Faça correções nos detalhes do item extraído aqui.`}</DialogDescription>
+                        <DialogTitle>{t`Edit Item`}</DialogTitle>
+                        <DialogDescription>{t`Make corrections to the extracted item's details here.`}</DialogDescription>
                     </DialogHeader>
                     {editingProduct && (
                         <div className="grid gap-4 py-4">
@@ -542,7 +541,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="brand" className="text-right">
-                                    {t`Marca`}
+                                    {t`Brand`}
                                 </Label>
                                 <Input
                                     id="brand"
@@ -555,7 +554,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="category" className="text-right">
-                                    {t`Categoria`}
+                                    {t`Category`}
                                 </Label>
                                 <Select
                                     value={editingProduct.category}
@@ -568,7 +567,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                     }}
                                 >
                                     <SelectTrigger className="col-span-3">
-                                        <SelectValue placeholder="Selecione a categoria" />
+                                        <SelectValue placeholder={t`Select a category`} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {mainCategories.map((cat) => (
@@ -581,7 +580,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="subcategory" className="text-right">
-                                    {t`Subcategoria`}
+                                    {t`Subcategory`}
                                 </Label>
                                 <Select
                                     value={editingProduct.subcategory}
@@ -595,7 +594,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                     }
                                 >
                                     <SelectTrigger className="col-span-3">
-                                        <SelectValue placeholder="Selecione a subcategoria" />
+                                        <SelectValue placeholder={t`Select a subcategory`} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {editingProduct.category &&
@@ -609,7 +608,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="quantity" className="text-right">
-                                    {t`Quantidade`}
+                                    {t`Quantity`}
                                 </Label>
                                 <Input
                                     id="quantity"
@@ -626,7 +625,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="unitPrice" className="text-right">
-                                    {t`Preço Unit.`} (R$)
+                                    {t`Unit Price`} (R$)
                                 </Label>
                                 <Input
                                     id="unitPrice"
@@ -647,10 +646,10 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                     )}
                     <DialogFooter>
                         <Button variant="ghost" onClick={() => setIsEditDialogOpen(false)}>
-                            {t`Cancelar`}
+                            {t`Cancel`}
                         </Button>
                         <Button onClick={handleSaveEdit}>
-                            <FontAwesomeIcon icon={faSave} className="mr-2 h-4 w-4" /> {t`Salvar Alterações`}
+                            <FontAwesomeIcon icon={faSave} className="mr-2 h-4 w-4" /> {t`Save Changes`}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

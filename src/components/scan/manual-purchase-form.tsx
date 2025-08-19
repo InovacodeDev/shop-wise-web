@@ -16,20 +16,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle, faTrash, faSave, faCalendarAlt, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useLingui } from '@lingui/react/macro';
 
-
 const itemSchema = z.object({
-    name: z.string().min(1, "Nome é obrigatório"),
-    quantity: z.coerce.number().min(0.01, "Quantidade deve ser maior que 0"),
-    unitPrice: z.coerce.number().min(0, "Preço não pode ser negativo"),
+    name: z.string().min(1, `Name is required`),
+    quantity: z.coerce.number().min(0.01, `Quantity must be greater than 0`),
+    unitPrice: z.coerce.number().min(0, `Price cannot be negative`),
     price: z.coerce.number(),
     barcode: z.string().optional(),
     volume: z.string().optional(),
 });
 
 const purchaseSchema = z.object({
-    storeName: z.string().min(1, "Nome da loja é obrigatório"),
-    date: z.date({ required_error: "Data é obrigatória" }),
-    items: z.array(itemSchema).min(1, "Adicione pelo menos um item"),
+    storeName: z.string().min(1, `Store name is required`),
+    date: z.date({ required_error: `Date is required` }),
+    items: z.array(itemSchema).min(1, `Add at least one item`),
 });
 
 export type PurchaseData = z.infer<typeof purchaseSchema>;
@@ -84,7 +83,7 @@ export function ManualPurchaseForm({ onSave }: ManualPurchaseFormProps) {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <Card>
                     <CardHeader>
-                        <CardTitle>{t`Detalhes da Compra`}</CardTitle>
+                        <CardTitle>{t`Purchase Details`}</CardTitle>
                     </CardHeader>
                     <CardContent className="grid md:grid-cols-2 gap-6">
                         <FormField
@@ -92,9 +91,19 @@ export function ManualPurchaseForm({ onSave }: ManualPurchaseFormProps) {
                             name="storeName"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>{t`Nome da Loja`}</FormLabel>
+                                    <FormLabel>{t`Store Name`}</FormLabel>
                                     <FormControl>
-                                        <Input placeholder={t`ex: Supermercado do Bairro`} {...field} />
+                                        <Input placeholder={t`e.g., Neighborhood Supermarket`} {...field} />
+                                        <FormLabel>{t`Date`}</FormLabel>
+                                        <span>{t`Select a date`}</span>
+                                        <CardTitle>{t`Items`}</CardTitle>
+                                        <TableHead className="w-auto">{t`Product`}</TableHead>
+                                        <TableHead className="w-[100px] text-center">{t`Qty.`}</TableHead>
+                                        <TableHead className="w-[140px] text-center">{t`Unit Price`}</TableHead>
+                                        <Input
+                                            {...field}
+                                            placeholder={t`Item name`}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -105,7 +114,7 @@ export function ManualPurchaseForm({ onSave }: ManualPurchaseFormProps) {
                             name="date"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>{t`Data`}</FormLabel>
+                                    <FormLabel>{t`Date`}</FormLabel>
                                     <Popover>
                                         <PopoverTrigger asChild>
                                             <FormControl>
@@ -119,7 +128,7 @@ export function ManualPurchaseForm({ onSave }: ManualPurchaseFormProps) {
                                                     {field.value ? (
                                                         format(field.value, "PPP", { locale: ptBR })
                                                     ) : (
-                                                        <span>{t`Selecione uma data`}</span>
+                                                        <span>{t`Select a date`}</span>
                                                     )}
                                                     <FontAwesomeIcon
                                                         icon={faCalendarAlt}
@@ -147,17 +156,17 @@ export function ManualPurchaseForm({ onSave }: ManualPurchaseFormProps) {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>{t`Itens`}</CardTitle>
+                        <CardTitle>{t`Items`}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead className="w-auto">{t`Produto`}</TableHead>
+                                    <TableHead className="w-auto">{t`Product`}</TableHead>
                                     <TableHead className="w-[140px]">{t`Volume`}</TableHead>
-                                    <TableHead className="w-[100px] text-center">{t`Qtd.`}</TableHead>
-                                    <TableHead className="w-[140px] text-center">{t`Preço Unit.`}</TableHead>
-                                    <TableHead className="w-[50px] text-right">{t`Ações`}</TableHead>
+                                    <TableHead className="w-[100px] text-center">{t`Qty.`}</TableHead>
+                                    <TableHead className="w-[140px] text-center">{t`Unit Price`}</TableHead>
+                                    <TableHead className="w-[50px] text-right">{t`Actions`}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -172,7 +181,7 @@ export function ManualPurchaseForm({ onSave }: ManualPurchaseFormProps) {
                                                         <FormControl>
                                                             <Input
                                                                 {...field}
-                                                                placeholder={t`Nome do item`}
+                                                                placeholder={t`Item name`}
                                                             />
                                                         </FormControl>
                                                         <FormMessage />
@@ -256,8 +265,14 @@ export function ManualPurchaseForm({ onSave }: ManualPurchaseFormProps) {
                                 append({ name: "", quantity: 1, unitPrice: 0, price: 0, barcode: "", volume: "" })
                             }
                         >
-                            <FontAwesomeIcon icon={faPlusCircle} className="mr-2" /> {t`Adicionar Item`}
+                            <FontAwesomeIcon icon={faPlusCircle} className="mr-2" /> {t`Add Item`}
                         </Button>
+                        <div className="mt-4 flex items-center justify-between">
+                            <span>
+                                {t`Total`}: R$ {totalAmount.toFixed(2)}
+                            </span>
+                            <div>{isSaving ? t`Saving...` : t`Save Purchase`}</div>
+                        </div>
                     </CardContent>
                     <CardFooter className="flex justify-end font-bold text-lg">
                         <span>
@@ -273,7 +288,7 @@ export function ManualPurchaseForm({ onSave }: ManualPurchaseFormProps) {
                         ) : (
                             <FontAwesomeIcon icon={faSave} className="mr-2" />
                         )}
-                        {isSaving ? t`Salvando...` : t`Salvar Compra`}
+                        {isSaving ? t`Saving...` : t`Save Purchase`}
                     </Button>
                 </div>
             </form>
