@@ -7,11 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faApple } from "@fortawesome/free-brands-svg-icons";
 import { Button } from "../ui/button";
 import { useLingui } from '@lingui/react/macro';
+import { getPaymentConfigFromLocale } from '@/lib/localeCurrency';
 
 interface PaymentButtonsProps {
     billingCycle: BillingCycle;
     onPaymentSuccess: () => void;
 }
+
+// locale -> payment config util moved to src/lib/localeCurrency.ts
 
 const planPrices = {
     monthly: 19.9,
@@ -19,9 +22,11 @@ const planPrices = {
 };
 
 export function PaymentButtons({ billingCycle, onPaymentSuccess }: PaymentButtonsProps) {
-    const { t } = useLingui();
+    const { t, i18n } = useLingui();
     const { toast } = useToast();
     const [canMakeApplePay, setCanMakeApplePay] = useState(false);
+
+    const paymentConfig = getPaymentConfigFromLocale(i18n.locale);
 
     useEffect(() => {
         // if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
@@ -96,8 +101,8 @@ export function PaymentButtons({ billingCycle, onPaymentSuccess }: PaymentButton
             totalPriceStatus: "FINAL",
             totalPriceLabel: t`Total`,
             totalPrice: planPrices[billingCycle].toFixed(2),
-            currencyCode: "BRL",
-            countryCode: "BR",
+            currencyCode: paymentConfig.currency,
+            countryCode: paymentConfig.country,
         },
     };
 
@@ -110,13 +115,13 @@ export function PaymentButtons({ billingCycle, onPaymentSuccess }: PaymentButton
                 paymentRequest={paymentRequest}
                 onLoadPaymentData={(paymentData) => {
                     console.log("Google Pay Success", paymentData.paymentMethodData);
-                    toast({ title: t("payment_success_title"), description: t("payment_success_desc") });
+                    toast({ title: t`Payment Success`, description: t`Your payment has been processed successfully.` });
                     onPaymentSuccess();
                     return {};
                 }}
                 onError={(error: any) => {
                     console.error("Google Pay Error", error);
-                    toast({ variant: "destructive", title: t("payment_error_title"), description: error.message });
+                    toast({ variant: "destructive", title: t`Payment Error`, description: error.message });
                 }}
             />
             {canMakeApplePay && (

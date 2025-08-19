@@ -11,6 +11,7 @@ i18n.load({
     pt: ptMessages,
 });
 i18n.activate("pt");
+i18n.activate("en");
 
 function PageViewTracker(): React.ReactNode {
     // const pathname = usePathname()

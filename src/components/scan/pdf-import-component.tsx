@@ -10,6 +10,7 @@ import { Label } from "../ui/label";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from '@lingui/react/macro';
+import { getCurrencyFromLocale } from '@/lib/localeCurrency';
 import {
     faHistory,
     faStore,
@@ -28,6 +29,8 @@ import {
     faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from "@fortawesome/free-regular-svg-icons";
+
+// currency util centralized in src/lib/localeCurrency.ts
 
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
@@ -464,15 +467,15 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                             </CardContent>
                             <CardFooter className="flex-col items-end space-y-2 pt-6">
                                 <p className="font-semibold text-lg">
-                                    {t`Total`}: {i18n.number(totalAmount, { style: 'currency' })}
+                                    {t`Total`}: {i18n.number(totalAmount, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
                                 </p>
                                 {extractionResult.discount && extractionResult.discount > 0 && (
                                     <>
                                         <p className="font-semibold text-primary text-md">
-                                            {t`Discounts`}: - {i18n.number(extractionResult.discount, { style: 'currency' })}
+                                            {t`Discounts`}: - {i18n.number(extractionResult.discount, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
                                         </p>
                                         <p className="font-bold text-xl text-accent">
-                                            {t`Total to Pay`}: {i18n.number(totalAmount - extractionResult.discount, { style: 'currency' })}
+                                            {t`Total to Pay`}: {i18n.number(totalAmount - extractionResult.discount, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
                                         </p>
                                     </>
                                 )}

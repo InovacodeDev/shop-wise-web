@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. placeholder {0}: purchase.items.length
-#: src/components/family/history-tab.tsx:434
+#: src/components/family/history-tab.tsx:404
 msgid "{0, plural, one {# item} other {# items}}"
 msgstr ""
 
@@ -37,7 +37,7 @@ msgstr ""
 #~ msgid "{0}% of total spending"
 #~ msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:546
+#: src/routes/dashboard/home/route.tsx:530
 msgid "{topCategoryPercent}% of total spending"
 msgstr ""
 
@@ -58,11 +58,11 @@ msgstr ""
 #~ msgid "${name} foi adicionado aos seus favoritos."
 #~ msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:494
+#: src/routes/dashboard/home/route.tsx:478
 msgid "A breakdown of your total spending for the current month by store."
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:532
+#: src/routes/dashboard/home/route.tsx:516
 msgid "A detailed view of how your spending is distributed across product categories this month."
 msgstr ""
 
@@ -70,31 +70,31 @@ msgstr ""
 msgid "A Fuller Life."
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:514
+#: src/routes/dashboard/home/route.tsx:498
 msgid "A list of the most recent items you purchased this month."
 msgstr ""
 
 #: src/components/settings/profile-form.tsx:112
-msgid "Account Linked"
-msgstr ""
+#~ msgid "Account Linked"
+#~ msgstr ""
 
 #: src/components/family/history-tab.tsx:469
 #: src/components/family/markets-form.tsx:290
 #~ msgid "Ações"
 #~ msgstr ""
 
-#: src/components/family/history-tab.tsx:469
+#: src/components/family/history-tab.tsx:439
 #: src/components/family/markets-form.tsx:313
 #: src/components/scan/manual-purchase-form.tsx:169
-#: src/components/scan/pdf-import-component.tsx:413
+#: src/components/scan/pdf-import-component.tsx:405
 msgid "Actions"
 msgstr ""
 
 #: src/components/list/shopping-list-component.tsx:227
-msgid "Add"
-msgstr ""
+#~ msgid "Add"
+#~ msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:702
+#: src/routes/dashboard/home/route.tsx:686
 msgid "Add a new purchase to see your top expenses here."
 msgstr ""
 
@@ -102,18 +102,22 @@ msgstr ""
 msgid "Add a new supermarket, wholesale or market to your preferred locations."
 msgstr ""
 
-#: src/components/family/history-tab.tsx:551
+#: src/components/family/history-tab.tsx:521
 #: src/components/scan/manual-purchase-form.tsx:268
 msgid "Add Item"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:470
+#: src/components/scan/pdf-import-component.tsx:462
 msgid "Add Item Manually"
 msgstr ""
 
-#: src/components/list/shopping-list-component.tsx:199
-msgid "Add new item..."
+#: src/components/list/shopping-list-component-new.tsx:407
+msgid "Add items above or use AI suggestions to get started."
 msgstr ""
+
+#: src/components/list/shopping-list-component.tsx:199
+#~ msgid "Add new item..."
+#~ msgstr ""
 
 #: src/routes/dashboard/scan/route.tsx:62
 msgid "Add New Purchase"
@@ -124,7 +128,7 @@ msgid "Add New Store"
 msgstr ""
 
 #: src/components/layout/main-nav.tsx:50
-#: src/routes/dashboard/home/route.tsx:713
+#: src/routes/dashboard/home/route.tsx:697
 msgid "Add Purchase"
 msgstr ""
 
@@ -169,7 +173,7 @@ msgstr ""
 msgid "Administration"
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:95
+#: src/components/family/family-composition-form.tsx:92
 msgid "Adults"
 msgstr ""
 
@@ -177,8 +181,13 @@ msgstr ""
 msgid "Advanced AI-driven insights"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:567
+#: src/routes/dashboard/home/route.tsx:551
 msgid "AI savings insights coming soon!"
+msgstr ""
+
+#: src/components/list/shopping-list-component-new.tsx:274
+#: src/components/list/shopping-list-component-new.tsx:281
+msgid "AI Suggestions"
 msgstr ""
 
 #: src/components/family/history-tab.tsx:326
@@ -189,15 +198,15 @@ msgstr ""
 msgid "All caught up!"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:271
+#: src/components/family/history-tab.tsx:242
 msgid "All periods"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:258
+#: src/components/family/history-tab.tsx:229
 msgid "All stores"
 msgstr ""
 
-#: src/components/auth/signup-form.tsx:230
+#: src/components/auth/signup-form.tsx:219
 msgid "Already have an account?"
 msgstr ""
 
@@ -211,19 +220,19 @@ msgstr ""
 msgid "Amount Spent"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:190
+#: src/components/family/history-tab.tsx:161
 msgid "An error occurred while deleting the purchase. Please try again."
 msgstr ""
 
-#: src/components/settings/preferences-form.tsx:74
+#: src/components/settings/preferences-form.tsx:71
 msgid "An error occurred while saving your preferences. Please try again."
 msgstr ""
 
-#: src/components/family/history-tab.tsx:405
+#: src/components/family/history-tab.tsx:376
 msgid "An error occurred while updating the purchase. Please try again."
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:73
+#: src/components/family/family-composition-form.tsx:70
 msgid "An unexpected error occurred while saving your preferences. Please try again later."
 msgstr ""
 
@@ -251,7 +260,7 @@ msgstr ""
 #~ msgid "Aparência"
 #~ msgstr ""
 
-#: src/components/settings/preferences-form.tsx:91
+#: src/components/settings/preferences-form.tsx:88
 msgid "Appearance"
 msgstr ""
 
@@ -276,7 +285,7 @@ msgstr ""
 #~ msgid "As opções de configuração global estarão aqui."
 #~ msgstr ""
 
-#: src/components/family/history-tab.tsx:327
+#: src/components/family/history-tab.tsx:298
 msgid "As you add more purchases, our AI will generate personalized recommendations for you here."
 msgstr ""
 
@@ -308,7 +317,7 @@ msgstr ""
 msgid "Automatic receipt scanning"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:187
+#: src/routes/dashboard/home/route.tsx:181
 msgid "Baby and Child care"
 msgstr ""
 
@@ -317,33 +326,33 @@ msgstr ""
 msgid "Bakery"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:164
+#: src/routes/dashboard/home/route.tsx:158
 msgid "Bakery and Deli"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:648
+#: src/routes/dashboard/home/route.tsx:632
 msgid "Barcode"
 msgstr ""
 
 #: src/components/list/shopping-list-component.tsx:275
-msgid "Based on your purchase history, you might need:"
-msgstr ""
+#~ msgid "Based on your purchase history, you might need:"
+#~ msgstr ""
 
 #: src/components/family/plan-form.tsx:38
 msgid "Basic spending insights"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:180
+#: src/routes/dashboard/home/route.tsx:174
 msgid "Beverages"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:394
-#: src/components/scan/pdf-import-component.tsx:544
-#: src/routes/dashboard/home/route.tsx:653
+#: src/components/scan/pdf-import-component.tsx:386
+#: src/components/scan/pdf-import-component.tsx:536
+#: src/routes/dashboard/home/route.tsx:637
 msgid "Brand"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:176
+#: src/routes/dashboard/home/route.tsx:170
 msgid "Breakfast and Snacks"
 msgstr ""
 
@@ -352,14 +361,14 @@ msgstr ""
 msgid "Butcher"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:569
+#: src/components/family/history-tab.tsx:539
 #: src/components/layout/main-nav.tsx:153
-#: src/components/scan/pdf-import-component.tsx:649
+#: src/components/scan/pdf-import-component.tsx:641
 #: src/components/settings/delete-confirmation-dialog.tsx:92
 msgid "Cancel"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:507
+#: src/components/scan/pdf-import-component.tsx:499
 msgid "Cancel and Start New Import"
 msgstr ""
 
@@ -368,14 +377,14 @@ msgstr ""
 #~ msgstr ""
 
 #: src/components/dashboard/insight-modal.tsx:192
-#: src/components/scan/pdf-import-component.tsx:398
-#: src/components/scan/pdf-import-component.tsx:557
-#: src/routes/dashboard/home/route.tsx:657
+#: src/components/scan/pdf-import-component.tsx:390
+#: src/components/scan/pdf-import-component.tsx:549
+#: src/routes/dashboard/home/route.tsx:641
 msgid "Category"
 msgstr ""
 
-#: src/components/settings/profile-form.tsx:219
-#: src/components/settings/profile-form.tsx:309
+#: src/components/settings/profile-form.tsx:153
+#: src/components/settings/profile-form.tsx:243
 msgid "Change Password"
 msgstr ""
 
@@ -383,11 +392,11 @@ msgstr ""
 msgid "Cheapest at"
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:108
+#: src/components/family/family-composition-form.tsx:105
 msgid "Children"
 msgstr ""
 
-#: src/components/settings/profile-form.tsx:220
+#: src/components/settings/profile-form.tsx:154
 msgid "Choose a new strong password."
 msgstr ""
 
@@ -399,7 +408,7 @@ msgstr ""
 #~ msgid "Claro"
 #~ msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:182
+#: src/routes/dashboard/home/route.tsx:176
 msgid "Cleaning and household"
 msgstr ""
 
@@ -409,6 +418,10 @@ msgstr ""
 
 #: src/components/family/markets-form.tsx:151
 msgid "CNPJ (Optional)"
+msgstr ""
+
+#: src/components/list/shopping-list-component-new.tsx:375
+msgid "Completed"
 msgstr ""
 
 #: src/routes/dashboard/family/route.tsx:49
@@ -441,7 +454,7 @@ msgstr ""
 #~ msgid "Configure as definições de toda a aplicação."
 #~ msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:515
+#: src/components/scan/pdf-import-component.tsx:507
 msgid "Confirm and Save Purchase"
 msgstr ""
 
@@ -451,20 +464,20 @@ msgstr ""
 
 #: src/components/settings/profile-form.tsx:198
 #: src/components/settings/profile-form.tsx:211
-msgid "Connect"
-msgstr ""
+#~ msgid "Connect"
+#~ msgstr ""
 
 #: src/components/settings/profile-form.tsx:185
-msgid "Connect other accounts for faster login."
-msgstr ""
+#~ msgid "Connect other accounts for faster login."
+#~ msgstr ""
 
 #: src/components/settings/profile-form.tsx:198
 #: src/components/settings/profile-form.tsx:211
-msgid "Connected"
-msgstr ""
+#~ msgid "Connected"
+#~ msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:575
-#: src/routes/dashboard/home/route.tsx:586
+#: src/routes/dashboard/home/route.tsx:559
+#: src/routes/dashboard/home/route.tsx:570
 msgid "Consumption Overview"
 msgstr ""
 
@@ -476,8 +489,36 @@ msgstr ""
 #~ msgid "Contas Vinculadas"
 #~ msgstr ""
 
+#: src/components/list/shopping-list-component-new.tsx:130
+msgid "Could not add item to shopping list"
+msgstr ""
+
+#: src/components/list/shopping-list-component-new.tsx:242
+msgid "Could not add suggested item"
+msgstr ""
+
+#: src/components/list/shopping-list-component-new.tsx:169
+msgid "Could not delete item"
+msgstr ""
+
+#: src/components/list/shopping-list-component-new.tsx:209
+msgid "Could not get AI suggestions"
+msgstr ""
+
+#: src/components/list/shopping-list-component-new.tsx:68
+msgid "Could not load shopping list"
+msgstr ""
+
+#: src/components/list/shopping-list-component-new.tsx:85
+msgid "Could not load shopping list items"
+msgstr ""
+
+#: src/components/list/shopping-list-component-new.tsx:151
+msgid "Could not update item"
+msgstr ""
+
 #: src/components/auth/login-form.tsx:171
-#: src/components/auth/signup-form.tsx:209
+#: src/components/auth/signup-form.tsx:198
 #: src/routes/index.tsx:24
 msgid "Create Account"
 msgstr ""
@@ -486,11 +527,11 @@ msgstr ""
 msgid "Create and manage shopping lists"
 msgstr ""
 
-#: src/components/auth/signup-form.tsx:131
+#: src/components/auth/signup-form.tsx:120
 msgid "Create Your Account"
 msgstr ""
 
-#: src/components/settings/profile-form.tsx:230
+#: src/components/settings/profile-form.tsx:164
 msgid "Current Password"
 msgstr ""
 
@@ -498,25 +539,25 @@ msgstr ""
 msgid "Current Plan"
 msgstr ""
 
-#: src/components/settings/preferences-form.tsx:85
+#: src/components/settings/preferences-form.tsx:82
 msgid "Customize the look and behavior of the app."
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:168
+#: src/routes/dashboard/home/route.tsx:162
 msgid "Dairy and Chilled"
 msgstr ""
 
-#: src/components/settings/preferences-form.tsx:110
+#: src/components/settings/preferences-form.tsx:107
 msgid "Dark"
 msgstr ""
 
 #: src/components/scan/manual-purchase-form.tsx:97
 #: src/components/scan/manual-purchase-form.tsx:117
-#: src/components/scan/pdf-import-component.tsx:375
+#: src/components/scan/pdf-import-component.tsx:367
 msgid "Date"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:494
+#: src/components/scan/pdf-import-component.tsx:486
 msgid "Debug Raw Data"
 msgstr ""
 
@@ -536,11 +577,11 @@ msgstr ""
 msgid "Delete My Account"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:560
+#: src/components/family/history-tab.tsx:530
 msgid "Delete Purchase"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:565
+#: src/components/family/history-tab.tsx:535
 msgid "Delete Purchase?"
 msgstr ""
 
@@ -552,11 +593,11 @@ msgstr ""
 #~ msgid "Digite o código de confirmação"
 #~ msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:480
+#: src/components/scan/pdf-import-component.tsx:472
 msgid "Discounts"
 msgstr ""
 
-#: src/components/settings/profile-form.tsx:150
+#: src/components/settings/profile-form.tsx:119
 msgid "Display Name"
 msgstr ""
 
@@ -573,18 +614,18 @@ msgstr ""
 msgid "e.g., Neighborhood Supermarket"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:526
+#: src/components/scan/pdf-import-component.tsx:518
 msgid "Edit Item"
 msgstr ""
 
 #: src/components/auth/forgot-password-form.tsx:48
 #: src/components/auth/login-form.tsx:87
-#: src/components/auth/signup-form.tsx:156
-#: src/components/settings/profile-form.tsx:163
+#: src/components/auth/signup-form.tsx:145
+#: src/components/settings/profile-form.tsx:132
 msgid "Email"
 msgstr ""
 
-#: src/components/settings/preferences-form.tsx:133
+#: src/components/settings/preferences-form.tsx:130
 msgid "Enable push notifications"
 msgstr ""
 
@@ -616,7 +657,7 @@ msgstr ""
 #~ msgid "Erro ao atualizar o perfil."
 #~ msgstr ""
 
-#: src/components/auth/signup-form.tsx:80
+#: src/components/auth/signup-form.tsx:76
 msgid "Erro ao Criar Conta"
 msgstr ""
 
@@ -628,39 +669,50 @@ msgstr ""
 #~ msgid "Erro ao Vincular Conta"
 #~ msgstr ""
 
-#: src/components/family/family-composition-form.tsx:54
-#: src/components/family/history-tab.tsx:155
-#: src/components/family/history-tab.tsx:189
-#: src/components/family/history-tab.tsx:404
+#: src/components/family/family-composition-form.tsx:52
+#: src/components/family/history-tab.tsx:139
+#: src/components/family/history-tab.tsx:160
+#: src/components/family/history-tab.tsx:375
+#: src/components/list/shopping-list-component-new.tsx:67
+#: src/components/list/shopping-list-component-new.tsx:84
+#: src/components/list/shopping-list-component-new.tsx:129
+#: src/components/list/shopping-list-component-new.tsx:150
+#: src/components/list/shopping-list-component-new.tsx:168
+#: src/components/list/shopping-list-component-new.tsx:208
+#: src/components/list/shopping-list-component-new.tsx:241
 #: src/components/settings/delete-confirmation-dialog.tsx:60
-#: src/components/settings/preferences-form.tsx:54
-#: src/routes/dashboard/home/route.tsx:423
+#: src/components/settings/preferences-form.tsx:52
+#: src/routes/dashboard/home/route.tsx:407
 #: src/routes/dashboard/scan/route.tsx:30
 msgid "Error"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:424
+#: src/routes/dashboard/home/route.tsx:408
 msgid "Error fetching consumption analysis."
 msgstr ""
 
 #: src/components/list/shopping-list-component.tsx:170
-msgid "Error fetching suggestions"
+#~ msgid "Error fetching suggestions"
+#~ msgstr ""
+
+#: src/components/list/shopping-list-component-new.tsx:198
+msgid "Error getting suggestions"
 msgstr ""
 
 #: src/components/settings/profile-form.tsx:118
-msgid "Error Linking Account"
-msgstr ""
+#~ msgid "Error Linking Account"
+#~ msgstr ""
 
-#: src/components/settings/preferences-form.tsx:73
+#: src/components/settings/preferences-form.tsx:70
 msgid "Error Saving"
 msgstr ""
 
-#: src/components/settings/profile-form.tsx:94
+#: src/components/settings/profile-form.tsx:81
 msgid "Error updating profile."
 msgstr ""
 
 #: src/components/auth/login-form.tsx:64
-#: src/components/auth/signup-form.tsx:120
+#: src/components/auth/signup-form.tsx:109
 msgid "Error with Google Sign-In"
 msgstr ""
 
@@ -709,18 +761,18 @@ msgstr ""
 #~ msgstr ""
 
 #: src/components/list/shopping-list-component.tsx:300
-msgid "Export PDF"
-msgstr ""
+#~ msgid "Export PDF"
+#~ msgstr ""
 
 #: src/components/family/plan-form.tsx:44
 msgid "Exportable reports and CSV"
 msgstr ""
 
-#: src/components/layout/shopping-list-popover.tsx:142
+#: src/components/layout/shopping-list-popover.tsx:154
 msgid "Exportar para Google Keep"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:251
+#: src/components/scan/pdf-import-component.tsx:243
 msgid "Failed to extract PDF data"
 msgstr ""
 
@@ -728,7 +780,7 @@ msgstr ""
 msgid "Family"
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:83
+#: src/components/family/family-composition-form.tsx:80
 msgid "Family Composition"
 msgstr ""
 
@@ -740,11 +792,11 @@ msgstr ""
 msgid "Favorite Stores"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:268
+#: src/components/family/history-tab.tsx:239
 msgid "Filter by period"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:255
+#: src/components/family/history-tab.tsx:226
 msgid "Filter by store"
 msgstr ""
 
@@ -780,7 +832,7 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:179
+#: src/routes/dashboard/home/route.tsx:173
 msgid "Frozen foods"
 msgstr ""
 
@@ -792,6 +844,10 @@ msgstr ""
 msgid "Generate and view system usage reports."
 msgstr ""
 
+#: src/components/list/shopping-list-component-new.tsx:274
+msgid "Getting suggestions..."
+msgstr ""
+
 #: src/routes/dashboard/admin/settings/route.tsx:25
 msgid "Global configuration options will be available here."
 msgstr ""
@@ -801,14 +857,18 @@ msgstr ""
 msgid "Global Settings"
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:84
+#: src/components/list/shopping-list-component-new.tsx:328
+msgid "Gram"
+msgstr ""
+
+#: src/components/family/family-composition-form.tsx:81
 msgid "Help our AI provide better suggestions by telling us about your family."
 msgstr ""
 
 #: src/components/auth/login-form.tsx:137
-#: src/components/auth/signup-form.tsx:199
-#: src/components/settings/profile-form.tsx:256
-#: src/components/settings/profile-form.tsx:295
+#: src/components/auth/signup-form.tsx:188
+#: src/components/settings/profile-form.tsx:190
+#: src/components/settings/profile-form.tsx:229
 msgid "Hide password"
 msgstr ""
 
@@ -816,7 +876,7 @@ msgstr ""
 #~ msgid "Histórico de Compras"
 #~ msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:192
+#: src/routes/dashboard/home/route.tsx:186
 msgid "Home and General"
 msgstr ""
 
@@ -824,7 +884,7 @@ msgstr ""
 msgid "Ignored Stores"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:327
+#: src/components/scan/pdf-import-component.tsx:319
 msgid "Import from PDF"
 msgstr ""
 
@@ -844,17 +904,18 @@ msgstr ""
 #~ msgid "Insights de Mercado"
 #~ msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:626
+#: src/routes/dashboard/home/route.tsx:610
 msgid "Insufficient Data"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:479
+#: src/components/family/history-tab.tsx:449
+#: src/components/list/shopping-list-component-new.tsx:303
 #: src/components/scan/manual-purchase-form.tsx:105
 #: src/components/scan/manual-purchase-form.tsx:184
 msgid "Item name"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:286
+#: src/components/scan/pdf-import-component.tsx:278
 msgid "Item updated successfully"
 msgstr ""
 
@@ -863,49 +924,57 @@ msgstr ""
 msgid "Items"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:520
+#: src/routes/dashboard/home/route.tsx:504
 msgid "Items Purchased (Month)"
 msgstr ""
 
-#: src/components/auth/signup-form.tsx:132
+#: src/components/auth/signup-form.tsx:121
 msgid "Join thousands of families who are transforming their financial lives."
 msgstr ""
 
-#: src/components/family/history-tab.tsx:273
+#: src/components/list/shopping-list-component-new.tsx:326
+msgid "Kg"
+msgstr ""
+
+#: src/components/family/history-tab.tsx:244
 msgid "Last 3 months"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:274
+#: src/components/family/history-tab.tsx:245
 msgid "Last 6 months"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:272
+#: src/components/family/history-tab.tsx:243
 msgid "Last month"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:275
+#: src/components/family/history-tab.tsx:246
 msgid "Last year"
 msgstr ""
 
-#: src/components/settings/preferences-form.tsx:108
+#: src/components/settings/preferences-form.tsx:105
 msgid "Light"
 msgstr ""
 
 #: src/components/settings/profile-form.tsx:184
-msgid "Linked Accounts"
-msgstr ""
+#~ msgid "Linked Accounts"
+#~ msgstr ""
 
-#: src/components/layout/shopping-list-popover.tsx:106
+#: src/components/layout/shopping-list-popover.tsx:118
 msgid "Lista de compras ativa"
 msgstr ""
 
-#: src/components/list/shopping-list-component.tsx:232
-msgid "Loading list..."
+#: src/components/list/shopping-list-component-new.tsx:327
+msgid "Liter"
 msgstr ""
+
+#: src/components/list/shopping-list-component.tsx:232
+#~ msgid "Loading list..."
+#~ msgstr ""
 
 #: src/components/auth/forgot-password-form.tsx:65
 #: src/components/auth/login-form.tsx:147
-#: src/components/auth/signup-form.tsx:233
+#: src/components/auth/signup-form.tsx:222
 #: src/routes/index.tsx:21
 msgid "Login"
 msgstr ""
@@ -918,11 +987,11 @@ msgstr ""
 #~ msgid "Logs do Sistema"
 #~ msgstr ""
 
-#: src/components/list/shopping-list-component.tsx:65
+#: src/components/list/shopping-list-component-new.tsx:58
 msgid "Main Shopping List"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:527
+#: src/components/scan/pdf-import-component.tsx:519
 msgid "Make corrections to the extracted item's details here."
 msgstr ""
 
@@ -1003,15 +1072,19 @@ msgstr ""
 msgid "Markets"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:160
+#: src/routes/dashboard/home/route.tsx:154
 msgid "Meat and Seafood"
+msgstr ""
+
+#: src/components/list/shopping-list-component-new.tsx:329
+msgid "ML"
 msgstr ""
 
 #: src/components/family/plan-form.tsx:192
 msgid "Monthly billing"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:493
+#: src/routes/dashboard/home/route.tsx:477
 msgid "Monthly Spending by Store"
 msgstr ""
 
@@ -1051,9 +1124,9 @@ msgstr ""
 msgid "My Account"
 msgstr ""
 
-#: src/components/auth/signup-form.tsx:143
+#: src/components/auth/signup-form.tsx:132
 #: src/components/family/markets-form.tsx:308
-#: src/components/scan/pdf-import-component.tsx:533
+#: src/components/scan/pdf-import-component.tsx:525
 msgid "Name"
 msgstr ""
 
@@ -1065,7 +1138,7 @@ msgstr ""
 #~ msgid "Nenhuma Compra Encontrada"
 #~ msgstr ""
 
-#: src/components/settings/profile-form.tsx:269
+#: src/components/settings/profile-form.tsx:203
 msgid "New Password"
 msgstr ""
 
@@ -1077,19 +1150,23 @@ msgstr ""
 msgid "No Data to Display"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:701
+#: src/routes/dashboard/home/route.tsx:685
 msgid "No Expenses This Month"
+msgstr ""
+
+#: src/components/list/shopping-list-component-new.tsx:405
+msgid "No items in your shopping list yet."
 msgstr ""
 
 #: src/components/auth/forgot-password-form.tsx:38
 msgid "No problem. Enter your email and we'll send you a link to reset it."
 msgstr ""
 
-#: src/components/family/history-tab.tsx:307
+#: src/components/family/history-tab.tsx:278
 msgid "No Purchases Found"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:326
+#: src/components/family/history-tab.tsx:297
 msgid "No Recommendations Yet"
 msgstr ""
 
@@ -1121,7 +1198,7 @@ msgstr ""
 
 #: src/components/layout/notification-popover.tsx:55
 #: src/components/layout/notification-popover.tsx:60
-#: src/components/settings/preferences-form.tsx:125
+#: src/components/settings/preferences-form.tsx:122
 msgid "Notifications"
 msgstr ""
 
@@ -1153,7 +1230,7 @@ msgstr ""
 msgid "or"
 msgstr ""
 
-#: src/components/auth/signup-form.tsx:214
+#: src/components/auth/signup-form.tsx:203
 msgid "OR"
 msgstr ""
 
@@ -1162,12 +1239,12 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:196
-#: src/routes/dashboard/home/route.tsx:432
+#: src/routes/dashboard/home/route.tsx:190
+#: src/routes/dashboard/home/route.tsx:416
 msgid "Others"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:554
+#: src/routes/dashboard/home/route.tsx:538
 msgid "Our AI analyzes your purchases to find potential savings. This feature will be available soon!"
 msgstr ""
 
@@ -1180,19 +1257,19 @@ msgstr ""
 #~ msgstr ""
 
 #: src/components/auth/login-form.tsx:101
-#: src/components/auth/signup-form.tsx:169
+#: src/components/auth/signup-form.tsx:158
 msgid "Password"
 msgstr ""
 
-#: src/components/auth/signup-form.tsx:32
+#: src/components/auth/signup-form.tsx:31
 msgid "Password must have at least 6 characters."
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:241
+#: src/components/scan/pdf-import-component.tsx:233
 msgid "PDF data extracted successfully"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:242
+#: src/components/scan/pdf-import-component.tsx:234
 msgid "PDF data was extracted successfully. Please review the items below before saving."
 msgstr ""
 
@@ -1204,7 +1281,7 @@ msgstr ""
 msgid "Permanently delete your ShopWise account."
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:185
+#: src/routes/dashboard/home/route.tsx:179
 msgid "Personal care"
 msgstr ""
 
@@ -1216,17 +1293,17 @@ msgstr ""
 msgid "Personalized budgeting recommendations"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:190
+#: src/routes/dashboard/home/route.tsx:184
 msgid "Pet supplies"
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:121
+#: src/components/family/family-composition-form.tsx:118
 msgid "Pets"
 msgstr ""
 
 #: src/components/family/markets-form.tsx:68
 #: src/components/family/markets-form.tsx:288
-#: src/routes/dashboard/home/route.tsx:195
+#: src/routes/dashboard/home/route.tsx:189
 msgid "Pharmacy"
 msgstr ""
 
@@ -1240,20 +1317,20 @@ msgstr ""
 
 #: src/components/auth/forgot-password-form.tsx:16
 #: src/components/auth/login-form.tsx:28
-#: src/components/auth/signup-form.tsx:31
+#: src/components/auth/signup-form.tsx:30
 msgid "Please enter a valid email."
 msgstr ""
 
-#: src/components/auth/signup-form.tsx:30
+#: src/components/auth/signup-form.tsx:29
 msgid "Please enter at least two caracters."
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:172
+#: src/routes/dashboard/home/route.tsx:166
 msgid "Pnatry and Dry goods"
 msgstr ""
 
 #: src/components/dashboard/insight-modal.tsx:244
-#: src/routes/dashboard/home/route.tsx:561
+#: src/routes/dashboard/home/route.tsx:545
 msgid "Potential Savings"
 msgstr ""
 
@@ -1269,7 +1346,7 @@ msgstr ""
 #~ msgid "Preço Unit."
 #~ msgstr ""
 
-#: src/components/settings/preferences-form.tsx:84
+#: src/components/settings/preferences-form.tsx:81
 #: src/routes/dashboard/settings/route.tsx:66
 msgid "Preferences"
 msgstr ""
@@ -1307,26 +1384,26 @@ msgid "Privacy and Security"
 msgstr ""
 
 #: src/components/family/plan-form.tsx:234
-#: src/components/scan/pdf-import-component.tsx:343
+#: src/components/scan/pdf-import-component.tsx:335
 #: src/components/settings/delete-confirmation-dialog.tsx:94
 msgid "Processing..."
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:156
+#: src/routes/dashboard/home/route.tsx:150
 msgid "Produce and Eggs"
 msgstr ""
 
 #: src/components/dashboard/insight-modal.tsx:160
 #: src/components/dashboard/insight-modal.tsx:241
-#: src/components/family/history-tab.tsx:457
+#: src/components/family/history-tab.tsx:427
 #: src/components/scan/manual-purchase-form.tsx:100
 #: src/components/scan/manual-purchase-form.tsx:165
-#: src/components/scan/pdf-import-component.tsx:387
-#: src/routes/dashboard/home/route.tsx:650
+#: src/components/scan/pdf-import-component.tsx:379
+#: src/routes/dashboard/home/route.tsx:634
 msgid "Product"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:639
+#: src/routes/dashboard/home/route.tsx:623
 msgid "Products that had the biggest impact on your budget this month."
 msgstr ""
 
@@ -1338,11 +1415,11 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: src/components/settings/profile-form.tsx:139
+#: src/components/settings/profile-form.tsx:108
 msgid "Profile Information"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:364
+#: src/components/scan/pdf-import-component.tsx:356
 msgid "Purchase Data"
 msgstr ""
 
@@ -1350,7 +1427,7 @@ msgstr ""
 msgid "Purchase Date"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:182
+#: src/components/family/history-tab.tsx:153
 msgid "Purchase deleted successfully."
 msgstr ""
 
@@ -1359,11 +1436,11 @@ msgid "Purchase Details"
 msgstr ""
 
 #. placeholder {0}: purchase.storeName
-#: src/components/family/history-tab.tsx:445
+#: src/components/family/history-tab.tsx:415
 msgid "Purchase Details: {0}"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:235
+#: src/components/family/history-tab.tsx:206
 #: src/routes/dashboard/family/route.tsx:55
 msgid "Purchase History"
 msgstr ""
@@ -1372,11 +1449,14 @@ msgstr ""
 msgid "Purchase saved successfully!"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:393
+#: src/components/family/history-tab.tsx:364
 msgid "Purchase updated successfully."
 msgstr ""
 
-#: src/components/list/shopping-list-component.tsx:208
+#: src/components/list/shopping-list-component-new.tsx:312
+msgid "Qty"
+msgstr ""
+
 #: src/components/scan/manual-purchase-form.tsx:101
 #: src/components/scan/manual-purchase-form.tsx:167
 msgid "Qty."
@@ -1386,10 +1466,10 @@ msgstr ""
 #~ msgid "Quantidade"
 #~ msgstr ""
 
-#: src/components/family/history-tab.tsx:465
-#: src/components/scan/pdf-import-component.tsx:405
-#: src/components/scan/pdf-import-component.tsx:611
-#: src/routes/dashboard/home/route.tsx:661
+#: src/components/family/history-tab.tsx:435
+#: src/components/scan/pdf-import-component.tsx:397
+#: src/components/scan/pdf-import-component.tsx:603
+#: src/routes/dashboard/home/route.tsx:645
 msgid "Quantity"
 msgstr ""
 
@@ -1405,11 +1485,11 @@ msgstr ""
 msgid "Receive AI-powered suggestions and never forget an item again."
 msgstr ""
 
-#: src/components/settings/preferences-form.tsx:136
+#: src/components/settings/preferences-form.tsx:133
 msgid "Receive updates and suggestions."
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:513
+#: src/routes/dashboard/home/route.tsx:497
 msgid "Recently Purchased Items"
 msgstr ""
 
@@ -1417,7 +1497,7 @@ msgstr ""
 #~ msgid "Recomendações e Insights"
 #~ msgstr ""
 
-#: src/components/family/history-tab.tsx:320
+#: src/components/family/history-tab.tsx:291
 msgid "Recommendations and Insights"
 msgstr ""
 
@@ -1458,19 +1538,19 @@ msgstr ""
 #~ msgid "Salvar Preferências"
 #~ msgstr ""
 
-#: src/components/family/history-tab.tsx:585
-#: src/components/scan/pdf-import-component.tsx:652
-#: src/components/settings/profile-form.tsx:175
+#: src/components/family/history-tab.tsx:555
+#: src/components/scan/pdf-import-component.tsx:644
+#: src/components/settings/profile-form.tsx:144
 msgid "Save Changes"
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:72
+#: src/components/family/family-composition-form.tsx:69
 #: src/routes/dashboard/scan/route.tsx:41
 msgid "Save Error"
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:133
-#: src/components/settings/preferences-form.tsx:149
+#: src/components/family/family-composition-form.tsx:130
+#: src/components/settings/preferences-form.tsx:146
 msgid "Save Preferences"
 msgstr ""
 
@@ -1483,16 +1563,16 @@ msgstr ""
 msgid "Save when billed annually"
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:133
-#: src/components/family/history-tab.tsx:585
+#: src/components/family/family-composition-form.tsx:130
+#: src/components/family/history-tab.tsx:555
 #: src/components/scan/manual-purchase-form.tsx:274
 #: src/components/scan/manual-purchase-form.tsx:291
-#: src/components/scan/pdf-import-component.tsx:515
-#: src/components/settings/preferences-form.tsx:149
+#: src/components/scan/pdf-import-component.tsx:507
+#: src/components/settings/preferences-form.tsx:146
 msgid "Saving..."
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:553
+#: src/routes/dashboard/home/route.tsx:537
 msgid "Savings Opportunities"
 msgstr ""
 
@@ -1500,7 +1580,7 @@ msgstr ""
 msgid "Scan Receipts"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:247
+#: src/components/family/history-tab.tsx:218
 msgid "Search by store or product..."
 msgstr ""
 
@@ -1517,7 +1597,7 @@ msgstr ""
 #~ msgid "Selecione um tema"
 #~ msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:570
+#: src/components/scan/pdf-import-component.tsx:562
 msgid "Select a category"
 msgstr ""
 
@@ -1526,15 +1606,15 @@ msgstr ""
 msgid "Select a date"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:597
+#: src/components/scan/pdf-import-component.tsx:589
 msgid "Select a subcategory"
 msgstr ""
 
-#: src/components/settings/preferences-form.tsx:102
+#: src/components/settings/preferences-form.tsx:99
 msgid "Select a theme"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:354
+#: src/components/scan/pdf-import-component.tsx:346
 msgid "Select PDF File"
 msgstr ""
 
@@ -1542,7 +1622,7 @@ msgstr ""
 msgid "Select Plan"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:328
+#: src/components/scan/pdf-import-component.tsx:320
 msgid "Select the PDF of your electronic fiscal receipt (NFC-e) to automatically extract the purchase data."
 msgstr ""
 
@@ -1576,10 +1656,11 @@ msgstr ""
 #~ msgstr ""
 
 #: src/components/list/shopping-list-component.tsx:297
-msgid "Share"
-msgstr ""
+#~ msgid "Share"
+#~ msgstr ""
 
 #: src/components/layout/main-nav.tsx:49
+#: src/components/list/shopping-list-component-new.tsx:266
 #: src/routes/dashboard/list/route.tsx:18
 msgid "Shopping List"
 msgstr ""
@@ -1589,9 +1670,9 @@ msgid "ShopWise transforms your receipts into powerful insights, helping you sav
 msgstr ""
 
 #: src/components/auth/login-form.tsx:137
-#: src/components/auth/signup-form.tsx:199
-#: src/components/settings/profile-form.tsx:256
-#: src/components/settings/profile-form.tsx:295
+#: src/components/auth/signup-form.tsx:188
+#: src/components/settings/profile-form.tsx:190
+#: src/components/settings/profile-form.tsx:229
 msgid "Show password"
 msgstr ""
 
@@ -1607,11 +1688,11 @@ msgstr ""
 msgid "Sign out"
 msgstr ""
 
-#: src/components/auth/signup-form.tsx:224
+#: src/components/auth/signup-form.tsx:213
 msgid "Sign up with Apple"
 msgstr ""
 
-#: src/components/auth/signup-form.tsx:220
+#: src/components/auth/signup-form.tsx:209
 msgid "Sign up with Google"
 msgstr ""
 
@@ -1624,22 +1705,22 @@ msgid "Smart Lists"
 msgstr ""
 
 #: src/components/list/shopping-list-component.tsx:273
-msgid "Smart Suggestions"
-msgstr ""
+#~ msgid "Smart Suggestions"
+#~ msgstr ""
 
 #: src/routes/index.tsx:37
 msgid "Smarter Purchases,"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:197
+#: src/routes/dashboard/home/route.tsx:191
 msgid "Spending"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:531
+#: src/routes/dashboard/home/route.tsx:515
 msgid "Spending by Category"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:627
+#: src/routes/dashboard/home/route.tsx:611
 msgid "Start adding purchases to see your spending analysis."
 msgstr ""
 
@@ -1648,7 +1729,7 @@ msgid "Start Now for Free"
 msgstr ""
 
 #: src/components/dashboard/insight-modal.tsx:93
-#: src/components/scan/pdf-import-component.tsx:371
+#: src/components/scan/pdf-import-component.tsx:363
 msgid "Store"
 msgstr ""
 
@@ -1669,7 +1750,7 @@ msgstr ""
 #~ msgid "Sua conta foi vinculada com sucesso."
 #~ msgstr ""
 
-#: src/components/layout/shopping-list-popover.tsx:113
+#: src/components/layout/shopping-list-popover.tsx:125
 msgid "Sua lista de compras ativa no momento."
 msgstr ""
 
@@ -1677,17 +1758,17 @@ msgstr ""
 #~ msgid "Suas preferências foram salvas."
 #~ msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:583
+#: src/components/scan/pdf-import-component.tsx:575
 msgid "Subcategory"
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:66
-#: src/components/family/history-tab.tsx:181
-#: src/components/family/history-tab.tsx:392
+#: src/components/family/family-composition-form.tsx:63
+#: src/components/family/history-tab.tsx:152
+#: src/components/family/history-tab.tsx:363
 #: src/components/family/plan-form.tsx:80
 #: src/components/settings/delete-confirmation-dialog.tsx:53
-#: src/components/settings/preferences-form.tsx:66
-#: src/components/settings/profile-form.tsx:87
+#: src/components/settings/preferences-form.tsx:63
+#: src/components/settings/profile-form.tsx:74
 #: src/routes/dashboard/scan/route.tsx:46
 msgid "Success!"
 msgstr ""
@@ -1701,12 +1782,12 @@ msgstr ""
 #~ msgstr ""
 
 #: src/components/list/shopping-list-component.tsx:267
-msgid "Suggest Items with AI"
-msgstr ""
+#~ msgid "Suggest Items with AI"
+#~ msgstr ""
 
 #: src/components/list/shopping-list-component.tsx:267
-msgid "Suggesting items..."
-msgstr ""
+#~ msgid "Suggesting items..."
+#~ msgstr ""
 
 #: src/components/family/markets-form.tsx:62
 #: src/components/family/markets-form.tsx:282
@@ -1717,7 +1798,7 @@ msgstr ""
 msgid "Sync across devices"
 msgstr ""
 
-#: src/components/settings/preferences-form.tsx:112
+#: src/components/settings/preferences-form.tsx:109
 msgid "System"
 msgstr ""
 
@@ -1750,7 +1831,7 @@ msgstr ""
 msgid "The user management interface will be here."
 msgstr ""
 
-#: src/components/settings/preferences-form.tsx:97
+#: src/components/settings/preferences-form.tsx:94
 msgid "Theme"
 msgstr ""
 
@@ -1759,8 +1840,8 @@ msgid "There is no data available for the selected insight. Start adding purchas
 msgstr ""
 
 #: src/components/list/shopping-list-component.tsx:171
-msgid "There was a problem contacting the AI. Please try again later."
-msgstr ""
+#~ msgid "There was a problem contacting the AI. Please try again later."
+#~ msgstr ""
 
 #: src/components/family/markets-form.tsx:231
 msgid "These are the stores you shop at most often. We'll use them to generate personalized insights."
@@ -1782,7 +1863,7 @@ msgstr ""
 msgid "This will permanently delete all your data."
 msgstr ""
 
-#: src/components/family/history-tab.tsx:566
+#: src/components/family/history-tab.tsx:536
 msgid "This will permanently delete the purchase and its items. This action can't be undone."
 msgstr ""
 
@@ -1798,6 +1879,10 @@ msgstr ""
 #~ msgid "Tipo de Estabelecimento"
 #~ msgstr ""
 
+#: src/components/list/shopping-list-component-new.tsx:344
+msgid "To Buy"
+msgstr ""
+
 #: src/components/settings/delete-confirmation-dialog.tsx:81
 msgid "To confirm, please enter the code <b>{confirmationCode}</b> in the box below."
 msgstr ""
@@ -1810,37 +1895,37 @@ msgstr ""
 #~ msgid "Todos os períodos"
 #~ msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:540
+#: src/routes/dashboard/home/route.tsx:524
 msgid "Top Category (Month)"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:638
+#: src/routes/dashboard/home/route.tsx:622
 msgid "Top Expenses (This Month)"
 msgstr ""
 
 #: src/components/family/payment-buttons.tsx:97
 #: src/components/scan/manual-purchase-form.tsx:272
 #: src/components/scan/manual-purchase-form.tsx:279
-#: src/components/scan/pdf-import-component.tsx:475
-#: src/routes/dashboard/home/route.tsx:154
+#: src/components/scan/pdf-import-component.tsx:467
+#: src/routes/dashboard/home/route.tsx:148
 msgid "Total"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:468
-#: src/components/scan/pdf-import-component.tsx:411
-#: src/routes/dashboard/home/route.tsx:675
+#: src/components/family/history-tab.tsx:438
+#: src/components/scan/pdf-import-component.tsx:403
+#: src/routes/dashboard/home/route.tsx:659
 msgid "Total Price"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:501
+#: src/routes/dashboard/home/route.tsx:485
 msgid "Total Spending (Month)"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:483
+#: src/components/scan/pdf-import-component.tsx:475
 msgid "Total to Pay"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:308
+#: src/components/family/history-tab.tsx:279
 msgid "Try adjusting your filters or add a new purchase to get started."
 msgstr ""
 
@@ -1868,16 +1953,16 @@ msgstr ""
 #~ msgid "Últimos 6 meses"
 #~ msgstr ""
 
-#: src/components/list/shopping-list-component.tsx:215
+#: src/components/list/shopping-list-component-new.tsx:325
 msgid "Unit"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:467
+#: src/components/family/history-tab.tsx:437
 #: src/components/scan/manual-purchase-form.tsx:102
 #: src/components/scan/manual-purchase-form.tsx:168
-#: src/components/scan/pdf-import-component.tsx:408
-#: src/components/scan/pdf-import-component.tsx:628
-#: src/routes/dashboard/home/route.tsx:668
+#: src/components/scan/pdf-import-component.tsx:400
+#: src/components/scan/pdf-import-component.tsx:620
+#: src/routes/dashboard/home/route.tsx:652
 msgid "Unit Price"
 msgstr ""
 
@@ -1885,7 +1970,7 @@ msgstr ""
 msgid "Unlock detailed consumption analyses and personalized insights by upgrading to our Premium plan."
 msgstr ""
 
-#: src/components/settings/profile-form.tsx:140
+#: src/components/settings/profile-form.tsx:109
 msgid "Update your personal details."
 msgstr ""
 
@@ -1906,7 +1991,7 @@ msgstr ""
 msgid "View all notifications"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:237
+#: src/components/family/history-tab.tsx:208
 msgid "View and filter all your past purchases."
 msgstr ""
 
@@ -1946,16 +2031,16 @@ msgstr ""
 #~ msgid "Você precisa estar logado para salvar as preferências."
 #~ msgstr ""
 
-#: src/components/family/history-tab.tsx:461
+#: src/components/family/history-tab.tsx:431
 #: src/components/scan/manual-purchase-form.tsx:166
 msgid "Volume"
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:117
+#: src/routes/dashboard/home/route.tsx:112
 msgid "vs last month"
 msgstr ""
 
-#: src/components/scan/pdf-import-component.tsx:252
+#: src/components/scan/pdf-import-component.tsx:244
 msgid "We couldn't extract data from the PDF. Please ensure it's a valid electronic fiscal receipt (NFC-e) and try again. If the problem persists, you can enter the data manually."
 msgstr ""
 
@@ -1980,7 +2065,7 @@ msgstr ""
 msgid "Wholesale"
 msgstr ""
 
-#: src/components/family/history-tab.tsx:576
+#: src/components/family/history-tab.tsx:546
 msgid "Yes, delete"
 msgstr ""
 
@@ -2004,13 +2089,13 @@ msgstr ""
 msgid "You have no new notifications."
 msgstr ""
 
-#: src/components/family/history-tab.tsx:156
+#: src/components/family/history-tab.tsx:140
 #: src/routes/dashboard/scan/route.tsx:31
 msgid "You need to be logged in to perform this action."
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:55
-#: src/components/settings/preferences-form.tsx:55
+#: src/components/family/family-composition-form.tsx:53
+#: src/components/settings/preferences-form.tsx:53
 msgid "You need to be logged in to save preferences."
 msgstr ""
 
@@ -2019,27 +2104,27 @@ msgid "You will be redirected to the home page."
 msgstr ""
 
 #: src/components/settings/profile-form.tsx:113
-msgid "Your account was linked successfully."
-msgstr ""
+#~ msgid "Your account was linked successfully."
+#~ msgstr ""
 
-#: src/components/settings/profile-form.tsx:167
+#: src/components/settings/profile-form.tsx:136
 msgid "Your email address cannot be changed."
 msgstr ""
 
-#: src/components/auth/signup-form.tsx:145
+#: src/components/auth/signup-form.tsx:134
 msgid "Your Name"
 msgstr ""
 
-#: src/components/family/family-composition-form.tsx:67
-#: src/components/settings/preferences-form.tsx:67
+#: src/components/family/family-composition-form.tsx:64
+#: src/components/settings/preferences-form.tsx:64
 msgid "Your preferences have been saved."
 msgstr ""
 
-#: src/components/settings/profile-form.tsx:88
+#: src/components/settings/profile-form.tsx:75
 msgid "Your profile has been updated."
 msgstr ""
 
-#: src/routes/dashboard/home/route.tsx:576
-#: src/routes/dashboard/home/route.tsx:587
+#: src/routes/dashboard/home/route.tsx:560
+#: src/routes/dashboard/home/route.tsx:571
 msgid "Your spending behavior over the last 12 months."
 msgstr ""

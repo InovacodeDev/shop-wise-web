@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLingui } from '@lingui/react/macro';
+import { getCurrencyFromLocale } from '@/lib/localeCurrency';
 import {
     ChartContainer,
     ChartTooltip,
@@ -46,6 +47,8 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/services/analytics-service";
+
+// currency util centralized in src/lib/localeCurrency.ts
 
 interface PurchaseItem {
     id: string;
@@ -93,7 +96,7 @@ const getCategoryKey = (categoryName: string | undefined) => {
 };
 
 const ComparisonBadge = ({ value }: { value: number | null }) => {
-    const { i18n, t } = useLingui();
+    const { t } = useLingui();
     if (value === null) {
         return <div className="h-4 w-16 bg-muted rounded-md animate-pulse" />;
     }
@@ -117,7 +120,7 @@ export const Route = createFileRoute("/dashboard/home")({
 });
 
 function DashboardPage() {
-    const { t, i18n } = useLingui();
+    const { i18n, t } = useLingui();
     const { profile } = useAuth();
     const { toast } = useToast();
     const [loading, setLoading] = useState(true);
@@ -205,7 +208,7 @@ function DashboardPage() {
 
             // 1. Fetch all purchases for the family via API
             const purchases = await apiService.getPurchases(profile.familyId);
-            
+
             let allItems: PurchaseItem[] = [];
 
             // 2. For each purchase, fetch its items
@@ -545,7 +548,7 @@ function DashboardPage() {
                                 <FontAwesomeIcon icon={faArrowTrendUp} className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">{i18n.number(0.00, { style: 'currency' })}</div>
+                                <div className="text-2xl font-bold">{i18n.number(0.00, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</div>
                                 <p className="text-xs text-muted-foreground">{t`AI savings insights coming soon!`}</p>
                             </CardContent>
                         </Card>
@@ -585,7 +588,7 @@ function DashboardPage() {
                                                     fontSize={12}
                                                     tickLine={false}
                                                     axisLine={false}
-                                                    tickFormatter={(value) => i18n.number(value as number, { style: 'currency' })}
+                                                    tickFormatter={(value) => i18n.number(value as number, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
                                                 />
                                                 <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
                                                 <ChartLegend content={<ChartLegendContent />} />

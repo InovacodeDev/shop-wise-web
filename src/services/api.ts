@@ -1,9 +1,40 @@
-import { auth } from '@/lib/firebase';
-
-const API_BASE_URL = process.env.VITE_API_BASE_URL || 'http://localhost:3001';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 class ApiService {
   private baseURL = 'http://localhost:3000';
+  private axiosInstance: AxiosInstance;
+
+  constructor() {
+    this.axiosInstance = axios.create({
+      baseURL: this.baseURL,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    // Request interceptor to add auth token
+    this.axiosInstance.interceptors.request.use(
+      async (config) => {
+        const token = await this.getAuthToken();
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
+    // Response interceptor to handle errors
+    this.axiosInstance.interceptors.response.use(
+      (response: AxiosResponse) => response,
+      (error) => {
+        const message = error.response?.data?.message || error.message || `HTTP error! status: ${error.response?.status}`;
+        throw new Error(message);
+      }
+    );
+  }
 
   private async getAuthToken(): Promise<string | null> {
     // Try to get token from localStorage first
@@ -29,28 +60,14 @@ class ApiService {
 
   private async makeRequest<T>(
     endpoint: string,
-    options: RequestInit = {}
+    config: AxiosRequestConfig = {}
   ): Promise<T> {
-    const token = await this.getAuthToken();
+    const response = await this.axiosInstance.request<T>({
+      url: endpoint,
+      ...config,
+    });
     
-    const url = `${API_BASE_URL}${endpoint}`;
-    const config: RequestInit = {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-        ...options.headers,
-      },
-    };
-
-    const response = await fetch(url, config);
-    
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
+    return response.data;
   }
 
   // AI endpoints
@@ -60,28 +77,28 @@ class ApiService {
   }) {
     return this.makeRequest<{ analysis: string }>('/ai/analyze-consumption', {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
   async extractDataFromPdf(data: { pdfDataUri: string }) {
     return this.makeRequest<any>('/ai/extract-from-pdf', {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
   async extractDataFromPage(data: { pageDataUri: string }) {
     return this.makeRequest<any>('/ai/extract-from-page', {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
   async extractProductData(data: { receiptImage: string }) {
     return this.makeRequest<any>('/ai/extract-from-product-qr', {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -91,7 +108,7 @@ class ApiService {
   }) {
     return this.makeRequest<{ suggestedItems: string[] }>('/ai/suggest-missing-items', {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -99,7 +116,7 @@ class ApiService {
   async createFamily(data: any) {
     return this.makeRequest<any>('/families', {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -110,7 +127,7 @@ class ApiService {
   async updateFamily(id: string, data: any) {
     return this.makeRequest<any>(`/families/${id}`, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -124,7 +141,7 @@ class ApiService {
   async createUser(data: any) {
     return this.makeRequest<any>('/users', {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -135,7 +152,7 @@ class ApiService {
   async updateUser(id: string, data: any) {
     return this.makeRequest<any>(`/users/${id}`, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -153,7 +170,7 @@ class ApiService {
   async createProduct(data: any) {
     return this.makeRequest<any>('/products', {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -169,7 +186,7 @@ class ApiService {
   async createStore(data: any) {
     return this.makeRequest<any>('/stores', {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -185,7 +202,7 @@ class ApiService {
   async createCategory(data: any) {
     return this.makeRequest<any>('/categories', {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -197,7 +214,7 @@ class ApiService {
   async createPurchase(familyId: string, data: any) {
     return this.makeRequest<any>(`/families/${familyId}/purchases`, {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -208,7 +225,7 @@ class ApiService {
   async updatePurchase(familyId: string, id: string, data: any) {
     return this.makeRequest<any>(`/families/${familyId}/purchases/${id}`, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -226,7 +243,7 @@ class ApiService {
   async createPantryItem(familyId: string, data: any) {
     return this.makeRequest<any>(`/families/${familyId}/pantry-items`, {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -237,7 +254,7 @@ class ApiService {
   async updatePantryItem(familyId: string, id: string, data: any) {
     return this.makeRequest<any>(`/families/${familyId}/pantry-items/${id}`, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -255,7 +272,7 @@ class ApiService {
   async createShoppingList(familyId: string, data: any) {
     return this.makeRequest<any>(`/families/${familyId}/shopping-lists`, {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -266,7 +283,7 @@ class ApiService {
   async updateShoppingList(familyId: string, id: string, data: any) {
     return this.makeRequest<any>(`/families/${familyId}/shopping-lists/${id}`, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -284,14 +301,14 @@ class ApiService {
   async createShoppingListItem(familyId: string, listId: string, data: any) {
     return this.makeRequest<any>(`/families/${familyId}/shopping-lists/${listId}/items`, {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
   async updateShoppingListItem(familyId: string, listId: string, itemId: string, data: any) {
     return this.makeRequest<any>(`/families/${familyId}/shopping-lists/${listId}/items/${itemId}`, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -309,7 +326,7 @@ class ApiService {
   async createNotification(familyId: string, data: any) {
     return this.makeRequest<any>(`/families/${familyId}/notifications`, {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -339,14 +356,14 @@ class ApiService {
   async createPurchaseItem(familyId: string, purchaseId: string, data: any) {
     return this.makeRequest<any>(`/families/${familyId}/purchases/${purchaseId}/items`, {
       method: 'POST',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
   async updatePurchaseItem(familyId: string, purchaseId: string, itemId: string, data: any) {
     return this.makeRequest<any>(`/families/${familyId}/purchases/${purchaseId}/items/${itemId}`, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      data: data,
     });
   }
 
@@ -359,14 +376,14 @@ class ApiService {
   async bulkUpdatePurchaseItems(familyId: string, purchaseId: string, items: any[]) {
     return this.makeRequest<any>(`/families/${familyId}/purchases/${purchaseId}/items/bulk`, {
       method: 'PATCH',
-      body: JSON.stringify({ items }),
+      data: { items },
     });
   }
 
   async bulkDeletePurchaseItems(familyId: string, purchaseId: string, itemIds: string[]) {
     return this.makeRequest<any>(`/families/${familyId}/purchases/${purchaseId}/items/bulk`, {
       method: 'DELETE',
-      body: JSON.stringify({ itemIds }),
+      data: { itemIds },
     });
   }
 }
