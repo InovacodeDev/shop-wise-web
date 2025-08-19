@@ -6,10 +6,11 @@ import { I18nProvider } from "@lingui/react"
 import { messages as ptMessages } from "../locales/pt/messages";
 import { messages as enMessages } from "../locales/en/messages";
 
-i18n.load("pt", ptMessages);
-i18n.load("en", enMessages);
+i18n.load({
+    en: enMessages,
+    pt: ptMessages,
+});
 i18n.activate("pt");
-i18n.activate("en");
 
 function PageViewTracker(): React.ReactNode {
     // const pathname = usePathname()

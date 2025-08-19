@@ -1,10 +1,8 @@
-import { db } from '@/lib/firebase';
-import { collection, writeBatch, doc, getDocs, addDoc, query, where, limit, serverTimestamp, setDoc } from 'firebase/firestore';
-import { Collections } from '@/lib/enums';
+import { apiService } from '@/services/api';
 
 interface PurchaseItem {
     id: string;
-    productRef: any;
+    productRef?: any;
     barcode?: string;
     name?: string;
     volume?: string;
@@ -20,78 +18,76 @@ const getOrCreateProduct = async (productData: any) => {
     const formattedBarcode = productData.barcode.replace(/\D/g, '');
     if(!formattedBarcode) return null;
     
-    const productRef = doc(db, Collections.Products, formattedBarcode);
-    const q = query(collection(db, Collections.Products), where("barcode", "==", productData.barcode), limit(1));
-    const productSnap = await getDocs(q);
+    try {
+        // Try to get existing product
+        const existingProducts = await apiService.getProducts();
+        const existingProduct = existingProducts.find((p: any) => p.barcode === productData.barcode);
 
-
-    if (productSnap.empty) {
-        await setDoc(productRef, {
-            name: productData.name,
-            barcode: productData.barcode,
-            brand: productData.brand || null,
-            category: productData.category || 'Outros',
-            subcategory: productData.subcategory || null,
-            volume: productData.volume || null,
-            createdAt: serverTimestamp(),
-        });
+        if (!existingProduct) {
+            // Create new product
+            const newProduct = await apiService.createProduct({
+                name: productData.name,
+                barcode: productData.barcode,
+                brand: productData.brand || null,
+                category: productData.category || 'Outros',
+                subcategory: productData.subcategory || null,
+                volume: productData.volume || null,
+            });
+            return newProduct.id;
+        }
+        
+        return existingProduct.id;
+    } catch (error) {
+        console.error('Error creating/getting product:', error);
+        return null;
     }
-    return productRef;
 }
 
 export async function updatePurchaseItems(familyId: string, purchaseId: string, items: PurchaseItem[]) {
-    const purchaseRef = doc(db, Collections.Families, familyId, 'purchases', purchaseId);
-    const itemsRef = collection(purchaseRef, "purchase_items");
+    try {
+        // 1. Get all existing items to find which ones to delete
+        const existingItems = await apiService.getPurchaseItems(familyId, purchaseId);
+        const existingIds = new Set(existingItems.map((item: any) => item.id));
 
-    // Start a batch write
-    const batch = writeBatch(db);
+        // 2. Process each item
+        for (const item of items) {
+            // Get or create product if it has a barcode
+            let productId = null;
+            if (item.barcode) {
+                productId = await getOrCreateProduct({
+                    name: item.name,
+                    barcode: item.barcode,
+                    volume: item.volume,
+                });
+            }
 
-    // 1. Get all existing items to find which ones to delete
-    const existingItemsSnap = await getDocs(itemsRef);
-    const existingIds = new Set(existingItemsSnap.docs.map(d => d.id));
+            const itemData = {
+                productId: productId,
+                name: item.name,
+                barcode: item.barcode,
+                volume: item.volume,
+                quantity: item.quantity,
+                price: item.price,
+                unitPrice: item.unitPrice || (item.price / item.quantity),
+            };
 
-    // 2. Iterate through the new list of items
-    for (const item of items) {
-        let productRef = item.productRef; // Keep existing ref if it's there
-        if (!productRef) {
-            // For new items, try to find or create a global product
-            productRef = await getOrCreateProduct(item);
+            if (item.id && existingIds.has(item.id)) {
+                // Update existing item
+                await apiService.updatePurchaseItem(familyId, purchaseId, item.id, itemData);
+                existingIds.delete(item.id);
+            } else {
+                // Create new item
+                await apiService.createPurchaseItem(familyId, purchaseId, itemData);
+            }
         }
 
-        if (item.id.startsWith('new-')) {
-            // It's a new item, add it to the batch
-            const newItemRef = doc(itemsRef); // new random ID
-            batch.set(newItemRef, {
-                productRef: productRef,
-                quantity: item.quantity,
-                price: item.unitPrice,
-                totalPrice: item.price,
-                // copy other relevant fields from the original purchase doc if needed
-            });
-        } else {
-            // It's an existing item, update it in the batch
-            const itemRef = doc(itemsRef, item.id);
-            batch.update(itemRef, {
-                productRef: productRef,
-                quantity: item.quantity,
-                price: item.unitPrice,
-                totalPrice: item.price,
-            });
-            existingIds.delete(item.id); // Remove from the set of items to be deleted
+        // 3. Delete items that are no longer in the list
+        for (const idToDelete of existingIds) {
+            await apiService.deletePurchaseItem(familyId, purchaseId, idToDelete);
         }
+
+    } catch (error) {
+        console.error('Error updating purchase items:', error);
+        throw error;
     }
-
-    // 3. Any IDs left in existingIds are items that were removed
-    existingIds.forEach(idToDelete => {
-        batch.delete(doc(itemsRef, idToDelete));
-    });
-    
-    // 4. Update the total amount on the parent purchase document
-    const newTotalAmount = items.reduce((acc, item) => acc + (item.price || 0), 0);
-    batch.update(purchaseRef, { totalAmount: newTotalAmount });
-
-    // 5. Commit all the changes at once
-    await batch.commit();
-
-    return { success: true };
 }

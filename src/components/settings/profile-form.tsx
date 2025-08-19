@@ -7,17 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
 import { useEffect, useState } from "react";
-import { updateProfile, linkWithPopup, OAuthProvider, AuthProvider } from "firebase/auth";
-import { auth, db, googleProvider } from "@/lib/firebase";
 import { useToast } from "@/hooks/use-toast";
-import { doc, setDoc } from "firebase/firestore";
-import { Collections } from "@/lib/enums";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-import { faApple, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 import { trackEvent } from "@/services/analytics-service";
 import { useLingui } from '@lingui/react/macro';
+import { apiService } from "@/services/api";
 
 const profileSchema = z.object({
     displayName: z.string().min(2, { message: "O nome deve ter pelo menos 2 caracteres." }),
@@ -35,7 +31,6 @@ export function ProfileForm() {
     const { t } = useLingui();
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
-    const [linkedProviders, setLinkedProviders] = useState<string[]>([]);
 
     useEffect(() => {
         if (user) {
@@ -43,8 +38,6 @@ export function ProfileForm() {
                 displayName: user.displayName ?? "",
                 email: user.email ?? "",
             });
-            const providers = user.providerData.map((p) => p.providerId);
-            setLinkedProviders(providers);
         }
     }, [user]);
 
@@ -67,19 +60,13 @@ export function ProfileForm() {
     });
 
     async function onProfileSubmit(values: z.infer<typeof profileSchema>) {
-        if (!auth.currentUser) return;
+        if (!user) return;
         try {
-            await updateProfile(auth.currentUser, { displayName: values.displayName });
-
-            // Save user data to Firestore
-            const userRef = doc(db, Collections.Users, auth.currentUser.uid);
-            await setDoc(
-                userRef,
-                {
-                    displayName: values.displayName,
-                },
-                { merge: true }
-            );
+            // Update user data via API (backend will handle Firebase Auth update)
+            await apiService.updateUser(user.uid, {
+                displayName: values.displayName,
+                email: values.email,
+            });
 
             await reloadUser();
             profileForm.reset(values); // Resets the dirty state
@@ -99,27 +86,9 @@ export function ProfileForm() {
 
     function onPasswordSubmit(values: z.infer<typeof passwordSchema>) {
         console.log("Password change requested:", values);
-        // Here you would implement password change logic with Firebase Auth
+        // Password change would be handled by backend API
         passwordForm.reset(); // Resets the form after submission
     }
-
-    const handleLinkAccount = async (provider: AuthProvider) => {
-        if (!auth.currentUser) return;
-        try {
-            await linkWithPopup(auth.currentUser, provider);
-            await reloadUser();
-            toast({
-                title: t`Account Linked`,
-                description: t`Your account was linked successfully.`,
-            });
-        } catch (error: any) {
-            toast({
-                variant: "destructive",
-                title: t`Error Linking Account`,
-                description: error.message,
-            });
-        }
-    };
 
     const {
         isDirty: isProfileDirty,
@@ -177,41 +146,6 @@ export function ProfileForm() {
                         </CardFooter>
                     </form>
                 </Form>
-            </Card>
-
-            <Card>
-                <CardHeader>
-                    <CardTitle>{t`Linked Accounts`}</CardTitle>
-                    <CardDescription>{t`Connect other accounts for faster login.`}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex items-center gap-4">
-                            <FontAwesomeIcon icon={faGoogle} className="h-6 w-6" />
-                            <span>Google</span>
-                        </div>
-                        <Button
-                            variant="outline"
-                            disabled={linkedProviders.includes("google.com")}
-                            onClick={() => handleLinkAccount(googleProvider)}
-                        >
-                            {linkedProviders.includes("google.com") ? t`Connected` : t`Connect`}
-                        </Button>
-                    </div>
-                    <div className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex items-center gap-4">
-                            <FontAwesomeIcon icon={faApple} className="h-6 w-6" />
-                            <span>Apple</span>
-                        </div>
-                        <Button
-                            variant="outline"
-                            disabled={linkedProviders.includes("apple.com")}
-                            onClick={() => handleLinkAccount(new OAuthProvider("apple.com"))}
-                        >
-                            {linkedProviders.includes("apple.com") ? t`Connected` : t`Connect`}
-                        </Button>
-                    </div>
-                </CardContent>
             </Card>
 
             <Card>

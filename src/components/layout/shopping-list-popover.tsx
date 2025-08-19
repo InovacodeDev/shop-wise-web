@@ -2,9 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
-import { db } from "@/lib/firebase";
-import { collection, query, where, limit, onSnapshot, getDocs, doc, updateDoc } from "firebase/firestore";
-import { Collections } from "@/lib/enums";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +11,7 @@ import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import { Link } from "@tanstack/react-router";
 import { useLingui } from '@lingui/react/macro';
+import { apiService } from "@/services/api";
 
 interface ListItem {
     id: string;
@@ -29,62 +27,76 @@ export function ShoppingListPopover() {
     const [listName, setListName] = useState("");
 
     const getActiveList = useCallback(async (familyId: string) => {
-        const listsRef = collection(db, Collections.Families, familyId, "shopping_lists");
-        const q = query(listsRef, where("status", "==", "active"), limit(1));
-        const querySnapshot = await getDocs(q);
-
-        if (!querySnapshot.empty) {
-            const listDoc = querySnapshot.docs[0];
-            setActiveListId(listDoc.id);
-            setListName(listDoc.data().name);
-            return listDoc.id;
+        try {
+            const lists = await apiService.getShoppingLists(familyId);
+            const activeList = lists.find(list => list.status === 'active');
+            
+            if (activeList) {
+                setActiveListId(activeList.id);
+                setListName(activeList.name);
+                return activeList.id;
+            }
+            return null;
+        } catch (error) {
+            console.error('Error fetching active list:', error);
+            return null;
         }
-        return null;
     }, []);
 
     useEffect(() => {
         if (!profile?.familyId) return;
 
-        getActiveList(profile.familyId).then((listId) => {
+        getActiveList(profile.familyId).then(async (listId) => {
             if (listId) {
-                const itemsRef = collection(
-                    db,
-                    Collections.Families,
-                    profile.familyId!,
-                    "shopping_lists",
-                    listId,
-                    "items"
-                );
-                const q = query(itemsRef);
-                const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                    const listItems = querySnapshot.docs.map(
-                        (doc) =>
-                            ({
-                                id: doc.id,
-                                ...doc.data(),
-                            } as ListItem)
-                    );
-                    setItems(listItems);
-                });
-                return () => unsubscribe();
+                try {
+                    const listItems = await apiService.getShoppingListItems(profile.familyId!, listId);
+                    setItems(listItems.map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        checked: item.checked || false
+                    })));
+                } catch (error) {
+                    console.error('Error fetching shopping list items:', error);
+                }
             }
         });
-    }, [profile, getActiveList]);
+
+        // Poll for items every 30 seconds
+        const intervalId = setInterval(async () => {
+            if (activeListId) {
+                try {
+                    const listItems = await apiService.getShoppingListItems(profile.familyId!, activeListId);
+                    setItems(listItems.map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        checked: item.checked || false
+                    })));
+                } catch (error) {
+                    console.error('Error fetching shopping list items:', error);
+                }
+            }
+        }, 30000);
+
+        return () => clearInterval(intervalId);
+    }, [profile, getActiveList, activeListId]);
 
     const handleToggleItem = async (id: string) => {
         if (!profile?.familyId || !activeListId) return;
+        
         const item = items.find((i) => i.id === id);
         if (item) {
-            const itemRef = doc(
-                db,
-                Collections.Families,
-                profile.familyId,
-                "shopping_lists",
-                activeListId,
-                "items",
-                id
-            );
-            await updateDoc(itemRef, { checked: !item.checked });
+            try {
+                await apiService.updateShoppingListItem(profile.familyId, activeListId, id, {
+                    checked: !item.checked
+                });
+                
+                // Update local state
+                setItems(items.map(i => 
+                    i.id === id ? { ...i, checked: !i.checked } : i
+                ));
+            } catch (error) {
+                console.error('Error updating item:', error);
+            }
         }
     };
 

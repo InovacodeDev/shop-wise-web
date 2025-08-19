@@ -1,10 +1,9 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
-import { auth, db } from "@/lib/firebase";
-import { doc, getDoc, DocumentReference, Timestamp } from "firebase/firestore";
-import { Collections } from "@/lib/enums";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { apiService } from "@/services/api";
 import { identifyUser, clearUserIdentity } from "@/services/analytics-service";
 import { useRouter } from "@tanstack/react-router";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged, User } from "firebase/auth";
 
 interface Profile {
     uid: string;
@@ -22,7 +21,7 @@ interface Profile {
     };
     isAdmin?: boolean;
     plan?: string;
-    planExpirationDate?: Timestamp;
+    planExpirationDate?: Date;
 }
 
 interface AuthContextType {
@@ -46,39 +45,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchUserProfile = async (user: User) => {
         try {
-            const userRef = doc(db, Collections.Users, user.uid);
-            const docSnap = await getDoc(userRef);
-            console.log({ docSnap });
-            if (docSnap.exists()) {
-                const userData = docSnap.data();
-                const familyIdString =
-                    typeof userData.familyId === "string"
-                        ? userData.familyId
-                        : (userData.familyId as DocumentReference)?.id || null;
+            const userData = await apiService.getUser(user.uid);
+            const familyIdString = typeof userData.familyId === "string" 
+                ? userData.familyId 
+                : userData.familyId?.id || null;
 
-                const profileData: Profile = {
-                    uid: user.uid,
-                    displayName: userData.displayName,
-                    email: userData.email,
-                    familyId: familyIdString,
-                    settings: userData.settings,
-                    isAdmin: userData.isAdmin,
-                    plan: userData.plan || "free",
-                    planExpirationDate: userData.planExpirationDate,
-                };
+            const profileData: Profile = {
+                uid: user.uid,
+                displayName: userData.displayName,
+                email: userData.email,
+                familyId: familyIdString,
+                settings: userData.settings,
+                isAdmin: userData.isAdmin,
+                plan: userData.plan || "free",
+                planExpirationDate: userData.planExpirationDate,
+            };
 
-                // Fetch family data if familyId exists
-                if (familyIdString) {
-                    const familyRef = doc(db, Collections.Families, familyIdString);
-                    const familySnap = await getDoc(familyRef);
-                    if (familySnap.exists()) {
-                        profileData.family = familySnap.data().familyComposition;
-                    }
+            // Fetch family data if familyId exists
+            if (familyIdString) {
+                try {
+                    const familyData = await apiService.getFamily(familyIdString);
+                    profileData.family = familyData.familyComposition;
+                } catch (error) {
+                    console.warn("Could not fetch family data:", error);
                 }
-                setProfile(profileData);
-            } else {
-                setProfile(null);
             }
+            setProfile(profileData);
         } catch (error) {
             console.error("Error fetching user profile:", error);
             setProfile(null);
@@ -86,7 +78,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
             setUser(user);
             if (user) {
                 await fetchUserProfile(user);

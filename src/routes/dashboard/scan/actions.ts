@@ -1,19 +1,16 @@
-import {
-    extractProductData as extractProductDataFlow,
-    type ExtractProductDataInput,
-} from "@/ai/flows/extract-product-data";
-import {
-    extractDataFromPdf as extractDataFromPdfFlow,
-    ExtractDataFromPdfOutput,
-    type ExtractDataFromPdfInput,
-} from "@/ai/flows/extract-data-from-pdf";
+import { apiService } from "@/services/api";
 import type { PurchaseData, ItemData } from "@/components/scan/manual-purchase-form";
-import type { ExtractProductDataOutput } from "@/ai/flows/extract-product-data";
-import { savePurchase as savePurchaseService } from "@/services/purchaseService";
+import { savePurchase as savePurchaseService } from "@/services/purchaseApiService";
+
+// Types maintained for compatibility
+type ExtractProductDataInput = { receiptImage: string };
+type ExtractProductDataOutput = any;
+type ExtractDataFromPdfInput = { pdfDataUri: string };
+type ExtractDataFromPdfOutput = any;
 
 export async function extractProductData(input: ExtractProductDataInput) {
     try {
-        const result = await extractProductDataFlow(input);
+        const result = await apiService.extractProductData(input);
         return result;
     } catch (error: any) {
         console.error("Error in extractProductData action:", error);
@@ -25,7 +22,7 @@ export async function extractDataFromPdf(
     input: ExtractDataFromPdfInput
 ): Promise<ExtractDataFromPdfOutput & { error?: string }> {
     try {
-        const result = await extractDataFromPdfFlow(input);
+        const result = await apiService.extractDataFromPdf(input);
         return result;
     } catch (error: any) {
         console.error("Error in extractDataFromPdf action:", error);

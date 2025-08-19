@@ -34,20 +34,12 @@ import {
     faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "@/hooks/use-auth";
-import { db } from "@/lib/firebase";
-import {
-    collection,
-    getDocs,
-    query,
-    Timestamp,
-    getDoc,
-} from "firebase/firestore";
-import { Collections } from "@/lib/enums";
 
 import { EmptyState } from "@/components/ui/empty-state";
 import { InsightModal } from "@/components/dashboard/insight-modal";
 import { analyzeConsumptionData } from "./actions";
 import { Skeleton } from "@/components/ui/skeleton";
+import { apiService } from "@/services/api";
 import { subMonths, startOfMonth, endOfMonth, format, Locale } from "date-fns";
 import { ptBR, enUS } from "date-fns/locale";
 import { Link, createFileRoute } from "@tanstack/react-router";
@@ -211,42 +203,32 @@ function DashboardPage() {
             const now = new Date();
             const locale = dateLocales[i18n.locale] || ptBR;
 
-            // 1. Fetch all purchases for the family
-            const purchasesRef = collection(db, Collections.Families, profile.familyId, "purchases");
-            const purchasesQuery = query(purchasesRef);
-            const purchasesSnapshot = await getDocs(purchasesQuery);
-
+            // 1. Fetch all purchases for the family via API
+            const purchases = await apiService.getPurchases(profile.familyId);
+            
             let allItems: PurchaseItem[] = [];
 
             // 2. For each purchase, fetch its items
-            for (const purchaseDoc of purchasesSnapshot.docs) {
-                const itemsRef = collection(db, purchaseDoc.ref.path, "purchase_items");
-                const itemsSnapshot = await getDocs(itemsRef);
+            for (const purchase of purchases) {
+                const purchaseItems = await apiService.getPurchaseItems(profile.familyId, purchase.id);
 
-                for (const itemDoc of itemsSnapshot.docs) {
-                    const itemData = itemDoc.data();
+                for (const item of purchaseItems) {
                     const purchaseItem: PurchaseItem = {
-                        id: itemDoc.id,
-                        productRef: itemData.productRef,
-                        quantity: itemData.quantity,
-                        price: itemData.price,
-                        totalPrice: itemData.totalPrice,
-                        purchaseDate: (itemData.purchaseDate as Timestamp).toDate(),
-                        storeName: itemData.storeName,
+                        id: item.id,
+                        productRef: { id: item.productId }, // Convert to reference-like object
+                        quantity: item.quantity,
+                        price: item.price,
+                        totalPrice: item.totalPrice,
+                        purchaseDate: new Date(item.purchaseDate),
+                        storeName: item.storeName,
+                        name: item.productName,
+                        barcode: item.productBarcode,
+                        volume: item.productVolume,
+                        brand: item.productBrand,
+                        category: item.productCategory,
+                        subcategory: item.productSubcategory,
                     };
 
-                    if (purchaseItem.productRef) {
-                        const productSnap = await getDoc(purchaseItem.productRef);
-                        if (productSnap.exists()) {
-                            const productData = productSnap.data() as any;
-                            purchaseItem.name = productData.name;
-                            purchaseItem.barcode = productData.barcode;
-                            purchaseItem.volume = productData.volume;
-                            purchaseItem.brand = productData.brand;
-                            purchaseItem.category = productData.category;
-                            purchaseItem.subcategory = productData.subcategory;
-                        }
-                    }
                     allItems.push(purchaseItem);
                 }
             }

@@ -3,13 +3,11 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { ShopWiseLogo } from "@/components/icons";
 import { useAuth } from "@/hooks/use-auth";
 
-import { collection, query, onSnapshot, writeBatch, doc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { Collections } from "@/lib/enums";
 import type { Notification } from "@/lib/types";
 import { NotificationPopover } from "./notification-popover";
 import { ShoppingListPopover } from "./shopping-list-popover";
 import { useLingui } from '@lingui/react/macro';
+import { apiService } from "@/services/api";
 
 export function Header() {
     const { t } = useLingui();
@@ -19,29 +17,38 @@ export function Header() {
     useEffect(() => {
         if (!profile?.familyId) return;
 
-        // Fetch notifications
-        const notifsRef = collection(db, Collections.Families, profile.familyId, "notifications");
-        const qNotifs = query(notifsRef);
-        const notifUnsubscribe = onSnapshot(qNotifs, (snapshot) => {
-            const notifs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Notification));
-            setNotifications(notifs);
-        });
-
-        return () => {
-            notifUnsubscribe();
+        // Fetch notifications from API
+        const fetchNotifications = async () => {
+            try {
+                const notifs = await apiService.getNotifications(profile.familyId!);
+                setNotifications(notifs);
+            } catch (error) {
+                console.error('Error fetching notifications:', error);
+            }
         };
+
+        fetchNotifications();
+        
+        // Poll for notifications every 30 seconds
+        const intervalId = setInterval(fetchNotifications, 30000);
+
+        return () => clearInterval(intervalId);
     }, [profile]);
 
     const unreadNotifications = notifications.filter((n) => !n.read);
 
     const markAllAsRead = async () => {
         if (!profile?.familyId || unreadNotifications.length === 0) return;
-        const batch = writeBatch(db);
-        unreadNotifications.forEach((notif) => {
-            const notifRef = doc(db, Collections.Families, profile.familyId!, "notifications", notif.id);
-            batch.update(notifRef, { read: true });
-        });
-        await batch.commit();
+        
+        try {
+            // Mark all notifications as read via API
+            await apiService.markAllNotificationsAsRead(profile.familyId!);
+            
+            // Update local state
+            setNotifications(notifications.map(notif => ({ ...notif, read: true })));
+        } catch (error) {
+            console.error('Error marking notifications as read:', error);
+        }
     };
 
     return (

@@ -6,15 +6,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "../ui/separator";
-import { auth, db } from "@/lib/firebase";
+import { auth } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { faApple, faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { doc, setDoc, addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { Collections } from "@/lib/enums";
+import { apiService } from "@/services/api";
 
 import { trackEvent } from "@/services/analytics-service";
 import { Link, useRouter } from "@tanstack/react-router";
@@ -52,19 +51,16 @@ export function SignupForm() {
                 // 2. Update Auth profile
                 await updateProfile(user, { displayName: values.name });
 
-                // 3. Create a new family for the user
-                const familyRef = await addDoc(collection(db, Collections.Families), {
+                // 3. Create a new family for the user via API
+                const family = await apiService.createFamily({
                     familyName: `Família de ${values.name}`,
-                    createdAt: serverTimestamp(),
-                    ownerId: user.uid,
                 });
 
-                // 4. Create the user document in Firestore
-                const userRef = doc(db, Collections.Users, user.uid);
-                await setDoc(userRef, {
+                // 4. Create the user document via API
+                await apiService.createUser({
                     displayName: values.name,
                     email: values.email,
-                    familyId: familyRef.id,
+                    familyId: family.id,
                     isAdmin: true, // The user who creates the family is an admin
                     settings: {
                         theme: "system",
@@ -89,29 +85,22 @@ export function SignupForm() {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
 
-            // TODO: Check if user already exists in Firestore before creating new family
+            // TODO: Check if user already exists via API before creating new family
 
-            const familyRef = await addDoc(collection(db, Collections.Families), {
+            const family = await apiService.createFamily({
                 familyName: `Família de ${user.displayName}`,
-                createdAt: serverTimestamp(),
-                ownerId: user.uid,
             });
 
-            const userRef = doc(db, Collections.Users, user.uid);
-            await setDoc(
-                userRef,
-                {
-                    displayName: user.displayName,
-                    email: user.email,
-                    familyId: familyRef.id,
-                    isAdmin: true,
-                    settings: {
-                        theme: "system",
-                        notifications: true,
-                    },
+            await apiService.createUser({
+                displayName: user.displayName,
+                email: user.email,
+                familyId: family.id,
+                isAdmin: true,
+                settings: {
+                    theme: "system",
+                    notifications: true,
                 },
-                { merge: true }
-            ); // Merge to avoid overwriting existing data if they sign up differently before
+            });
             trackEvent("sign_up", { method: "google" });
             router.navigate({ to: "/dashboard" });
         } catch (error: any) {

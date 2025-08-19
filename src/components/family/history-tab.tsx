@@ -45,14 +45,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from "@fortawesome/free-regular-svg-icons";
 import { useAuth } from "@/hooks/use-auth";
-import { db } from "@/lib/firebase";
-import { collection, getDocs, query, orderBy, Timestamp, getDoc, writeBatch, doc } from "firebase/firestore";
 import { Collections } from "@/lib/enums";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/ui/empty-state";
 import { toast } from "@/hooks/use-toast";
 import { updatePurchaseItems } from "../../routes/dashboard/family/actions";
 import { trackEvent } from "@/services/analytics-service";
+import { apiService } from "@/services/api";
 
 interface PurchaseItem {
     id: string;
@@ -67,7 +66,7 @@ interface PurchaseItem {
 interface Purchase {
     id: string;
     storeName: string;
-    date: Timestamp;
+    date: Date;
     totalAmount: number;
     items: PurchaseItem[];
 }
@@ -90,52 +89,37 @@ export function HistoryTab() {
 
             setLoading(true);
             try {
-                const purchasesRef = collection(db, Collections.Families, profile.familyId, "purchases");
-                const q = query(purchasesRef, orderBy("date", "desc"));
-                const querySnapshot = await getDocs(q);
-
+                // Fetch purchases via API
+                const purchases = await apiService.getPurchases(profile.familyId);
+                
                 const allPurchases = await Promise.all(
-                    querySnapshot.docs.map(async (purchaseDoc) => {
-                        const purchaseData = purchaseDoc.data();
-                        const itemsRef = collection(
-                            db,
-                            Collections.Families,
-                            profile.familyId!,
-                            "purchases",
-                            purchaseDoc.id,
-                            "purchase_items"
-                        );
-                        const itemsSnap = await getDocs(itemsRef);
-                        const items = await Promise.all(
-                            itemsSnap.docs.map(async (itemDoc) => {
-                                const itemData = itemDoc.data();
-                                if (itemData.productRef) {
-                                    const productSnap = await getDoc(itemData.productRef);
-                                    if (productSnap.exists()) {
-                                        const productData = productSnap.data() as any;
-                                        itemData.name = productData.name;
-                                        itemData.barcode = productData.barcode;
-                                        itemData.volume = productData.volume;
-                                    }
-                                }
-                                return {
-                                    ...itemData,
-                                    id: itemDoc.id,
-                                    unitPrice: itemData.price, // Assuming 'price' from DB is unit price
-                                    price: itemData.totalPrice,
-                                } as PurchaseItem;
-                            })
-                        );
+                    purchases.map(async (purchase: any) => {
+                        // Fetch purchase items via API
+                        const items = await apiService.getPurchaseItems(profile.familyId!, purchase.id);
+                        
+                        const purchaseItems = items.map((item: any) => ({
+                            id: item.id,
+                            name: item.productName || item.name,
+                            barcode: item.productBarcode || item.barcode,
+                            volume: item.productVolume || item.volume,
+                            quantity: item.quantity,
+                            price: item.totalPrice || item.price,
+                            unitPrice: item.unitPrice || item.price,
+                            productRef: { id: item.productId }
+                        }));
 
                         return {
-                            id: purchaseDoc.id,
-                            storeName: purchaseData.storeName,
-                            date: purchaseData.date,
-                            totalAmount: purchaseData.totalAmount,
-                            items,
+                            id: purchase.id,
+                            storeName: purchase.storeName,
+                            date: new Date(purchase.date),
+                            totalAmount: purchase.totalAmount,
+                            items: purchaseItems,
                         } as Purchase;
                     })
                 );
+
+                // Sort by date descending
+                allPurchases.sort((a, b) => b.date.getTime() - a.date.getTime());
 
                 setPurchases(allPurchases);
             } catch (error) {
@@ -159,21 +143,8 @@ export function HistoryTab() {
         }
 
         try {
-            const purchaseRef = doc(db, Collections.Families, profile.familyId, "purchases", purchaseId);
-            const itemsRef = collection(db, purchaseRef.path, "purchase_items");
-
-            const batch = writeBatch(db);
-
-            // Delete all items in the subcollection
-            const itemsSnapshot = await getDocs(itemsRef);
-            itemsSnapshot.forEach((itemDoc) => {
-                batch.delete(doc(itemsRef, itemDoc.id));
-            });
-
-            // Delete the purchase document itself
-            batch.delete(purchaseRef);
-
-            await batch.commit();
+            // Delete purchase via API (backend will handle deleting items)
+            await apiService.deletePurchase(profile.familyId, purchaseId);
 
             setPurchases((prev) => prev.filter((p) => p.id !== purchaseId));
 
@@ -204,7 +175,7 @@ export function HistoryTab() {
                 const matchesStore = selectedStore === "all" || purchase.storeName === selectedStore;
 
                 const now = new Date();
-                const purchaseDate = purchase.date.toDate();
+                const purchaseDate = purchase.date;
 
                 const matchesPeriod =
                     selectedPeriod === "all" ||
@@ -424,7 +395,6 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                         <CardDescription className="flex items-center gap-2">
                             <FontAwesomeIcon icon={faCalendar} className="w-4 h-4" />{" "}
                             {purchase.date
-                                .toDate()
                                 .toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
                         </CardDescription>
                     </CardHeader>
@@ -444,7 +414,7 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                 <DialogHeader>
                     <DialogTitle>{t`Purchase Details: ${purchase.storeName}`}</DialogTitle>
                     <DialogDescription>
-                        {purchase.date.toDate().toLocaleString("pt-BR", { dateStyle: "full", timeStyle: "short" })}
+                        {purchase.date.toLocaleString("pt-BR", { dateStyle: "full", timeStyle: "short" })}
                         <span className="font-bold ml-4">Total: R$ {totalAmount.toFixed(2)}</span>
                     </DialogDescription>
                 </DialogHeader>

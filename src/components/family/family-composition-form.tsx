@@ -7,11 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
 import { useEffect } from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import { useToast } from "@/hooks/use-toast";
-import { Collections } from "@/lib/enums";
 import { useLingui } from '@lingui/react/macro';
+import { apiService } from "@/services/api";
 
 
 const familyCompositionSchema = z.object({
@@ -57,8 +55,7 @@ export function FamilyCompositionForm() {
             return;
         }
         try {
-            const familyRef = doc(db, Collections.Families, profile.familyId);
-            await setDoc(familyRef, { familyComposition: values }, { merge: true });
+            await apiService.updateFamily(profile.familyId, { familyComposition: values });
 
             await reloadUser();
             form.reset(values);

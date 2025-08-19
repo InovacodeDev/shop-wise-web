@@ -8,14 +8,12 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/hooks/use-auth";
 import { useEffect } from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from "../ui/separator";
-import { Collections } from "@/lib/enums";
 
 import { trackEvent } from "@/services/analytics-service";
 import { useLingui } from '@lingui/react/macro';
+import { apiService } from "@/services/api";
 
 const preferencesSchema = z.object({
     theme: z.enum(["system", "light", "dark"]),
@@ -57,8 +55,7 @@ export function PreferencesForm() {
             return;
         }
         try {
-            const userRef = doc(db, Collections.Users, user.uid);
-            await setDoc(userRef, { settings: values }, { merge: true });
+            await apiService.updateUser(user.uid, { settings: values });
 
             await reloadUser();
             form.reset(values);

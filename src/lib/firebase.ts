@@ -1,9 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
-import { getPerformance } from "firebase/performance";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,14 +15,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const auth = getAuth(app);
-const db = getFirestore(app);
-const googleProvider = new GoogleAuthProvider();
 
-// Initialize Analytics and Performance Monitoring on the client side
-if (typeof window !== "undefined") {
-    getAnalytics(app);
-    getPerformance(app);
-}
+// Initialize Firebase Auth
+export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
 
-export { app, auth, db, googleProvider };
+export { app };
