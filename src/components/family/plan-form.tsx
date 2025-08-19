@@ -58,7 +58,7 @@ export function PlanForm() {
             form.reset({ plan: currentPlan });
 
             if (currentPlan === "premium" && profile.planExpirationDate) {
-                const expirationDate = profile.planExpirationDate.toDate();
+                const expirationDate = profile.planExpirationDate;
                 const daysRemaining = differenceInDays(expirationDate, new Date());
                 if (daysRemaining > 31) {
                     setBillingCycle("annually");

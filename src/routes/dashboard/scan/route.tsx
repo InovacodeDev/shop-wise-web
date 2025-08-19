@@ -4,9 +4,9 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 
 import { useAuth } from '@/hooks/use-auth';
 import { savePurchase } from "./actions";
-import type { ExtractProductDataOutput } from '@/ai/flows/extract-product-data';
 import { ManualPurchaseForm } from "@/components/scan/manual-purchase-form";
 import type { PurchaseData, ItemData } from "@/components/scan/manual-purchase-form";
+import type { ExtractProductDataOutput } from "@/types/ai-flows";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKeyboard, faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,7 +15,7 @@ import { trackEvent } from "@/services/analytics-service";
 import { useLingui } from '@lingui/react/macro';
 
 export const Route = createFileRoute('/dashboard/scan')({
-  component: ScanPage,
+    component: ScanPage,
 })
 
 function ScanPage() {
@@ -36,17 +36,17 @@ function ScanPage() {
         const result = await savePurchase(purchaseData, products, profile.familyId, user.uid, entryMethod);
 
         if (result.error) {
-             toast({
+            toast({
                 variant: 'destructive',
                 title: t`Save Error`,
                 description: result.error,
             });
         } else {
-             toast({
+            toast({
                 title: t`Success!`,
                 description: t`Purchase saved successfully!`,
             });
-            trackEvent('purchase_saved', { 
+            trackEvent('purchase_saved', {
                 method: entryMethod,
                 itemCount: products.length,
                 totalAmount: products.reduce((acc, item) => acc + item.price, 0)
@@ -58,7 +58,7 @@ function ScanPage() {
     return (
         <div className="container mx-auto py-8">
             <Card>
-                 <CardHeader>
+                <CardHeader>
                     <CardTitle className="text-2xl font-headline">{t`Add New Purchase`}</CardTitle>
                     <CardDescription>
                         {t`You can import a purchase from a PDF fiscal receipt or enter the details manually.`}

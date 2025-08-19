@@ -1,14 +1,12 @@
-import { apiService } from '@/services/api';
-import type { PurchaseData } from "@/components/scan/manual-purchase-form";
-
-// Type compatibility maintained for now
-type ExtractProductDataOutput = any;
+import { apiService } from "@/services/api";
+import type { PurchaseData, ItemData } from "@/components/scan/manual-purchase-form";
+import type { ExtractProductDataOutput } from "@/types/ai-flows";
 
 export async function savePurchase(
+    familyId: string, 
+    userId: string, 
     purchaseData: ExtractProductDataOutput | PurchaseData, 
     products: any[], 
-    familyId: string, 
-    userId: string,
     entryMethod: 'import' | 'manual'
 ) {
     if (!familyId || !userId) {

@@ -1,12 +1,12 @@
 import { apiService } from "@/services/api";
 import type { PurchaseData, ItemData } from "@/components/scan/manual-purchase-form";
 import { savePurchase as savePurchaseService } from "@/services/purchaseApiService";
-
-// Types maintained for compatibility
-type ExtractProductDataInput = { receiptImage: string };
-type ExtractProductDataOutput = any;
-type ExtractDataFromPdfInput = { pdfDataUri: string };
-type ExtractDataFromPdfOutput = any;
+import type { 
+    ExtractProductDataInput,
+    ExtractProductDataOutput,
+    ExtractDataFromPdfInput,
+    ExtractDataFromPdfOutput
+} from "@/types/ai-flows";
 
 export async function extractProductData(input: ExtractProductDataInput) {
     try {
@@ -46,7 +46,7 @@ export async function savePurchase(
     entryMethod: "import" | "manual"
 ): Promise<{ success: boolean; error?: string; purchaseId?: string }> {
     try {
-        const result = await savePurchaseService(purchaseData, products, familyId, userId, entryMethod);
+        const result = await savePurchaseService(familyId, userId, purchaseData, products, entryMethod);
         return result;
     } catch (error: any) {
         console.error("Error in savePurchase action:", error);

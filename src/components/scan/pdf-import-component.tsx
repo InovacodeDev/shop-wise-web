@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { extractDataFromPdf } from "../../routes/dashboard/scan/actions";
-import type { ExtractProductDataOutput } from "@/ai/flows/extract-product-data";
 import { useToast } from "@/hooks/use-toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Input } from "../ui/input";
@@ -35,18 +34,11 @@ import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Progress } from "../ui/progress";
+import { ExtractProductDataOutput, Product as AIProduct } from "@/types/ai-flows";
 
-interface Product {
+// Interface local que estende Product com id para uso na interface
+interface Product extends AIProduct {
     id: number;
-    barcode: string;
-    name: string;
-    volume: string;
-    quantity: number;
-    unitPrice: number;
-    price: number;
-    category?: string;
-    subcategory?: string;
-    brand?: string;
 }
 
 interface PdfImportProps {

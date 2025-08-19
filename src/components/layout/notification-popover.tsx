@@ -37,7 +37,7 @@ const typeColors = {
 export function NotificationPopover({ notifications, unreadCount, onMarkAllAsRead }: NotificationPopoverProps) {
     const { t } = useLingui();
 
-    const sortedNotifications = [...notifications].sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
+    const sortedNotifications = [...notifications].sort((a, b) => new Date(b.createdAt) < new Date(a.createdAt) ? -1 : 1);
 
     return (
         <Popover>
@@ -86,7 +86,7 @@ export function NotificationPopover({ notifications, unreadCount, onMarkAllAsRea
                                         <p className="text-sm font-medium">{notification.title}</p>
                                         <p className="text-xs text-muted-foreground">{notification.description}</p>
                                         <p className="text-xs text-muted-foreground/80 mt-1">
-                                            {timeAgo(notification.createdAt.toDate())}
+                                            {timeAgo(new Date(notification.createdAt))}
                                         </p>
                                     </div>
                                 </div>

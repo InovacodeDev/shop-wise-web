@@ -1,9 +1,13 @@
 
-import { analyzeConsumptionData as analyzeConsumptionDataFlow, type AnalyzeConsumptionDataInput } from "@/ai/flows/analyze-consumption-data";
+import { apiService } from "@/services/api";
+import type { 
+    AnalyzeConsumptionDataInput,
+    AnalyzeConsumptionDataOutput 
+} from "@/types/ai-flows";
 
-export async function analyzeConsumptionData(input: AnalyzeConsumptionDataInput): Promise<{ analysis: string, error?: string }> {
+export async function analyzeConsumptionData(input: AnalyzeConsumptionDataInput): Promise<AnalyzeConsumptionDataOutput & { error?: string }> {
     try {
-        const result = await analyzeConsumptionDataFlow(input);
+        const result = await apiService.analyzeConsumptionData(input);
         return result;
     } catch (error: any) {
         console.error("Error in analyzeConsumptionData action:", error);
