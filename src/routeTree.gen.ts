@@ -10,29 +10,39 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteRouteImport } from './routes/signup/route'
+import { Route as SettingsRouteRouteImport } from './routes/settings/route'
+import { Route as ScanRouteRouteImport } from './routes/scan/route'
 import { Route as LoginRouteRouteImport } from './routes/login/route'
+import { Route as ListRouteRouteImport } from './routes/list/route'
+import { Route as HomeRouteRouteImport } from './routes/home/route'
 import { Route as ForgotPasswordRouteRouteImport } from './routes/forgot-password/route'
+import { Route as FamilyRouteRouteImport } from './routes/family/route'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as DashboardSettingsRouteRouteImport } from './routes/dashboard/settings/route'
-import { Route as DashboardScanRouteRouteImport } from './routes/dashboard/scan/route'
-import { Route as DashboardListRouteRouteImport } from './routes/dashboard/list/route'
-import { Route as DashboardHomeRouteRouteImport } from './routes/dashboard/home/route'
-import { Route as DashboardFamilyRouteRouteImport } from './routes/dashboard/family/route'
-import { Route as DashboardAdminRouteRouteImport } from './routes/dashboard/admin/route'
-import { Route as DashboardAdminUsersRouteRouteImport } from './routes/dashboard/admin/users/route'
-import { Route as DashboardAdminSettingsRouteRouteImport } from './routes/dashboard/admin/settings/route'
-import { Route as DashboardAdminSecurityRouteRouteImport } from './routes/dashboard/admin/security/route'
-import { Route as DashboardAdminReportsRouteRouteImport } from './routes/dashboard/admin/reports/route'
-import { Route as DashboardAdminNotificationsRouteRouteImport } from './routes/dashboard/admin/notifications/route'
-import { Route as DashboardAdminMarketInsightsRouteRouteImport } from './routes/dashboard/admin/market-insights/route'
-import { Route as DashboardAdminLogsRouteRouteImport } from './routes/dashboard/admin/logs/route'
-import { Route as DashboardAdminAuditRouteRouteImport } from './routes/dashboard/admin/audit/route'
+import { Route as AdminUsersRouteRouteImport } from './routes/admin/users/route'
+import { Route as AdminSettingsRouteRouteImport } from './routes/admin/settings/route'
+import { Route as AdminSecurityRouteRouteImport } from './routes/admin/security/route'
+import { Route as AdminReportsRouteRouteImport } from './routes/admin/reports/route'
+import { Route as AdminNotificationsRouteRouteImport } from './routes/admin/notifications/route'
+import { Route as AdminMarketInsightsRouteRouteImport } from './routes/admin/market-insights/route'
+import { Route as AdminLogsRouteRouteImport } from './routes/admin/logs/route'
+import { Route as AdminAuditRouteRouteImport } from './routes/admin/audit/route'
 
 const SignupRouteRoute = SignupRouteRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRouteRoute = SettingsRouteRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScanRouteRoute = ScanRouteRouteImport.update({
+  id: '/scan',
+  path: '/scan',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRouteRoute = LoginRouteRouteImport.update({
@@ -40,14 +50,34 @@ const LoginRouteRoute = LoginRouteRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ListRouteRoute = ListRouteRouteImport.update({
+  id: '/list',
+  path: '/list',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeRouteRoute = HomeRouteRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ForgotPasswordRouteRoute = ForgotPasswordRouteRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FamilyRouteRoute = FamilyRouteRouteImport.update({
+  id: '/family',
+  path: '/family',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -60,223 +90,193 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
-const DashboardSettingsRouteRoute = DashboardSettingsRouteRouteImport.update({
+const AdminUsersRouteRoute = AdminUsersRouteRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminSettingsRouteRoute = AdminSettingsRouteRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => DashboardRouteRoute,
+  getParentRoute: () => AdminRouteRoute,
 } as any)
-const DashboardScanRouteRoute = DashboardScanRouteRouteImport.update({
-  id: '/scan',
-  path: '/scan',
-  getParentRoute: () => DashboardRouteRoute,
+const AdminSecurityRouteRoute = AdminSecurityRouteRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
-const DashboardListRouteRoute = DashboardListRouteRouteImport.update({
-  id: '/list',
-  path: '/list',
-  getParentRoute: () => DashboardRouteRoute,
+const AdminReportsRouteRoute = AdminReportsRouteRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
-const DashboardHomeRouteRoute = DashboardHomeRouteRouteImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => DashboardRouteRoute,
+const AdminNotificationsRouteRoute = AdminNotificationsRouteRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
-const DashboardFamilyRouteRoute = DashboardFamilyRouteRouteImport.update({
-  id: '/family',
-  path: '/family',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardAdminRouteRoute = DashboardAdminRouteRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardAdminUsersRouteRoute =
-  DashboardAdminUsersRouteRouteImport.update({
-    id: '/users',
-    path: '/users',
-    getParentRoute: () => DashboardAdminRouteRoute,
-  } as any)
-const DashboardAdminSettingsRouteRoute =
-  DashboardAdminSettingsRouteRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => DashboardAdminRouteRoute,
-  } as any)
-const DashboardAdminSecurityRouteRoute =
-  DashboardAdminSecurityRouteRouteImport.update({
-    id: '/security',
-    path: '/security',
-    getParentRoute: () => DashboardAdminRouteRoute,
-  } as any)
-const DashboardAdminReportsRouteRoute =
-  DashboardAdminReportsRouteRouteImport.update({
-    id: '/reports',
-    path: '/reports',
-    getParentRoute: () => DashboardAdminRouteRoute,
-  } as any)
-const DashboardAdminNotificationsRouteRoute =
-  DashboardAdminNotificationsRouteRouteImport.update({
-    id: '/notifications',
-    path: '/notifications',
-    getParentRoute: () => DashboardAdminRouteRoute,
-  } as any)
-const DashboardAdminMarketInsightsRouteRoute =
-  DashboardAdminMarketInsightsRouteRouteImport.update({
+const AdminMarketInsightsRouteRoute =
+  AdminMarketInsightsRouteRouteImport.update({
     id: '/market-insights',
     path: '/market-insights',
-    getParentRoute: () => DashboardAdminRouteRoute,
+    getParentRoute: () => AdminRouteRoute,
   } as any)
-const DashboardAdminLogsRouteRoute = DashboardAdminLogsRouteRouteImport.update({
+const AdminLogsRouteRoute = AdminLogsRouteRouteImport.update({
   id: '/logs',
   path: '/logs',
-  getParentRoute: () => DashboardAdminRouteRoute,
+  getParentRoute: () => AdminRouteRoute,
 } as any)
-const DashboardAdminAuditRouteRoute =
-  DashboardAdminAuditRouteRouteImport.update({
-    id: '/audit',
-    path: '/audit',
-    getParentRoute: () => DashboardAdminRouteRoute,
-  } as any)
+const AdminAuditRouteRoute = AdminAuditRouteRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/family': typeof FamilyRouteRoute
   '/forgot-password': typeof ForgotPasswordRouteRoute
+  '/home': typeof HomeRouteRoute
+  '/list': typeof ListRouteRoute
   '/login': typeof LoginRouteRoute
+  '/scan': typeof ScanRouteRoute
+  '/settings': typeof SettingsRouteRoute
   '/signup': typeof SignupRouteRoute
-  '/dashboard/admin': typeof DashboardAdminRouteRouteWithChildren
-  '/dashboard/family': typeof DashboardFamilyRouteRoute
-  '/dashboard/home': typeof DashboardHomeRouteRoute
-  '/dashboard/list': typeof DashboardListRouteRoute
-  '/dashboard/scan': typeof DashboardScanRouteRoute
-  '/dashboard/settings': typeof DashboardSettingsRouteRoute
+  '/admin/audit': typeof AdminAuditRouteRoute
+  '/admin/logs': typeof AdminLogsRouteRoute
+  '/admin/market-insights': typeof AdminMarketInsightsRouteRoute
+  '/admin/notifications': typeof AdminNotificationsRouteRoute
+  '/admin/reports': typeof AdminReportsRouteRoute
+  '/admin/security': typeof AdminSecurityRouteRoute
+  '/admin/settings': typeof AdminSettingsRouteRoute
+  '/admin/users': typeof AdminUsersRouteRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/dashboard/admin/audit': typeof DashboardAdminAuditRouteRoute
-  '/dashboard/admin/logs': typeof DashboardAdminLogsRouteRoute
-  '/dashboard/admin/market-insights': typeof DashboardAdminMarketInsightsRouteRoute
-  '/dashboard/admin/notifications': typeof DashboardAdminNotificationsRouteRoute
-  '/dashboard/admin/reports': typeof DashboardAdminReportsRouteRoute
-  '/dashboard/admin/security': typeof DashboardAdminSecurityRouteRoute
-  '/dashboard/admin/settings': typeof DashboardAdminSettingsRouteRoute
-  '/dashboard/admin/users': typeof DashboardAdminUsersRouteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/family': typeof FamilyRouteRoute
   '/forgot-password': typeof ForgotPasswordRouteRoute
+  '/home': typeof HomeRouteRoute
+  '/list': typeof ListRouteRoute
   '/login': typeof LoginRouteRoute
+  '/scan': typeof ScanRouteRoute
+  '/settings': typeof SettingsRouteRoute
   '/signup': typeof SignupRouteRoute
-  '/dashboard/admin': typeof DashboardAdminRouteRouteWithChildren
-  '/dashboard/family': typeof DashboardFamilyRouteRoute
-  '/dashboard/home': typeof DashboardHomeRouteRoute
-  '/dashboard/list': typeof DashboardListRouteRoute
-  '/dashboard/scan': typeof DashboardScanRouteRoute
-  '/dashboard/settings': typeof DashboardSettingsRouteRoute
+  '/admin/audit': typeof AdminAuditRouteRoute
+  '/admin/logs': typeof AdminLogsRouteRoute
+  '/admin/market-insights': typeof AdminMarketInsightsRouteRoute
+  '/admin/notifications': typeof AdminNotificationsRouteRoute
+  '/admin/reports': typeof AdminReportsRouteRoute
+  '/admin/security': typeof AdminSecurityRouteRoute
+  '/admin/settings': typeof AdminSettingsRouteRoute
+  '/admin/users': typeof AdminUsersRouteRoute
   '/dashboard': typeof DashboardIndexRoute
-  '/dashboard/admin/audit': typeof DashboardAdminAuditRouteRoute
-  '/dashboard/admin/logs': typeof DashboardAdminLogsRouteRoute
-  '/dashboard/admin/market-insights': typeof DashboardAdminMarketInsightsRouteRoute
-  '/dashboard/admin/notifications': typeof DashboardAdminNotificationsRouteRoute
-  '/dashboard/admin/reports': typeof DashboardAdminReportsRouteRoute
-  '/dashboard/admin/security': typeof DashboardAdminSecurityRouteRoute
-  '/dashboard/admin/settings': typeof DashboardAdminSettingsRouteRoute
-  '/dashboard/admin/users': typeof DashboardAdminUsersRouteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/family': typeof FamilyRouteRoute
   '/forgot-password': typeof ForgotPasswordRouteRoute
+  '/home': typeof HomeRouteRoute
+  '/list': typeof ListRouteRoute
   '/login': typeof LoginRouteRoute
+  '/scan': typeof ScanRouteRoute
+  '/settings': typeof SettingsRouteRoute
   '/signup': typeof SignupRouteRoute
-  '/dashboard/admin': typeof DashboardAdminRouteRouteWithChildren
-  '/dashboard/family': typeof DashboardFamilyRouteRoute
-  '/dashboard/home': typeof DashboardHomeRouteRoute
-  '/dashboard/list': typeof DashboardListRouteRoute
-  '/dashboard/scan': typeof DashboardScanRouteRoute
-  '/dashboard/settings': typeof DashboardSettingsRouteRoute
+  '/admin/audit': typeof AdminAuditRouteRoute
+  '/admin/logs': typeof AdminLogsRouteRoute
+  '/admin/market-insights': typeof AdminMarketInsightsRouteRoute
+  '/admin/notifications': typeof AdminNotificationsRouteRoute
+  '/admin/reports': typeof AdminReportsRouteRoute
+  '/admin/security': typeof AdminSecurityRouteRoute
+  '/admin/settings': typeof AdminSettingsRouteRoute
+  '/admin/users': typeof AdminUsersRouteRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/dashboard/admin/audit': typeof DashboardAdminAuditRouteRoute
-  '/dashboard/admin/logs': typeof DashboardAdminLogsRouteRoute
-  '/dashboard/admin/market-insights': typeof DashboardAdminMarketInsightsRouteRoute
-  '/dashboard/admin/notifications': typeof DashboardAdminNotificationsRouteRoute
-  '/dashboard/admin/reports': typeof DashboardAdminReportsRouteRoute
-  '/dashboard/admin/security': typeof DashboardAdminSecurityRouteRoute
-  '/dashboard/admin/settings': typeof DashboardAdminSettingsRouteRoute
-  '/dashboard/admin/users': typeof DashboardAdminUsersRouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/dashboard'
+    | '/family'
     | '/forgot-password'
+    | '/home'
+    | '/list'
     | '/login'
+    | '/scan'
+    | '/settings'
     | '/signup'
-    | '/dashboard/admin'
-    | '/dashboard/family'
-    | '/dashboard/home'
-    | '/dashboard/list'
-    | '/dashboard/scan'
-    | '/dashboard/settings'
+    | '/admin/audit'
+    | '/admin/logs'
+    | '/admin/market-insights'
+    | '/admin/notifications'
+    | '/admin/reports'
+    | '/admin/security'
+    | '/admin/settings'
+    | '/admin/users'
     | '/dashboard/'
-    | '/dashboard/admin/audit'
-    | '/dashboard/admin/logs'
-    | '/dashboard/admin/market-insights'
-    | '/dashboard/admin/notifications'
-    | '/dashboard/admin/reports'
-    | '/dashboard/admin/security'
-    | '/dashboard/admin/settings'
-    | '/dashboard/admin/users'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
+    | '/family'
     | '/forgot-password'
+    | '/home'
+    | '/list'
     | '/login'
+    | '/scan'
+    | '/settings'
     | '/signup'
-    | '/dashboard/admin'
-    | '/dashboard/family'
-    | '/dashboard/home'
-    | '/dashboard/list'
-    | '/dashboard/scan'
-    | '/dashboard/settings'
+    | '/admin/audit'
+    | '/admin/logs'
+    | '/admin/market-insights'
+    | '/admin/notifications'
+    | '/admin/reports'
+    | '/admin/security'
+    | '/admin/settings'
+    | '/admin/users'
     | '/dashboard'
-    | '/dashboard/admin/audit'
-    | '/dashboard/admin/logs'
-    | '/dashboard/admin/market-insights'
-    | '/dashboard/admin/notifications'
-    | '/dashboard/admin/reports'
-    | '/dashboard/admin/security'
-    | '/dashboard/admin/settings'
-    | '/dashboard/admin/users'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/dashboard'
+    | '/family'
     | '/forgot-password'
+    | '/home'
+    | '/list'
     | '/login'
+    | '/scan'
+    | '/settings'
     | '/signup'
-    | '/dashboard/admin'
-    | '/dashboard/family'
-    | '/dashboard/home'
-    | '/dashboard/list'
-    | '/dashboard/scan'
-    | '/dashboard/settings'
+    | '/admin/audit'
+    | '/admin/logs'
+    | '/admin/market-insights'
+    | '/admin/notifications'
+    | '/admin/reports'
+    | '/admin/security'
+    | '/admin/settings'
+    | '/admin/users'
     | '/dashboard/'
-    | '/dashboard/admin/audit'
-    | '/dashboard/admin/logs'
-    | '/dashboard/admin/market-insights'
-    | '/dashboard/admin/notifications'
-    | '/dashboard/admin/reports'
-    | '/dashboard/admin/security'
-    | '/dashboard/admin/settings'
-    | '/dashboard/admin/users'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  FamilyRouteRoute: typeof FamilyRouteRoute
   ForgotPasswordRouteRoute: typeof ForgotPasswordRouteRoute
+  HomeRouteRoute: typeof HomeRouteRoute
+  ListRouteRoute: typeof ListRouteRoute
   LoginRouteRoute: typeof LoginRouteRoute
+  ScanRouteRoute: typeof ScanRouteRoute
+  SettingsRouteRoute: typeof SettingsRouteRoute
   SignupRouteRoute: typeof SignupRouteRoute
 }
 
@@ -289,11 +289,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scan': {
+      id: '/scan'
+      path: '/scan'
+      fullPath: '/scan'
+      preLoaderRoute: typeof ScanRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/list': {
+      id: '/list'
+      path: '/list'
+      fullPath: '/list'
+      preLoaderRoute: typeof ListRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forgot-password': {
@@ -303,11 +331,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForgotPasswordRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/family': {
+      id: '/family'
+      path: '/family'
+      fullPath: '/family'
+      preLoaderRoute: typeof FamilyRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -324,150 +366,96 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/dashboard/settings': {
-      id: '/dashboard/settings'
-      path: '/settings'
-      fullPath: '/dashboard/settings'
-      preLoaderRoute: typeof DashboardSettingsRouteRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/scan': {
-      id: '/dashboard/scan'
-      path: '/scan'
-      fullPath: '/dashboard/scan'
-      preLoaderRoute: typeof DashboardScanRouteRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/list': {
-      id: '/dashboard/list'
-      path: '/list'
-      fullPath: '/dashboard/list'
-      preLoaderRoute: typeof DashboardListRouteRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/home': {
-      id: '/dashboard/home'
-      path: '/home'
-      fullPath: '/dashboard/home'
-      preLoaderRoute: typeof DashboardHomeRouteRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/family': {
-      id: '/dashboard/family'
-      path: '/family'
-      fullPath: '/dashboard/family'
-      preLoaderRoute: typeof DashboardFamilyRouteRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/admin': {
-      id: '/dashboard/admin'
-      path: '/admin'
-      fullPath: '/dashboard/admin'
-      preLoaderRoute: typeof DashboardAdminRouteRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/admin/users': {
-      id: '/dashboard/admin/users'
+    '/admin/users': {
+      id: '/admin/users'
       path: '/users'
-      fullPath: '/dashboard/admin/users'
-      preLoaderRoute: typeof DashboardAdminUsersRouteRouteImport
-      parentRoute: typeof DashboardAdminRouteRoute
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
-    '/dashboard/admin/settings': {
-      id: '/dashboard/admin/settings'
+    '/admin/settings': {
+      id: '/admin/settings'
       path: '/settings'
-      fullPath: '/dashboard/admin/settings'
-      preLoaderRoute: typeof DashboardAdminSettingsRouteRouteImport
-      parentRoute: typeof DashboardAdminRouteRoute
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
-    '/dashboard/admin/security': {
-      id: '/dashboard/admin/security'
+    '/admin/security': {
+      id: '/admin/security'
       path: '/security'
-      fullPath: '/dashboard/admin/security'
-      preLoaderRoute: typeof DashboardAdminSecurityRouteRouteImport
-      parentRoute: typeof DashboardAdminRouteRoute
+      fullPath: '/admin/security'
+      preLoaderRoute: typeof AdminSecurityRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
-    '/dashboard/admin/reports': {
-      id: '/dashboard/admin/reports'
+    '/admin/reports': {
+      id: '/admin/reports'
       path: '/reports'
-      fullPath: '/dashboard/admin/reports'
-      preLoaderRoute: typeof DashboardAdminReportsRouteRouteImport
-      parentRoute: typeof DashboardAdminRouteRoute
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
-    '/dashboard/admin/notifications': {
-      id: '/dashboard/admin/notifications'
+    '/admin/notifications': {
+      id: '/admin/notifications'
       path: '/notifications'
-      fullPath: '/dashboard/admin/notifications'
-      preLoaderRoute: typeof DashboardAdminNotificationsRouteRouteImport
-      parentRoute: typeof DashboardAdminRouteRoute
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AdminNotificationsRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
-    '/dashboard/admin/market-insights': {
-      id: '/dashboard/admin/market-insights'
+    '/admin/market-insights': {
+      id: '/admin/market-insights'
       path: '/market-insights'
-      fullPath: '/dashboard/admin/market-insights'
-      preLoaderRoute: typeof DashboardAdminMarketInsightsRouteRouteImport
-      parentRoute: typeof DashboardAdminRouteRoute
+      fullPath: '/admin/market-insights'
+      preLoaderRoute: typeof AdminMarketInsightsRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
-    '/dashboard/admin/logs': {
-      id: '/dashboard/admin/logs'
+    '/admin/logs': {
+      id: '/admin/logs'
       path: '/logs'
-      fullPath: '/dashboard/admin/logs'
-      preLoaderRoute: typeof DashboardAdminLogsRouteRouteImport
-      parentRoute: typeof DashboardAdminRouteRoute
+      fullPath: '/admin/logs'
+      preLoaderRoute: typeof AdminLogsRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
-    '/dashboard/admin/audit': {
-      id: '/dashboard/admin/audit'
+    '/admin/audit': {
+      id: '/admin/audit'
       path: '/audit'
-      fullPath: '/dashboard/admin/audit'
-      preLoaderRoute: typeof DashboardAdminAuditRouteRouteImport
-      parentRoute: typeof DashboardAdminRouteRoute
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
   }
 }
 
-interface DashboardAdminRouteRouteChildren {
-  DashboardAdminAuditRouteRoute: typeof DashboardAdminAuditRouteRoute
-  DashboardAdminLogsRouteRoute: typeof DashboardAdminLogsRouteRoute
-  DashboardAdminMarketInsightsRouteRoute: typeof DashboardAdminMarketInsightsRouteRoute
-  DashboardAdminNotificationsRouteRoute: typeof DashboardAdminNotificationsRouteRoute
-  DashboardAdminReportsRouteRoute: typeof DashboardAdminReportsRouteRoute
-  DashboardAdminSecurityRouteRoute: typeof DashboardAdminSecurityRouteRoute
-  DashboardAdminSettingsRouteRoute: typeof DashboardAdminSettingsRouteRoute
-  DashboardAdminUsersRouteRoute: typeof DashboardAdminUsersRouteRoute
+interface AdminRouteRouteChildren {
+  AdminAuditRouteRoute: typeof AdminAuditRouteRoute
+  AdminLogsRouteRoute: typeof AdminLogsRouteRoute
+  AdminMarketInsightsRouteRoute: typeof AdminMarketInsightsRouteRoute
+  AdminNotificationsRouteRoute: typeof AdminNotificationsRouteRoute
+  AdminReportsRouteRoute: typeof AdminReportsRouteRoute
+  AdminSecurityRouteRoute: typeof AdminSecurityRouteRoute
+  AdminSettingsRouteRoute: typeof AdminSettingsRouteRoute
+  AdminUsersRouteRoute: typeof AdminUsersRouteRoute
 }
 
-const DashboardAdminRouteRouteChildren: DashboardAdminRouteRouteChildren = {
-  DashboardAdminAuditRouteRoute: DashboardAdminAuditRouteRoute,
-  DashboardAdminLogsRouteRoute: DashboardAdminLogsRouteRoute,
-  DashboardAdminMarketInsightsRouteRoute:
-    DashboardAdminMarketInsightsRouteRoute,
-  DashboardAdminNotificationsRouteRoute: DashboardAdminNotificationsRouteRoute,
-  DashboardAdminReportsRouteRoute: DashboardAdminReportsRouteRoute,
-  DashboardAdminSecurityRouteRoute: DashboardAdminSecurityRouteRoute,
-  DashboardAdminSettingsRouteRoute: DashboardAdminSettingsRouteRoute,
-  DashboardAdminUsersRouteRoute: DashboardAdminUsersRouteRoute,
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAuditRouteRoute: AdminAuditRouteRoute,
+  AdminLogsRouteRoute: AdminLogsRouteRoute,
+  AdminMarketInsightsRouteRoute: AdminMarketInsightsRouteRoute,
+  AdminNotificationsRouteRoute: AdminNotificationsRouteRoute,
+  AdminReportsRouteRoute: AdminReportsRouteRoute,
+  AdminSecurityRouteRoute: AdminSecurityRouteRoute,
+  AdminSettingsRouteRoute: AdminSettingsRouteRoute,
+  AdminUsersRouteRoute: AdminUsersRouteRoute,
 }
 
-const DashboardAdminRouteRouteWithChildren =
-  DashboardAdminRouteRoute._addFileChildren(DashboardAdminRouteRouteChildren)
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
 
 interface DashboardRouteRouteChildren {
-  DashboardAdminRouteRoute: typeof DashboardAdminRouteRouteWithChildren
-  DashboardFamilyRouteRoute: typeof DashboardFamilyRouteRoute
-  DashboardHomeRouteRoute: typeof DashboardHomeRouteRoute
-  DashboardListRouteRoute: typeof DashboardListRouteRoute
-  DashboardScanRouteRoute: typeof DashboardScanRouteRoute
-  DashboardSettingsRouteRoute: typeof DashboardSettingsRouteRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
-  DashboardAdminRouteRoute: DashboardAdminRouteRouteWithChildren,
-  DashboardFamilyRouteRoute: DashboardFamilyRouteRoute,
-  DashboardHomeRouteRoute: DashboardHomeRouteRoute,
-  DashboardListRouteRoute: DashboardListRouteRoute,
-  DashboardScanRouteRoute: DashboardScanRouteRoute,
-  DashboardSettingsRouteRoute: DashboardSettingsRouteRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
@@ -477,9 +465,15 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  FamilyRouteRoute: FamilyRouteRoute,
   ForgotPasswordRouteRoute: ForgotPasswordRouteRoute,
+  HomeRouteRoute: HomeRouteRoute,
+  ListRouteRoute: ListRouteRoute,
   LoginRouteRoute: LoginRouteRoute,
+  ScanRouteRoute: ScanRouteRoute,
+  SettingsRouteRoute: SettingsRouteRoute,
   SignupRouteRoute: SignupRouteRoute,
 }
 export const routeTree = rootRouteImport

@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { suggestMissingItems } from "../../routes/dashboard/list/actions";
+import { suggestMissingItems } from "../../routes/list/actions";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -49,7 +49,7 @@ export function ShoppingListComponent() {
                 // Get existing active list
                 const lists = await apiService.getShoppingLists(familyId);
                 const activeList = lists.find((list: ShoppingList) => list.status === "active");
-                
+
                 if (activeList) {
                     return activeList.id;
                 } else {
@@ -135,7 +135,7 @@ export function ShoppingListComponent() {
 
     const handleToggleItem = async (item: ListItem) => {
         if (!profile?.familyId || !activeListId) return;
-        
+
         try {
             await apiService.updateShoppingListItem(profile.familyId, activeListId, item.id, {
                 checked: !item.checked
@@ -155,10 +155,10 @@ export function ShoppingListComponent() {
 
     const handleDeleteItem = async (id: string) => {
         if (!profile?.familyId || !activeListId) return;
-        
+
         try {
             await apiService.deleteShoppingListItem(profile.familyId, activeListId, id);
-            
+
             // Update local state
             setItems(items.filter(item => item.id !== id));
         } catch (error) {
@@ -176,12 +176,12 @@ export function ShoppingListComponent() {
 
         setIsLoadingSuggestions(true);
         trackEvent("shopping_list_ai_suggestion_requested");
-        
+
         try {
             // Get purchase history from API
             const purchases = await apiService.getPurchases(profile.familyId);
-            
-            const purchaseHistory = purchases.map((purchase: any) => 
+
+            const purchaseHistory = purchases.map((purchase: any) =>
                 `${purchase.storeName} - ${new Date(purchase.date).toLocaleDateString()} - R$ ${purchase.totalAmount}`
             ).join('\n');
 
@@ -215,7 +215,7 @@ export function ShoppingListComponent() {
 
     const handleAddSuggestedItem = async (itemName: string) => {
         if (!profile?.familyId || !activeListId) return;
-        
+
         try {
             await apiService.createShoppingListItem(profile.familyId, activeListId, {
                 name: itemName,
@@ -264,8 +264,8 @@ export function ShoppingListComponent() {
             <div className="space-y-4">
                 <div className="flex items-center gap-2">
                     <h2 className="text-2xl font-bold">{t`Shopping List`}</h2>
-                    <Button 
-                        onClick={handleGetSuggestions} 
+                    <Button
+                        onClick={handleGetSuggestions}
                         disabled={isLoadingSuggestions}
                         variant="outline"
                         size="sm"

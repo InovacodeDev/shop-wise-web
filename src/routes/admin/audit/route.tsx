@@ -1,28 +1,29 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingBasket } from "@fortawesome/free-solid-svg-icons";
+import { faMicroscope } from "@fortawesome/free-solid-svg-icons";
 import { useLingui } from '@lingui/react/macro';
 
 
-export const Route = createFileRoute("/dashboard/admin/market-insights")({
-    component: AdminMarketInsightsPage,
-});
+export const Route = createFileRoute('/admin/audit')({
+    component: AdminAuditPage,
+})
 
-function AdminMarketInsightsPage() {
+function AdminAuditPage() {
     const { t } = useLingui();
+
     return (
         <div className="container mx-auto py-8">
             <Card>
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
-                        <FontAwesomeIcon icon={faShoppingBasket} className="w-6 h-6" />
-                        {t`Market Insights`}
+                        <FontAwesomeIcon icon={faMicroscope} className="w-6 h-6" />
+                        {t`Audit & Testing`}
                     </CardTitle>
-                    <CardDescription>{t`Analyze market trends based on aggregated user data.`}</CardDescription>
+                    <CardDescription>{t`Run audits and tests on the system.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`Market analysis tools will be available here.`}</p>
+                    <p>{t`Audit and testing tools will be available here.`}</p>
                 </CardContent>
             </Card>
         </div>

@@ -26,7 +26,7 @@ export function LoginForm() {
 
     const formSchema = z.object({
         email: z.string().email({ message: t`Please enter a valid email.` }),
-        password: z.string().min(6, { message: t("error_password_min_length") }),
+        password: z.string().min(6, { message: t`Please enter a password with at least 6 characters.` }),
     });
 
     const form = useForm<z.infer<typeof formSchema>>({

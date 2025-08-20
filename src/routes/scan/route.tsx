@@ -13,8 +13,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/services/analytics-service";
 import { useLingui } from '@lingui/react/macro';
+import { SideBarLayout } from '@/components/layout/sidebar-layout';
 
-export const Route = createFileRoute('/dashboard/scan')({
+export const Route = createFileRoute('/scan')({
     component: ScanPage,
 })
 
@@ -56,29 +57,31 @@ function ScanPage() {
 
 
     return (
-        <div className="container mx-auto py-8">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-2xl font-headline">{t`Add New Purchase`}</CardTitle>
-                    <CardDescription>
-                        {t`You can import a purchase from a PDF fiscal receipt or enter the details manually.`}
-                    </CardDescription>
-                </CardHeader>
-                <div className="p-6 pt-0">
-                    <Tabs defaultValue="scan" className="w-full">
-                        <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="scan"><FontAwesomeIcon icon={faFilePdf} className="mr-2 h-4 w-4" /> {t`Import PDF`}</TabsTrigger>
-                            <TabsTrigger value="manual"><FontAwesomeIcon icon={faKeyboard} className="mr-2 h-4 w-4" /> {t`Manual Entry`}</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="scan" className="mt-6">
-                            <PdfImportComponent onSave={(data, prods) => handleSavePurchase(data, prods, 'import')} />
-                        </TabsContent>
-                        <TabsContent value="manual" className="mt-6">
-                            <ManualPurchaseForm onSave={(data, prods) => handleSavePurchase(data, prods, 'manual')} />
-                        </TabsContent>
-                    </Tabs>
-                </div>
-            </Card>
-        </div>
+        <SideBarLayout>
+            <div className="container mx-auto py-8">
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-2xl font-headline">{t`Add New Purchase`}</CardTitle>
+                        <CardDescription>
+                            {t`You can import a purchase from a PDF fiscal receipt or enter the details manually.`}
+                        </CardDescription>
+                    </CardHeader>
+                    <div className="p-6 pt-0">
+                        <Tabs defaultValue="scan" className="w-full">
+                            <TabsList className="grid w-full grid-cols-2">
+                                <TabsTrigger value="scan"><FontAwesomeIcon icon={faFilePdf} className="mr-2 h-4 w-4" /> {t`Import PDF`}</TabsTrigger>
+                                <TabsTrigger value="manual"><FontAwesomeIcon icon={faKeyboard} className="mr-2 h-4 w-4" /> {t`Manual Entry`}</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="scan" className="mt-6">
+                                <PdfImportComponent onSave={(data, prods) => handleSavePurchase(data, prods, 'import')} />
+                            </TabsContent>
+                            <TabsContent value="manual" className="mt-6">
+                                <ManualPurchaseForm onSave={(data, prods) => handleSavePurchase(data, prods, 'manual')} />
+                            </TabsContent>
+                        </Tabs>
+                    </div>
+                </Card>
+            </div>
+        </SideBarLayout>
     );
 }

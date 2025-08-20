@@ -1,28 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faFileLines } from "@fortawesome/free-regular-svg-icons";
 import { useLingui } from '@lingui/react/macro';
 
 
-export const Route = createFileRoute("/dashboard/admin/users")({
-    component: AdminUsersPage,
+export const Route = createFileRoute("/admin/logs")({
+    component: AdminLogsPage,
 });
 
-function AdminUsersPage() {
+function AdminLogsPage() {
     const { t } = useLingui();
     return (
         <div className="container mx-auto py-8">
             <Card>
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
-                        <FontAwesomeIcon icon={faUsers} className="w-6 h-6" />
-                        {t`Manage Users`}
+                        <FontAwesomeIcon icon={faFileLines} className="w-6 h-6" />
+                        {t`System Logs`}
                     </CardTitle>
-                    <CardDescription>{t`View and manage all registered users.`}</CardDescription>
+                    <CardDescription>{t`View system and application logs.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`The user management interface will be here.`}</p>
+                    <p>{t`The logs viewer will be here.`}</p>
                 </CardContent>
             </Card>
         </div>

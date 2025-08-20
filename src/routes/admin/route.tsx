@@ -1,29 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartBar } from "@fortawesome/free-regular-svg-icons";
+import { faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import { useLingui } from '@lingui/react/macro';
 
 
-export const Route = createFileRoute("/dashboard/admin/reports")({
-    component: AdminReportsPage,
+export const Route = createFileRoute("/admin")({
+    component: AdminPage,
 });
 
-function AdminReportsPage() {
+function AdminPage() {
     const { t } = useLingui();
-
     return (
         <div className="container mx-auto py-8">
             <Card>
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
-                        <FontAwesomeIcon icon={faChartBar} className="w-6 h-6" />
-                        {t`Usage Reports`}
+                        <FontAwesomeIcon icon={faShieldHalved} className="w-6 h-6" />
+                        {t`Admin Dashboard`}
                     </CardTitle>
-                    <CardDescription>{t`Generate and view system usage reports.`}</CardDescription>
+                    <CardDescription>{t`System overview.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`Reporting tools will be available here.`}</p>
+                    <p>{t`Welcome to the admin dashboard. Here you can manage users, view reports, and configure the system.`}</p>
                 </CardContent>
             </Card>
         </div>

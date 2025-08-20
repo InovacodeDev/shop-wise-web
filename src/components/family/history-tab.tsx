@@ -49,7 +49,7 @@ import { Collections } from "@/lib/enums";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/ui/empty-state";
 import { toast } from "@/hooks/use-toast";
-import { updatePurchaseItems } from "../../routes/dashboard/family/actions";
+import { updatePurchaseItems } from "../../routes/family/actions";
 import { trackEvent } from "@/services/analytics-service";
 import { apiService } from "@/services/api";
 
@@ -91,12 +91,12 @@ export function HistoryTab() {
             try {
                 // Fetch purchases via API
                 const purchases = await apiService.getPurchases(profile.familyId);
-                
+
                 const allPurchases = await Promise.all(
                     purchases.map(async (purchase: any) => {
                         // Fetch purchase items via API
                         const items = await apiService.getPurchaseItems(profile.familyId!, purchase.id);
-                        
+
                         const purchaseItems = items.map((item: any) => ({
                             id: item.id,
                             name: item.productName || item.name,

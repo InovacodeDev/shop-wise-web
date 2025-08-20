@@ -267,7 +267,7 @@ export function InsightModal({
                             </AlertTitle>
                             <DialogDescription>{t`Unlock detailed consumption analyses and personalized insights by upgrading to our Premium plan.`}</DialogDescription>
                             <Button asChild className="mt-4">
-                                <Link to="/dashboard/family" search={{ tab: 'plan' }}>
+                                <Link to="/family" search={{ tab: 'plan' }}>
                                     <FontAwesomeIcon icon={faRocket} className="mr-2" />
                                     {t`Upgrade your Plan`}
                                 </Link>

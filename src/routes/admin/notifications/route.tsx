@@ -1,28 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileLines } from "@fortawesome/free-regular-svg-icons";
+import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import { useLingui } from '@lingui/react/macro';
 
 
-export const Route = createFileRoute("/dashboard/admin/logs")({
-    component: AdminLogsPage,
+export const Route = createFileRoute("/admin/notifications")({
+    component: AdminNotificationsPage,
 });
 
-function AdminLogsPage() {
+function AdminNotificationsPage() {
     const { t } = useLingui();
     return (
         <div className="container mx-auto py-8">
             <Card>
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
-                        <FontAwesomeIcon icon={faFileLines} className="w-6 h-6" />
-                        {t`System Logs`}
+                        <FontAwesomeIcon icon={faMessage} className="w-6 h-6" />
+                        {t`Manage Notifications`}
                     </CardTitle>
-                    <CardDescription>{t`View system and application logs.`}</CardDescription>
+                    <CardDescription>{t`Send and manage global notifications.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`The logs viewer will be here.`}</p>
+                    <p>{t`Notification management tools will be available here.`}</p>
                 </CardContent>
             </Card>
         </div>

@@ -5,7 +5,7 @@ import { faShield } from "@fortawesome/free-solid-svg-icons";
 import { useLingui } from '@lingui/react/macro';
 
 
-export const Route = createFileRoute("/dashboard/admin/security")({
+export const Route = createFileRoute("/admin/security")({
     component: AdminSecurityPage,
 });
 

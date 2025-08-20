@@ -44,6 +44,7 @@ import { apiService } from "@/services/api";
 import { subMonths, startOfMonth, endOfMonth, format, Locale } from "date-fns";
 import { ptBR, enUS } from "date-fns/locale";
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { SideBarLayout } from '@/components/layout/sidebar-layout';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/services/analytics-service";
@@ -115,7 +116,7 @@ const ComparisonBadge = ({ value }: { value: number | null }) => {
     );
 };
 
-export const Route = createFileRoute("/dashboard/home")({
+export const Route = createFileRoute("/home")({
     component: DashboardPage,
 });
 
@@ -471,235 +472,237 @@ function DashboardPage() {
     }
 
     return (
-        <div className="relative">
-            <div className="space-y-6">
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    <InsightModal
-                        title={t`Monthly Spending by Store`}
-                        description={t`A breakdown of your total spending for the current month by store.`}
-                        data={monthlySpendingByStore}
-                        type="spendingByStore"
-                    >
-                        <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">
-                                    {t`Total Spending (Month)`}
-                                </CardTitle>
-                                <FontAwesomeIcon icon={faDollarSign} className="h-4 w-4 text-muted-foreground" />
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">R$ {totalSpentMonth?.toFixed(2) ?? "0.00"}</div>
-                                <ComparisonBadge value={totalSpentChange} />
-                            </CardContent>
-                        </Card>
-                    </InsightModal>
+        <SideBarLayout>
+            <div className="relative">
+                <div className="space-y-6">
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                        <InsightModal
+                            title={t`Monthly Spending by Store`}
+                            description={t`A breakdown of your total spending for the current month by store.`}
+                            data={monthlySpendingByStore}
+                            type="spendingByStore"
+                        >
+                            <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">
+                                        {t`Total Spending (Month)`}
+                                    </CardTitle>
+                                    <FontAwesomeIcon icon={faDollarSign} className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">R$ {totalSpentMonth?.toFixed(2) ?? "0.00"}</div>
+                                    <ComparisonBadge value={totalSpentChange} />
+                                </CardContent>
+                            </Card>
+                        </InsightModal>
 
-                    <InsightModal
-                        title={t`Recently Purchased Items`}
-                        description={t`A list of the most recent items you purchased this month.`}
-                        data={recentItems}
-                        type="recentItems"
-                    >
-                        <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">{t`Items Purchased (Month)`}</CardTitle>
-                                <FontAwesomeIcon icon={faShoppingBag} className="h-4 w-4 text-muted-foreground" />
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">{totalItemsBought ?? 0}</div>
-                                <ComparisonBadge value={totalItemsChange} />
-                            </CardContent>
-                        </Card>
-                    </InsightModal>
+                        <InsightModal
+                            title={t`Recently Purchased Items`}
+                            description={t`A list of the most recent items you purchased this month.`}
+                            data={recentItems}
+                            type="recentItems"
+                        >
+                            <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">{t`Items Purchased (Month)`}</CardTitle>
+                                    <FontAwesomeIcon icon={faShoppingBag} className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">{totalItemsBought ?? 0}</div>
+                                    <ComparisonBadge value={totalItemsChange} />
+                                </CardContent>
+                            </Card>
+                        </InsightModal>
 
-                    <InsightModal
-                        title={t`Spending by Category`}
-                        description={t`A detailed view of how your spending is distributed across product categories this month.`}
-                        data={translatedSpendingByCategory}
-                        chartData={pieChartData}
-                        chartConfig={chartConfig}
-                        type="topCategories"
-                    >
-                        <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">{t`Top Category (Month)`}</CardTitle>
-                                <FontAwesomeIcon icon={faChartSimple} className="h-4 w-4 text-muted-foreground" />
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">{topCategory.name}</div>
-                                <p className="text-xs text-muted-foreground">
-                                    {t`${topCategoryPercent}% of total spending`}
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </InsightModal>
+                        <InsightModal
+                            title={t`Spending by Category`}
+                            description={t`A detailed view of how your spending is distributed across product categories this month.`}
+                            data={translatedSpendingByCategory}
+                            chartData={pieChartData}
+                            chartConfig={chartConfig}
+                            type="topCategories"
+                        >
+                            <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">{t`Top Category (Month)`}</CardTitle>
+                                    <FontAwesomeIcon icon={faChartSimple} className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">{topCategory.name}</div>
+                                    <p className="text-xs text-muted-foreground">
+                                        {t`${topCategoryPercent}% of total spending`}
+                                    </p>
+                                </CardContent>
+                            </Card>
+                        </InsightModal>
 
-                    <InsightModal
-                        title={t`Savings Opportunities`}
-                        description={t`Our AI analyzes your purchases to find potential savings. This feature will be available soon!`}
-                        data={[]}
-                        type="savingsOpportunities"
-                    >
-                        <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">
-                                    {t`Potential Savings`}
-                                </CardTitle>
-                                <FontAwesomeIcon icon={faArrowTrendUp} className="h-4 w-4 text-muted-foreground" />
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">{i18n.number(0.00, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</div>
-                                <p className="text-xs text-muted-foreground">{t`AI savings insights coming soon!`}</p>
-                            </CardContent>
-                        </Card>
-                    </InsightModal>
-                </div>
+                        <InsightModal
+                            title={t`Savings Opportunities`}
+                            description={t`Our AI analyzes your purchases to find potential savings. This feature will be available soon!`}
+                            data={[]}
+                            type="savingsOpportunities"
+                        >
+                            <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">
+                                        {t`Potential Savings`}
+                                    </CardTitle>
+                                    <FontAwesomeIcon icon={faArrowTrendUp} className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">{i18n.number(0.00, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</div>
+                                    <p className="text-xs text-muted-foreground">{t`AI savings insights coming soon!`}</p>
+                                </CardContent>
+                            </Card>
+                        </InsightModal>
+                    </div>
 
-                <div className="grid gap-6">
-                    <InsightModal
-                        title={t`Consumption Overview`}
-                        description={t`Your spending behavior over the last 12 months.`}
-                        type="consumptionAnalysis"
-                        analysis={consumptionAnalysis}
-                        isLoading={isAnalysisLoading}
-                        onOpen={handleConsumptionAnalysis}
-                        data={barChartData}
-                        isPremium={profile?.plan === "premium"}
-                    >
-                        <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl col-span-1 lg:col-span-2">
-                            <CardHeader>
-                                <CardTitle>{t`Consumption Overview`}</CardTitle>
-                                <CardDescription>{t`Your spending behavior over the last 12 months.`}</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                {barChartData.length > 0 ? (
-                                    <ChartContainer config={chartConfig} className="h-[350px] w-full">
-                                        <ResponsiveContainer>
-                                            <RechartsBarChart data={barChartData} stackOffset="sign">
-                                                <XAxis
-                                                    dataKey="month"
-                                                    stroke="#888888"
-                                                    fontSize={12}
-                                                    tickLine={false}
-                                                    axisLine={false}
-                                                />
-                                                <YAxis
-                                                    stroke="#888888"
-                                                    fontSize={12}
-                                                    tickLine={false}
-                                                    axisLine={false}
-                                                    tickFormatter={(value) => i18n.number(value as number, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
-                                                />
-                                                <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-                                                <ChartLegend content={<ChartLegendContent />} />
-                                                {Object.keys(chartConfig)
-                                                    .filter((k) => !["total", "value"].includes(k))
-                                                    .map((key) => (
-                                                        <Bar
-                                                            key={key}
-                                                            dataKey={key}
-                                                            fill={(chartConfig[key as keyof typeof chartConfig] as any).color}
-                                                            stackId="a"
-                                                            radius={key === "others" ? [4, 4, 0, 0] : [0, 0, 0, 0]}
-                                                        />
-                                                    ))}
-                                            </RechartsBarChart>
-                                        </ResponsiveContainer>
-                                    </ChartContainer>
-                                ) : (
-                                    <EmptyState
-                                        title={t`Insufficient Data`}
-                                        description={t`Start adding purchases to see your spending analysis.`}
-                                        className="h-[350px]"
-                                    />
-                                )}
-                            </CardContent>
-                        </Card>
-                    </InsightModal>
-                </div>
+                    <div className="grid gap-6">
+                        <InsightModal
+                            title={t`Consumption Overview`}
+                            description={t`Your spending behavior over the last 12 months.`}
+                            type="consumptionAnalysis"
+                            analysis={consumptionAnalysis}
+                            isLoading={isAnalysisLoading}
+                            onOpen={handleConsumptionAnalysis}
+                            data={barChartData}
+                            isPremium={profile?.plan === "premium"}
+                        >
+                            <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl col-span-1 lg:col-span-2">
+                                <CardHeader>
+                                    <CardTitle>{t`Consumption Overview`}</CardTitle>
+                                    <CardDescription>{t`Your spending behavior over the last 12 months.`}</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    {barChartData.length > 0 ? (
+                                        <ChartContainer config={chartConfig} className="h-[350px] w-full">
+                                            <ResponsiveContainer>
+                                                <RechartsBarChart data={barChartData} stackOffset="sign">
+                                                    <XAxis
+                                                        dataKey="month"
+                                                        stroke="#888888"
+                                                        fontSize={12}
+                                                        tickLine={false}
+                                                        axisLine={false}
+                                                    />
+                                                    <YAxis
+                                                        stroke="#888888"
+                                                        fontSize={12}
+                                                        tickLine={false}
+                                                        axisLine={false}
+                                                        tickFormatter={(value) => i18n.number(value as number, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                                    />
+                                                    <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                                                    <ChartLegend content={<ChartLegendContent />} />
+                                                    {Object.keys(chartConfig)
+                                                        .filter((k) => !["total", "value"].includes(k))
+                                                        .map((key) => (
+                                                            <Bar
+                                                                key={key}
+                                                                dataKey={key}
+                                                                fill={(chartConfig[key as keyof typeof chartConfig] as any).color}
+                                                                stackId="a"
+                                                                radius={key === "others" ? [4, 4, 0, 0] : [0, 0, 0, 0]}
+                                                            />
+                                                        ))}
+                                                </RechartsBarChart>
+                                            </ResponsiveContainer>
+                                        </ChartContainer>
+                                    ) : (
+                                        <EmptyState
+                                            title={t`Insufficient Data`}
+                                            description={t`Start adding purchases to see your spending analysis.`}
+                                            className="h-[350px]"
+                                        />
+                                    )}
+                                </CardContent>
+                            </Card>
+                        </InsightModal>
+                    </div>
 
-                <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
-                    <CardHeader>
-                        <CardTitle>{t`Top Expenses (This Month)`}</CardTitle>
-                        <CardDescription>{t`Products that had the biggest impact on your budget this month.`}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        {topExpensesData.length > 0 ? (
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>
-                                            <FontAwesomeIcon icon={faBarcode} className="inline-block mr-1 w-4 h-4" />{" "}
-                                            {t`Barcode`}
-                                        </TableHead>
-                                        <TableHead>{t`Product`}</TableHead>
-                                        <TableHead>
-                                            <FontAwesomeIcon icon={faCopyright} className="inline-block mr-1 w-4 h-4" />{" "}
-                                            {t`Brand`}
-                                        </TableHead>
-                                        <TableHead className="w-[200px]">
-                                            <FontAwesomeIcon icon={faTag} className="inline-block mr-1 w-4 h-4" />{" "}
-                                            {t`Category`}
-                                        </TableHead>
-                                        <TableHead className="w-[80px] text-center">
-                                            <FontAwesomeIcon icon={faHashtag} className="inline-block mr-1 w-4 h-4" />{" "}
-                                            {t`Quantity`}
-                                        </TableHead>
-                                        <TableHead className="text-right">
-                                            <FontAwesomeIcon
-                                                icon={faScaleBalanced}
-                                                className="inline-block mr-1 w-4 h-4"
-                                            />{" "}
-                                            {t`Unit Price`}
-                                        </TableHead>
-                                        <TableHead className="text-right">
-                                            <FontAwesomeIcon
-                                                icon={faDollarSign}
-                                                className="inline-block mr-1 w-4 h-4"
-                                            />{" "}
-                                            {t`Total Price`}
-                                        </TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {topExpensesData.map((item) => (
-                                        <TableRow key={item.id}>
-                                            <TableCell className="font-mono">{item.barcode}</TableCell>
-                                            <TableCell className="font-medium">{item.name}</TableCell>
-                                            <TableCell>{item.brand}</TableCell>
-                                            <TableCell>
-                                                <Badge variant="tag" className={cn(getCategoryClass(item.category))}>
-                                                    {chartConfig[item.category ?? 'others'].label}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell className="text-center">{item.quantity.toFixed(2)}</TableCell>
-                                            <TableCell className="text-right">R$ {item.price?.toFixed(2)}</TableCell>
-                                            <TableCell className="text-right">
-                                                R$ {item.totalPrice?.toFixed(2)}
-                                            </TableCell>
+                    <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
+                        <CardHeader>
+                            <CardTitle>{t`Top Expenses (This Month)`}</CardTitle>
+                            <CardDescription>{t`Products that had the biggest impact on your budget this month.`}</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            {topExpensesData.length > 0 ? (
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>
+                                                <FontAwesomeIcon icon={faBarcode} className="inline-block mr-1 w-4 h-4" />{" "}
+                                                {t`Barcode`}
+                                            </TableHead>
+                                            <TableHead>{t`Product`}</TableHead>
+                                            <TableHead>
+                                                <FontAwesomeIcon icon={faCopyright} className="inline-block mr-1 w-4 h-4" />{" "}
+                                                {t`Brand`}
+                                            </TableHead>
+                                            <TableHead className="w-[200px]">
+                                                <FontAwesomeIcon icon={faTag} className="inline-block mr-1 w-4 h-4" />{" "}
+                                                {t`Category`}
+                                            </TableHead>
+                                            <TableHead className="w-[80px] text-center">
+                                                <FontAwesomeIcon icon={faHashtag} className="inline-block mr-1 w-4 h-4" />{" "}
+                                                {t`Quantity`}
+                                            </TableHead>
+                                            <TableHead className="text-right">
+                                                <FontAwesomeIcon
+                                                    icon={faScaleBalanced}
+                                                    className="inline-block mr-1 w-4 h-4"
+                                                />{" "}
+                                                {t`Unit Price`}
+                                            </TableHead>
+                                            <TableHead className="text-right">
+                                                <FontAwesomeIcon
+                                                    icon={faDollarSign}
+                                                    className="inline-block mr-1 w-4 h-4"
+                                                />{" "}
+                                                {t`Total Price`}
+                                            </TableHead>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        ) : (
-                            <EmptyState
-                                title={t`No Expenses This Month`}
-                                description={t`Add a new purchase to see your top expenses here.`}
-                            />
-                        )}
-                    </CardContent>
-                </Card>
-            </div>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {topExpensesData.map((item) => (
+                                            <TableRow key={item.id}>
+                                                <TableCell className="font-mono">{item.barcode}</TableCell>
+                                                <TableCell className="font-medium">{item.name}</TableCell>
+                                                <TableCell>{item.brand}</TableCell>
+                                                <TableCell>
+                                                    <Badge variant="tag" className={cn(getCategoryClass(item.category))}>
+                                                        {chartConfig[item.category ?? 'others'].label}
+                                                    </Badge>
+                                                </TableCell>
+                                                <TableCell className="text-center">{item.quantity.toFixed(2)}</TableCell>
+                                                <TableCell className="text-right">R$ {item.price?.toFixed(2)}</TableCell>
+                                                <TableCell className="text-right">
+                                                    R$ {item.totalPrice?.toFixed(2)}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            ) : (
+                                <EmptyState
+                                    title={t`No Expenses This Month`}
+                                    description={t`Add a new purchase to see your top expenses here.`}
+                                />
+                            )}
+                        </CardContent>
+                    </Card>
+                </div>
 
-            <Link to="/dashboard/scan">
-                <Button
-                    className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg z-20"
-                    size="icon"
-                    aria-label={t`Add Purchase`}
-                >
-                    <FontAwesomeIcon icon={faPlus} className="h-6 w-6" />
-                </Button>
-            </Link>
-        </div>
+                <Link to="/scan">
+                    <Button
+                        className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg z-20"
+                        size="icon"
+                        aria-label={t`Add Purchase`}
+                    >
+                        <FontAwesomeIcon icon={faPlus} className="h-6 w-6" />
+                    </Button>
+                </Link>
+            </div>
+        </SideBarLayout>
     );
 }

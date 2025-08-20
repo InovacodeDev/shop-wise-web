@@ -1,15 +1,15 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicroscope } from "@fortawesome/free-solid-svg-icons";
+import { faChartBar } from "@fortawesome/free-regular-svg-icons";
 import { useLingui } from '@lingui/react/macro';
 
 
-export const Route = createFileRoute('/dashboard/admin/audit')({
-    component: AdminAuditPage,
-})
+export const Route = createFileRoute("/admin/reports")({
+    component: AdminReportsPage,
+});
 
-function AdminAuditPage() {
+function AdminReportsPage() {
     const { t } = useLingui();
 
     return (
@@ -17,13 +17,13 @@ function AdminAuditPage() {
             <Card>
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline flex items-center gap-2">
-                        <FontAwesomeIcon icon={faMicroscope} className="w-6 h-6" />
-                        {t`Audit & Testing`}
+                        <FontAwesomeIcon icon={faChartBar} className="w-6 h-6" />
+                        {t`Usage Reports`}
                     </CardTitle>
-                    <CardDescription>{t`Run audits and tests on the system.`}</CardDescription>
+                    <CardDescription>{t`Generate and view system usage reports.`}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{t`Audit and testing tools will be available here.`}</p>
+                    <p>{t`Reporting tools will be available here.`}</p>
                 </CardContent>
             </Card>
         </div>

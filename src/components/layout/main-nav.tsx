@@ -45,7 +45,7 @@ export function MainNav() {
     const { state } = useSidebar();
 
     const menuItems = [
-        { href: "/dashboard", label: t`Insights`, icon: faHome },
+        { href: "/home", label: t`Insights`, icon: faHome },
         { href: "/list", label: t`Shopping List`, icon: faList },
         { href: "/scan", label: t`Add Purchase`, icon: faPlusCircle },
     ];
@@ -74,11 +74,11 @@ export function MainNav() {
     };
 
     const isActive = (href: string) => {
-        // if (href === "/admin" || href === "/dashboard") {
-        //     return pathname === href;
-        // }
-        // return pathname.startsWith(href);
-        return false;
+        const pathname = window.location.pathname;
+        if (href === "/admin" || href === "/dashboard") {
+            return pathname === href;
+        }
+        return pathname.startsWith(href);
     };
 
     return (
