@@ -11,15 +11,29 @@ class ApiService {
       headers: {
         'Content-Type': 'application/json',
       },
+            // Send credentials (cookies) in case the backend uses cookie-based sessions
+            withCredentials: true,
     });
 
     // Request interceptor to add auth token
     this.axiosInstance.interceptors.request.use(
       async (config) => {
-        const token = await this.getAuthToken();
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
+        // Verbose request logging for debugging
+        try {
+          const token = await this.getAuthToken();
+          if (token) {
+            config.headers = config.headers || {};
+            config.headers.Authorization = `Bearer ${token}`;
+          }
+        } catch (e) {
+          console.warn('Error retrieving auth token for request:', e);
         }
+        console.debug('[api] Request:', {
+          url: config.url,
+          method: config.method,
+          headers: config.headers,
+          data: (config as any).data,
+        });
         return config;
       },
       (error) => {
@@ -29,12 +43,67 @@ class ApiService {
 
     // Response interceptor to handle errors
     this.axiosInstance.interceptors.response.use(
-      (response: AxiosResponse) => response,
-      (error) => {
-        const message = error.response?.data?.message || error.message || `HTTP error! status: ${error.response?.status}`;
-        throw new Error(message);
+      (response: AxiosResponse) => {
+        // Verbose response logging
+        console.debug('[api] Response:', {
+          url: response.config.url,
+          status: response.status,
+          data: response.data,
+        });
+        return response;
+      },
+      async (error) => {
+        const status = error.response?.status;
+        const url = error.config?.url;
+        const serverMessage = error.response?.data?.message;
+
+        // If 401/403, try to refresh token once and retry request
+        if ((status === 401 || status === 403) && !(error.config as any)?._retry) {
+          console.warn(`[api] Received ${status} for ${url} — attempting token refresh and retry`);
+          (error.config as any)._retry = true;
+          try {
+            const newToken = await this.refreshAuthToken();
+            if (newToken) {
+              (error.config as any).headers = (error.config as any).headers || {};
+              (error.config as any).headers.Authorization = `Bearer ${newToken}`;
+              const retryResponse = await this.axiosInstance.request(error.config);
+              console.debug('[api] Retry response after token refresh:', {
+                url: retryResponse.config.url,
+                status: retryResponse.status,
+                data: retryResponse.data,
+              });
+              return retryResponse;
+            }
+          } catch (refreshError) {
+            console.warn('[api] Token refresh or retry failed:', refreshError);
+            // fallthrough to throw original error info
+          }
+        }
+
+        const message = serverMessage || error.message || `HTTP error! status: ${status}`;
+        const err: any = new Error(message);
+        err.status = status;
+        err.url = url;
+        err.response = error.response?.data;
+        console.error('[api] Error response:', { url, status, response: error.response?.data });
+        throw err;
       }
     );
+  }
+
+  /** Force refresh the Firebase token and store it locally. Useful if backend rejects stale tokens (403). */
+  public async refreshAuthToken(): Promise<string | null> {
+    try {
+      const { auth } = await import('@/lib/firebase');
+      if (auth.currentUser) {
+        const token = await auth.currentUser.getIdToken(true); // force refresh
+        localStorage.setItem('authToken', token);
+        return token;
+      }
+    } catch (e) {
+      console.warn('Unable to refresh auth token:', e);
+    }
+    return null;
   }
 
   private async getAuthToken(): Promise<string | null> {
