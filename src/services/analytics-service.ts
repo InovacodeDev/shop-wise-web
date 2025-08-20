@@ -35,7 +35,8 @@ export const trackEvent = (
   properties?: Record<string, any>
 ) => {
   if (!analytics) return;
-  logEvent(analytics, eventName, properties);
+  // Firebase types enforce a specific event name union; cast to any to allow our custom event names
+  logEvent(analytics, eventName as any, properties);
 };
 
 /**

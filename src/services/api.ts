@@ -1,7 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 class ApiService {
-  private baseURL = 'http://localhost:3000';
+  // Use VITE_API_URL if provided, otherwise default to '/api' so dev server can proxy and avoid CORS
+  private baseURL = (import.meta.env.VITE_API_URL as string) || '/api';
   private axiosInstance: AxiosInstance;
 
   constructor() {

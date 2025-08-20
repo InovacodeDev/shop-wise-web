@@ -8,6 +8,15 @@ import { lingui } from "@lingui/vite-plugin";
 export default defineConfig({
     server: {
         port: 3000,
+        proxy: {
+            // Proxy API requests during development to backend to avoid CORS issues
+            '/api': {
+                target: 'http://localhost:3001',
+                changeOrigin: true,
+                secure: false,
+                rewrite: (path) => path.replace(/^\/api/, ''),
+            },
+        },
     },
     plugins: [
         // tailwindcss(),
