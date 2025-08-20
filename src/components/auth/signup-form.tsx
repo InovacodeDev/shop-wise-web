@@ -68,7 +68,7 @@ export function SignupForm() {
                     },
                 });
                 trackEvent("sign_up", { method: "email" });
-                router.navigate({ to: "/dashboard" });
+                router.navigate({ to: "/home" });
             }
         } catch (error: any) {
             toast({
@@ -102,7 +102,7 @@ export function SignupForm() {
                 },
             });
             trackEvent("sign_up", { method: "google" });
-            router.navigate({ to: "/dashboard" });
+            router.navigate({ to: "/home" });
         } catch (error: any) {
             toast({
                 variant: "destructive",

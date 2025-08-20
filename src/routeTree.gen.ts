@@ -17,10 +17,8 @@ import { Route as ListRouteRouteImport } from './routes/list/route'
 import { Route as HomeRouteRouteImport } from './routes/home/route'
 import { Route as ForgotPasswordRouteRouteImport } from './routes/forgot-password/route'
 import { Route as FamilyRouteRouteImport } from './routes/family/route'
-import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as AdminUsersRouteRouteImport } from './routes/admin/users/route'
 import { Route as AdminSettingsRouteRouteImport } from './routes/admin/settings/route'
 import { Route as AdminSecurityRouteRouteImport } from './routes/admin/security/route'
@@ -70,11 +68,6 @@ const FamilyRouteRoute = FamilyRouteRouteImport.update({
   path: '/family',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRouteRoute = DashboardRouteRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminRouteRoute = AdminRouteRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -84,11 +77,6 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const AdminUsersRouteRoute = AdminUsersRouteRouteImport.update({
   id: '/users',
@@ -135,7 +123,6 @@ const AdminAuditRouteRoute = AdminAuditRouteRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
-  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/family': typeof FamilyRouteRoute
   '/forgot-password': typeof ForgotPasswordRouteRoute
   '/home': typeof HomeRouteRoute
@@ -152,7 +139,6 @@ export interface FileRoutesByFullPath {
   '/admin/security': typeof AdminSecurityRouteRoute
   '/admin/settings': typeof AdminSettingsRouteRoute
   '/admin/users': typeof AdminUsersRouteRoute
-  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -173,13 +159,11 @@ export interface FileRoutesByTo {
   '/admin/security': typeof AdminSecurityRouteRoute
   '/admin/settings': typeof AdminSettingsRouteRoute
   '/admin/users': typeof AdminUsersRouteRoute
-  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
-  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/family': typeof FamilyRouteRoute
   '/forgot-password': typeof ForgotPasswordRouteRoute
   '/home': typeof HomeRouteRoute
@@ -196,14 +180,12 @@ export interface FileRoutesById {
   '/admin/security': typeof AdminSecurityRouteRoute
   '/admin/settings': typeof AdminSettingsRouteRoute
   '/admin/users': typeof AdminUsersRouteRoute
-  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/admin'
-    | '/dashboard'
     | '/family'
     | '/forgot-password'
     | '/home'
@@ -220,7 +202,6 @@ export interface FileRouteTypes {
     | '/admin/security'
     | '/admin/settings'
     | '/admin/users'
-    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -241,12 +222,10 @@ export interface FileRouteTypes {
     | '/admin/security'
     | '/admin/settings'
     | '/admin/users'
-    | '/dashboard'
   id:
     | '__root__'
     | '/'
     | '/admin'
-    | '/dashboard'
     | '/family'
     | '/forgot-password'
     | '/home'
@@ -263,13 +242,11 @@ export interface FileRouteTypes {
     | '/admin/security'
     | '/admin/settings'
     | '/admin/users'
-    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
-  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   FamilyRouteRoute: typeof FamilyRouteRoute
   ForgotPasswordRouteRoute: typeof ForgotPasswordRouteRoute
   HomeRouteRoute: typeof HomeRouteRoute
@@ -338,13 +315,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FamilyRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin': {
       id: '/admin'
       path: '/admin'
@@ -358,13 +328,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/dashboard/': {
-      id: '/dashboard/'
-      path: '/'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
     }
     '/admin/users': {
       id: '/admin/users'
@@ -451,22 +414,9 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
   AdminRouteRouteChildren,
 )
 
-interface DashboardRouteRouteChildren {
-  DashboardIndexRoute: typeof DashboardIndexRoute
-}
-
-const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
-  DashboardIndexRoute: DashboardIndexRoute,
-}
-
-const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
-  DashboardRouteRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRouteRoute: AdminRouteRouteWithChildren,
-  DashboardRouteRoute: DashboardRouteRouteWithChildren,
   FamilyRouteRoute: FamilyRouteRoute,
   ForgotPasswordRouteRoute: ForgotPasswordRouteRoute,
   HomeRouteRoute: HomeRouteRoute,

@@ -46,9 +46,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const fetchUserProfile = async (user: User) => {
         try {
             const userData = await apiService.getUser(user.uid);
-            const familyIdString = typeof userData.familyId === "string" 
-                ? userData.familyId 
+            const familyIdString = typeof userData.familyId === "string"
+                ? userData.familyId
                 : userData.familyId?.id || null;
+            console.log({ familyId: userData.familyId, familyIdString });
 
             const profileData: Profile = {
                 uid: user.uid,

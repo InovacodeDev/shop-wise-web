@@ -97,7 +97,7 @@ const getCategoryKey = (categoryName: string | undefined) => {
 };
 
 const ComparisonBadge = ({ value }: { value: number | null }) => {
-    const { t } = useLingui();
+    const { i18n, t } = useLingui();
     if (value === null) {
         return <div className="h-4 w-16 bg-muted rounded-md animate-pulse" />;
     }
@@ -110,7 +110,7 @@ const ComparisonBadge = ({ value }: { value: number | null }) => {
             <FontAwesomeIcon icon={icon} className="h-3 w-3" />
             <span>
                 {isPositive ? "+" : ""}
-                {value.toFixed(1)}% {t`vs last month`}
+                {i18n.number(value, { maximumFractionDigits: 1, style: 'percent' })} {t`vs last month`}
             </span>
         </p>
     );

@@ -75,7 +75,7 @@ export function MainNav() {
 
     const isActive = (href: string) => {
         const pathname = window.location.pathname;
-        if (href === "/admin" || href === "/dashboard") {
+        if (href === "/admin") {
             return pathname === href;
         }
         return pathname.startsWith(href);

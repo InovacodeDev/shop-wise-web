@@ -42,7 +42,7 @@ export function LoginForm() {
         try {
             await signInWithEmailAndPassword(auth, values.email, values.password);
             trackEvent("login", { method: "email" });
-            router.navigate({ to: "/dashboard" });
+            router.navigate({ to: "/home" });
         } catch (error: any) {
             toast({
                 variant: "destructive",
@@ -57,7 +57,7 @@ export function LoginForm() {
         try {
             await signInWithPopup(auth, provider);
             trackEvent("login", { method: "google" });
-            router.navigate({ to: "/dashboard" });
+            router.navigate({ to: "/home" });
         } catch (error: any) {
             toast({
                 variant: "destructive",
