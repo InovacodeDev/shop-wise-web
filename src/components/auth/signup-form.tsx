@@ -6,8 +6,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "../ui/separator";
-import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -43,45 +41,32 @@ export function SignupForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            // 1. Create user in Firebase Auth
-            const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-            const user = userCredential.user;
-
-            if (user) {
-                // 2. Update Auth profile
-                await updateProfile(user, { displayName: values.name });
-
-                // 3. Exchange Firebase ID token for backend JWT and store it
-                try {
-                    const idToken = await user.getIdToken();
-                    const exchange = await apiService.exchangeIdToken(idToken);
-                    if (exchange?.token) {
-                        apiService.setBackendAuthToken(exchange.token);
-                        if ((exchange as any).refresh) apiService.setBackendRefreshToken((exchange as any).refresh);
-                    }
-                } catch (ex) {
-                    console.warn('Backend token exchange failed after signup:', ex);
-                }
-
-                // 4. Create a new family for the user via API (now authenticated with backend token)
-                const family = await apiService.createFamily({
-                    familyName: `Fam\u00edlia de ${values.name}`,
-                });
-
-                // 5. Create the user document via API
-                await apiService.createUser({
-                    displayName: values.name,
-                    email: values.email,
-                    familyId: family.id,
-                    isAdmin: true, // The user who creates the family is an admin
-                    settings: {
-                        theme: "system",
-                        notifications: true,
-                    },
-                });
-                trackEvent("sign_up", { method: "email" });
-                router.navigate({ to: "/home" });
+            // Call backend signup
+            const resp = await apiService.signUp({ email: values.email, password: values.password, displayName: values.name });
+            // Backend should return token/uid and set refresh cookie where applicable
+            if (resp?.token) {
+                apiService.setBackendAuthToken(resp.token);
+                if ((resp as any).refresh) apiService.setBackendRefreshToken((resp as any).refresh);
             }
+
+            // Create a new family for the user via API (now authenticated with backend token)
+            const family = await apiService.createFamily({
+                familyName: `Fam\u00edlia de ${values.name}`,
+            });
+
+            // Create the user document via API
+            await apiService.createUser({
+                displayName: values.name,
+                email: values.email,
+                familyId: family.id,
+                isAdmin: true,
+                settings: {
+                    theme: "system",
+                    notifications: true,
+                },
+            });
+            trackEvent("sign_up", { method: "email" });
+            router.navigate({ to: "/home" });
         } catch (error: any) {
             toast({
                 variant: "destructive",
@@ -91,49 +76,7 @@ export function SignupForm() {
         }
     }
 
-    const handleGoogleSignIn = async () => {
-        const provider = new GoogleAuthProvider();
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-            // Exchange Firebase ID token for backend JWT before calling protected endpoints
-            try {
-                const idToken = await user.getIdToken();
-                const exchange = await apiService.exchangeIdToken(idToken);
-                if (exchange?.token) {
-                    apiService.setBackendAuthToken(exchange.token);
-                    if ((exchange as any).refresh) apiService.setBackendRefreshToken((exchange as any).refresh);
-                }
-            } catch (ex) {
-                console.warn('Backend token exchange failed after Google sign-in:', ex);
-            }
-
-            // TODO: Check if user already exists via API before creating new family
-
-            const family = await apiService.createFamily({
-                familyName: `Fam\u00edlia de ${user.displayName}`,
-            });
-
-            await apiService.createUser({
-                displayName: user.displayName,
-                email: user.email,
-                familyId: family.id,
-                isAdmin: true,
-                settings: {
-                    theme: "system",
-                    notifications: true,
-                },
-            });
-            trackEvent("sign_up", { method: "google" });
-            router.navigate({ to: "/home" });
-        } catch (error: any) {
-            toast({
-                variant: "destructive",
-                title: t`Error with Google Sign-In`,
-                description: error.message,
-            });
-        }
-    };
+    // Social sign-in removed when Firebase is not used in this frontend
 
     const { isValid, isSubmitting } = form.formState;
 
@@ -226,16 +169,7 @@ export function SignupForm() {
                                 {t`OR`}
                             </p>
                         </div>
-                        <div className="space-y-2">
-                            <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn}>
-                                <FontAwesomeIcon icon={faGoogle} className="mr-2 h-4 w-4" />
-                                {t`Sign up with Google`}
-                            </Button>
-                            <Button variant="outline" className="w-full" type="button">
-                                <FontAwesomeIcon icon={faApple} className="mr-2 h-4 w-4" />
-                                {t`Sign up with Apple`}
-                            </Button>
-                        </div>
+                        {/* Social sign-up removed when Firebase is not used */}
                     </CardContent>
                     <CardFooter>
                         <p className="text-sm text-muted-foreground">

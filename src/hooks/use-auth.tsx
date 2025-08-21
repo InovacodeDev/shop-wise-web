@@ -1,9 +1,7 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { apiService } from "@/services/api";
 import { identifyUser, clearUserIdentity } from "@/services/analytics-service";
 import { useRouter } from "@tanstack/react-router";
-import { auth } from "@/lib/firebase";
-import { onAuthStateChanged, User } from "firebase/auth";
 
 interface Profile {
     uid: string;
@@ -25,7 +23,7 @@ interface Profile {
 }
 
 interface AuthContextType {
-    user: User | null;
+    user: { uid: string } | null;
     profile: Profile | null;
     loading: boolean;
     reloadUser: () => Promise<void>;
@@ -39,11 +37,11 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<{ uid: string } | null>(null);
     const [profile, setProfile] = useState<Profile | null>(null);
     const [loading, setLoading] = useState(true);
 
-    const fetchUserProfile = async (user: User) => {
+    const fetchUserProfile = async (user: { uid: string }) => {
         try {
             const userData = await apiService.getUser(user.uid);
             const familyIdString = typeof userData.familyId === "string"
@@ -79,40 +77,52 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
-            setUser(user);
-            if (user) {
-                await fetchUserProfile(user);
-                identifyUser(user.uid);
-            } else {
-                setProfile(null);
-                clearUserIdentity();
-                // Clear any tokens stored in the API client
+        (async () => {
+            setLoading(true);
+            try {
+                // Attempt to call backend /auth/me to determine current authenticated user
                 try {
-                    apiService.setBackendAuthToken(null);
-                    apiService.clearBackendRefreshToken();
-                    apiService.clearFirebaseToken();
+                    const res = await apiService.getMe();
+                    const me = res?.user ?? res;
+                    if (me?.uid) {
+                        setUser({ uid: me.uid });
+                        await fetchUserProfile({ uid: me.uid });
+                        identifyUser(me.uid);
+                    } else {
+                        setUser(null);
+                        setProfile(null);
+                        clearUserIdentity();
+                    }
                 } catch (e) {
-                    console.warn('Error clearing API tokens on sign-out:', e);
+                    console.warn('Could not fetch user profile on mount:', e);
+                    setUser(null);
+                    setProfile(null);
+                    clearUserIdentity();
                 }
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
-        });
-
-        return () => unsubscribe();
+        })();
     }, []);
 
     const reloadUser = async () => {
         setLoading(true);
         try {
-            await auth.currentUser?.reload();
-            const currentUser = auth.currentUser;
-            setUser(currentUser);
-            if (currentUser) {
-                await fetchUserProfile(currentUser);
+            try {
+                const res = await apiService.getMe();
+                const me = res?.user ?? res;
+                if (me?.uid) {
+                    setUser({ uid: me.uid });
+                    await fetchUserProfile({ uid: me.uid });
+                } else {
+                    setUser(null);
+                    setProfile(null);
+                }
+            } catch (e) {
+                console.warn('Error reloading user profile:', e);
+                setUser(null);
+                setProfile(null);
             }
-        } catch (error) {
-            console.error("Error reloading user:", error);
         } finally {
             setLoading(false);
         }

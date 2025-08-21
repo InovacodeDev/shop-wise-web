@@ -2,11 +2,19 @@ import { apiService } from "@/services/api";
 import type { PurchaseData, ItemData } from "@/components/scan/manual-purchase-form";
 import type { ExtractProductDataOutput } from "@/types/ai-flows";
 
+type ProductInput = {
+    id?: string;
+    productId?: string;
+    quantity?: number;
+    price?: number;
+    meta?: Record<string, unknown>;
+};
+
 export async function savePurchase(
     familyId: string, 
     userId: string, 
     purchaseData: ExtractProductDataOutput | PurchaseData, 
-    products: any[], 
+    products: ProductInput[], 
     entryMethod: 'import' | 'manual'
 ) {
     if (!familyId || !userId) {
@@ -96,11 +104,26 @@ export async function savePurchase(
 
     try {
         const purchase = await apiService.createPurchase(familyId, purchaseDataForApi);
-        
-        // For now, we'll handle purchase items via local Firebase until
-        // the backend supports purchase items CRUD
-        // TODO: Migrate this to backend API when purchase items endpoints are available
-        
+
+        // If the backend supports purchase items, create them via API.
+        // We attempt to create items if products were supplied.
+        if (products && products.length && purchase?.id) {
+            // Use bulk endpoint to create/update items on the purchase
+            const items = products.map((p) => ({
+                productId: p.id ?? p.productId ?? null,
+                quantity: p.quantity ?? 1,
+                price: p.price ?? 0,
+                meta: p.meta ?? {},
+            }));
+            // Prefer bulk update so we can create many items in one call
+            try {
+                await apiService.bulkUpdatePurchaseItems(familyId, purchase.id, items);
+            } catch (e) {
+                // If bulk endpoint fails, log and continue — purchase succeeded.
+                console.warn('bulkUpdatePurchaseItems failed, skipping attaching items:', e);
+            }
+        }
+
         return { success: true, purchaseId: purchase.id };
     } catch (error) {
         console.error('Error saving purchase via API:', error);

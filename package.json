@@ -58,7 +58,6 @@
         "date-fns": "^3.6.0",
         "dotenv": "^16.5.0",
         "embla-carousel-react": "^8.6.0",
-        "firebase": "10.13.1",
         "patch-package": "^8.0.0",
         "pdf-lib": "^1.17.1",
         "react": "^18.3.1",
@@ -74,21 +73,28 @@
         "zod": "^3.24.2"
     },
     "devDependencies": {
-        "vitest": "^0.34.0",
         "@fontsource-variable/dm-sans": "^5.2.6",
         "@fontsource-variable/jetbrains-mono": "^5.2.6",
         "@lingui/babel-plugin-lingui-macro": "^5.4.1",
         "@lingui/cli": "^5.4.1",
         "@lingui/vite-plugin": "^5.4.1",
         "@tanstack/router-plugin": "^1.131.15",
+        "@testing-library/jest-dom": "^6.0.0",
+        "@testing-library/react": "^14.0.0",
+        "@testing-library/user-event": "^14.6.0",
         "@types/node": "^20",
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "@vitejs/plugin-react": "^5.0.0",
+        "@vitest/ui": "^0.34.0",
+        "axios-cookiejar-support": "^6.0.4",
+        "jsdom": "^22.1.0",
         "postcss": "^8",
         "tailwindcss": "^3.4.1",
+        "tough-cookie": "^6.0.0",
         "typescript": "^5",
-        "vite-tsconfig-paths": "^5.1.4"
+        "vite-tsconfig-paths": "^5.1.4",
+        "vitest": "^0.34.0"
     },
     "prettier": {
         "bracketSameLine": false,

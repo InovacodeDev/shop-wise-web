@@ -19,8 +19,6 @@ import {
     faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { faFileLines, faMessage } from "@fortawesome/free-regular-svg-icons";
-import { auth } from "@/lib/firebase";
-import { signOut } from "firebase/auth";
 import { apiService } from "@/services/api";
 
 import {
@@ -40,7 +38,7 @@ import { Link, useRouter } from "@tanstack/react-router";
 
 export function MainNav() {
     const router = useRouter();
-    const { profile } = useAuth();
+    const { profile, reloadUser } = useAuth();
     const { t } = useLingui();
     const isAdmin = profile?.isAdmin || false;
     const { state } = useSidebar();
@@ -75,19 +73,18 @@ export function MainNav() {
             } catch (e) {
                 // ignore
             }
+        // Clear backend tokens (client-side)
         try {
-            await signOut(auth);
-        } catch (e) {
-            console.warn('Error signing out from firebase:', e);
-        }
-
-        // Clear backend and cached firebase tokens (both memory and persisted if enabled)
-        try {
-                apiService.setBackendAuthToken(null);
-                apiService.clearBackendRefreshToken();
-                apiService.clearFirebaseToken();
+            apiService.clearAuthState();
         } catch (e) {
             console.warn('Error clearing tokens on logout:', e);
+        }
+
+        // Reload auth context so UI updates
+        try {
+            await reloadUser();
+        } catch {
+            // ignore
         }
 
         trackEvent("user_logged_out");

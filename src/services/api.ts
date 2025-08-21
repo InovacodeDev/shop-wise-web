@@ -6,7 +6,6 @@ export class ApiService {
   private axiosInstance: AxiosInstance;
   // In-memory token store (safer than always using localStorage)
   private inMemoryBackendToken: string | null = null;
-  private inMemoryFirebaseToken: string | null = null;
   private inMemoryBackendRefreshToken: string | null = null;
   // Toggle to persist tokens in localStorage for compatibility; default false for safer behavior
   private persistTokens: boolean = (import.meta.env.VITE_PERSIST_TOKENS as string) === 'true' || false;
@@ -119,60 +118,33 @@ export class ApiService {
     if (this.persistTokens) localStorage.removeItem('backendRefreshToken');
   }
 
-  public clearFirebaseToken() {
-    this.inMemoryFirebaseToken = null;
-    if (this.persistTokens) localStorage.removeItem('authToken');
+  /** Clear auth tokens from memory and storage (client-side cleanup) */
+  public clearAuthState() {
+    this.setBackendAuthToken(null);
+    this.clearBackendRefreshToken();
+    if (this.persistTokens) {
+      localStorage.removeItem('backendAuthToken');
+      localStorage.removeItem('backendRefreshToken');
+    }
   }
 
-  /** Exchange a Google ID token (or Firebase ID token) for a backend JWT.
-   * Calls POST /auth/oauth/google-idtoken { idToken } and expects { token, uid } in response.
-   */
-  public async exchangeIdToken(idToken: string) {
-    return this.makeRequest<{ token: string; uid: string }>('/auth/oauth/google-idtoken', {
-      method: 'POST',
-      data: { idToken },
-    });
-  }
-
-  /** Force refresh the Firebase token and exchange it for a backend JWT when possible. */
+  /** Force refresh the backend JWT using the backend refresh endpoint (cookie or token-based). */
   public async refreshAuthToken(): Promise<string | null> {
-    // Prefer backend refresh if we have a refresh token
     try {
-      if (this.inMemoryBackendRefreshToken || this.persistTokens && localStorage.getItem('backendRefreshToken')) {
-        const refreshToken = this.inMemoryBackendRefreshToken ?? localStorage.getItem('backendRefreshToken')!;
-        try {
-          const resp = await this.makeRequest<{ token: string; refresh: string }>('/auth/refresh', {
-            method: 'POST',
-            data: { token: refreshToken },
-          });
-          if (resp?.token) {
-            this.setBackendAuthToken(resp.token);
-            this.setBackendRefreshToken(resp.refresh ?? null);
-            return resp.token;
-          }
-        } catch (ex) {
-          console.warn('Backend refresh failed:', ex);
-          // fallthrough to firebase-based refresh
+      // Prefer backend refresh token passed in-memory or persisted
+      const refreshToken = this.inMemoryBackendRefreshToken ?? (this.persistTokens ? localStorage.getItem('backendRefreshToken') : null);
+      try {
+        const resp = await this.makeRequest<{ token: string; refresh?: string }>('/auth/refresh', {
+          method: 'POST',
+          data: refreshToken ? { token: refreshToken } : {},
+        });
+        if (resp?.token) {
+          this.setBackendAuthToken(resp.token);
+          this.setBackendRefreshToken(resp.refresh ?? null);
+          return resp.token;
         }
-      }
-
-      const { auth } = await import('@/lib/firebase');
-      if (auth.currentUser) {
-        const idToken = await auth.currentUser.getIdToken(true); // force refresh
-        // Cache firebase id token in memory
-        this.inMemoryFirebaseToken = idToken;
-        if (this.persistTokens) localStorage.setItem('authToken', idToken);
-        // Attempt to exchange for backend JWT
-        try {
-          const exchange = await this.exchangeIdToken(idToken);
-          if (exchange?.token) {
-            this.setBackendAuthToken(exchange.token);
-            return exchange.token;
-          }
-        } catch (ex) {
-          console.warn('Token exchange failed during refresh:', ex);
-        }
-        return idToken;
+      } catch (ex) {
+        console.warn('Backend refresh failed:', ex);
       }
     } catch (e) {
       console.warn('Unable to refresh auth token:', e);
@@ -189,34 +161,7 @@ export class ApiService {
       if (backendToken) return backendToken;
     }
 
-    // Fallback to cached Firebase token (in memory then persisted)
-    if (this.inMemoryFirebaseToken) return this.inMemoryFirebaseToken;
-    if (this.persistTokens) {
-      const storedToken = localStorage.getItem('authToken');
-      if (storedToken) return storedToken;
-    }
-
-    // If no token cached, try to get a fresh Firebase ID token and exchange it
-    try {
-      const { auth } = await import('@/lib/firebase');
-  if (auth.currentUser) {
-  const idToken = await auth.currentUser.getIdToken();
-  this.inMemoryFirebaseToken = idToken;
-  if (this.persistTokens) localStorage.setItem('authToken', idToken);
-        try {
-          const exchange = await this.exchangeIdToken(idToken);
-          if (exchange?.token) {
-            this.setBackendAuthToken(exchange.token);
-            return exchange.token;
-          }
-        } catch (ex) {
-          console.warn('Token exchange failed:', ex);
-        }
-        return idToken;
-      }
-    } catch (error) {
-      console.warn('Firebase auth not available:', error);
-    }
+  // No cached firebase token fallback — rely on backend-issued JWT exclusively
 
     return null;
   }
@@ -312,6 +257,11 @@ export class ApiService {
     return this.makeRequest<any>(`/users/${id}`);
   }
 
+  /** Get current authenticated user (requires backend JWT cookie or Authorization header) */
+  async getMe() {
+    return this.makeRequest<any>('/auth/me');
+  }
+
   async updateUser(id: string, data: any) {
     return this.makeRequest<any>(`/users/${id}`, {
       method: 'PATCH',
@@ -346,8 +296,8 @@ export class ApiService {
     return this.makeRequest<any[]>('/stores');
   }
 
-  async createStore(data: any) {
-    return this.makeRequest<any>('/stores', {
+  async createStore(data: any): Promise<{ id: string } & Record<string, any>> {
+    return this.makeRequest<{ id: string } & Record<string, any>>('/stores', {
       method: 'POST',
       data: data,
     });
@@ -374,8 +324,8 @@ export class ApiService {
     return this.makeRequest<any[]>(`/families/${familyId}/purchases`);
   }
 
-  async createPurchase(familyId: string, data: any) {
-    return this.makeRequest<any>(`/families/${familyId}/purchases`, {
+  async createPurchase(familyId: string, data: any): Promise<{ id: string } & Record<string, any>> {
+    return this.makeRequest<{ id: string } & Record<string, any>>(`/families/${familyId}/purchases`, {
       method: 'POST',
       data: data,
     });
@@ -401,6 +351,15 @@ export class ApiService {
   // Auth endpoints
   async revoke() {
     return this.makeRequest<any>('/auth/revoke', { method: 'POST' });
+  }
+
+  // Backend auth
+  async signUp(data: { email: string; password: string; displayName?: string }) {
+    return this.makeRequest<any>('/auth/signup', { method: 'POST', data });
+  }
+
+  async signIn(data: { email: string; password: string; totp?: string }) {
+    return this.makeRequest<any>('/auth/signin', { method: 'POST', data });
   }
 
   // Pantry Items endpoints
@@ -541,8 +500,8 @@ export class ApiService {
     });
   }
 
-  async bulkUpdatePurchaseItems(familyId: string, purchaseId: string, items: any[]) {
-    return this.makeRequest<any>(`/families/${familyId}/purchases/${purchaseId}/items/bulk`, {
+  async bulkUpdatePurchaseItems(familyId: string, purchaseId: string, items: any[]): Promise<{ success: boolean } & Record<string, any>> {
+    return this.makeRequest<{ success: boolean } & Record<string, any>>(`/families/${familyId}/purchases/${purchaseId}/items/bulk`, {
       method: 'PATCH',
       data: { items },
     });

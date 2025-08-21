@@ -6,8 +6,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "../ui/separator";
-import { auth } from "@/lib/firebase";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -41,20 +39,10 @@ export function LoginForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            await signInWithEmailAndPassword(auth, values.email, values.password);
-            // After Firebase sign-in, exchange ID token for backend JWT
-            try {
-                const current = auth.currentUser;
-                if (current) {
-                    const idToken = await current.getIdToken();
-                    const exchange = await apiService.exchangeIdToken(idToken);
-                    if (exchange?.token) {
-                        apiService.setBackendAuthToken(exchange.token);
-                        if ((exchange as any).refresh) apiService.setBackendRefreshToken((exchange as any).refresh);
-                    }
-                }
-            } catch (ex) {
-                console.warn('Backend token exchange failed after login:', ex);
+            const resp = await apiService.signIn({ email: values.email, password: values.password });
+            if (resp?.token) {
+                apiService.setBackendAuthToken(resp.token);
+                if ((resp as any).refresh) apiService.setBackendRefreshToken((resp as any).refresh);
             }
             trackEvent("login", { method: "email" });
             router.navigate({ to: "/home" });
@@ -67,34 +55,7 @@ export function LoginForm() {
         }
     }
 
-    const handleGoogleSignIn = async () => {
-        const provider = new GoogleAuthProvider();
-        try {
-            await signInWithPopup(auth, provider);
-            // Exchange Firebase ID token for backend JWT
-            try {
-                const current = auth.currentUser;
-                if (current) {
-                    const idToken = await current.getIdToken();
-                    const exchange = await apiService.exchangeIdToken(idToken);
-                    if (exchange?.token) {
-                        apiService.setBackendAuthToken(exchange.token);
-                        if ((exchange as any).refresh) apiService.setBackendRefreshToken((exchange as any).refresh);
-                    }
-                }
-            } catch (ex) {
-                console.warn('Backend token exchange failed after Google sign-in:', ex);
-            }
-            trackEvent("login", { method: "google" });
-            router.navigate({ to: "/home" });
-        } catch (error: any) {
-            toast({
-                variant: "destructive",
-                title: t`Error with Google Sign-In`,
-                description: error.message,
-            });
-        }
-    };
+    // Social sign-in removed when Firebase is not used in this frontend
 
     const { isValid, isSubmitting } = form.formState;
 
@@ -181,16 +142,7 @@ export function LoginForm() {
                                 {t`or`}
                             </p>
                         </div>
-                        <div className="space-y-2">
-                            <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn}>
-                                <FontAwesomeIcon icon={faGoogle} className="mr-2 h-4 w-4" />
-                                {t`Sign in with Google`}
-                            </Button>
-                            <Button variant="outline" className="w-full" type="button">
-                                <FontAwesomeIcon icon={faApple} className="mr-2 h-4 w-4" />
-                                {t`Sign in with Apple`}
-                            </Button>
-                        </div>
+                        {/* Social sign-in removed when Firebase is not used */}
                     </CardContent>
                     <CardFooter className="flex-col gap-2">
                         <p className="text-sm text-muted-foreground">
