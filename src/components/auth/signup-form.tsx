@@ -51,12 +51,24 @@ export function SignupForm() {
                 // 2. Update Auth profile
                 await updateProfile(user, { displayName: values.name });
 
-                // 3. Create a new family for the user via API
+                // 3. Exchange Firebase ID token for backend JWT and store it
+                try {
+                    const idToken = await user.getIdToken();
+                    const exchange = await apiService.exchangeIdToken(idToken);
+                    if (exchange?.token) {
+                        apiService.setBackendAuthToken(exchange.token);
+                        if ((exchange as any).refresh) apiService.setBackendRefreshToken((exchange as any).refresh);
+                    }
+                } catch (ex) {
+                    console.warn('Backend token exchange failed after signup:', ex);
+                }
+
+                // 4. Create a new family for the user via API (now authenticated with backend token)
                 const family = await apiService.createFamily({
-                    familyName: `Família de ${values.name}`,
+                    familyName: `Fam\u00edlia de ${values.name}`,
                 });
 
-                // 4. Create the user document via API
+                // 5. Create the user document via API
                 await apiService.createUser({
                     displayName: values.name,
                     email: values.email,
@@ -84,11 +96,22 @@ export function SignupForm() {
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
+            // Exchange Firebase ID token for backend JWT before calling protected endpoints
+            try {
+                const idToken = await user.getIdToken();
+                const exchange = await apiService.exchangeIdToken(idToken);
+                if (exchange?.token) {
+                    apiService.setBackendAuthToken(exchange.token);
+                    if ((exchange as any).refresh) apiService.setBackendRefreshToken((exchange as any).refresh);
+                }
+            } catch (ex) {
+                console.warn('Backend token exchange failed after Google sign-in:', ex);
+            }
 
             // TODO: Check if user already exists via API before creating new family
 
             const family = await apiService.createFamily({
-                familyName: `Família de ${user.displayName}`,
+                familyName: `Fam\u00edlia de ${user.displayName}`,
             });
 
             await apiService.createUser({

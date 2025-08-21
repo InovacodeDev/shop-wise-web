@@ -4,6 +4,7 @@
     "private": true,
     "packageManager": "pnpm@10.14.0",
     "scripts": {
+        "test": "vitest",
         "dev": "vite dev",
         "build": "vite build",
         "start": "node .output/server/index.mjs",
@@ -73,6 +74,7 @@
         "zod": "^3.24.2"
     },
     "devDependencies": {
+        "vitest": "^0.34.0",
         "@fontsource-variable/dm-sans": "^5.2.6",
         "@fontsource-variable/jetbrains-mono": "^5.2.6",
         "@lingui/babel-plugin-lingui-macro": "^5.4.1",

@@ -15,6 +15,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { faApple, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 import { trackEvent } from "@/services/analytics-service";
+import { apiService } from "@/services/api";
 import { Link, useRouter } from "@tanstack/react-router";
 import { useLingui } from '@lingui/react/macro';
 
@@ -41,6 +42,20 @@ export function LoginForm() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             await signInWithEmailAndPassword(auth, values.email, values.password);
+            // After Firebase sign-in, exchange ID token for backend JWT
+            try {
+                const current = auth.currentUser;
+                if (current) {
+                    const idToken = await current.getIdToken();
+                    const exchange = await apiService.exchangeIdToken(idToken);
+                    if (exchange?.token) {
+                        apiService.setBackendAuthToken(exchange.token);
+                        if ((exchange as any).refresh) apiService.setBackendRefreshToken((exchange as any).refresh);
+                    }
+                }
+            } catch (ex) {
+                console.warn('Backend token exchange failed after login:', ex);
+            }
             trackEvent("login", { method: "email" });
             router.navigate({ to: "/home" });
         } catch (error: any) {
@@ -56,6 +71,20 @@ export function LoginForm() {
         const provider = new GoogleAuthProvider();
         try {
             await signInWithPopup(auth, provider);
+            // Exchange Firebase ID token for backend JWT
+            try {
+                const current = auth.currentUser;
+                if (current) {
+                    const idToken = await current.getIdToken();
+                    const exchange = await apiService.exchangeIdToken(idToken);
+                    if (exchange?.token) {
+                        apiService.setBackendAuthToken(exchange.token);
+                        if ((exchange as any).refresh) apiService.setBackendRefreshToken((exchange as any).refresh);
+                    }
+                }
+            } catch (ex) {
+                console.warn('Backend token exchange failed after Google sign-in:', ex);
+            }
             trackEvent("login", { method: "google" });
             router.navigate({ to: "/home" });
         } catch (error: any) {

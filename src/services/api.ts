@@ -1,9 +1,15 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-class ApiService {
+export class ApiService {
   // Use VITE_API_URL if provided, otherwise default to '/api' so dev server can proxy and avoid CORS
   private baseURL = (import.meta.env.VITE_API_URL as string) || '/api';
   private axiosInstance: AxiosInstance;
+  // In-memory token store (safer than always using localStorage)
+  private inMemoryBackendToken: string | null = null;
+  private inMemoryFirebaseToken: string | null = null;
+  private inMemoryBackendRefreshToken: string | null = null;
+  // Toggle to persist tokens in localStorage for compatibility; default false for safer behavior
+  private persistTokens: boolean = (import.meta.env.VITE_PERSIST_TOKENS as string) === 'true' || false;
 
   constructor() {
     this.axiosInstance = axios.create({
@@ -91,14 +97,82 @@ class ApiService {
     );
   }
 
-  /** Force refresh the Firebase token and store it locally. Useful if backend rejects stale tokens (403). */
+  /** Save the application's backend token (JWT) in localStorage and use it for requests */
+  public setBackendAuthToken(token: string | null) {
+    this.inMemoryBackendToken = token;
+    if (this.persistTokens) {
+      if (token) localStorage.setItem('backendAuthToken', token);
+      else localStorage.removeItem('backendAuthToken');
+    }
+  }
+
+  public setBackendRefreshToken(token: string | null) {
+    this.inMemoryBackendRefreshToken = token;
+    if (this.persistTokens) {
+      if (token) localStorage.setItem('backendRefreshToken', token);
+      else localStorage.removeItem('backendRefreshToken');
+    }
+  }
+
+  public clearBackendRefreshToken() {
+    this.inMemoryBackendRefreshToken = null;
+    if (this.persistTokens) localStorage.removeItem('backendRefreshToken');
+  }
+
+  public clearFirebaseToken() {
+    this.inMemoryFirebaseToken = null;
+    if (this.persistTokens) localStorage.removeItem('authToken');
+  }
+
+  /** Exchange a Google ID token (or Firebase ID token) for a backend JWT.
+   * Calls POST /auth/oauth/google-idtoken { idToken } and expects { token, uid } in response.
+   */
+  public async exchangeIdToken(idToken: string) {
+    return this.makeRequest<{ token: string; uid: string }>('/auth/oauth/google-idtoken', {
+      method: 'POST',
+      data: { idToken },
+    });
+  }
+
+  /** Force refresh the Firebase token and exchange it for a backend JWT when possible. */
   public async refreshAuthToken(): Promise<string | null> {
+    // Prefer backend refresh if we have a refresh token
     try {
+      if (this.inMemoryBackendRefreshToken || this.persistTokens && localStorage.getItem('backendRefreshToken')) {
+        const refreshToken = this.inMemoryBackendRefreshToken ?? localStorage.getItem('backendRefreshToken')!;
+        try {
+          const resp = await this.makeRequest<{ token: string; refresh: string }>('/auth/refresh', {
+            method: 'POST',
+            data: { token: refreshToken },
+          });
+          if (resp?.token) {
+            this.setBackendAuthToken(resp.token);
+            this.setBackendRefreshToken(resp.refresh ?? null);
+            return resp.token;
+          }
+        } catch (ex) {
+          console.warn('Backend refresh failed:', ex);
+          // fallthrough to firebase-based refresh
+        }
+      }
+
       const { auth } = await import('@/lib/firebase');
       if (auth.currentUser) {
-        const token = await auth.currentUser.getIdToken(true); // force refresh
-        localStorage.setItem('authToken', token);
-        return token;
+        const idToken = await auth.currentUser.getIdToken(true); // force refresh
+        // Cache firebase id token in memory
+        this.inMemoryFirebaseToken = idToken;
+        if (this.persistTokens) localStorage.setItem('authToken', idToken);
+        // Attempt to exchange for backend JWT
+        try {
+          const exchange = await this.exchangeIdToken(idToken);
+          if (exchange?.token) {
+            this.setBackendAuthToken(exchange.token);
+            return exchange.token;
+          }
+        } catch (ex) {
+          console.warn('Token exchange failed during refresh:', ex);
+        }
+        return idToken;
       }
     } catch (e) {
       console.warn('Unable to refresh auth token:', e);
@@ -107,19 +181,38 @@ class ApiService {
   }
 
   private async getAuthToken(): Promise<string | null> {
-    // Try to get token from localStorage first
-    const storedToken = localStorage.getItem('authToken');
-    if (storedToken) {
-      return storedToken;
+    // Prefer backend-issued JWT
+    // Prefer backend-issued JWT in memory, then persisted
+    if (this.inMemoryBackendToken) return this.inMemoryBackendToken;
+    if (this.persistTokens) {
+      const backendToken = localStorage.getItem('backendAuthToken');
+      if (backendToken) return backendToken;
     }
 
-    // Fallback to Firebase auth if available
+    // Fallback to cached Firebase token (in memory then persisted)
+    if (this.inMemoryFirebaseToken) return this.inMemoryFirebaseToken;
+    if (this.persistTokens) {
+      const storedToken = localStorage.getItem('authToken');
+      if (storedToken) return storedToken;
+    }
+
+    // If no token cached, try to get a fresh Firebase ID token and exchange it
     try {
       const { auth } = await import('@/lib/firebase');
-      if (auth.currentUser) {
-        const token = await auth.currentUser.getIdToken();
-        localStorage.setItem('authToken', token);
-        return token;
+  if (auth.currentUser) {
+  const idToken = await auth.currentUser.getIdToken();
+  this.inMemoryFirebaseToken = idToken;
+  if (this.persistTokens) localStorage.setItem('authToken', idToken);
+        try {
+          const exchange = await this.exchangeIdToken(idToken);
+          if (exchange?.token) {
+            this.setBackendAuthToken(exchange.token);
+            return exchange.token;
+          }
+        } catch (ex) {
+          console.warn('Token exchange failed:', ex);
+        }
+        return idToken;
       }
     } catch (error) {
       console.warn('Firebase auth not available:', error);
@@ -303,6 +396,11 @@ class ApiService {
     return this.makeRequest<any>(`/families/${familyId}/purchases/${id}`, {
       method: 'DELETE',
     });
+  }
+
+  // Auth endpoints
+  async revoke() {
+    return this.makeRequest<any>('/auth/revoke', { method: 'POST' });
   }
 
   // Pantry Items endpoints

@@ -87,6 +87,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             } else {
                 setProfile(null);
                 clearUserIdentity();
+                // Clear any tokens stored in the API client
+                try {
+                    apiService.setBackendAuthToken(null);
+                    apiService.clearBackendRefreshToken();
+                    apiService.clearFirebaseToken();
+                } catch (e) {
+                    console.warn('Error clearing API tokens on sign-out:', e);
+                }
             }
             setLoading(false);
         });

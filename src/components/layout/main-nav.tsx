@@ -21,6 +21,7 @@ import {
 import { faFileLines, faMessage } from "@fortawesome/free-regular-svg-icons";
 import { auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
+import { apiService } from "@/services/api";
 
 import {
     AlertDialog,
@@ -67,8 +68,28 @@ export function MainNav() {
         { href: "/admin/logs", label: t`System Logs`, icon: faFileLines },
     ];
 
-    const handleSignOut = async () => {
-        await signOut(auth);
+        const handleSignOut = async () => {
+            // Attempt to revoke server-side refresh token (clears HttpOnly cookie)
+            try {
+                await apiService.revoke();
+            } catch (e) {
+                // ignore
+            }
+        try {
+            await signOut(auth);
+        } catch (e) {
+            console.warn('Error signing out from firebase:', e);
+        }
+
+        // Clear backend and cached firebase tokens (both memory and persisted if enabled)
+        try {
+                apiService.setBackendAuthToken(null);
+                apiService.clearBackendRefreshToken();
+                apiService.clearFirebaseToken();
+        } catch (e) {
+            console.warn('Error clearing tokens on logout:', e);
+        }
+
         trackEvent("user_logged_out");
         router.navigate({ to: "/" });
     };
