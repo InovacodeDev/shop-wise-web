@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { apiService } from "@/services/api";
 import { useLingui } from '@lingui/react/macro';
 import { trackEvent } from "@/services/analytics-service";
+import type { ShoppingList as ApiShoppingList } from "@/types/api";
 
 interface ListItem {
     id: string;
@@ -48,17 +49,17 @@ export function ShoppingListComponent() {
             try {
                 // Get existing active list
                 const lists = await apiService.getShoppingLists(familyId);
-                const activeList = lists.find((list: ShoppingList) => list.status === "active");
+                const activeList = lists.find((list: ApiShoppingList) => list.status === "active");
 
                 if (activeList) {
-                    return activeList.id;
+                    return activeList.id || activeList._id;
                 } else {
                     // Create new active list
                     const newList = await apiService.createShoppingList(familyId, {
                         name: t`Main Shopping List`,
                         status: "active",
                     });
-                    return newList.id;
+                    return newList.id || newList._id;
                 }
             } catch (error) {
                 console.error("Error getting or creating active list:", error);
@@ -76,7 +77,13 @@ export function ShoppingListComponent() {
     const loadItems = useCallback(async (familyId: string, listId: string) => {
         try {
             const items = await apiService.getShoppingListItems(familyId, listId);
-            setItems(items);
+            setItems(items.map(item => ({
+                id: item.id || item._id,
+                name: item.name,
+                checked: item.checked || item.isCompleted || false,
+                quantity: item.quantity,
+                unit: item.unit || ''
+            })));
         } catch (error) {
             console.error("Error loading items:", error);
             toast({

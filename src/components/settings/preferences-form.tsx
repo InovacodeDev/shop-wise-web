@@ -55,7 +55,7 @@ export function PreferencesForm() {
             return;
         }
         try {
-            await apiService.updateUser(user.uid, { settings: values });
+            await apiService.updateUser(user._id, { settings: values });
 
             await reloadUser();
             form.reset(values);

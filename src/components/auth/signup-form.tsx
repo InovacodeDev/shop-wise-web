@@ -10,7 +10,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-import { faApple, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { apiService } from "@/services/api";
 
 import { trackEvent } from "@/services/analytics-service";
@@ -41,30 +40,11 @@ export function SignupForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            // Call backend signup
             const resp = await apiService.signUp({ email: values.email, password: values.password, displayName: values.name });
-            // Backend should return token/uid and set refresh cookie where applicable
             if (resp?.token) {
                 apiService.setBackendAuthToken(resp.token);
                 if ((resp as any).refresh) apiService.setBackendRefreshToken((resp as any).refresh);
             }
-
-            // Create a new family for the user via API (now authenticated with backend token)
-            const family = await apiService.createFamily({
-                familyName: `Fam\u00edlia de ${values.name}`,
-            });
-
-            // Create the user document via API
-            await apiService.createUser({
-                displayName: values.name,
-                email: values.email,
-                familyId: family.id,
-                isAdmin: true,
-                settings: {
-                    theme: "system",
-                    notifications: true,
-                },
-            });
             trackEvent("sign_up", { method: "email" });
             router.navigate({ to: "/home" });
         } catch (error: any) {
@@ -75,8 +55,6 @@ export function SignupForm() {
             });
         }
     }
-
-    // Social sign-in removed when Firebase is not used in this frontend
 
     const { isValid, isSubmitting } = form.formState;
 

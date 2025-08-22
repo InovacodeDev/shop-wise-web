@@ -1,8 +1,8 @@
 import { apiService } from '@/services/api';
 
-interface PurchaseItem {
+export interface PurchaseItem {
     id: string;
-    productRef?: any;
+    productId: string;
     barcode?: string;
     name?: string;
     volume?: string;

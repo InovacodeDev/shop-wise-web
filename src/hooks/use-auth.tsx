@@ -4,8 +4,9 @@ import { identifyUser, clearUserIdentity } from "@/services/analytics-service";
 import { useRouter } from "@tanstack/react-router";
 
 interface Profile {
-    uid: string;
-    displayName: string;
+    _id: string;
+    uid?: string;
+    displayName?: string;
     email: string;
     familyId: string | null;
     family?: {
@@ -23,7 +24,7 @@ interface Profile {
 }
 
 interface AuthContextType {
-    user: { uid: string } | null;
+    user: { _id: string } | null;
     profile: Profile | null;
     loading: boolean;
     reloadUser: () => Promise<void>;
@@ -37,27 +38,27 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<{ uid: string } | null>(null);
+    const [user, setUser] = useState<{ _id: string } | null>(null);
     const [profile, setProfile] = useState<Profile | null>(null);
     const [loading, setLoading] = useState(true);
 
-    const fetchUserProfile = async (user: { uid: string }) => {
+    const fetchUserProfile = async (user: { _id: string }) => {
         try {
-            const userData = await apiService.getUser(user.uid);
+            const userData = await apiService.getUser(user._id);
             const familyIdString = typeof userData.familyId === "string"
                 ? userData.familyId
                 : userData.familyId?.id || null;
-            console.log({ familyId: userData.familyId, familyIdString });
 
             const profileData: Profile = {
-                uid: user.uid,
-                displayName: userData.displayName,
+                _id: user._id,
+                uid: userData.uid,
+                displayName: userData.displayName || '',
                 email: userData.email,
                 familyId: familyIdString,
-                settings: userData.settings,
+                settings: userData.settings as Profile['settings'],
                 isAdmin: userData.isAdmin,
                 plan: userData.plan || "free",
-                planExpirationDate: userData.planExpirationDate,
+                planExpirationDate: userData.planExpirationDate ? new Date(userData.planExpirationDate) : undefined,
             };
 
             // Fetch family data if familyId exists
@@ -80,13 +81,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         (async () => {
             setLoading(true);
             try {
-                // Attempt to call backend /auth/me to determine current authenticated user
                 try {
                     const res = await apiService.getMe();
                     const me = res?.user ?? res;
+                    console.log({ me });
                     if (me?.uid) {
-                        setUser({ uid: me.uid });
-                        await fetchUserProfile({ uid: me.uid });
+                        setUser({ _id: me.uid });
+                        await fetchUserProfile({ _id: me.uid });
                         identifyUser(me.uid);
                     } else {
                         setUser(null);
@@ -112,8 +113,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 const res = await apiService.getMe();
                 const me = res?.user ?? res;
                 if (me?.uid) {
-                    setUser({ uid: me.uid });
-                    await fetchUserProfile({ uid: me.uid });
+                    setUser({ _id: me.uid });
+                    await fetchUserProfile({ _id: me.uid });
                 } else {
                     setUser(null);
                     setProfile(null);

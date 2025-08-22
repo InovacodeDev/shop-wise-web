@@ -20,15 +20,15 @@ export function Header() {
         // Fetch notifications from API
         const fetchNotifications = async () => {
             try {
-                const notifs = await apiService.getNotifications(profile.familyId!);
-                setNotifications(notifs);
+                // const notifs = await apiService.getNotifications(profile.familyId!);
+                // setNotifications(notifs);
             } catch (error) {
                 console.error('Error fetching notifications:', error);
             }
         };
 
         fetchNotifications();
-        
+
         // Poll for notifications every 30 seconds
         const intervalId = setInterval(fetchNotifications, 30000);
 
@@ -39,11 +39,11 @@ export function Header() {
 
     const markAllAsRead = async () => {
         if (!profile?.familyId || unreadNotifications.length === 0) return;
-        
+
         try {
             // Mark all notifications as read via API
             await apiService.markAllNotificationsAsRead(profile.familyId!);
-            
+
             // Update local state
             setNotifications(notifications.map(notif => ({ ...notif, read: true })));
         } catch (error) {

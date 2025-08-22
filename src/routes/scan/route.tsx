@@ -4,9 +4,9 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 
 import { useAuth } from '@/hooks/use-auth';
 import { savePurchase } from "./actions";
-import { ManualPurchaseForm } from "@/components/scan/manual-purchase-form";
+// import { ManualPurchaseForm } from "@/components/scan/manual-purchase-form";
 import type { PurchaseData, ItemData } from "@/components/scan/manual-purchase-form";
-import type { ExtractProductDataOutput } from "@/types/ai-flows";
+import type { ExtractProductDataOutput, Product } from "@/types/ai-flows";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKeyboard, faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -24,7 +24,7 @@ function ScanPage() {
     const { user, profile } = useAuth();
     const { toast } = useToast();
 
-    const handleSavePurchase = async (purchaseData: ExtractProductDataOutput | PurchaseData, products: any[], entryMethod: 'import' | 'manual') => {
+    const handleSavePurchase = async (purchaseData: ExtractProductDataOutput | PurchaseData, products: Product[], entryMethod: 'import' | 'manual') => {
         if (!user || !profile || !profile.familyId) {
             toast({
                 variant: 'destructive',
@@ -34,7 +34,7 @@ function ScanPage() {
             return;
         }
 
-        const result = await savePurchase(purchaseData, products, profile.familyId, user.uid, entryMethod);
+        const result = await savePurchase(purchaseData, products, profile.familyId, user._id, entryMethod);
 
         if (result.error) {
             toast({
@@ -75,9 +75,9 @@ function ScanPage() {
                             <TabsContent value="scan" className="mt-6">
                                 <PdfImportComponent onSave={(data, prods) => handleSavePurchase(data, prods, 'import')} />
                             </TabsContent>
-                            <TabsContent value="manual" className="mt-6">
+                            {/* <TabsContent value="manual" className="mt-6">
                                 <ManualPurchaseForm onSave={(data, prods) => handleSavePurchase(data, prods, 'manual')} />
-                            </TabsContent>
+                            </TabsContent> */}
                         </Tabs>
                     </div>
                 </Card>

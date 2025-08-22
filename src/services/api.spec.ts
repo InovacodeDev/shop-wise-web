@@ -15,7 +15,8 @@ describe('ApiService.refreshAuthToken', () => {
     (svc as any).inMemoryBackendRefreshToken = 'fake-refresh';
 
     // Stub makeRequest to assert it's called with /auth/refresh
-    const makeRequestSpy = vi.spyOn(svc as any, 'makeRequest').mockImplementation(async (endpoint: string) => {
+    const makeRequestSpy = vi.spyOn(svc as any, 'makeRequest').mockImplementation(async (...args: any[]) => {
+      const endpoint = args[0] as string;
       expect(endpoint).toBe('/auth/refresh');
       return { token: 'new-jwt', refresh: 'new-refresh' } as any;
     });

@@ -45,24 +45,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from "@fortawesome/free-regular-svg-icons";
 import { useAuth } from "@/hooks/use-auth";
-import { Collections } from "@/lib/enums";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/ui/empty-state";
 import { toast } from "@/hooks/use-toast";
-import { updatePurchaseItems } from "../../routes/family/actions";
+import { PurchaseItem, updatePurchaseItems } from "../../routes/family/actions";
 import { trackEvent } from "@/services/analytics-service";
 import { apiService } from "@/services/api";
 
-interface PurchaseItem {
-    id: string;
-    productRef: any;
-    barcode?: string;
-    name?: string;
-    volume?: string;
-    quantity: number;
-    price: number;
-    unitPrice?: number;
-}
 interface Purchase {
     id: string;
     storeName: string;
@@ -94,11 +83,11 @@ export function HistoryTab() {
 
                 const allPurchases = await Promise.all(
                     purchases.map(async (purchase: any) => {
-                        // Fetch purchase items via API
                         const items = await apiService.getPurchaseItems(profile.familyId!, purchase.id);
 
-                        const purchaseItems = items.map((item: any) => ({
+                        const purchaseItems = items.map<PurchaseItem>((item: any) => ({
                             id: item.id,
+                            productId: item.productId,
                             name: item.productName || item.name,
                             barcode: item.productBarcode || item.barcode,
                             volume: item.productVolume || item.volume,
@@ -114,7 +103,7 @@ export function HistoryTab() {
                             date: new Date(purchase.date),
                             totalAmount: purchase.totalAmount,
                             items: purchaseItems,
-                        } as Purchase;
+                        } as unknown as Purchase;
                     })
                 );
 
@@ -338,7 +327,7 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
         const newItemId = `new-${Date.now()}`;
         const newItem: PurchaseItem = {
             id: newItemId,
-            productRef: null,
+            productId: '',
             name: "",
             quantity: 1,
             price: 0,

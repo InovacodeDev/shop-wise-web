@@ -214,22 +214,22 @@ function DashboardPage() {
 
             // 2. For each purchase, fetch its items
             for (const purchase of purchases) {
-                const purchaseItems = await apiService.getPurchaseItems(profile.familyId, purchase.id);
+                const purchaseItems = await apiService.getPurchaseItems(profile.familyId, purchase._id);
 
                 for (const item of purchaseItems) {
                     const purchaseItem: PurchaseItem = {
-                        id: item.id,
+                        id: item.id || item._id,
                         productRef: { id: item.productId }, // Convert to reference-like object
                         quantity: item.quantity,
                         price: item.price,
-                        totalPrice: item.totalPrice,
-                        purchaseDate: new Date(item.purchaseDate),
-                        storeName: item.storeName,
-                        name: item.productName,
-                        barcode: item.productBarcode,
+                        totalPrice: item.totalPrice || item.price,
+                        purchaseDate: item.purchaseDate ? new Date(item.purchaseDate) : new Date(),
+                        storeName: item.storeName || 'Unknown Store',
+                        name: item.productName || item.name,
+                        barcode: item.productBarcode || item.barcode,
                         volume: item.productVolume,
                         brand: item.productBrand,
-                        category: item.productCategory,
+                        category: item.productCategory || item.category,
                         subcategory: item.productSubcategory,
                     };
 

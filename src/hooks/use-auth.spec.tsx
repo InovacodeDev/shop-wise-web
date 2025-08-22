@@ -10,7 +10,7 @@ const TestComponent = () => {
     return (
         <div>
             <div data-testid="loading">{String(loading)}</div>
-            <div data-testid="uid">{user?.uid ?? 'u123'}</div>
+            <div data-testid="uid">{user?._id ?? 'u123'}</div>
             <div data-testid="email">{profile?.email ?? 'test@example.com'}</div>
         </div>
     );

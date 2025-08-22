@@ -7,10 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "../ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/use-auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-import { faApple, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 import { trackEvent } from "@/services/analytics-service";
 import { apiService } from "@/services/api";
@@ -22,6 +22,7 @@ export function LoginForm() {
     const { toast } = useToast();
     const [showPassword, setShowPassword] = useState(false);
     const { t } = useLingui();
+    const { user, loading, reloadUser } = useAuth();
 
     const formSchema = z.object({
         email: z.string().email({ message: t`Please enter a valid email.` }),
@@ -39,11 +40,7 @@ export function LoginForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            const resp = await apiService.signIn({ email: values.email, password: values.password });
-            if (resp?.token) {
-                apiService.setBackendAuthToken(resp.token);
-                if ((resp as any).refresh) apiService.setBackendRefreshToken((resp as any).refresh);
-            }
+            await apiService.login(values.email, values.password);
             trackEvent("login", { method: "email" });
             router.navigate({ to: "/home" });
         } catch (error: any) {
@@ -55,7 +52,11 @@ export function LoginForm() {
         }
     }
 
-    // Social sign-in removed when Firebase is not used in this frontend
+    useEffect(() => {
+        if (!loading && user) {
+            router.navigate({ to: "/home" });
+        }
+    }, [user, loading, reloadUser, router]);
 
     const { isValid, isSubmitting } = form.formState;
 

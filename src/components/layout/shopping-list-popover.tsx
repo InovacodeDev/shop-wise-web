@@ -30,9 +30,9 @@ export function ShoppingListPopover() {
         try {
             const lists = await apiService.getShoppingLists(familyId);
             const activeList = lists.find(list => list.status === 'active');
-            
+
             if (activeList) {
-                setActiveListId(activeList.id);
+                setActiveListId(activeList.id || activeList._id);
                 setListName(activeList.name);
                 return activeList.id;
             }
@@ -51,7 +51,7 @@ export function ShoppingListPopover() {
                 try {
                     const listItems = await apiService.getShoppingListItems(profile.familyId!, listId);
                     setItems(listItems.map(item => ({
-                        id: item.id,
+                        id: item.id || item._id,
                         name: item.name,
                         checked: item.checked || false
                     })));
@@ -67,7 +67,7 @@ export function ShoppingListPopover() {
                 try {
                     const listItems = await apiService.getShoppingListItems(profile.familyId!, activeListId);
                     setItems(listItems.map(item => ({
-                        id: item.id,
+                        id: item.id || item._id,
                         name: item.name,
                         checked: item.checked || false
                     })));
@@ -82,16 +82,16 @@ export function ShoppingListPopover() {
 
     const handleToggleItem = async (id: string) => {
         if (!profile?.familyId || !activeListId) return;
-        
+
         const item = items.find((i) => i.id === id);
         if (item) {
             try {
                 await apiService.updateShoppingListItem(profile.familyId, activeListId, id, {
                     checked: !item.checked
                 });
-                
+
                 // Update local state
-                setItems(items.map(i => 
+                setItems(items.map(i =>
                     i.id === id ? { ...i, checked: !i.checked } : i
                 ));
             } catch (error) {
@@ -136,9 +136,8 @@ export function ShoppingListPopover() {
                                     />
                                     <label
                                         htmlFor={`popover-item-${item.id}`}
-                                        className={`flex-grow text-sm font-medium ${
-                                            item.checked ? "line-through text-muted-foreground" : ""
-                                        }`}
+                                        className={`flex-grow text-sm font-medium ${item.checked ? "line-through text-muted-foreground" : ""
+                                            }`}
                                     >
                                         {item.name}
                                     </label>

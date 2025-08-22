@@ -34,9 +34,11 @@ export function ProfileForm() {
 
     useEffect(() => {
         if (user) {
+            // user from useAuth may have a minimal type; cast to any for optional fields
+            const u = user as any;
             profileForm.reset({
-                displayName: user.displayName ?? "",
-                email: user.email ?? "",
+                displayName: u.displayName ?? "",
+                email: u.email ?? "",
             });
         }
     }, [user]);
@@ -63,7 +65,7 @@ export function ProfileForm() {
         if (!user) return;
         try {
             // Update user data via API (backend will handle Firebase Auth update)
-            await apiService.updateUser(user.uid, {
+            await apiService.updateUser(user._id, {
                 displayName: values.displayName,
                 email: values.email,
             });
