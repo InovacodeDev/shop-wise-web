@@ -6,6 +6,7 @@
     "scripts": {
         "test": "vitest",
         "dev": "vite dev",
+        "dev:no-strict": "VITE_DISABLE_STRICT_MODE=true vite dev",
         "build": "vite build",
         "start": "node .output/server/index.mjs",
         "typecheck": "tsc --noEmit",

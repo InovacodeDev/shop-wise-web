@@ -32,6 +32,7 @@ import type {
   DeleteResponse
 } from '@/types/api';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { logApiCall } from '@/lib/dev-utils';
 
 export class ApiService {
   // Use VITE_API_URL if provided, otherwise default to '/api' so dev server can proxy and avoid CORS
@@ -41,7 +42,7 @@ export class ApiService {
   private inMemoryBackendToken: string | null = null;
   private inMemoryBackendRefreshToken: string | null = null;
   // Toggle to persist tokens in localStorage for compatibility; default false for safer behavior
-  private persistTokens: boolean = (import.meta.env.VITE_PERSIST_TOKENS as string) === 'true' || true;
+  private persistTokens: boolean = (import.meta.env.VITE_PERSIST_TOKENS as string) === 'true' || false;
 
   constructor() {
     this.axiosInstance = axios.create({
@@ -200,6 +201,9 @@ export class ApiService {
     endpoint: string,
     config: AxiosRequestConfig = {}
   ): Promise<T> {
+    // Log API call for debugging duplicate calls
+    logApiCall(endpoint, config.method || 'GET');
+    
     const response = await this.axiosInstance.request<T>({
       url: endpoint,
       ...config,

@@ -5,7 +5,8 @@ import type {
     ExtractProductDataInput,
     ExtractProductDataOutput,
     ExtractDataFromPdfInput,
-    ExtractDataFromPdfOutput
+    ExtractDataFromPdfOutput,
+    Product
 } from "@/types/ai-flows";
 
 export async function extractProductData(input: ExtractProductDataInput) {
@@ -40,7 +41,7 @@ export async function extractDataFromPdf(
 
 export async function savePurchase(
     purchaseData: ExtractProductDataOutput | PurchaseData,
-    products: any[],
+    products: Product[],
     familyId: string,
     userId: string,
     entryMethod: "import" | "manual"

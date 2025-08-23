@@ -5,7 +5,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { useAuth } from '@/hooks/use-auth';
 import { savePurchase } from "./actions";
 // import { ManualPurchaseForm } from "@/components/scan/manual-purchase-form";
-import type { PurchaseData, ItemData } from "@/components/scan/manual-purchase-form";
+import type { PurchaseData } from "@/components/scan/manual-purchase-form";
 import type { ExtractProductDataOutput, Product } from "@/types/ai-flows";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKeyboard, faFilePdf } from "@fortawesome/free-solid-svg-icons";

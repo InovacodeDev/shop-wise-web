@@ -1,21 +1,14 @@
 import { apiService } from "@/services/api";
 import type { PurchaseData } from "@/components/scan/manual-purchase-form";
-import type { ExtractProductDataOutput } from "@/types/ai-flows";
+import type { ExtractProductDataOutput, Product } from "@/types/ai-flows";
 import type { Purchase, CreatePurchaseItemRequest } from "@/types/api";
-
-type ProductInput = {
-    id?: string;
-    productId?: string;
-    quantity?: number;
-    price?: number;
-    meta?: Record<string, unknown>;
-};
+import { randomUUID } from "crypto";
 
 export async function savePurchase(
     familyId: string, 
     userId: string, 
     purchaseData: ExtractProductDataOutput | PurchaseData, 
-    products: ProductInput[], 
+    products: Product[], 
     entryMethod: 'import' | 'manual'
 ): Promise<{ success: boolean; purchaseId: string }> {
     if (!familyId || !userId) {
@@ -104,12 +97,7 @@ export async function savePurchase(
         // We attempt to create items if products were supplied.
         if (products && products.length && purchase?._id) {
             // Use bulk endpoint to create/update items on the purchase
-            const items: CreatePurchaseItemRequest[] = products.map((p) => ({
-                productId: p.id ?? p.productId ?? undefined,
-                quantity: p.quantity ?? 1,
-                price: p.price ?? 0,
-                meta: p.meta ?? {},
-            }));
+            const items: CreatePurchaseItemRequest[] = products;
             // Prefer bulk update so we can create many items in one call
             try {
                 const purchaseId = purchase.id || purchase._id;
@@ -122,7 +110,7 @@ export async function savePurchase(
             }
         }
 
-        return { success: true, purchaseId: purchase.id || purchase._id };
+        return { success: true, purchaseId: purchase._id };
     } catch (error) {
         console.error('Error saving purchase via API:', error);
         throw error;

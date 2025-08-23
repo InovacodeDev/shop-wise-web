@@ -2,11 +2,11 @@ import './styles/app.css';
 
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { RouterProvider } from "@tanstack/react-router";
+import { createRouter } from "./router";
+import Providers from "./providers";
 
-import { routeTree } from "./routeTree.gen";
-
-const router = createRouter({ routeTree });
+const router = createRouter();
 
 declare module "@tanstack/react-router" {
     interface Register {
@@ -17,9 +17,17 @@ declare module "@tanstack/react-router" {
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
     const root = ReactDOM.createRoot(rootElement);
-    root.render(
-        <StrictMode>
+
+    const App = (
+        <Providers>
             <RouterProvider router={router} />
-        </StrictMode>
+        </Providers>
+    );
+
+    // Conditionally disable StrictMode for testing
+    const useStrictMode = import.meta.env.VITE_DISABLE_STRICT_MODE !== 'true';
+
+    root.render(
+        useStrictMode ? <StrictMode>{App}</StrictMode> : App
     );
 }

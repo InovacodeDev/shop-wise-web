@@ -16,7 +16,6 @@ import {
     faStore,
     faBox,
     faHashtag,
-    faDollarSign,
     faPencil,
     faTrash,
     faPlusCircle,
@@ -38,11 +37,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "..
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Progress } from "../ui/progress";
 import { ExtractProductDataOutput, Product as AIProduct } from "@/types/ai-flows";
+import { randomUUID } from "crypto";
 
 // Interface local que estende Product com id para uso na interface
-interface Product extends AIProduct {
-    id: number;
-}
+interface Product extends AIProduct { }
 
 interface PdfImportProps {
     onSave: (scanResult: ExtractProductDataOutput, products: Product[]) => Promise<void>;
@@ -230,7 +228,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                 const finalResult: ExtractProductDataOutput = result;
 
                 setExtractionResult(finalResult);
-                setProducts(finalResult.products.map((p, idx) => ({ ...p, id: Date.now() + idx })));
+                setProducts(finalResult.products);
 
                 toast({
                     title: t`PDF data extracted successfully`,
@@ -269,13 +267,13 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
         setIsEditDialogOpen(true);
     };
 
-    const handleDeleteClick = (productId: number) => {
-        setProducts(products.filter((p) => p.id !== productId));
+    const handleDeleteClick = (barcode: string) => {
+        setProducts(products.filter((p) => p.barcode !== barcode));
     };
 
     const handleSaveEdit = () => {
         if (editingProduct) {
-            setProducts(products.map((p) => (p.id === editingProduct.id ? editingProduct : p)));
+            setProducts(products.map((p) => (p.barcode === editingProduct.barcode ? editingProduct : p)));
             setIsEditDialogOpen(false);
             setEditingProduct(null);
             toast({ title: t`Item updated successfully` });
@@ -284,10 +282,9 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
 
     const handleAddNewItem = () => {
         const newItem: Product = {
-            id: Date.now(),
-            barcode: "",
+            barcode: randomUUID(),
             name: "New Item",
-            volume: "1 unit",
+            volume: "UN",
             quantity: 1,
             unitPrice: 0.0,
             price: 0.0,
@@ -304,7 +301,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
             setIsSaving(true);
             try {
                 await onSave(extractionResult, products);
-                handleCancelImport();
+                // handleCancelImport();
             } finally {
                 setIsSaving(false);
             }
@@ -410,7 +407,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                     </TableHeader>
                                     <TableBody>
                                         {products.map((product) => (
-                                            <TableRow key={product.id}>
+                                            <TableRow key={product.barcode}>
                                                 <TableCell className="font-medium">{product.name}</TableCell>
                                                 <TableCell>{product.brand}</TableCell>
                                                 <TableCell>
@@ -450,7 +447,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                                             variant="ghost"
                                                             size="icon"
                                                             className="h-8 w-8"
-                                                            onClick={() => handleDeleteClick(product.id)}
+                                                            onClick={() => handleDeleteClick(product.barcode)}
                                                         >
                                                             <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
                                                         </Button>

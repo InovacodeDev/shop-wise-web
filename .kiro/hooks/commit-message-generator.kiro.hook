@@ -11,6 +11,6 @@
   },
   "then": {
     "type": "askAgent",
-    "prompt": "Read all diff from staged files and:\n\n1. generate a commit message following patterns in kiro/sterrings/commit.md;\n2. ask user to commit & push changes with the generated commit message"
+    "prompt": "Read all diff from staged files and:\n\n1. generate a commit message with detailed description following patterns in kiro/sterrings/commit.md;\n2. ask user to commit & push changes with the generated commit message"
   }
 }
