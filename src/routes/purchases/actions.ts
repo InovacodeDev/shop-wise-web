@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import type { PurchaseData, ItemData } from "@/components/scan/manual-purchase-form";
+import type { PurchaseData, ItemData } from "@/components/purchases/manual-purchase-form";
 import { savePurchase as savePurchaseService } from "@/services/purchaseApiService";
 import type { 
     ExtractProductDataInput,

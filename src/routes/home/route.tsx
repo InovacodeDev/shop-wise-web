@@ -137,9 +137,16 @@ function DashboardPage() {
     const [totalSpentMonth, setTotalSpentMonth] = useState<number | null>(null);
     const [totalItemsBought, setTotalItemsBought] = useState<number | null>(null);
 
-    // States for comparison
+    // States for comparison and insights
     const [totalSpentChange, setTotalSpentChange] = useState<number | null>(null);
     const [totalItemsChange, setTotalItemsChange] = useState<number | null>(null);
+    const [currentMonthName, setCurrentMonthName] = useState<string>("");
+    const [historicalInsights, setHistoricalInsights] = useState<{
+        avgMonthlySpending: number;
+        avgMonthlyItems: number;
+        topCategoryTrend: string;
+        spendingTrend: 'increasing' | 'decreasing' | 'stable';
+    } | null>(null);
 
     // AI analysis states
     const [consumptionAnalysis, setConsumptionAnalysis] = useState<string | null>(null);
@@ -207,13 +214,26 @@ function DashboardPage() {
             const now = new Date();
             const locale = dateLocales[i18n.locale] || ptBR;
 
-            // 1. Fetch all purchases for the family via API
-            const purchases = await apiService.getPurchases(profile.familyId);
+            // Set current month name for display
+            setCurrentMonthName(format(now, "MMMM yyyy", { locale }));
+
+            // 1. Fetch all monthly purchase groups for comprehensive insights
+            let monthlyGroups: any[] = [];
+            let allPurchases: any[] = [];
+            try {
+                monthlyGroups = await apiService.getPurchasesByMonth(profile.familyId);
+                // Convert monthly groups to flat purchases for insights processing
+                allPurchases = monthlyGroups.flatMap(group => group.purchases);
+            } catch (monthlyError) {
+                console.warn("Monthly purchase data failed, using flat list for insights:", monthlyError);
+                // Fallback to flat purchase list
+                allPurchases = await apiService.getPurchases(profile.familyId);
+            }
 
             let allItems: PurchaseItem[] = [];
 
-            // 2. For each purchase, fetch its items
-            for (const purchase of purchases) {
+            // 2. For each purchase across ALL months, fetch its items for comprehensive analysis
+            for (const purchase of allPurchases) {
                 const purchaseItems = await apiService.getPurchaseItems(profile.familyId, purchase._id);
 
                 for (const item of purchaseItems) {
@@ -223,8 +243,8 @@ function DashboardPage() {
                         quantity: item.quantity,
                         price: item.price,
                         totalPrice: item.totalPrice || item.price,
-                        purchaseDate: item.purchaseDate ? new Date(item.purchaseDate) : new Date(),
-                        storeName: item.storeName || 'Unknown Store',
+                        purchaseDate: item.purchaseDate ? new Date(item.purchaseDate) : new Date(purchase.date),
+                        storeName: item.storeName || purchase.storeName || 'Unknown Store',
                         name: item.productName || item.name,
                         barcode: item.productBarcode || item.barcode,
                         volume: item.productVolume,
@@ -282,47 +302,122 @@ function DashboardPage() {
             const lastMonthTotalSpent = lastMonthItems.reduce((acc, item) => acc + item.totalPrice, 0);
             const lastMonthTotalItems = lastMonthItems.reduce((acc, item) => acc + item.quantity, 0);
 
-            // -- Calculate comparison percentages --
-            setTotalSpentChange(
-                lastMonthTotalSpent > 0
-                    ? ((thisMonthTotalSpent - lastMonthTotalSpent) / lastMonthTotalSpent) * 100
-                    : thisMonthTotalSpent > 0
-                        ? 100
-                        : 0
-            );
-            setTotalItemsChange(
-                lastMonthTotalItems > 0
-                    ? ((thisMonthTotalItems - lastMonthTotalItems) / lastMonthTotalItems) * 100
-                    : thisMonthTotalItems > 0
-                        ? 100
-                        : 0
-            );
+            // -- Enhanced comparison using monthly groups data if available --
+            let finalTotalSpentChange = 0;
+            let finalTotalItemsChange = 0;
 
-            // -- Process Bar Chart data (last 12 months) --
-            const monthlyData: { [key: string]: any } = {};
-            for (let i = 11; i >= 0; i--) {
-                const date = subMonths(now, i);
-                const monthKey = format(date, "MMM/yy", { locale });
-                monthlyData[monthKey] = {
-                    month: monthKey,
-                    ...Object.fromEntries(
-                        Object.keys(chartConfig)
-                            .filter((k) => !["total", "value"].includes(k))
-                            .map((k) => [k, 0])
-                    ),
-                };
+            if (monthlyGroups.length >= 2) {
+                // Use monthly groups for more accurate comparison
+                const currentMonthKey = format(now, "yyyy-MM");
+                const lastMonthKey = format(subMonths(now, 1), "yyyy-MM");
+
+                const currentMonthGroup = monthlyGroups.find(g => g.monthYear === currentMonthKey);
+                const lastMonthGroup = monthlyGroups.find(g => g.monthYear === lastMonthKey);
+
+                if (currentMonthGroup && lastMonthGroup) {
+                    finalTotalSpentChange = lastMonthGroup.totalAmount > 0
+                        ? ((currentMonthGroup.totalAmount - lastMonthGroup.totalAmount) / lastMonthGroup.totalAmount) * 100
+                        : currentMonthGroup.totalAmount > 0 ? 100 : 0;
+
+                    finalTotalItemsChange = lastMonthGroup.purchaseCount > 0
+                        ? ((currentMonthGroup.purchaseCount - lastMonthGroup.purchaseCount) / lastMonthGroup.purchaseCount) * 100
+                        : currentMonthGroup.purchaseCount > 0 ? 100 : 0;
+                } else {
+                    // Fallback to item-based calculation
+                    finalTotalSpentChange = lastMonthTotalSpent > 0
+                        ? ((thisMonthTotalSpent - lastMonthTotalSpent) / lastMonthTotalSpent) * 100
+                        : thisMonthTotalSpent > 0 ? 100 : 0;
+                    finalTotalItemsChange = lastMonthTotalItems > 0
+                        ? ((thisMonthTotalItems - lastMonthTotalItems) / lastMonthTotalItems) * 100
+                        : thisMonthTotalItems > 0 ? 100 : 0;
+                }
+            } else {
+                // Fallback to item-based calculation
+                finalTotalSpentChange = lastMonthTotalSpent > 0
+                    ? ((thisMonthTotalSpent - lastMonthTotalSpent) / lastMonthTotalSpent) * 100
+                    : thisMonthTotalSpent > 0 ? 100 : 0;
+                finalTotalItemsChange = lastMonthTotalItems > 0
+                    ? ((thisMonthTotalItems - lastMonthTotalItems) / lastMonthTotalItems) * 100
+                    : thisMonthTotalItems > 0 ? 100 : 0;
             }
 
-            const startOf12MonthsAgo = startOfMonth(subMonths(now, 11));
-            const last12MonthsItems = allItems.filter((item) => item.purchaseDate >= startOf12MonthsAgo);
+            setTotalSpentChange(finalTotalSpentChange);
+            setTotalItemsChange(finalTotalItemsChange);
 
-            last12MonthsItems.forEach((item) => {
+            // -- Process Bar Chart data using ALL available months from monthlyGroups --
+            const monthlyData: { [key: string]: any } = {};
+            const currentMonthKey = format(now, "MMM/yy", { locale });
+
+            // Initialize chart data with all available months from the API
+            if (monthlyGroups.length > 0) {
+                // Sort monthly groups by monthYear to ensure chronological order
+                const sortedGroups = [...monthlyGroups].sort((a, b) => a.monthYear.localeCompare(b.monthYear));
+
+                sortedGroups.forEach(group => {
+                    const date = new Date(group.monthYear + '-01'); // Convert YYYY-MM to date
+                    const monthKey = format(date, "MMM/yy", { locale });
+                    const isCurrentMonth = monthKey === currentMonthKey;
+
+                    monthlyData[monthKey] = {
+                        month: monthKey,
+                        monthYear: group.monthYear,
+                        totalAmount: group.totalAmount,
+                        purchaseCount: group.purchaseCount,
+                        isCurrentMonth: isCurrentMonth,
+                        displayName: isCurrentMonth ? `${monthKey} (${t`Current`})` : monthKey,
+                        ...Object.fromEntries(
+                            Object.keys(chartConfig)
+                                .filter((k) => !["total", "value"].includes(k))
+                                .map((k) => [k, 0])
+                        ),
+                    };
+                });
+
+                // Ensure current month is always included even if no data
+                if (!monthlyData[currentMonthKey]) {
+                    monthlyData[currentMonthKey] = {
+                        month: currentMonthKey,
+                        monthYear: format(now, "yyyy-MM"),
+                        totalAmount: 0,
+                        purchaseCount: 0,
+                        isCurrentMonth: true,
+                        displayName: `${currentMonthKey} (${t`Current`})`,
+                        ...Object.fromEntries(
+                            Object.keys(chartConfig)
+                                .filter((k) => !["total", "value"].includes(k))
+                                .map((k) => [k, 0])
+                        ),
+                    };
+                }
+            } else {
+                // Fallback: create last 12 months if no monthly groups available
+                for (let i = 11; i >= 0; i--) {
+                    const date = subMonths(now, i);
+                    const monthKey = format(date, "MMM/yy", { locale });
+                    const isCurrentMonth = monthKey === currentMonthKey;
+
+                    monthlyData[monthKey] = {
+                        month: monthKey,
+                        isCurrentMonth: isCurrentMonth,
+                        displayName: isCurrentMonth ? `${monthKey} (${t`Current`})` : monthKey,
+                        ...Object.fromEntries(
+                            Object.keys(chartConfig)
+                                .filter((k) => !["total", "value"].includes(k))
+                                .map((k) => [k, 0])
+                        ),
+                    };
+                }
+            }
+
+            // Populate category spending data for each month
+            allItems.forEach((item) => {
                 const monthKey = format(item.purchaseDate, "MMM/yy", { locale });
                 if (monthlyData[monthKey]) {
                     const categoryKey = getCategoryKey(item.category);
                     monthlyData[monthKey][categoryKey] = (monthlyData[monthKey][categoryKey] || 0) + item.totalPrice;
                 }
             });
+
             setBarChartData(Object.values(monthlyData));
 
             // -- Process Pie Chart data (this month) --
@@ -340,11 +435,31 @@ function DashboardPage() {
             setPieChartData(pieData);
             setSpendingByCategory(Object.entries(thisMonthCategorySpending).map(([name, value]) => ({ name, value })));
 
-            // -- Process Top Expenses (this month, from consolidated items) --
+            // -- Process Top Expenses (this month, with historical context) --
             const thisMonthConsolidatedItems = consolidatedItems.filter(
                 (item) => item.purchaseDate >= startOfThisMonth && item.purchaseDate <= endOfThisMonth
             );
-            const top5Expenses = [...thisMonthConsolidatedItems]
+
+            // Enhanced top expenses with frequency analysis across all months
+            const productFrequency = new Map<string, { count: number, totalSpent: number, avgPrice: number }>();
+            allItems.forEach(item => {
+                const key = item.productRef.id;
+                const existing = productFrequency.get(key) || { count: 0, totalSpent: 0, avgPrice: 0 };
+                existing.count += 1;
+                existing.totalSpent += item.totalPrice;
+                existing.avgPrice = existing.totalSpent / existing.count;
+                productFrequency.set(key, existing);
+            });
+
+            // Enhance current month items with historical context
+            const enhancedThisMonthItems = thisMonthConsolidatedItems.map(item => ({
+                ...item,
+                historicalFrequency: productFrequency.get(item.productRef.id)?.count || 1,
+                historicalTotalSpent: productFrequency.get(item.productRef.id)?.totalSpent || item.totalPrice,
+                historicalAvgPrice: productFrequency.get(item.productRef.id)?.avgPrice || item.price
+            }));
+
+            const top5Expenses = [...enhancedThisMonthItems]
                 .sort((a, b) => b.totalPrice - a.totalPrice)
                 .slice(0, 5);
             setTopExpensesData(top5Expenses);
@@ -356,12 +471,75 @@ function DashboardPage() {
                 [...thisMonthItems].sort((a, b) => b.purchaseDate.getTime() - a.purchaseDate.getTime()).slice(0, 10)
             );
 
-            // -- Set Monthly Spending By Store (this month) --
+            // -- Enhanced Monthly Spending By Store with historical context --
             const spendingByStore = thisMonthItems.reduce((acc, item) => {
                 acc[item.storeName] = (acc[item.storeName] || 0) + item.totalPrice;
                 return acc;
             }, {} as { [key: string]: number });
-            setMonthlySpendingByStore(Object.entries(spendingByStore).map(([name, value]) => ({ name, value })));
+
+            // Add historical average for comparison
+            const historicalStoreSpending = allItems.reduce((acc, item) => {
+                const monthKey = format(item.purchaseDate, "yyyy-MM");
+                if (!acc[item.storeName]) acc[item.storeName] = {};
+                acc[item.storeName][monthKey] = (acc[item.storeName][monthKey] || 0) + item.totalPrice;
+                return acc;
+            }, {} as { [store: string]: { [month: string]: number } });
+
+            const enhancedStoreData = Object.entries(spendingByStore).map(([name, value]) => {
+                const storeHistory = historicalStoreSpending[name] || {};
+                const monthlyTotals = Object.values(storeHistory);
+                const avgMonthlySpending = monthlyTotals.length > 0
+                    ? monthlyTotals.reduce((sum, val) => sum + val, 0) / monthlyTotals.length
+                    : value;
+
+                return {
+                    name,
+                    value,
+                    historicalAverage: avgMonthlySpending,
+                    monthsActive: monthlyTotals.length
+                };
+            });
+
+            setMonthlySpendingByStore(enhancedStoreData);
+
+            // -- Generate Historical Insights --
+            if (monthlyGroups.length > 1) {
+                const historicalMonths = monthlyGroups.filter(g => g.monthYear !== format(now, "yyyy-MM"));
+                const avgSpending = historicalMonths.reduce((sum, g) => sum + g.totalAmount, 0) / historicalMonths.length;
+                const avgItems = historicalMonths.reduce((sum, g) => sum + g.purchaseCount, 0) / historicalMonths.length;
+
+                // Analyze spending trend (last 3 months)
+                const recentMonths = [...monthlyGroups]
+                    .sort((a, b) => b.monthYear.localeCompare(a.monthYear))
+                    .slice(0, 3);
+
+                let spendingTrend: 'increasing' | 'decreasing' | 'stable' = 'stable';
+                if (recentMonths.length >= 3) {
+                    const [current, prev1, prev2] = recentMonths;
+                    const trend1 = current.totalAmount - prev1.totalAmount;
+                    const trend2 = prev1.totalAmount - prev2.totalAmount;
+
+                    if (trend1 > 0 && trend2 > 0) spendingTrend = 'increasing';
+                    else if (trend1 < 0 && trend2 < 0) spendingTrend = 'decreasing';
+                }
+
+                // Find most frequent category across all months
+                const categoryFrequency = new Map<string, number>();
+                allItems.forEach(item => {
+                    const categoryKey = getCategoryKey(item.category);
+                    categoryFrequency.set(categoryKey, (categoryFrequency.get(categoryKey) || 0) + item.totalPrice);
+                });
+
+                const topHistoricalCategory = Array.from(categoryFrequency.entries())
+                    .sort(([, a], [, b]) => b - a)[0];
+
+                setHistoricalInsights({
+                    avgMonthlySpending: avgSpending,
+                    avgMonthlyItems: avgItems,
+                    topCategoryTrend: topHistoricalCategory ? chartConfig[topHistoricalCategory[0]]?.label || 'Others' : 'Others',
+                    spendingTrend
+                });
+            }
 
             setLoading(false);
         }
@@ -381,10 +559,18 @@ function DashboardPage() {
         setIsAnalysisLoading(true);
         trackEvent("consumption_analysis_requested");
         try {
+            // Enhanced data for AI analysis including monthly summaries and trends
             const dataForAI = barChartData.map((monthData) => {
-                const translatedData: { [key: string]: any } = { month: monthData.month };
+                const translatedData: { [key: string]: any } = {
+                    month: monthData.month,
+                    totalAmount: monthData.totalAmount || 0,
+                    purchaseCount: monthData.purchaseCount || 0,
+                    monthYear: monthData.monthYear
+                };
+
+                // Add category spending data with translated labels
                 for (const key in monthData) {
-                    if (key !== "month") {
+                    if (!["month", "totalAmount", "purchaseCount", "monthYear"].includes(key)) {
                         const translatedKey = chartConfig[key as keyof typeof chartConfig]?.label || key;
                         translatedData[translatedKey] = monthData[key];
                     }
@@ -392,8 +578,25 @@ function DashboardPage() {
                 return translatedData;
             });
 
+            // Add summary statistics for better AI analysis
+            const totalSpending = barChartData.reduce((sum, month) => sum + (month.totalAmount || 0), 0);
+            const averageMonthlySpending = totalSpending / Math.max(barChartData.length, 1);
+            const totalPurchases = barChartData.reduce((sum, month) => sum + (month.purchaseCount || 0), 0);
+
+            const analysisPayload = {
+                monthlyData: dataForAI,
+                summary: {
+                    totalSpending,
+                    averageMonthlySpending,
+                    totalPurchases,
+                    monthsAnalyzed: barChartData.length,
+                    topCategory: topCategory.name,
+                    topCategoryPercentage: parseFloat(topCategoryPercent)
+                }
+            };
+
             const result = await analyzeConsumptionData({
-                consumptionData: JSON.stringify(dataForAI),
+                consumptionData: JSON.stringify(analysisPayload),
                 language: i18n.locale,
             });
 
@@ -459,15 +662,17 @@ function DashboardPage() {
 
     if (loading) {
         return (
-            <div className="space-y-6">
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    {[...Array(4)].map((_, i) => (
-                        <Skeleton key={i} className="h-[108px]" />
-                    ))}
+            <SideBarLayout>
+                <div className="space-y-6">
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                        {[...Array(4)].map((_, i) => (
+                            <Skeleton key={i} className="h-[108px]" />
+                        ))}
+                    </div>
+                    <Skeleton className="h-[434px] w-full" />
+                    <Skeleton className="h-[300px] w-full" />
                 </div>
-                <Skeleton className="h-[434px] w-full" />
-                <Skeleton className="h-[300px] w-full" />
-            </div>
+            </SideBarLayout>
         );
     }
 
@@ -477,46 +682,58 @@ function DashboardPage() {
                 <div className="space-y-6">
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                         <InsightModal
-                            title={t`Monthly Spending by Store`}
-                            description={t`A breakdown of your total spending for the current month by store.`}
+                            title={t`Monthly Spending by Store - ${currentMonthName}`}
+                            description={t`A breakdown of your total spending for ${currentMonthName} by store.`}
                             data={monthlySpendingByStore}
                             type="spendingByStore"
                         >
                             <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">
-                                        {t`Total Spending (Month)`}
+                                        {t`Total Spending`}
                                     </CardTitle>
                                     <FontAwesomeIcon icon={faDollarSign} className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold">R$ {totalSpentMonth?.toFixed(2) ?? "0.00"}</div>
+                                    <div className="text-xs text-muted-foreground mb-1">{currentMonthName}</div>
                                     <ComparisonBadge value={totalSpentChange} />
+                                    {historicalInsights && (
+                                        <p className="text-xs text-muted-foreground mt-1">
+                                            {t`Avg: R$ ${historicalInsights.avgMonthlySpending.toFixed(2)}/month`}
+                                        </p>
+                                    )}
                                 </CardContent>
                             </Card>
                         </InsightModal>
 
                         <InsightModal
-                            title={t`Recently Purchased Items`}
-                            description={t`A list of the most recent items you purchased this month.`}
+                            title={t`Recently Purchased Items - ${currentMonthName}`}
+                            description={t`A list of the most recent items you purchased in ${currentMonthName}.`}
                             data={recentItems}
                             type="recentItems"
                         >
                             <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">{t`Items Purchased (Month)`}</CardTitle>
+                                    <CardTitle className="text-sm font-medium">{t`Items Purchased`}</CardTitle>
                                     <FontAwesomeIcon icon={faShoppingBag} className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold">{totalItemsBought ?? 0}</div>
+                                    <div className="text-xs text-muted-foreground mb-1">{currentMonthName}</div>
                                     <ComparisonBadge value={totalItemsChange} />
+                                    {historicalInsights && (
+                                        <p className="text-xs text-muted-foreground mt-1">
+                                            {t`Avg: ${historicalInsights.avgMonthlyItems.toFixed(0)} items/month`}
+                                        </p>
+                                    )}
                                 </CardContent>
                             </Card>
                         </InsightModal>
 
                         <InsightModal
-                            title={t`Spending by Category`}
-                            description={t`A detailed view of how your spending is distributed across product categories this month.`}
+                            title={t`Spending by Category - ${currentMonthName}`}
+                            description={t`A detailed view of how your spending is distributed across product categories in ${currentMonthName}.`}
                             data={translatedSpendingByCategory}
                             chartData={pieChartData}
                             chartConfig={chartConfig}
@@ -524,34 +741,54 @@ function DashboardPage() {
                         >
                             <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">{t`Top Category (Month)`}</CardTitle>
+                                    <CardTitle className="text-sm font-medium">{t`Top Category`}</CardTitle>
                                     <FontAwesomeIcon icon={faChartSimple} className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold">{topCategory.name}</div>
+                                    <div className="text-xs text-muted-foreground mb-1">{currentMonthName}</div>
                                     <p className="text-xs text-muted-foreground">
                                         {t`${topCategoryPercent}% of total spending`}
                                     </p>
+                                    {historicalInsights && (
+                                        <p className="text-xs text-muted-foreground mt-1">
+                                            {t`Historical top: ${historicalInsights.topCategoryTrend}`}
+                                        </p>
+                                    )}
                                 </CardContent>
                             </Card>
                         </InsightModal>
 
                         <InsightModal
-                            title={t`Savings Opportunities`}
-                            description={t`Our AI analyzes your purchases to find potential savings. This feature will be available soon!`}
+                            title={t`Spending Trend - ${currentMonthName}`}
+                            description={t`Analysis of your spending patterns and trends based on historical data.`}
                             data={[]}
                             type="savingsOpportunities"
                         >
                             <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">
-                                        {t`Potential Savings`}
+                                        {t`Spending Trend`}
                                     </CardTitle>
                                     <FontAwesomeIcon icon={faArrowTrendUp} className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">{i18n.number(0.00, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</div>
-                                    <p className="text-xs text-muted-foreground">{t`AI savings insights coming soon!`}</p>
+                                    <div className="text-2xl font-bold">
+                                        {historicalInsights?.spendingTrend === 'increasing' && (
+                                            <span className="text-orange-600">↗ {t`Increasing`}</span>
+                                        )}
+                                        {historicalInsights?.spendingTrend === 'decreasing' && (
+                                            <span className="text-green-600">↘ {t`Decreasing`}</span>
+                                        )}
+                                        {historicalInsights?.spendingTrend === 'stable' && (
+                                            <span className="text-blue-600">→ {t`Stable`}</span>
+                                        )}
+                                        {!historicalInsights && <span className="text-muted-foreground">{t`--`}</span>}
+                                    </div>
+                                    <div className="text-xs text-muted-foreground mb-1">{t`Last 3 months`}</div>
+                                    <p className="text-xs text-muted-foreground">
+                                        {historicalInsights ? t`Based on spending pattern analysis` : t`Need more data for analysis`}
+                                    </p>
                                 </CardContent>
                             </Card>
                         </InsightModal>
@@ -559,8 +796,8 @@ function DashboardPage() {
 
                     <div className="grid gap-6">
                         <InsightModal
-                            title={t`Consumption Overview`}
-                            description={t`Your spending behavior over the last 12 months.`}
+                            title={t`Consumption Overview - Through ${currentMonthName}`}
+                            description={t`Your spending behavior over time, with current focus on ${currentMonthName}.`}
                             type="consumptionAnalysis"
                             analysis={consumptionAnalysis}
                             isLoading={isAnalysisLoading}
@@ -570,8 +807,13 @@ function DashboardPage() {
                         >
                             <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl col-span-1 lg:col-span-2">
                                 <CardHeader>
-                                    <CardTitle>{t`Consumption Overview`}</CardTitle>
-                                    <CardDescription>{t`Your spending behavior over the last 12 months.`}</CardDescription>
+                                    <CardTitle className="flex items-center gap-2">
+                                        {t`Consumption Overview`}
+                                        <span className="text-sm font-normal text-muted-foreground">
+                                            ({t`Current: ${currentMonthName}`})
+                                        </span>
+                                    </CardTitle>
+                                    <CardDescription>{t`Your spending behavior through ${currentMonthName}. Current month is highlighted.`}</CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     {barChartData.length > 0 ? (
@@ -579,11 +821,15 @@ function DashboardPage() {
                                             <ResponsiveContainer>
                                                 <RechartsBarChart data={barChartData} stackOffset="sign">
                                                     <XAxis
-                                                        dataKey="month"
+                                                        dataKey="displayName"
                                                         stroke="#888888"
                                                         fontSize={12}
                                                         tickLine={false}
                                                         axisLine={false}
+                                                        interval={0}
+                                                        angle={-45}
+                                                        textAnchor="end"
+                                                        height={80}
                                                     />
                                                     <YAxis
                                                         stroke="#888888"
@@ -592,7 +838,103 @@ function DashboardPage() {
                                                         axisLine={false}
                                                         tickFormatter={(value) => i18n.number(value as number, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
                                                     />
-                                                    <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                                                    <ChartTooltip
+                                                        cursor={{ fill: 'rgba(0, 0, 0, 0.1)', stroke: 'rgba(0, 0, 0, 0.2)', strokeWidth: 1 }}
+                                                        content={({ active, payload, label }) => {
+                                                            if (!active || !payload || !payload.length) return null;
+
+                                                            // Find the data point for this month
+                                                            const monthData = barChartData.find(d => d.displayName === label);
+                                                            const purchaseCount = monthData?.purchaseCount || 0;
+
+                                                            // Calculate total from category values (this is what's actually displayed in the chart)
+                                                            const calculatedTotal = payload.reduce((sum, entry) => {
+                                                                return sum + (typeof entry.value === 'number' ? entry.value : 0);
+                                                            }, 0);
+
+                                                            // Use calculated total for consistency with chart display and percentage calculations
+                                                            const displayTotal = calculatedTotal;
+
+                                                            // Calculate average for comparison using chart data totals
+                                                            const allTotals = barChartData.map(d => {
+                                                                // Calculate total for each month from category values
+                                                                const monthTotal = Object.keys(chartConfig)
+                                                                    .filter(k => !["total", "value"].includes(k))
+                                                                    .reduce((sum, key) => sum + (d[key] || 0), 0);
+                                                                return monthTotal;
+                                                            }).filter(t => t > 0);
+                                                            const avgSpending = allTotals.length > 0 ? allTotals.reduce((sum, val) => sum + val, 0) / allTotals.length : 0;
+
+                                                            return (
+                                                                <div className="rounded-lg border bg-background p-3 shadow-lg min-w-[280px]">
+                                                                    <div className="mb-3">
+                                                                        <p className="font-medium text-foreground">
+                                                                            {typeof label === 'string' && label.includes('(Current)')
+                                                                                ? `${label} - ${t`This Month`}`
+                                                                                : label}
+                                                                        </p>
+                                                                        <p className="text-xl font-bold text-primary">
+                                                                            {i18n.number(displayTotal, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                                                        </p>
+                                                                        <div className="flex items-center gap-4 mt-1">
+                                                                            {purchaseCount > 0 && (
+                                                                                <p className="text-sm text-muted-foreground">
+                                                                                    {t`${purchaseCount} purchases`}
+                                                                                </p>
+                                                                            )}
+                                                                            {avgSpending > 0 && displayTotal > 0 && (
+                                                                                <p className="text-sm text-muted-foreground">
+                                                                                    {displayTotal > avgSpending
+                                                                                        ? `+${((displayTotal - avgSpending) / avgSpending * 100).toFixed(0)}% ${t`vs avg`}`
+                                                                                        : `${((displayTotal - avgSpending) / avgSpending * 100).toFixed(0)}% ${t`vs avg`}`
+                                                                                    }
+                                                                                </p>
+                                                                            )}
+                                                                        </div>
+                                                                    </div>
+                                                                    {payload.some(entry => entry.value && entry.value > 0) && (
+                                                                        <div className="space-y-1 border-t pt-2">
+                                                                            <p className="text-xs font-medium text-muted-foreground mb-2">{t`Category Breakdown:`}</p>
+                                                                            {payload
+                                                                                .filter(entry => entry.value && entry.value > 0)
+                                                                                .sort((a, b) => (b.value as number) - (a.value as number))
+                                                                                .map((entry, index) => {
+                                                                                    const entryValue = entry.value as number;
+                                                                                    const percentage = displayTotal > 0 ? ((entryValue / displayTotal) * 100).toFixed(1) : '0.0';
+                                                                                    return (
+                                                                                        <div key={index} className="flex items-center justify-between gap-3">
+                                                                                            <div className="flex items-center gap-2 flex-1">
+                                                                                                <div
+                                                                                                    className="h-3 w-3 rounded-sm flex-shrink-0"
+                                                                                                    style={{ backgroundColor: entry.color }}
+                                                                                                />
+                                                                                                <span className="text-sm truncate">{entry.name}</span>
+                                                                                            </div>
+                                                                                            <div className="text-right">
+                                                                                                <span className="text-sm font-medium">
+                                                                                                    {i18n.number(entryValue, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                                                                                </span>
+                                                                                                <span className="text-xs text-muted-foreground ml-1">
+                                                                                                    ({percentage}%)
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    );
+                                                                                })}
+                                                                            <div className="border-t pt-1 mt-2">
+                                                                                <div className="flex items-center justify-between gap-3">
+                                                                                    <span className="text-sm font-medium">{t`Total:`}</span>
+                                                                                    <span className="text-sm font-bold">
+                                                                                        {i18n.number(displayTotal, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            );
+                                                        }}
+                                                    />
                                                     <ChartLegend content={<ChartLegendContent />} />
                                                     {Object.keys(chartConfig)
                                                         .filter((k) => !["total", "value"].includes(k))
@@ -622,8 +964,8 @@ function DashboardPage() {
 
                     <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
                         <CardHeader>
-                            <CardTitle>{t`Top Expenses (This Month)`}</CardTitle>
-                            <CardDescription>{t`Products that had the biggest impact on your budget this month.`}</CardDescription>
+                            <CardTitle>{t`Top Expenses - ${currentMonthName}`}</CardTitle>
+                            <CardDescription>{t`Products that had the biggest impact on your budget in ${currentMonthName}.`}</CardDescription>
                         </CardHeader>
                         <CardContent>
                             {topExpensesData.length > 0 ? (
@@ -666,18 +1008,18 @@ function DashboardPage() {
                                     <TableBody>
                                         {topExpensesData.map((item) => (
                                             <TableRow key={item.id}>
-                                                <TableCell className="font-mono">{item.barcode}</TableCell>
-                                                <TableCell className="font-medium">{item.name}</TableCell>
-                                                <TableCell>{item.brand}</TableCell>
+                                                <TableCell className="font-mono">{item.barcode || "--"}</TableCell>
+                                                <TableCell className="font-medium">{item.name || "--"}</TableCell>
+                                                <TableCell>{item.brand || "--"}</TableCell>
                                                 <TableCell>
                                                     <Badge variant="tag" className={cn(getCategoryClass(item.category))}>
-                                                        {chartConfig[item.category ?? 'others']?.label ?? 'Unknown'}
+                                                        {item.category ? (chartConfig[getCategoryKey(item.category)]?.label || item.category) : "--"}
                                                     </Badge>
                                                 </TableCell>
-                                                <TableCell className="text-center">{item.quantity.toFixed(2)}</TableCell>
-                                                <TableCell className="text-right">R$ {item.price?.toFixed(2)}</TableCell>
+                                                <TableCell className="text-center">{item.quantity?.toFixed(2) || "0.00"}</TableCell>
+                                                <TableCell className="text-right">R$ {item.price?.toFixed(2) || "0.00"}</TableCell>
                                                 <TableCell className="text-right">
-                                                    R$ {item.totalPrice?.toFixed(2)}
+                                                    R$ {item.totalPrice?.toFixed(2) || "0.00"}
                                                 </TableCell>
                                             </TableRow>
                                         ))}
@@ -693,7 +1035,7 @@ function DashboardPage() {
                     </Card>
                 </div>
 
-                <Link to="/scan">
+                <Link to="/purchases">
                     <Button
                         className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg z-20"
                         size="icon"

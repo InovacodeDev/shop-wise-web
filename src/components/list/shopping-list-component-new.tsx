@@ -185,12 +185,23 @@ export function ShoppingListComponent() {
         trackEvent("shopping_list_ai_suggestion_requested");
 
         try {
-            // Get purchase history from API
-            const purchases = await apiService.getPurchases(profile.familyId);
-
-            const purchaseHistory = purchases.map((purchase: any) =>
-                `${purchase.storeName} - ${new Date(purchase.date).toLocaleDateString()} - R$ ${purchase.totalAmount}`
-            ).join('\n');
+            // Try to get purchase history from monthly API first, fallback to flat list
+            let purchaseHistory = '';
+            try {
+                const monthlyGroups = await apiService.getPurchasesByMonth(profile.familyId);
+                // Convert monthly groups to flat purchase history for AI
+                const allPurchases = monthlyGroups.flatMap(group => group.purchases);
+                purchaseHistory = allPurchases.map((purchase: any) =>
+                    `${purchase.storeName} - ${new Date(purchase.date).toLocaleDateString()} - R$ ${purchase.totalAmount}`
+                ).join('\n');
+            } catch (monthlyError) {
+                console.warn("Monthly purchase data failed, using flat list for AI suggestions:", monthlyError);
+                // Fallback to flat purchase list
+                const purchases = await apiService.getPurchases(profile.familyId);
+                purchaseHistory = purchases.map((purchase: any) =>
+                    `${purchase.storeName} - ${new Date(purchase.date).toLocaleDateString()} - R$ ${purchase.totalAmount}`
+                ).join('\n');
+            }
 
             const familySize = (profile.family?.adults || 1) + (profile.family?.children || 1);
 

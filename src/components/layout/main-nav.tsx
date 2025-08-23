@@ -46,7 +46,7 @@ export function MainNav() {
     const menuItems = [
         { href: "/home", label: t`Insights`, icon: faHome },
         { href: "/list", label: t`Shopping List`, icon: faList },
-        { href: "/scan", label: t`Add Purchase`, icon: faPlusCircle },
+        { href: "/purchases", label: t`Add Purchase`, icon: faPlusCircle },
     ];
 
     const settingsMenuItems = [
@@ -66,13 +66,13 @@ export function MainNav() {
         { href: "/admin/logs", label: t`System Logs`, icon: faFileLines },
     ];
 
-        const handleSignOut = async () => {
-            // Attempt to revoke server-side refresh token (clears HttpOnly cookie)
-            try {
-                await apiService.revoke();
-            } catch (e) {
-                // ignore
-            }
+    const handleSignOut = async () => {
+        // Attempt to revoke server-side refresh token (clears HttpOnly cookie)
+        try {
+            await apiService.revoke();
+        } catch (e) {
+            // ignore
+        }
         // Clear backend tokens (client-side)
         try {
             apiService.clearAuthState();

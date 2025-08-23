@@ -51,6 +51,8 @@ import { toast } from "@/hooks/use-toast";
 import { PurchaseItem, updatePurchaseItems } from "../../routes/family/actions";
 import { trackEvent } from "@/services/analytics-service";
 import { apiService } from "@/services/api";
+import { MonthlyPurchaseDisplay } from "@/components/purchases/monthly-purchase-display";
+import type { MonthlyPurchaseGroup, Purchase as ApiPurchase } from "@/types/api";
 
 interface Purchase {
     id: string;
@@ -64,7 +66,9 @@ export function HistoryTab() {
     const { t } = useLingui();
     const { profile } = useAuth();
     const [purchases, setPurchases] = useState<Purchase[]>([]);
+    const [monthlyGroups, setMonthlyGroups] = useState<MonthlyPurchaseGroup[]>([]);
     const [loading, setLoading] = useState(true);
+    const [useMonthlyView, setUseMonthlyView] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedStore, setSelectedStore] = useState("all");
     const [selectedPeriod, setSelectedPeriod] = useState("all");
@@ -78,41 +82,78 @@ export function HistoryTab() {
 
             setLoading(true);
             try {
-                // Fetch purchases via API
-                const purchases = await apiService.getPurchases(profile.familyId);
+                // Try to fetch monthly grouped purchases first
+                try {
+                    const monthlyData = await apiService.getPurchasesByMonth(profile.familyId);
+                    setMonthlyGroups(monthlyData);
+                    
+                    // Convert monthly data to flat purchases for filtering compatibility
+                    const flatPurchases: Purchase[] = [];
+                    for (const group of monthlyData) {
+                        for (const purchase of group.purchases) {
+                            const items = await apiService.getPurchaseItems(profile.familyId!, purchase._id);
+                            const purchaseItems = items.map<PurchaseItem>((item: any) => ({
+                                id: item.id,
+                                productId: item.productId,
+                                name: item.productName || item.name,
+                                barcode: item.productBarcode || item.barcode,
+                                volume: item.productVolume || item.volume,
+                                quantity: item.quantity,
+                                price: item.totalPrice || item.price,
+                                unitPrice: item.unitPrice || item.price,
+                                productRef: { id: item.productId }
+                            }));
 
-                const allPurchases = await Promise.all(
-                    purchases.map(async (purchase: any) => {
-                        const items = await apiService.getPurchaseItems(profile.familyId!, purchase.id);
+                            flatPurchases.push({
+                                id: purchase._id,
+                                storeName: purchase.storeName,
+                                date: new Date(purchase.date),
+                                totalAmount: purchase.totalAmount,
+                                items: purchaseItems,
+                            });
+                        }
+                    }
+                    setPurchases(flatPurchases);
+                    setUseMonthlyView(true);
+                } catch (monthlyError) {
+                    console.warn("Monthly purchase view failed, falling back to flat list:", monthlyError);
+                    
+                    // Fallback to flat purchase list
+                    const purchases = await apiService.getPurchases(profile.familyId);
+                    const allPurchases = await Promise.all(
+                        purchases.map(async (purchase: any) => {
+                            const items = await apiService.getPurchaseItems(profile.familyId!, purchase.id);
 
-                        const purchaseItems = items.map<PurchaseItem>((item: any) => ({
-                            id: item.id,
-                            productId: item.productId,
-                            name: item.productName || item.name,
-                            barcode: item.productBarcode || item.barcode,
-                            volume: item.productVolume || item.volume,
-                            quantity: item.quantity,
-                            price: item.totalPrice || item.price,
-                            unitPrice: item.unitPrice || item.price,
-                            productRef: { id: item.productId }
-                        }));
+                            const purchaseItems = items.map<PurchaseItem>((item: any) => ({
+                                id: item.id,
+                                productId: item.productId,
+                                name: item.productName || item.name,
+                                barcode: item.productBarcode || item.barcode,
+                                volume: item.productVolume || item.volume,
+                                quantity: item.quantity,
+                                price: item.totalPrice || item.price,
+                                unitPrice: item.unitPrice || item.price,
+                                productRef: { id: item.productId }
+                            }));
 
-                        return {
-                            id: purchase.id,
-                            storeName: purchase.storeName,
-                            date: new Date(purchase.date),
-                            totalAmount: purchase.totalAmount,
-                            items: purchaseItems,
-                        } as unknown as Purchase;
-                    })
-                );
+                            return {
+                                id: purchase.id,
+                                storeName: purchase.storeName,
+                                date: new Date(purchase.date),
+                                totalAmount: purchase.totalAmount,
+                                items: purchaseItems,
+                            } as unknown as Purchase;
+                        })
+                    );
 
-                // Sort by date descending
-                allPurchases.sort((a, b) => b.date.getTime() - a.date.getTime());
-
-                setPurchases(allPurchases);
+                    // Sort by date descending
+                    allPurchases.sort((a, b) => b.date.getTime() - a.date.getTime());
+                    setPurchases(allPurchases);
+                    setUseMonthlyView(false);
+                }
             } catch (error) {
                 console.error("Error fetching purchase history: ", error);
+                setUseMonthlyView(false);
             } finally {
                 setLoading(false);
             }
@@ -187,91 +228,121 @@ export function HistoryTab() {
         return Array.from(storeSet);
     }, [purchases]);
 
+    // If we have monthly data and no filters are applied, use the monthly view
+    const shouldUseMonthlyView = useMonthlyView && 
+        searchTerm === "" && 
+        selectedStore === "all" && 
+        selectedPeriod === "all";
+
     return (
         <div className="space-y-8">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-2xl font-headline flex items-center gap-2">
-                        <FontAwesomeIcon icon={faHistory} className="w-6 h-6" /> {t`Purchase History`}
-                    </CardTitle>
-                    <CardDescription>{t`View and filter all your past purchases.`}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col md:flex-row gap-4 mb-6">
-                        <div className="relative flex-grow">
-                            <FontAwesomeIcon
-                                icon={faSearch}
-                                className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
-                            />
-                            <Input
-                                placeholder={t`Search by store or product...`}
-                                className="pl-10"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-                        <Select value={selectedStore} onValueChange={setSelectedStore}>
-                            <SelectTrigger className="w-full md:w-[200px]">
-                                <SelectValue placeholder={t`Filter by store`} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">{t`All stores`}</SelectItem>
-                                {availableStores.map((store) => (
-                                    <SelectItem key={store} value={store}>
-                                        {store}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-                            <SelectTrigger className="w-full md:w-[200px]">
-                                <SelectValue placeholder={t`Filter by period`} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">{t`All periods`}</SelectItem>
-                                <SelectItem value="last_month">{t`Last month`}</SelectItem>
-                                <SelectItem value="last_3_months">{t`Last 3 months`}</SelectItem>
-                                <SelectItem value="last_6_months">{t`Last 6 months`}</SelectItem>
-                                <SelectItem value="last_year">{t`Last year`}</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    {loading ? (
-                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                            {[...Array(3)].map((_, i) => (
-                                <Card key={i}>
-                                    <CardHeader>
-                                        <Skeleton className="h-6 w-3/4" />
-                                    </CardHeader>
-                                    <CardContent>
-                                        <Skeleton className="h-5 w-1/2" />
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </div>
-                    ) : (
-                        <>
-                            {filteredPurchases.length > 0 ? (
-                                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                                    {filteredPurchases.map((purchase) => (
-                                        <PurchaseCard
-                                            key={purchase.id}
-                                            purchase={purchase}
-                                            onDelete={handleDeletePurchase}
-                                        />
-                                    ))}
-                                </div>
-                            ) : (
-                                <EmptyState
-                                    title={t`No Purchases Found`}
-                                    description={t`Try adjusting your filters or add a new purchase to get started.`}
+            {shouldUseMonthlyView ? (
+                // Use the monthly purchase display component
+                <MonthlyPurchaseDisplay 
+                    familyId={profile?.familyId || undefined}
+                    onPurchaseSelect={(purchase) => {
+                        // Convert API purchase to local Purchase format for dialog
+                        const localPurchase: Purchase = {
+                            id: purchase._id,
+                            storeName: purchase.storeName,
+                            date: new Date(purchase.date),
+                            totalAmount: purchase.totalAmount,
+                            items: [] // Items will be loaded when dialog opens
+                        };
+                        // You could implement a purchase selection handler here if needed
+                    }}
+                />
+            ) : (
+                // Fallback to traditional card-based view with filters
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-2xl font-headline flex items-center gap-2">
+                            <FontAwesomeIcon icon={faHistory} className="w-6 h-6" /> {t`Purchase History`}
+                        </CardTitle>
+                        <CardDescription>
+                            {useMonthlyView 
+                                ? t`Filtered view - clear filters to see monthly organization.`
+                                : t`View and filter all your past purchases.`
+                            }
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex flex-col md:flex-row gap-4 mb-6">
+                            <div className="relative flex-grow">
+                                <FontAwesomeIcon
+                                    icon={faSearch}
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
                                 />
-                            )}
-                        </>
-                    )}
-                </CardContent>
-            </Card>
+                                <Input
+                                    placeholder={t`Search by store or product...`}
+                                    className="pl-10"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
+                            <Select value={selectedStore} onValueChange={setSelectedStore}>
+                                <SelectTrigger className="w-full md:w-[200px]">
+                                    <SelectValue placeholder={t`Filter by store`} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">{t`All stores`}</SelectItem>
+                                    {availableStores.map((store) => (
+                                        <SelectItem key={store} value={store}>
+                                            {store}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
+                                <SelectTrigger className="w-full md:w-[200px]">
+                                    <SelectValue placeholder={t`Filter by period`} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">{t`All periods`}</SelectItem>
+                                    <SelectItem value="last_month">{t`Last month`}</SelectItem>
+                                    <SelectItem value="last_3_months">{t`Last 3 months`}</SelectItem>
+                                    <SelectItem value="last_6_months">{t`Last 6 months`}</SelectItem>
+                                    <SelectItem value="last_year">{t`Last year`}</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {loading ? (
+                            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                {[...Array(3)].map((_, i) => (
+                                    <Card key={i}>
+                                        <CardHeader>
+                                            <Skeleton className="h-6 w-3/4" />
+                                        </CardHeader>
+                                        <CardContent>
+                                            <Skeleton className="h-5 w-1/2" />
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                            </div>
+                        ) : (
+                            <>
+                                {filteredPurchases.length > 0 ? (
+                                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                        {filteredPurchases.map((purchase) => (
+                                            <PurchaseCard
+                                                key={purchase.id}
+                                                purchase={purchase}
+                                                onDelete={handleDeletePurchase}
+                                            />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <EmptyState
+                                        title={t`No Purchases Found`}
+                                        description={t`Try adjusting your filters or add a new purchase to get started.`}
+                                    />
+                                )}
+                            </>
+                        )}
+                    </CardContent>
+                </Card>
+            )}
 
             <Card>
                 <CardHeader>

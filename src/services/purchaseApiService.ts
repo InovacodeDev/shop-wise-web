@@ -1,7 +1,7 @@
 import { apiService } from "@/services/api";
-import type { PurchaseData } from "@/components/scan/manual-purchase-form";
+import type { PurchaseData } from "@/components/purchases/manual-purchase-form";
 import type { ExtractProductDataOutput, Product } from "@/types/ai-flows";
-import type { Purchase, CreatePurchaseItemRequest } from "@/types/api";
+import type { Purchase, CreatePurchaseItemRequest, MonthlyPurchaseGroup } from "@/types/api";
 
 export async function savePurchase(
     familyId: string, 
@@ -119,6 +119,41 @@ export async function savePurchase(
 // Wrapper functions to use API endpoints
 export async function getPurchases(familyId: string): Promise<Purchase[]> {
     return apiService.getPurchases(familyId);
+}
+
+export async function getPurchasesByMonth(familyId: string): Promise<MonthlyPurchaseGroup[]> {
+    try {
+        return await apiService.getPurchasesByMonth(familyId);
+    } catch (error: any) {
+        console.error('Error fetching purchases by month:', error);
+        
+        // Create enhanced error with better context
+        let errorMessage = 'Failed to fetch monthly purchases';
+        
+        if (error && error.status === 400) {
+            errorMessage = 'Invalid family ID provided';
+        } else if (error && (error.status === 401 || error.status === 403)) {
+            errorMessage = 'Authentication required to access purchase data';
+        } else if (error && error.status === 404) {
+            errorMessage = 'Family not found';
+        } else if (error && error.status === 500) {
+            errorMessage = 'Server error occurred while fetching purchases';
+        } else if (error && (error.message?.includes('Network Error') || error.code === 'NETWORK_ERROR')) {
+            errorMessage = 'Network connection failed. Please check your internet connection';
+        } else if (error && error.message?.includes('timeout')) {
+            errorMessage = 'Request timed out. Please try again';
+        } else if (error && error.message) {
+            errorMessage = `Failed to fetch monthly purchases: ${error.message}`;
+        }
+        
+        const enhancedError = new Error(errorMessage);
+        enhancedError.cause = error;
+        (enhancedError as any).status = error?.status;
+        (enhancedError as any).isRetryable = (error && [408, 429, 500, 502, 503, 504].includes(error.status)) || 
+                                            (error && error.message?.includes('Network Error')) || 
+                                            (error && error.message?.includes('timeout'));
+        throw enhancedError;
+    }
 }
 
 export async function getPurchase(familyId: string, purchaseId: string): Promise<Purchase> {

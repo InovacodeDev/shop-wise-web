@@ -10,7 +10,7 @@ export default defineConfig(({
   test: {
   environment: 'jsdom',
     globals: true,
-  include: ['src/**/*.spec.ts', 'src/**/*.spec.tsx'],
+  include: ['src/**/*.spec.ts', 'src/**/*.spec.tsx', 'test/**/*.spec.ts', 'test/**/*.spec.tsx'],
     deps: {
       // Inline TanStack router plugin and related packages to avoid Vite plugin transforms
       inline: ['@tanstack/router-plugin', '@tanstack/router', '@tanstack/react-router'],

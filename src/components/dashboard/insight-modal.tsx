@@ -94,7 +94,13 @@ export function InsightModal({
                                         </TableHead>
                                         <TableHead className="text-right">
                                             <FontAwesomeIcon icon={faDollarSign} className="mr-2 h-4 w-4" />
-                                            {t`Amount Spent`}
+                                            {t`This Month`}
+                                        </TableHead>
+                                        <TableHead className="text-right">
+                                            {t`Avg/Month`}
+                                        </TableHead>
+                                        <TableHead className="text-center">
+                                            {t`Months Active`}
                                         </TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -103,6 +109,12 @@ export function InsightModal({
                                         <TableRow key={index}>
                                             <TableCell className="font-medium">{item.name}</TableCell>
                                             <TableCell className="text-right">R$ {item.value.toFixed(2)}</TableCell>
+                                            <TableCell className="text-right text-muted-foreground">
+                                                R$ {(item.historicalAverage || item.value).toFixed(2)}
+                                            </TableCell>
+                                            <TableCell className="text-center">
+                                                <Badge variant="secondary">{item.monthsActive || 1}</Badge>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

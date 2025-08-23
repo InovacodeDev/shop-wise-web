@@ -13,7 +13,7 @@ import type {
   // Category types
   Category, CreateCategoryRequest,
   // Purchase types
-  Purchase, CreatePurchaseRequest, UpdatePurchaseRequest,
+  Purchase, CreatePurchaseRequest, UpdatePurchaseRequest, MonthlyPurchaseGroup, AvailableMonth, AvailableMonthsSummary,
   // Purchase Item types
   PurchaseItem, CreatePurchaseItemRequest, UpdatePurchaseItemRequest,
   BulkUpdatePurchaseItemsResponse, BulkDeletePurchaseItemsResponse,
@@ -349,6 +349,18 @@ export class ApiService {
   // Purchases endpoints
   async getPurchases(familyId: string): Promise<Purchase[]> {
     return this.makeRequest<Purchase[]>(`/families/${familyId}/purchases`);
+  }
+
+  async getPurchasesByMonth(familyId: string): Promise<MonthlyPurchaseGroup[]> {
+    return this.makeRequest<MonthlyPurchaseGroup[]>(`/families/${familyId}/purchases/by-month`);
+  }
+
+  async getAvailableMonths(familyId: string): Promise<AvailableMonth[]> {
+    return this.makeRequest<AvailableMonth[]>(`/families/${familyId}/purchases/available-months`);
+  }
+
+  async getAvailableMonthsSummary(familyId: string): Promise<AvailableMonthsSummary> {
+    return this.makeRequest<AvailableMonthsSummary>(`/families/${familyId}/purchases/available-months/summary`);
   }
 
   async createPurchase(familyId: string, data: CreatePurchaseRequest): Promise<Purchase> {

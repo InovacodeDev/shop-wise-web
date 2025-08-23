@@ -1,11 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { PdfImportComponent } from "@/components/scan/pdf-import-component";
+import { PdfImportComponent } from "@/components/purchases/pdf-import-component";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useAuth } from '@/hooks/use-auth';
 import { savePurchase } from "./actions";
 // import { ManualPurchaseForm } from "@/components/scan/manual-purchase-form";
-import type { PurchaseData } from "@/components/scan/manual-purchase-form";
+import type { PurchaseData } from "@/components/purchases/manual-purchase-form";
 import type { ExtractProductDataOutput, Product } from "@/types/ai-flows";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKeyboard, faFilePdf } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +15,7 @@ import { trackEvent } from "@/services/analytics-service";
 import { useLingui } from '@lingui/react/macro';
 import { SideBarLayout } from '@/components/layout/sidebar-layout';
 
-export const Route = createFileRoute('/scan')({
+export const Route = createFileRoute('/purchases')({
     component: ScanPage,
 })
 

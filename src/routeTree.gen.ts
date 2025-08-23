@@ -11,7 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteRouteImport } from './routes/signup/route'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
-import { Route as ScanRouteRouteImport } from './routes/scan/route'
+import { Route as PurchasesRouteRouteImport } from './routes/purchases/route'
 import { Route as LoginRouteRouteImport } from './routes/login/route'
 import { Route as ListRouteRouteImport } from './routes/list/route'
 import { Route as HomeRouteRouteImport } from './routes/home/route'
@@ -38,9 +38,9 @@ const SettingsRouteRoute = SettingsRouteRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ScanRouteRoute = ScanRouteRouteImport.update({
-  id: '/scan',
-  path: '/scan',
+const PurchasesRouteRoute = PurchasesRouteRouteImport.update({
+  id: '/purchases',
+  path: '/purchases',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRouteRoute = LoginRouteRouteImport.update({
@@ -128,7 +128,7 @@ export interface FileRoutesByFullPath {
   '/home': typeof HomeRouteRoute
   '/list': typeof ListRouteRoute
   '/login': typeof LoginRouteRoute
-  '/scan': typeof ScanRouteRoute
+  '/purchases': typeof PurchasesRouteRoute
   '/settings': typeof SettingsRouteRoute
   '/signup': typeof SignupRouteRoute
   '/admin/audit': typeof AdminAuditRouteRoute
@@ -148,7 +148,7 @@ export interface FileRoutesByTo {
   '/home': typeof HomeRouteRoute
   '/list': typeof ListRouteRoute
   '/login': typeof LoginRouteRoute
-  '/scan': typeof ScanRouteRoute
+  '/purchases': typeof PurchasesRouteRoute
   '/settings': typeof SettingsRouteRoute
   '/signup': typeof SignupRouteRoute
   '/admin/audit': typeof AdminAuditRouteRoute
@@ -169,7 +169,7 @@ export interface FileRoutesById {
   '/home': typeof HomeRouteRoute
   '/list': typeof ListRouteRoute
   '/login': typeof LoginRouteRoute
-  '/scan': typeof ScanRouteRoute
+  '/purchases': typeof PurchasesRouteRoute
   '/settings': typeof SettingsRouteRoute
   '/signup': typeof SignupRouteRoute
   '/admin/audit': typeof AdminAuditRouteRoute
@@ -191,7 +191,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/list'
     | '/login'
-    | '/scan'
+    | '/purchases'
     | '/settings'
     | '/signup'
     | '/admin/audit'
@@ -211,7 +211,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/list'
     | '/login'
-    | '/scan'
+    | '/purchases'
     | '/settings'
     | '/signup'
     | '/admin/audit'
@@ -231,7 +231,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/list'
     | '/login'
-    | '/scan'
+    | '/purchases'
     | '/settings'
     | '/signup'
     | '/admin/audit'
@@ -252,7 +252,7 @@ export interface RootRouteChildren {
   HomeRouteRoute: typeof HomeRouteRoute
   ListRouteRoute: typeof ListRouteRoute
   LoginRouteRoute: typeof LoginRouteRoute
-  ScanRouteRoute: typeof ScanRouteRoute
+  PurchasesRouteRoute: typeof PurchasesRouteRoute
   SettingsRouteRoute: typeof SettingsRouteRoute
   SignupRouteRoute: typeof SignupRouteRoute
 }
@@ -273,11 +273,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/scan': {
-      id: '/scan'
-      path: '/scan'
-      fullPath: '/scan'
-      preLoaderRoute: typeof ScanRouteRouteImport
+    '/purchases': {
+      id: '/purchases'
+      path: '/purchases'
+      fullPath: '/purchases'
+      preLoaderRoute: typeof PurchasesRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -422,7 +422,7 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRouteRoute: HomeRouteRoute,
   ListRouteRoute: ListRouteRoute,
   LoginRouteRoute: LoginRouteRoute,
-  ScanRouteRoute: ScanRouteRoute,
+  PurchasesRouteRoute: PurchasesRouteRoute,
   SettingsRouteRoute: SettingsRouteRoute,
   SignupRouteRoute: SignupRouteRoute,
 }
