@@ -671,7 +671,7 @@ function DashboardPage() {
                                                 <TableCell>{item.brand}</TableCell>
                                                 <TableCell>
                                                     <Badge variant="tag" className={cn(getCategoryClass(item.category))}>
-                                                        {chartConfig[item.category ?? 'others'].label}
+                                                        {chartConfig[item.category ?? 'others']?.label ?? 'Unknown'}
                                                     </Badge>
                                                 </TableCell>
                                                 <TableCell className="text-center">{item.quantity.toFixed(2)}</TableCell>

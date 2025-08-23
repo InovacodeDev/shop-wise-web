@@ -2,7 +2,6 @@ import { apiService } from "@/services/api";
 import type { PurchaseData } from "@/components/scan/manual-purchase-form";
 import type { ExtractProductDataOutput, Product } from "@/types/ai-flows";
 import type { Purchase, CreatePurchaseItemRequest } from "@/types/api";
-import { randomUUID } from "crypto";
 
 export async function savePurchase(
     familyId: string, 

@@ -37,7 +37,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "..
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Progress } from "../ui/progress";
 import { ExtractProductDataOutput, Product as AIProduct } from "@/types/ai-flows";
-import { randomUUID } from "crypto";
+import { v4 as randomUUID } from "uuid";
 
 // Interface local que estende Product com id para uso na interface
 interface Product extends AIProduct { }
@@ -301,7 +301,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
             setIsSaving(true);
             try {
                 await onSave(extractionResult, products);
-                // handleCancelImport();
+                handleCancelImport();
             } finally {
                 setIsSaving(false);
             }
