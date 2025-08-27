@@ -44,7 +44,7 @@ export async function savePurchase(
     products: Product[],
     familyId: string,
     userId: string,
-    entryMethod: "import" | "manual"
+    entryMethod: "import" | "manual" | "nfce"
 ): Promise<{ success: boolean; error?: string; purchaseId?: string }> {
     try {
         const result = await savePurchaseService(familyId, userId, purchaseData, products, entryMethod);

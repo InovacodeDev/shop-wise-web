@@ -36,6 +36,7 @@ import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Progress } from "../ui/progress";
+import { Loading } from "@/components/ui/loading";
 import { ExtractProductDataOutput, Product as AIProduct } from "@/types/ai-flows";
 import { v4 as randomUUID } from "uuid";
 
@@ -330,9 +331,14 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                 />
 
                 {isLoading ? (
-                    <div className="w-full space-y-2">
+                    <div className="w-full space-y-4">
+                        <Loading
+                            text={t`Processing PDF...`}
+                            description={t`Extracting purchase data from your receipt. This may take a few moments.`}
+                            layout="vertical"
+                            size="md"
+                        />
                         <Progress value={progress} />
-                        <p className="text-sm text-center text-muted-foreground">{t`Processing...`}...</p>
                     </div>
                 ) : (
                     <Button

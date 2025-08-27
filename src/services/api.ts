@@ -31,6 +31,9 @@ import type {
   // Generic types
   DeleteResponse
 } from '@/types/api';
+import type {
+  CrawlNfceRequest, CrawlNfceResponse, CrawlAndEnhanceNfceResponse
+} from '@/types/webcrawler';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { logApiCall } from '@/lib/dev-utils';
 
@@ -617,6 +620,24 @@ export class ApiService {
     return this.makeRequest<BulkDeletePurchaseItemsResponse>(`/families/${familyId}/purchases/${purchaseId}/items/bulk`, {
       method: 'DELETE',
       data: { itemIds },
+    });
+  }
+
+  // ===============================
+  // Webcrawler Methods
+  // ===============================
+
+  async crawlNfce(request: CrawlNfceRequest): Promise<CrawlNfceResponse> {
+    return this.makeRequest<CrawlNfceResponse>('/webcrawler/nfce', {
+      method: 'POST',
+      data: request,
+    });
+  }
+
+  async crawlAndEnhanceNfce(request: CrawlNfceRequest): Promise<CrawlAndEnhanceNfceResponse> {
+    return this.makeRequest<CrawlAndEnhanceNfceResponse>('/webcrawler/nfce/enhanced', {
+      method: 'POST',
+      data: request,
     });
   }
 }

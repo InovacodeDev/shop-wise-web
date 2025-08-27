@@ -86,7 +86,7 @@ export function HistoryTab() {
                 try {
                     const monthlyData = await apiService.getPurchasesByMonth(profile.familyId);
                     setMonthlyGroups(monthlyData);
-                    
+
                     // Convert monthly data to flat purchases for filtering compatibility
                     const flatPurchases: Purchase[] = [];
                     for (const group of monthlyData) {
@@ -117,7 +117,7 @@ export function HistoryTab() {
                     setUseMonthlyView(true);
                 } catch (monthlyError) {
                     console.warn("Monthly purchase view failed, falling back to flat list:", monthlyError);
-                    
+
                     // Fallback to flat purchase list
                     const purchases = await apiService.getPurchases(profile.familyId);
                     const allPurchases = await Promise.all(
@@ -229,16 +229,16 @@ export function HistoryTab() {
     }, [purchases]);
 
     // If we have monthly data and no filters are applied, use the monthly view
-    const shouldUseMonthlyView = useMonthlyView && 
-        searchTerm === "" && 
-        selectedStore === "all" && 
+    const shouldUseMonthlyView = useMonthlyView &&
+        searchTerm === "" &&
+        selectedStore === "all" &&
         selectedPeriod === "all";
 
     return (
         <div className="space-y-8">
             {shouldUseMonthlyView ? (
                 // Use the monthly purchase display component
-                <MonthlyPurchaseDisplay 
+                <MonthlyPurchaseDisplay
                     familyId={profile?.familyId || undefined}
                     onPurchaseSelect={(purchase) => {
                         // Convert API purchase to local Purchase format for dialog
@@ -260,7 +260,7 @@ export function HistoryTab() {
                             <FontAwesomeIcon icon={faHistory} className="w-6 h-6" /> {t`Purchase History`}
                         </CardTitle>
                         <CardDescription>
-                            {useMonthlyView 
+                            {useMonthlyView
                                 ? t`Filtered view - clear filters to see monthly organization.`
                                 : t`View and filter all your past purchases.`
                             }
@@ -514,7 +514,7 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                                         <Input
                                             value={item.volume}
                                             onChange={(e) => handleItemChange(index, "volume", e.target.value)}
-                                            placeholder="ex: 1kg, 500ml"
+                                            placeholder={t`ex: 1kg, 500ml`}
                                             disabled={editingItemId !== item.id}
                                         />
                                     </TableCell>

@@ -196,7 +196,7 @@ export function ManualPurchaseForm({ onSave }: ManualPurchaseFormProps) {
                                                 render={({ field }) => (
                                                     <div className="flex flex-col gap-1.5">
                                                         <FormControl>
-                                                            <Input {...field} placeholder="ex: 1kg, 500ml" />
+                                                            <Input {...field} placeholder={t`ex: 1kg, 500ml`} />
                                                         </FormControl>
                                                         <FormMessage />
                                                     </div>

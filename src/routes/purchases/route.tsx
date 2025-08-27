@@ -1,15 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { PdfImportComponent } from "@/components/purchases/pdf-import-component";
+import { NfceScannerComponent } from "@/components/purchases/nfce-scanner-component";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useAuth } from '@/hooks/use-auth';
 import { savePurchase } from "./actions";
-// import { ManualPurchaseForm } from "@/components/scan/manual-purchase-form";
 import type { PurchaseData } from "@/components/purchases/manual-purchase-form";
 import type { ExtractProductDataOutput, Product } from "@/types/ai-flows";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faKeyboard, faFilePdf } from "@fortawesome/free-solid-svg-icons";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/services/analytics-service";
 import { useLingui } from '@lingui/react/macro';
@@ -24,7 +20,7 @@ function ScanPage() {
     const { user, profile } = useAuth();
     const { toast } = useToast();
 
-    const handleSavePurchase = async (purchaseData: ExtractProductDataOutput | PurchaseData, products: Product[], entryMethod: 'import' | 'manual') => {
+    const handleSavePurchase = async (purchaseData: ExtractProductDataOutput | PurchaseData, products: Product[], entryMethod: 'import' | 'manual' | 'nfce' = 'nfce') => {
         if (!user || !profile || !profile.familyId) {
             toast({
                 variant: 'destructive',
@@ -63,22 +59,11 @@ function ScanPage() {
                     <CardHeader>
                         <CardTitle className="text-2xl font-headline">{t`Add New Purchase`}</CardTitle>
                         <CardDescription>
-                            {t`You can import a purchase from a PDF fiscal receipt or enter the details manually.`}
+                            {t`Import from PDF, scan NFCe QR code, enter NFCe URL, or add manually.`}
                         </CardDescription>
                     </CardHeader>
                     <div className="p-6 pt-0">
-                        <Tabs defaultValue="scan" className="w-full">
-                            <TabsList className="grid w-full grid-cols-2">
-                                <TabsTrigger value="scan"><FontAwesomeIcon icon={faFilePdf} className="mr-2 h-4 w-4" /> {t`Import PDF`}</TabsTrigger>
-                                <TabsTrigger value="manual"><FontAwesomeIcon icon={faKeyboard} className="mr-2 h-4 w-4" /> {t`Manual Entry`}</TabsTrigger>
-                            </TabsList>
-                            <TabsContent value="scan" className="mt-6">
-                                <PdfImportComponent onSave={(data, prods) => handleSavePurchase(data, prods, 'import')} />
-                            </TabsContent>
-                            {/* <TabsContent value="manual" className="mt-6">
-                                <ManualPurchaseForm onSave={(data, prods) => handleSavePurchase(data, prods, 'manual')} />
-                            </TabsContent> */}
-                        </Tabs>
+                        <NfceScannerComponent onSave={(data, prods, method) => handleSavePurchase(data, prods, method || 'nfce')} />
                     </div>
                 </Card>
             </div>

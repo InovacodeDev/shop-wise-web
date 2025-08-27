@@ -8,12 +8,12 @@ export async function savePurchase(
     userId: string, 
     purchaseData: ExtractProductDataOutput | PurchaseData, 
     products: Product[], 
-    entryMethod: 'import' | 'manual'
+    entryMethod: 'import' | 'manual' | 'nfce'
 ): Promise<{ success: boolean; purchaseId: string }> {
     if (!familyId || !userId) {
         throw new Error("Family ID and User ID are required.");
     }
-    
+
     if ('accessKey' in purchaseData && purchaseData.accessKey) {
         const sanitizedKeyAccess = purchaseData.accessKey.replace(/\s/g, '');
         try {
@@ -126,10 +126,10 @@ export async function getPurchasesByMonth(familyId: string): Promise<MonthlyPurc
         return await apiService.getPurchasesByMonth(familyId);
     } catch (error: any) {
         console.error('Error fetching purchases by month:', error);
-        
+
         // Create enhanced error with better context
         let errorMessage = 'Failed to fetch monthly purchases';
-        
+
         if (error && error.status === 400) {
             errorMessage = 'Invalid family ID provided';
         } else if (error && (error.status === 401 || error.status === 403)) {
@@ -145,7 +145,7 @@ export async function getPurchasesByMonth(familyId: string): Promise<MonthlyPurc
         } else if (error && error.message) {
             errorMessage = `Failed to fetch monthly purchases: ${error.message}`;
         }
-        
+
         const enhancedError = new Error(errorMessage);
         enhancedError.cause = error;
         (enhancedError as any).status = error?.status;
