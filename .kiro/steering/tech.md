@@ -51,9 +51,3 @@ pnpm install          # Install dependencies
 - **API Proxy**: Development server proxies `/api` requests to `localhost:3001`
 - **Path Aliases**: `@/*` maps to `./src/*`
 - **Auto-generated**: Router tree is auto-generated in `src/routeTree.gen.ts`
-
-## Firebase Integration
-
-- **Backend**: Firebase/Firestore for data persistence
-- **Rules**: Firestore security rules in `firestore.rules`
-- **Hosting**: Firebase App Hosting configuration in `apphosting.yaml`

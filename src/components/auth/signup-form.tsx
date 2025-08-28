@@ -147,7 +147,6 @@ export function SignupForm() {
                                 {t`OR`}
                             </p>
                         </div>
-                        {/* Social sign-up removed when Firebase is not used */}
                     </CardContent>
                     <CardFooter>
                         <p className="text-sm text-muted-foreground">
