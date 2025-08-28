@@ -118,7 +118,6 @@ src/
 
 - **TypeScript**: Strict type checking is enabled
 - **Formatting**: Code is formatted with Prettier
-- **Linting**: Use Prettier for code consistency
 - **Testing**: Write tests for new features
 
 ### Internationalization

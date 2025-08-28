@@ -7,6 +7,7 @@ This project uses GitHub Actions for continuous integration and quality assuranc
 ### CI (`ci.yml`)
 - **Triggers**: Pull requests to `main` and pushes to `main`
 - **Checks**:
+  - pnpm installation and setup
   - Security audit with `pnpm audit`
   - Code formatting with Prettier
   - TypeScript type checking
@@ -16,6 +17,7 @@ This project uses GitHub Actions for continuous integration and quality assuranc
 ### Build Verification (`deploy.yml`)
 - **Triggers**: Pushes to `main` and manual dispatch
 - **Actions**:
+  - pnpm installation and setup
   - Runs all CI checks
   - Builds the application
   - Uploads build artifacts for deployment
