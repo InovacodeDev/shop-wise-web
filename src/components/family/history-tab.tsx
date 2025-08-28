@@ -53,6 +53,7 @@ import { trackEvent } from "@/services/analytics-service";
 import { apiService } from "@/services/api";
 import { MonthlyPurchaseDisplay } from "@/components/purchases/monthly-purchase-display";
 import type { MonthlyPurchaseGroup, Purchase as ApiPurchase } from "@/types/api";
+import { getCurrencyFromLocale } from "@/lib/localeCurrency";
 
 interface Purchase {
     id: string;
@@ -364,7 +365,7 @@ export function HistoryTab() {
 }
 
 function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (id: string) => void }) {
-    const { t } = useLingui();
+    const { i18n, t } = useLingui();
     const { profile } = useAuth();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [items, setItems] = useState<PurchaseItem[]>(purchase.items);
@@ -465,7 +466,16 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                         </div>
                         <div className="flex items-center gap-2 font-bold text-lg text-foreground">
                             <FontAwesomeIcon icon={faDollarSign} className="w-5 h-5 text-primary" />
-                            <span>{purchase.totalAmount.toFixed(2)}</span>
+                            <span>
+                                {i18n.number(
+                                    purchase.totalAmount,
+                                    {
+                                        style: 'currency',
+                                        currencySign: 'accounting',
+                                        currency: getCurrencyFromLocale(i18n.locale),
+                                    }
+                                )}
+                            </span>
                         </div>
                     </CardContent>
                 </Card>
@@ -475,7 +485,16 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                     <DialogTitle>{t`Purchase Details: ${purchase.storeName}`}</DialogTitle>
                     <DialogDescription>
                         {purchase.date.toLocaleString("pt-BR", { dateStyle: "full", timeStyle: "short" })}
-                        <span className="font-bold ml-4">Total: R$ {totalAmount.toFixed(2)}</span>
+                        <span className="font-bold ml-4">
+                            {`Total: ${i18n.number(
+                                totalAmount,
+                                {
+                                    style: 'currency',
+                                    currencySign: 'accounting',
+                                    currency: getCurrencyFromLocale(i18n.locale),
+                                }
+                            )}`}
+                        </span>
                     </DialogDescription>
                 </DialogHeader>
                 <div className="max-h-[60vh] overflow-y-auto pr-4">
@@ -541,7 +560,14 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                                         />
                                     </TableCell>
                                     <TableCell className="text-right font-medium">
-                                        R$ {(item.price || 0).toFixed(2)}
+                                        {i18n.number(
+                                            item.price,
+                                            {
+                                                style: 'currency',
+                                                currencySign: 'accounting',
+                                                currency: getCurrencyFromLocale(i18n.locale),
+                                            }
+                                        )}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex justify-end gap-1">

@@ -35,6 +35,8 @@ import { Button } from "../ui/button";
 import { Alert, AlertTitle } from "../ui/alert";
 import ReactMarkdown from "react-markdown";
 import { Link } from "@tanstack/react-router";
+import { getCurrencyFromLocale } from "@/lib/localeCurrency";
+import { cn } from "@/lib/utils";
 
 interface InsightModalProps {
     title: string;
@@ -52,6 +54,64 @@ interface InsightModalProps {
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF", "#FF19AF", "#19AFFF", "#AFFF19"];
 
+const categoryMapping: { [key: string]: string } = {
+    "Produce and Eggs": "produce_and_eggs",
+    "Meat and Seafood": "meat_and_seafood",
+    "Bakery and Deli": "bakery_and_deli",
+    "Dairy and Chilled": "dairy_and_chilled",
+    'Pantry and Dry Goods': "pantry_and_dry_goods",
+    "Breakfast and Snacks": "breakfast_and_snacks",
+    "Frozen foods": "frozen_foods",
+    "Beverages": "beverages",
+    "Cleaning and household": "cleaning_and_household",
+    "Personal care": "personal_care",
+    "Baby and Child Care": "baby_and_child_care",
+    "Pet supplies": "pet_supplies",
+    "Home and General": "home_and_general",
+    "Pharmacy": "pharmacy",
+    "Others": "others",
+};
+
+const getCategoryKey = (categoryName: string | undefined) => {
+    if (!categoryName) return "others";
+    return categoryMapping[categoryName] || "others";
+};
+
+const getCategoryClass = (category?: string) => {
+    if (!category) return "bg-secondary text-secondary-foreground";
+    const categoryKey = getCategoryKey(category);
+    const categoryMap: { [key: string]: string } = {
+        produce_and_eggs:
+            "bg-category-produce-and-eggs/50 text-category-produce-and-eggs-foreground border-category-produce-and-eggs/20",
+        meat_and_seafood:
+            "bg-category-meat-and-seafood/50 text-category-meat-and-seafood-foreground border-category-meat-and-seafood/20",
+        bakery_and_deli:
+            "bg-category-bakery-and-deli/50 text-category-bakery-and-deli-foreground border-category-bakery-and-deli/20",
+        dairy_and_chilled:
+            "bg-category-dairy-and-chilled/50 text-category-dairy-and-chilled-foreground border-category-dairy-and-chilled/20",
+        pantry_and_dry_goods:
+            "bg-category-pantry-and-dry-goods/50 text-category-pantry-and-dry-goods-foreground border-category-pantry-and-dry-goods/20",
+        breakfast_and_snacks:
+            "bg-category-breakfast-and-snacks/50 text-category-breakfast-and-snacks-foreground border-category-breakfast-and-snacks/20",
+        frozen_foods:
+            "bg-category-frozen-foods/50 text-category-frozen-foods-foreground border-category-frozen-foods/20",
+        beverages: "bg-category-beverages/50 text-category-beverages-foreground border-category-beverages/20",
+        cleaning_and_household:
+            "bg-category-cleaning-and-household/50 text-category-cleaning-and-household-foreground border-category-cleaning-and-household/20",
+        personal_care:
+            "bg-category-personal-care/50 text-category-personal-care-foreground border-category-personal-care/20",
+        baby_and_child_care:
+            "bg-category-baby-and-child-care/50 text-category-baby-and-child-care-foreground border-category-baby-and-child-care/20",
+        pet_supplies:
+            "bg-category-pet-supplies/50 text-category-pet-supplies-foreground border-category-pet-supplies/20",
+        home_and_general:
+            "bg-category-home-and-general/50 text-category-home-and-general-foreground border-category-home-and-general/20",
+        pharmacy: "bg-category-pharmacy/50 text-category-pharmacy-foreground border-category-pharmacy/20",
+        Default: "bg-secondary text-secondary-foreground",
+    };
+    return categoryMap[categoryKey] || categoryMap.Default;
+};
+
 export function InsightModal({
     title,
     description,
@@ -65,7 +125,7 @@ export function InsightModal({
     onOpen,
     isPremium,
 }: InsightModalProps) {
-    const { t } = useLingui();
+    const { i18n, t } = useLingui();
 
     const renderContent = () => {
         if (type !== "consumptionAnalysis" && (!data || data.length === 0)) {
@@ -83,7 +143,7 @@ export function InsightModal({
                 const pieData = data.map((item) => ({ ...item, percentage: ((item.value / total) * 100).toFixed(0) }));
 
                 return (
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid">
                         <div>
                             <Table>
                                 <TableHeader>
@@ -108,9 +168,25 @@ export function InsightModal({
                                     {data.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell className="font-medium">{item.name}</TableCell>
-                                            <TableCell className="text-right">R$ {item.value.toFixed(2)}</TableCell>
+                                            <TableCell className="text-right">
+                                                {i18n.number(
+                                                    item.value,
+                                                    {
+                                                        style: 'currency',
+                                                        currencySign: 'accounting',
+                                                        currency: getCurrencyFromLocale(i18n.locale),
+                                                    }
+                                                )}
+                                            </TableCell>
                                             <TableCell className="text-right text-muted-foreground">
-                                                R$ {(item.historicalAverage || item.value).toFixed(2)}
+                                                {i18n.number(
+                                                    item.historicalAverage || item.value,
+                                                    {
+                                                        style: 'currency',
+                                                        currencySign: 'accounting',
+                                                        currency: getCurrencyFromLocale(i18n.locale),
+                                                    }
+                                                )}
                                             </TableCell>
                                             <TableCell className="text-center">
                                                 <Badge variant="secondary">{item.monthsActive || 1}</Badge>
@@ -119,46 +195,6 @@ export function InsightModal({
                                     ))}
                                 </TableBody>
                             </Table>
-                        </div>
-                        <div className="flex items-center justify-center">
-                            <ChartContainer config={{}} className="h-64 w-full">
-                                <ResponsiveContainer>
-                                    <RechartsPieChart>
-                                        <ChartTooltip content={<ChartTooltipContent nameKey="name" />} />
-                                        <Pie
-                                            data={pieData}
-                                            dataKey="value"
-                                            nameKey="name"
-                                            cx="50%"
-                                            cy="50%"
-                                            outerRadius={80}
-                                            labelLine={false}
-                                            label={({ cx, cy, midAngle, innerRadius, outerRadius, value, index }) => {
-                                                const RADIAN = Math.PI / 180;
-                                                const radius = innerRadius + (outerRadius - innerRadius) * 1.2;
-                                                const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                                                const y = cy + radius * Math.sin(-midAngle * RADIAN);
-                                                return (
-                                                    <text
-                                                        x={x}
-                                                        y={y}
-                                                        fill="currentColor"
-                                                        textAnchor={x > cx ? "start" : "end"}
-                                                        dominantBaseline="central"
-                                                        className="text-xs"
-                                                    >
-                                                        {`${pieData[index].name} (${pieData[index].percentage}%)`}
-                                                    </text>
-                                                );
-                                            }}
-                                        >
-                                            {pieData.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                            ))}
-                                        </Pie>
-                                    </RechartsPieChart>
-                                </ResponsiveContainer>
-                            </ChartContainer>
                         </div>
                     </div>
                 );
@@ -185,8 +221,23 @@ export function InsightModal({
                             {data.map((item, index) => (
                                 <TableRow key={index}>
                                     <TableCell className="font-medium">{item.name}</TableCell>
-                                    <TableCell>{item.purchaseDate?.toLocaleDateString("pt-BR")}</TableCell>
-                                    <TableCell className="text-right">R$ {item.price?.toFixed(2)}</TableCell>
+                                    <TableCell>
+                                        {i18n.date(item.purchaseDate, {
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                            year: 'numeric',
+                                        })}
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        {i18n.number(
+                                            item.price,
+                                            {
+                                                style: 'currency',
+                                                currencySign: 'accounting',
+                                                currency: getCurrencyFromLocale(i18n.locale),
+                                            }
+                                        )}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -213,9 +264,18 @@ export function InsightModal({
                                     {data.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell>
-                                                <Badge variant="outline">{item.name}</Badge>
+                                                <Badge variant="tag" className={cn(getCategoryClass(item.name))}>{item.name}</Badge>
                                             </TableCell>
-                                            <TableCell className="text-right">R$ {item.value.toFixed(2)}</TableCell>
+                                            <TableCell className="text-right">
+                                                {i18n.number(
+                                                    item.value,
+                                                    {
+                                                        style: 'currency',
+                                                        currencySign: 'accounting',
+                                                        currency: getCurrencyFromLocale(i18n.locale),
+                                                    }
+                                                )}
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

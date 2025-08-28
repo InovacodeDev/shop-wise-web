@@ -66,6 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 try {
                     const familyData = await apiService.getFamily(familyIdString);
                     profileData.family = familyData.familyComposition;
+                    profileData.plan = familyData.plan;
                 } catch (error) {
                     console.warn("Could not fetch family data:", error);
                 }
@@ -84,7 +85,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 try {
                     const res = await apiService.getMe();
                     const me = res?.user ?? res;
-                    console.log({ me });
                     if (me?.uid) {
                         setUser({ _id: me.uid });
                         await fetchUserProfile({ _id: me.uid });

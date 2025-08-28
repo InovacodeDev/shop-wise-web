@@ -21,6 +21,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { toast } from "@/hooks/use-toast";
 import { getPurchasesByMonth } from "@/services/purchaseApiService";
 import type { MonthlyPurchaseGroup, Purchase } from "@/types/api";
+import { getCurrencyFromLocale } from "@/lib/localeCurrency";
 
 interface MonthlyPurchaseDisplayProps {
     /** Optional family ID override - if not provided, uses current user's family */
@@ -39,7 +40,7 @@ export function MonthlyPurchaseDisplay({
     onDataLoaded,
     onError,
 }: MonthlyPurchaseDisplayProps) {
-    const { t } = useLingui();
+    const { i18n, t } = useLingui();
     const { profile } = useAuth();
     const [monthlyGroups, setMonthlyGroups] = useState<MonthlyPurchaseGroup[]>([]);
     const [loading, setLoading] = useState(true);
@@ -77,7 +78,7 @@ export function MonthlyPurchaseDisplay({
             setMonthlyGroups(groups);
             setRetryCount(0);
             setFallbackMode(false);
-            
+
             // Call callback if provided
             if (onDataLoaded) {
                 onDataLoaded(groups);
@@ -85,7 +86,7 @@ export function MonthlyPurchaseDisplay({
         } catch (err) {
             const error = err as any;
             let errorMessage = error.message || t`Failed to load purchase history.`;
-            
+
             // Handle specific error cases
             if (error.status === 401 || error.status === 403) {
                 errorMessage = t`Please log in again to access your purchase history.`;
@@ -94,16 +95,16 @@ export function MonthlyPurchaseDisplay({
             } else if (error.message?.includes('Network connection failed')) {
                 errorMessage = t`No internet connection. Please check your network and try again.`;
             }
-            
+
             setError(errorMessage);
-            
+
             // Attempt fallback to flat list if monthly grouping fails and it's not a network/auth error
             if (!fallbackMode && error.status !== 401 && error.status !== 403 && !error.message?.includes('Network connection failed')) {
                 try {
                     console.warn('Monthly grouping failed, attempting fallback to flat list');
                     const { getPurchases } = await import('@/services/purchaseApiService');
                     const flatPurchases = await getPurchases(familyId);
-                    
+
                     // Convert flat purchases to a single monthly group for current month
                     if (flatPurchases.length > 0) {
                         const fallbackGroup: MonthlyPurchaseGroup = {
@@ -111,21 +112,21 @@ export function MonthlyPurchaseDisplay({
                             displayName: t`All Purchases (Fallback Mode)`,
                             totalAmount: flatPurchases.reduce((sum, p) => sum + (p.totalAmount || 0), 0),
                             purchaseCount: flatPurchases.length,
-                            purchases: flatPurchases.sort((a, b) => 
+                            purchases: flatPurchases.sort((a, b) =>
                                 new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()
                             ),
                         };
-                        
+
                         setMonthlyGroups([fallbackGroup]);
                         setFallbackMode(true);
                         setError(null);
-                        
+
                         toast({
                             title: t`Fallback Mode Active`,
                             description: t`Monthly grouping is temporarily unavailable. Showing all purchases in a single list.`,
                             variant: "default",
                         });
-                        
+
                         if (onDataLoaded) {
                             onDataLoaded([fallbackGroup]);
                         }
@@ -136,12 +137,12 @@ export function MonthlyPurchaseDisplay({
                     // Keep the original error message
                 }
             }
-            
+
             // Call error callback if provided
             if (onError && err instanceof Error) {
                 onError(err);
             }
-            
+
             console.error('Error fetching monthly purchases:', err);
         } finally {
             setLoading(false);
@@ -156,13 +157,13 @@ export function MonthlyPurchaseDisplay({
     const handleRetry = async () => {
         const newRetryCount = retryCount + 1;
         setRetryCount(newRetryCount);
-        
+
         // Implement exponential backoff for retries
         if (newRetryCount > 1) {
             const delay = Math.min(1000 * Math.pow(2, newRetryCount - 2), 10000); // Max 10 seconds
             await new Promise(resolve => setTimeout(resolve, delay));
         }
-        
+
         fetchMonthlyPurchases(true, true);
     };
 
@@ -203,9 +204,9 @@ export function MonthlyPurchaseDisplay({
                                     disabled={isRetrying}
                                     className="ml-4"
                                 >
-                                    <FontAwesomeIcon 
-                                        icon={faRefresh} 
-                                        className={`h-4 w-4 mr-2 ${isRetrying ? 'animate-spin' : ''}`} 
+                                    <FontAwesomeIcon
+                                        icon={faRefresh}
+                                        className={`h-4 w-4 mr-2 ${isRetrying ? 'animate-spin' : ''}`}
                                     />
                                     {isRetrying ? t`Retrying...` : t`Retry`}
                                 </Button>
@@ -257,7 +258,7 @@ export function MonthlyPurchaseDisplay({
                     </CardContent>
                 </Card>
             )}
-            
+
             {/* Summary Card */}
             <Card>
                 <CardHeader>
@@ -269,15 +270,24 @@ export function MonthlyPurchaseDisplay({
                         <div className="flex flex-col sm:flex-row gap-4 mt-2">
                             <div className="flex items-center gap-2">
                                 <FontAwesomeIcon icon={faShoppingCart} className="w-4 h-4 text-muted-foreground" />
-                                <Plural 
-                                    value={totalStats.totalPurchases} 
-                                    one="# purchase" 
-                                    other="# purchases" 
+                                <Plural
+                                    value={totalStats.totalPurchases}
+                                    one="# purchase"
+                                    other="# purchases"
                                 />
                             </div>
                             <div className="flex items-center gap-2">
                                 <FontAwesomeIcon icon={faDollarSign} className="w-4 h-4 text-muted-foreground" />
-                                <span>{t`Total: $${totalStats.totalAmount.toFixed(2)}`}</span>
+                                <span>
+                                    {t`Total: ${i18n.number(
+                                        totalStats.totalAmount,
+                                        {
+                                            style: 'currency',
+                                            currencySign: 'accounting',
+                                            currency: getCurrencyFromLocale(i18n.locale),
+                                        }
+                                    )}`}
+                                </span>
                             </div>
                         </div>
                     </CardDescription>
@@ -287,8 +297,8 @@ export function MonthlyPurchaseDisplay({
             {/* Monthly Groups */}
             <Card>
                 <CardContent className="pt-6">
-                    <Accordion 
-                        type="multiple" 
+                    <Accordion
+                        type="multiple"
                         defaultValue={[currentMonthKey]}
                         className="w-full"
                     >
@@ -297,29 +307,34 @@ export function MonthlyPurchaseDisplay({
                                 <AccordionTrigger className="hover:no-underline">
                                     <div className="flex items-center justify-between w-full pr-4">
                                         <div className="flex items-center gap-3">
-                                            <FontAwesomeIcon 
-                                                icon={faCalendar} 
-                                                className="w-5 h-5 text-primary" 
+                                            <FontAwesomeIcon
+                                                icon={faCalendar}
+                                                className="w-5 h-5 text-primary"
                                             />
                                             <div className="text-left">
                                                 <div className="font-semibold text-lg">
                                                     {group.displayName}
                                                 </div>
                                                 <div className="text-sm text-muted-foreground">
-                                                    <Plural 
-                                                        value={group.purchaseCount} 
-                                                        one="# purchase" 
-                                                        other="# purchases" 
+                                                    <Plural
+                                                        value={group.purchaseCount}
+                                                        one="# purchase"
+                                                        other="# purchases"
                                                     />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-2 font-bold text-lg">
-                                            <FontAwesomeIcon 
-                                                icon={faDollarSign} 
-                                                className="w-5 h-5 text-primary" 
-                                            />
-                                            <span>${group.totalAmount.toFixed(2)}</span>
+                                            <span>
+                                                {i18n.number(
+                                                    group.totalAmount,
+                                                    {
+                                                        style: 'currency',
+                                                        currencySign: 'accounting',
+                                                        currency: getCurrencyFromLocale(i18n.locale),
+                                                    }
+                                                )}
+                                            </span>
                                         </div>
                                     </div>
                                 </AccordionTrigger>
@@ -349,12 +364,12 @@ interface PurchaseCardProps {
 }
 
 const PurchaseCard = memo(function PurchaseCard({ purchase, onClick }: PurchaseCardProps) {
-    const { t } = useLingui();
-    
+    const { i18n, t } = useLingui();
+
     const purchaseDate = useMemo(() => new Date(purchase.date), [purchase.date]);
     const itemCount = useMemo(() => purchase.items?.length || 0, [purchase.items?.length]);
-    
-    const formattedDate = useMemo(() => 
+
+    const formattedDate = useMemo(() =>
         purchaseDate.toLocaleDateString(undefined, {
             day: '2-digit',
             month: 'short',
@@ -362,24 +377,19 @@ const PurchaseCard = memo(function PurchaseCard({ purchase, onClick }: PurchaseC
             minute: '2-digit'
         }), [purchaseDate]
     );
-    
-    const formattedAmount = useMemo(() => 
-        purchase.totalAmount.toFixed(2), [purchase.totalAmount]
-    );
 
     return (
-        <Card 
-            className={`transition-all duration-200 ${
-                onClick ? 'hover:shadow-md cursor-pointer hover:bg-accent/50' : ''
-            }`}
+        <Card
+            className={`transition-all duration-200 ${onClick ? 'hover:shadow-md cursor-pointer hover:bg-accent/50' : ''
+                }`}
             onClick={onClick}
         >
             <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <FontAwesomeIcon 
-                            icon={faStore} 
-                            className="w-4 h-4 text-primary" 
+                        <FontAwesomeIcon
+                            icon={faStore}
+                            className="w-4 h-4 text-primary"
                         />
                         <div>
                             <div className="font-medium truncate max-w-[200px]">
@@ -398,11 +408,16 @@ const PurchaseCard = memo(function PurchaseCard({ purchase, onClick }: PurchaseC
                             </div>
                         )}
                         <div className="flex items-center gap-1 font-semibold">
-                            <FontAwesomeIcon 
-                                icon={faDollarSign} 
-                                className="w-4 h-4 text-primary" 
-                            />
-                            <span>${formattedAmount}</span>
+                            <span>
+                                {i18n.number(
+                                    purchase.totalAmount,
+                                    {
+                                        style: 'currency',
+                                        currencySign: 'accounting',
+                                        currency: getCurrencyFromLocale(i18n.locale),
+                                    }
+                                )}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -413,7 +428,7 @@ const PurchaseCard = memo(function PurchaseCard({ purchase, onClick }: PurchaseC
 
 function MonthlyPurchaseDisplaySkeleton() {
     const { t } = useLingui();
-    
+
     return (
         <div className="space-y-6">
             {/* Summary Card Skeleton */}

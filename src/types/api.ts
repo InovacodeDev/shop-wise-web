@@ -61,6 +61,7 @@ export interface Family extends BaseEntity {
   members: string[]; // User IDs
   ownerId: string;
   familyComposition?: any;
+  plan: 'free' | 'premium';
   settings?: {
     currency?: string;
     timezone?: string;

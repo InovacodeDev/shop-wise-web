@@ -316,29 +316,29 @@ function DashboardPage() {
 
                 if (currentMonthGroup && lastMonthGroup) {
                     finalTotalSpentChange = lastMonthGroup.totalAmount > 0
-                        ? ((currentMonthGroup.totalAmount - lastMonthGroup.totalAmount) / lastMonthGroup.totalAmount) * 100
-                        : currentMonthGroup.totalAmount > 0 ? 100 : 0;
+                        ? ((currentMonthGroup.totalAmount - lastMonthGroup.totalAmount) / lastMonthGroup.totalAmount)
+                        : currentMonthGroup.totalAmount > 0 ? 1 : 0;
 
                     finalTotalItemsChange = lastMonthGroup.purchaseCount > 0
-                        ? ((currentMonthGroup.purchaseCount - lastMonthGroup.purchaseCount) / lastMonthGroup.purchaseCount) * 100
-                        : currentMonthGroup.purchaseCount > 0 ? 100 : 0;
+                        ? ((currentMonthGroup.purchaseCount - lastMonthGroup.purchaseCount) / lastMonthGroup.purchaseCount)
+                        : currentMonthGroup.purchaseCount > 0 ? 1 : 0;
                 } else {
                     // Fallback to item-based calculation
                     finalTotalSpentChange = lastMonthTotalSpent > 0
-                        ? ((thisMonthTotalSpent - lastMonthTotalSpent) / lastMonthTotalSpent) * 100
-                        : thisMonthTotalSpent > 0 ? 100 : 0;
+                        ? ((thisMonthTotalSpent - lastMonthTotalSpent) / lastMonthTotalSpent)
+                        : thisMonthTotalSpent > 0 ? 1 : 0;
                     finalTotalItemsChange = lastMonthTotalItems > 0
-                        ? ((thisMonthTotalItems - lastMonthTotalItems) / lastMonthTotalItems) * 100
-                        : thisMonthTotalItems > 0 ? 100 : 0;
+                        ? ((thisMonthTotalItems - lastMonthTotalItems) / lastMonthTotalItems)
+                        : thisMonthTotalItems > 0 ? 1 : 0;
                 }
             } else {
                 // Fallback to item-based calculation
                 finalTotalSpentChange = lastMonthTotalSpent > 0
-                    ? ((thisMonthTotalSpent - lastMonthTotalSpent) / lastMonthTotalSpent) * 100
-                    : thisMonthTotalSpent > 0 ? 100 : 0;
+                    ? ((thisMonthTotalSpent - lastMonthTotalSpent) / lastMonthTotalSpent)
+                    : thisMonthTotalSpent > 0 ? 1 : 0;
                 finalTotalItemsChange = lastMonthTotalItems > 0
-                    ? ((thisMonthTotalItems - lastMonthTotalItems) / lastMonthTotalItems) * 100
-                    : thisMonthTotalItems > 0 ? 100 : 0;
+                    ? ((thisMonthTotalItems - lastMonthTotalItems) / lastMonthTotalItems)
+                    : thisMonthTotalItems > 0 ? 1 : 0;
             }
 
             setTotalSpentChange(finalTotalSpentChange);
@@ -591,7 +591,7 @@ function DashboardPage() {
                     totalPurchases,
                     monthsAnalyzed: barChartData.length,
                     topCategory: topCategory.name,
-                    topCategoryPercentage: parseFloat(topCategoryPercent)
+                    topCategoryPercentage: topCategoryPercent,
                 }
             };
 
@@ -623,7 +623,7 @@ function DashboardPage() {
     }, [translatedSpendingByCategory, t]);
 
     // compute percentage string for the top category relative to the month's total
-    const topCategoryPercent = totalSpentMonth && totalSpentMonth > 0 ? ((topCategory.value / totalSpentMonth) * 100).toFixed(1) : "0";
+    const topCategoryPercent = totalSpentMonth && totalSpentMonth > 0 ? ((topCategory.value / totalSpentMonth)) : 0;
 
     const getCategoryClass = (category?: string) => {
         if (!category) return "bg-secondary text-secondary-foreground";
@@ -695,12 +695,28 @@ function DashboardPage() {
                                     <FontAwesomeIcon icon={faDollarSign} className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">R$ {totalSpentMonth?.toFixed(2) ?? "0.00"}</div>
+                                    <div className="text-2xl font-bold">
+                                        {i18n.number(
+                                            totalSpentMonth ?? 0,
+                                            {
+                                                style: 'currency',
+                                                currencySign: 'accounting',
+                                                currency: getCurrencyFromLocale(i18n.locale),
+                                            }
+                                        )}
+                                    </div>
                                     <div className="text-xs text-muted-foreground mb-1">{currentMonthName}</div>
                                     <ComparisonBadge value={totalSpentChange} />
                                     {historicalInsights && (
                                         <p className="text-xs text-muted-foreground mt-1">
-                                            {t`Avg: R$ ${historicalInsights.avgMonthlySpending.toFixed(2)}/month`}
+                                            {t`Avg: ${i18n.number(
+                                                historicalInsights.avgMonthlySpending,
+                                                {
+                                                    style: 'currency',
+                                                    currencySign: 'accounting',
+                                                    currency: getCurrencyFromLocale(i18n.locale),
+                                                }
+                                            )}/month`}
                                         </p>
                                     )}
                                 </CardContent>
@@ -719,12 +735,17 @@ function DashboardPage() {
                                     <FontAwesomeIcon icon={faShoppingBag} className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">{totalItemsBought ?? 0}</div>
+                                    <div className="text-2xl font-bold">
+                                        {i18n.number(totalItemsBought ?? 0, { maximumFractionDigits: 0 })}
+                                    </div>
                                     <div className="text-xs text-muted-foreground mb-1">{currentMonthName}</div>
                                     <ComparisonBadge value={totalItemsChange} />
                                     {historicalInsights && (
                                         <p className="text-xs text-muted-foreground mt-1">
-                                            {t`Avg: ${historicalInsights.avgMonthlyItems.toFixed(0)} items/month`}
+                                            {t`Avg: ${i18n.number(
+                                                historicalInsights.avgMonthlyItems,
+                                                { maximumFractionDigits: 0 },
+                                            )} items/month`}
                                         </p>
                                     )}
                                 </CardContent>
@@ -748,7 +769,13 @@ function DashboardPage() {
                                     <div className="text-2xl font-bold">{topCategory.name}</div>
                                     <div className="text-xs text-muted-foreground mb-1">{currentMonthName}</div>
                                     <p className="text-xs text-muted-foreground">
-                                        {t`${topCategoryPercent}% of total spending`}
+                                        {t`${i18n.number(
+                                            topCategoryPercent,
+                                            {
+                                                style: 'percent',
+                                                maximumFractionDigits: 1,
+                                            }
+                                        )} of total spending`}
                                     </p>
                                     {historicalInsights && (
                                         <p className="text-xs text-muted-foreground mt-1">
@@ -892,15 +919,15 @@ function DashboardPage() {
                                                                             )}
                                                                         </div>
                                                                     </div>
-                                                                    {payload.some(entry => entry.value && entry.value > 0) && (
+                                                                    {payload.some((entry) => entry.value && (entry.value as number) > 0) && (
                                                                         <div className="space-y-1 border-t pt-2">
                                                                             <p className="text-xs font-medium text-muted-foreground mb-2">{t`Category Breakdown:`}</p>
                                                                             {payload
-                                                                                .filter(entry => entry.value && entry.value > 0)
+                                                                                .filter(entry => entry.value && (entry.value as number) > 0)
                                                                                 .sort((a, b) => (b.value as number) - (a.value as number))
                                                                                 .map((entry, index) => {
                                                                                     const entryValue = entry.value as number;
-                                                                                    const percentage = displayTotal > 0 ? ((entryValue / displayTotal) * 100).toFixed(1) : '0.0';
+                                                                                    const percentage = displayTotal > 0 ? ((entryValue / displayTotal)) : 0;
                                                                                     return (
                                                                                         <div key={index} className="flex items-center justify-between gap-3">
                                                                                             <div className="flex items-center gap-2 flex-1">
@@ -915,7 +942,7 @@ function DashboardPage() {
                                                                                                     {i18n.number(entryValue, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
                                                                                                 </span>
                                                                                                 <span className="text-xs text-muted-foreground ml-1">
-                                                                                                    ({percentage}%)
+                                                                                                    {i18n.number(percentage, { style: 'percent', maximumFractionDigits: 1 })}
                                                                                                 </span>
                                                                                             </div>
                                                                                         </div>
@@ -987,7 +1014,7 @@ function DashboardPage() {
                                             </TableHead>
                                             <TableHead className="w-[80px] text-center">
                                                 <FontAwesomeIcon icon={faHashtag} className="inline-block mr-1 w-4 h-4" />{" "}
-                                                {t`Quantity`}
+                                                {t`Qtt`}
                                             </TableHead>
                                             <TableHead className="text-right">
                                                 <FontAwesomeIcon
@@ -1016,10 +1043,28 @@ function DashboardPage() {
                                                         {item.category ? (chartConfig[getCategoryKey(item.category)]?.label || item.category) : "--"}
                                                     </Badge>
                                                 </TableCell>
-                                                <TableCell className="text-center">{item.quantity?.toFixed(2) || "0.00"}</TableCell>
-                                                <TableCell className="text-right">R$ {item.price?.toFixed(2) || "0.00"}</TableCell>
+                                                <TableCell className="text-center">
+                                                    {i18n.number(item.quantity, { maximumFractionDigits: 2 })}
+                                                </TableCell>
                                                 <TableCell className="text-right">
-                                                    R$ {item.totalPrice?.toFixed(2) || "0.00"}
+                                                    {i18n.number(
+                                                        item.price,
+                                                        {
+                                                            style: 'currency',
+                                                            currencySign: 'accounting',
+                                                            currency: getCurrencyFromLocale(i18n.locale),
+                                                        }
+                                                    )}
+                                                </TableCell>
+                                                <TableCell className="text-right">
+                                                    {i18n.number(
+                                                        item.totalPrice,
+                                                        {
+                                                            style: 'currency',
+                                                            currencySign: 'accounting',
+                                                            currency: getCurrencyFromLocale(i18n.locale),
+                                                        }
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         ))}

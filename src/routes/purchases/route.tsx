@@ -51,7 +51,6 @@ function ScanPage() {
         }
     };
 
-
     return (
         <SideBarLayout>
             <div className="container mx-auto py-8">
