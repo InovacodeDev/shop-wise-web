@@ -30,11 +30,12 @@ jobs:
 
             - name: Ensure SECURITY.md files exist
               run: |
-                    dir=$(dirname "$f")
-                    if [ -d "$dir" ]; then
-                      if [ ! -f "$f" ]; then echo "Missing $f"; exit 1; fi
-                    fi
-                  done
+                    for f in SECURITY.md; do
+                      dir=$(dirname "$f")
+                      if [ -d "$dir" ]; then
+                        if [ ! -f "$f" ]; then echo "Missing $f"; exit 1; fi
+                      fi
+                    done
 
             - name: Run security audit
               run: pnpm audit --audit-level high
