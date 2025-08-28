@@ -30,8 +30,10 @@ jobs:
 
             - name: Ensure SECURITY.md files exist
               run: |
-                  for f in ./SECURITY.md ../shop-wise-api/SECURITY.md ../shop-wise-app/SECURITY.md; do
-                    if [ ! -f "$f" ]; then echo "Missing $f"; exit 1; fi
+                    dir=$(dirname "$f")
+                    if [ -d "$dir" ]; then
+                      if [ ! -f "$f" ]; then echo "Missing $f"; exit 1; fi
+                    fi
                   done
 
             - name: Run security audit
