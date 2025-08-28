@@ -22,7 +22,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'  # Using LTS version, project requires >= 24.4.1 but using available version
+        node-version: '24'
         cache: 'pnpm'
 
     - name: Install dependencies
