@@ -11,7 +11,7 @@ This project uses GitHub Actions for continuous integration and quality assuranc
   - Code formatting with Prettier
   - TypeScript type checking
   - Unit tests with Vitest
-  - Build verification
+  - Application build
 
 ### Build Verification (`deploy.yml`)
 - **Triggers**: Pushes to `main` and manual dispatch
