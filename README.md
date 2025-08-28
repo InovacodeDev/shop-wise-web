@@ -153,7 +153,7 @@ This project uses GitHub Actions for continuous integration:
   - Code formatting check
   - TypeScript type checking
   - Unit tests
-  - Build verification
+  - Application build
 
 - **Build Verification**: Runs on pushes to main
   - Full CI pipeline
