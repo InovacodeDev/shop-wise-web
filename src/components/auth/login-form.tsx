@@ -143,7 +143,6 @@ export function LoginForm() {
                                 {t`or`}
                             </p>
                         </div>
-                        {/* Social sign-in removed when Firebase is not used */}
                     </CardContent>
                     <CardFooter className="flex-col gap-2">
                         <p className="text-sm text-muted-foreground">

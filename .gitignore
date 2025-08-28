@@ -41,6 +41,12 @@ next-env.d.ts
 .genkit/*
 .env*
 
-# firebase
-firebase-debug.log
-firestore-debug.log
+# Local GitHub workflow runner
+.github/local-runner/.secrets
+.github/local-runner/artifacts/
+.github/local-runner/logs/
+.actrc.local
+
+# act related files
+act_*
+.act

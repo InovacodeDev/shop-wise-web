@@ -2,7 +2,7 @@
 
 ## Root Directory
 
-- **Configuration Files**: Package management (`package.json`, `pnpm-lock.yaml`), build tools (`vite.config.mts`, `tsconfig.json`), styling (`tailwind.config.ts`), and Firebase (`firebase.json`, `firestore.rules`)
+- **Configuration Files**: Package management (`package.json`, `pnpm-lock.yaml`), build tools (`vite.config.mts`, `tsconfig.json`), styling (`tailwind.config.ts`)
 - **Documentation**: `README.md` and `docs/` folder for project documentation
 - **Entry Point**: `index.html` serves as the main HTML template
 

@@ -64,7 +64,6 @@ export function ProfileForm() {
     async function onProfileSubmit(values: z.infer<typeof profileSchema>) {
         if (!user) return;
         try {
-            // Update user data via API (backend will handle Firebase Auth update)
             await apiService.updateUser(user._id, {
                 displayName: values.displayName,
                 email: values.email,

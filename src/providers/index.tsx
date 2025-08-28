@@ -14,20 +14,6 @@ i18n.activate("pt");
 i18n.activate("en");
 
 function PageViewTracker(): React.ReactNode {
-    // const pathname = usePathname()
-    // const searchParams = useSearchParams()
-
-    // useEffect(() => {
-    //     if (pathname) {
-    //         const url = window.origin + pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
-    //         trackEvent('screen_view', {
-    //             firebase_screen: pathname,
-    //             firebase_screen_class: 'NextJS', // You can customize this
-    //             page_location: url,
-    //         });
-    //     }
-    // }, [pathname, searchParams]);
-
     return null;
 }
 
