@@ -11,7 +11,14 @@
         "start": "node .output/server/index.mjs",
         "typecheck": "tsc --noEmit",
         "extract": "lingui extract",
-        "compile": "lingui compile --typescript"
+        "compile": "lingui compile --typescript",
+        "workflow:setup": "bash .github/local-runner/setup-act.sh",
+        "workflow:ci": "bash .github/local-runner/run-workflows.sh --ci",
+        "workflow:deploy": "bash .github/local-runner/run-workflows.sh --deploy",
+        "workflow:all": "bash .github/local-runner/run-workflows.sh --all",
+        "workflow:check": "bash .github/local-runner/run-workflows.sh --all --dry-run",
+        "workflow:list": "bash .github/local-runner/run-workflows.sh --list",
+        "workflow:clean": "bash .github/local-runner/run-workflows.sh --all --clean --pull"
     },
     "dependencies": {
         "@fontsource/pt-sans": "^5.2.6",
@@ -122,7 +129,18 @@
         "singleAttributePerLine": true,
         "singleQuote": true,
         "tabWidth": 4,
-        "trailingComma": "all"
+        "trailingComma": "all",
+        "overrides": [
+            {
+                "files": [
+                    "*.tsx",
+                    "*.ts"
+                ],
+                "options": {
+                    "parser": "typescript"
+                }
+            }
+        ]
     },
     "engines": {
         "node": ">=24.4.1",
