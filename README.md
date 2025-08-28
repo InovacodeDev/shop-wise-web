@@ -28,8 +28,8 @@ A modern React application built with TypeScript, Vite, and TanStack Router for 
 
 Before you begin, ensure you have the following installed:
 
-- **Node.js**: Version ^24.0.0 or higher
-- **pnpm**: Version ^10.0.0 or higher
+- **Node.js**: Version >=24.4.1
+- **pnpm**: Version >=10.14.0
 - **Git**: Latest version
 
 ## Getting Started
