@@ -56,22 +56,22 @@ vi.mock('@/components/ui/card', () => ({
 vi.mock('@/components/ui/accordion', () => ({
     Accordion: ({ children, defaultValue, type = 'multiple', collapsible = true, ...props }: any) => {
         const [openItems, setOpenItems] = React.useState<string[]>(defaultValue || []);
-        
+
         const toggleItem = React.useCallback((value: string) => {
             setOpenItems(prev => {
                 if (type === 'single') {
                     return prev.includes(value) ? (collapsible ? [] : prev) : [value];
                 }
-                return prev.includes(value) 
+                return prev.includes(value)
                     ? prev.filter(item => item !== value)
                     : [...prev, value];
             });
         }, [type, collapsible]);
-        
+
         return (
             <div data-testid="accordion" data-type={type} {...props}>
-                {React.Children.map(children, (child: any) => 
-                    React.cloneElement(child, { 
+                {React.Children.map(children, (child: any) =>
+                    React.cloneElement(child, {
                         isOpen: openItems.includes(child.props.value),
                         onToggle: () => toggleItem(child.props.value),
                         openItems
@@ -81,8 +81,8 @@ vi.mock('@/components/ui/accordion', () => ({
         );
     },
     AccordionContent: ({ children, isOpen, className, ...props }: any) => (
-        <div 
-            data-testid="accordion-content" 
+        <div
+            data-testid="accordion-content"
             className={className}
             style={{ display: isOpen ? 'block' : 'none' }}
             {...props}
@@ -91,11 +91,11 @@ vi.mock('@/components/ui/accordion', () => ({
         </div>
     ),
     AccordionItem: ({ children, value, isOpen, onToggle, className, ...props }: any) => (
-        <div 
-            data-testid="accordion-item" 
-            data-value={value} 
+        <div
+            data-testid="accordion-item"
+            data-value={value}
             data-open={isOpen}
-            className={className} 
+            className={className}
             {...props}
         >
             {React.Children.map(children, (child: any) => {
@@ -107,9 +107,9 @@ vi.mock('@/components/ui/accordion', () => ({
         </div>
     ),
     AccordionTrigger: ({ children, onClick, isOpen, className, ...props }: any) => (
-        <button 
-            data-testid="accordion-trigger" 
-            onClick={onClick} 
+        <button
+            data-testid="accordion-trigger"
+            onClick={onClick}
             className={className}
             aria-expanded={isOpen}
             type="button"
@@ -153,9 +153,9 @@ vi.mock('@/components/ui/alert', () => ({
 
 vi.mock('@/components/ui/button', () => ({
     Button: ({ children, onClick, className, variant, size, disabled, ...props }: any) => (
-        <button 
-            data-testid="button" 
-            onClick={onClick} 
+        <button
+            data-testid="button"
+            onClick={onClick}
             className={className}
             data-variant={variant}
             data-size={size}
@@ -169,8 +169,8 @@ vi.mock('@/components/ui/button', () => ({
 
 vi.mock('@fortawesome/react-fontawesome', () => ({
     FontAwesomeIcon: ({ icon, className, spin }: any) => (
-        <span 
-            data-testid="icon" 
+        <span
+            data-testid="icon"
             className={className}
             data-spin={spin}
         >
@@ -187,7 +187,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
-        
+
         // Setup default auth mock
         mockUseAuth.mockReturnValue({
             profile: {
@@ -199,7 +199,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
 
         // Setup axios defaults
         mockedAxios.create = vi.fn(() => mockedAxios);
-        mockedAxios.defaults = { baseURL: 'http://localhost:3000' };
+        mockedAxios.defaults = { baseURL: 'http://localhost:3001' };
     });
 
     afterEach(() => {
@@ -242,7 +242,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
     describe('Expand/Collapse Interactions', () => {
         it('should allow users to expand and collapse month sections', async () => {
             const user = userEvent.setup();
-            
+
             const mockData = [
                 createMockMonthlyGroup('2024-03', 'March 2024', [
                     createMockPurchase('1', '2024-03-15T10:00:00Z', 125.50, 'Grocery Store'),
@@ -270,7 +270,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
             // Initially, check if current month is expanded (March 2024)
             const currentDate = new Date();
             const currentMonthYear = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-            
+
             // Click to expand March section
             await act(async () => {
                 await user.click(triggers[0]);
@@ -308,7 +308,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
 
         it('should show visual indicators for expand/collapse state', async () => {
             const user = userEvent.setup();
-            
+
             const mockData = [
                 createMockMonthlyGroup('2024-03', 'March 2024', [
                     createMockPurchase('1', '2024-03-15T10:00:00Z', 100.0, 'Test Store'),
@@ -331,7 +331,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
 
             // Check initial state
             expect(trigger).toHaveAttribute('aria-expanded');
-            
+
             // Click to toggle
             await act(async () => {
                 await user.click(trigger);
@@ -339,7 +339,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
 
             // Verify icon changes
             expect(icon).toBeInTheDocument();
-            
+
             // Click to toggle back
             await act(async () => {
                 await user.click(trigger);
@@ -351,7 +351,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
 
         it('should handle rapid expand/collapse interactions smoothly', async () => {
             const user = userEvent.setup();
-            
+
             const mockData = [
                 createMockMonthlyGroup('2024-03', 'March 2024', [
                     createMockPurchase('1', '2024-03-15T10:00:00Z', 100.0, 'Test Store'),
@@ -395,7 +395,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
             const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
             const currentMonthYear = `${currentYear}-${currentMonth}`;
             const currentMonthName = currentDate.toLocaleString('default', { month: 'long' });
-            
+
             const mockData = [
                 createMockMonthlyGroup(currentMonthYear, `${currentMonthName} ${currentYear}`, [
                     createMockPurchase('1', `${currentMonthYear}-15T10:00:00Z`, 100.0, 'Current Store'),
@@ -418,10 +418,10 @@ describe('Monthly Purchases User Interactions E2E', () => {
 
             // Current month should be expanded by default
             const accordionItems = screen.getAllByTestId('accordion-item');
-            const currentMonthItem = accordionItems.find(item => 
+            const currentMonthItem = accordionItems.find(item =>
                 item.getAttribute('data-value') === currentMonthYear
             );
-            
+
             if (currentMonthItem) {
                 expect(currentMonthItem.getAttribute('data-open')).toBe('true');
             }
@@ -452,11 +452,11 @@ describe('Monthly Purchases User Interactions E2E', () => {
             });
 
             const accordionItems = screen.getAllByTestId('accordion-item');
-            
+
             // Check that non-current months are collapsed by default
             const currentDate = new Date();
             const currentMonthYear = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-            
+
             accordionItems.forEach(item => {
                 const monthYear = item.getAttribute('data-value');
                 if (monthYear !== currentMonthYear) {
@@ -469,7 +469,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
     describe('Purchase Details Display', () => {
         it('should show purchase details when month is expanded', async () => {
             const user = userEvent.setup();
-            
+
             const mockPurchases = [
                 createMockPurchase('1', '2024-03-15T10:00:00Z', 125.50, 'Grocery Store'),
                 createMockPurchase('2', '2024-03-20T14:30:00Z', 45.75, 'Pharmacy'),
@@ -499,7 +499,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
             // Verify purchase details are shown
             const content = screen.getByTestId('accordion-content');
             expect(content.style.display).not.toBe('none');
-            
+
             // The actual purchase details would be rendered by the component
             // Here we verify the structure is correct for displaying them
             expect(content).toBeInTheDocument();
@@ -507,7 +507,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
 
         it('should hide purchase details when month is collapsed', async () => {
             const user = userEvent.setup();
-            
+
             const mockData = [
                 createMockMonthlyGroup('2024-03', 'March 2024', [
                     createMockPurchase('1', '2024-03-15T10:00:00Z', 100.0, 'Test Store'),
@@ -526,7 +526,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
             });
 
             const trigger = screen.getByTestId('accordion-trigger');
-            
+
             // Expand first
             await act(async () => {
                 await user.click(trigger);
@@ -567,7 +567,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
             });
 
             const triggers = screen.getAllByTestId('accordion-trigger');
-            
+
             // Verify March summary
             const marchTrigger = triggers[0];
             expect(marchTrigger).toHaveTextContent('March 2024');
@@ -604,10 +604,10 @@ describe('Monthly Purchases User Interactions E2E', () => {
             });
 
             const triggers = screen.getAllByTestId('accordion-trigger');
-            
+
             // Single purchase should use singular form
             expect(triggers[0]).toHaveTextContent('1 purchase');
-            
+
             // Multiple purchases should use plural form
             expect(triggers[1]).toHaveTextContent('2 purchases');
         });
@@ -616,7 +616,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
     describe('Error Recovery Interactions', () => {
         it('should allow users to retry after API errors', async () => {
             const user = userEvent.setup();
-            
+
             // First call fails
             mockedAxios.get = vi.fn().mockRejectedValueOnce(new Error('Network error'));
 
@@ -660,7 +660,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
 
         it('should handle multiple retry attempts gracefully', async () => {
             const user = userEvent.setup();
-            
+
             // Multiple failures followed by success
             mockedAxios.get = vi.fn()
                 .mockRejectedValueOnce(new Error('Network error 1'))
@@ -708,8 +708,8 @@ describe('Monthly Purchases User Interactions E2E', () => {
     describe('Loading State Interactions', () => {
         it('should show loading state during initial data fetch', async () => {
             // Mock slow API response
-            mockedAxios.get = vi.fn().mockImplementation(() => 
-                new Promise(resolve => 
+            mockedAxios.get = vi.fn().mockImplementation(() =>
+                new Promise(resolve =>
                     setTimeout(() => resolve({
                         data: [
                             createMockMonthlyGroup('2024-03', 'March 2024', [
@@ -737,7 +737,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
 
         it('should show loading state during retry operations', async () => {
             const user = userEvent.setup();
-            
+
             // Initial failure
             mockedAxios.get = vi.fn().mockRejectedValueOnce(new Error('Network error'));
 
@@ -748,8 +748,8 @@ describe('Monthly Purchases User Interactions E2E', () => {
             });
 
             // Setup slow retry response
-            mockedAxios.get = vi.fn().mockImplementation(() => 
-                new Promise(resolve => 
+            mockedAxios.get = vi.fn().mockImplementation(() =>
+                new Promise(resolve =>
                     setTimeout(() => resolve({
                         data: [
                             createMockMonthlyGroup('2024-03', 'March 2024', [
@@ -779,7 +779,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
     describe('Accessibility Interactions', () => {
         it('should support keyboard navigation for expand/collapse', async () => {
             const user = userEvent.setup();
-            
+
             const mockData = [
                 createMockMonthlyGroup('2024-03', 'March 2024', [
                     createMockPurchase('1', '2024-03-15T10:00:00Z', 100.0, 'Test Store'),
@@ -798,7 +798,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
             });
 
             const trigger = screen.getByTestId('accordion-trigger');
-            
+
             // Focus the trigger
             trigger.focus();
             expect(trigger).toHaveFocus();
@@ -839,7 +839,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
             });
 
             const trigger = screen.getByTestId('accordion-trigger');
-            
+
             // Verify ARIA attributes
             expect(trigger).toHaveAttribute('aria-expanded');
             expect(trigger).toHaveAttribute('type', 'button');

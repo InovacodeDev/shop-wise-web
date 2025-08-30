@@ -1,7 +1,7 @@
-import { describe, it } from 'vitest';
 import axios from 'axios';
-import { CookieJar } from 'tough-cookie';
 import { wrapper } from 'axios-cookiejar-support';
+import { CookieJar } from 'tough-cookie';
+import { describe, it } from 'vitest';
 
 // This E2E test is opt-in. Set RUN_E2E=true to enable it (local dev only).
 if (process.env.RUN_E2E !== 'true') {
@@ -11,7 +11,7 @@ if (process.env.RUN_E2E !== 'true') {
     });
 } else {
     describe('e2e auth', () => {
-        const baseURL = process.env.VITE_API_URL || 'http://localhost:3000';
+        const baseURL = process.env.VITE_API_URL || 'http://localhost:3001';
         const jar = new CookieJar();
         const client = wrapper(axios.create({ baseURL, jar, withCredentials: true }));
 

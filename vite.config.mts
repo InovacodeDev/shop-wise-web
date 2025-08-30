@@ -1,13 +1,13 @@
-import { defineConfig } from "vite";
+import { lingui } from '@lingui/vite-plugin';
 // import tailwindcss from "@tailwindcss/vite";
-import { tanstackRouter } from "@tanstack/router-plugin/vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-import react from "@vitejs/plugin-react";
-import { lingui } from "@lingui/vite-plugin";
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
     server: {
-        port: 3000,
+        port: 3001,
         proxy: {
             // Proxy API requests during development to backend to avoid CORS issues
             '/api': {
@@ -22,12 +22,12 @@ export default defineConfig({
         // tailwindcss(),
         tsconfigPaths(),
         tanstackRouter({
-            target: "react",
+            target: 'react',
             autoCodeSplitting: true,
         }),
         react({
             babel: {
-                plugins: ["@lingui/babel-plugin-lingui-macro"],
+                plugins: ['@lingui/babel-plugin-lingui-macro'],
             },
         }),
         lingui(),

@@ -55,22 +55,22 @@ vi.mock('@/components/ui/card', () => ({
 vi.mock('@/components/ui/accordion', () => ({
     Accordion: ({ children, defaultValue, type, collapsible, ...props }: any) => {
         const [openItems, setOpenItems] = React.useState<string[]>(defaultValue || []);
-        
+
         const toggleItem = React.useCallback((value: string) => {
             setOpenItems(prev => {
                 if (type === 'single') {
                     return prev.includes(value) ? [] : [value];
                 }
-                return prev.includes(value) 
+                return prev.includes(value)
                     ? prev.filter(item => item !== value)
                     : [...prev, value];
             });
         }, [type]);
-        
+
         return (
             <div data-testid="accordion" {...props}>
-                {React.Children.map(children, (child: any) => 
-                    React.cloneElement(child, { 
+                {React.Children.map(children, (child: any) =>
+                    React.cloneElement(child, {
                         isOpen: openItems.includes(child.props.value),
                         onToggle: () => toggleItem(child.props.value)
                     })
@@ -96,9 +96,9 @@ vi.mock('@/components/ui/accordion', () => ({
         </div>
     ),
     AccordionTrigger: ({ children, onClick, isOpen, className, ...props }: any) => (
-        <button 
-            data-testid="accordion-trigger" 
-            onClick={onClick} 
+        <button
+            data-testid="accordion-trigger"
+            onClick={onClick}
             className={className}
             aria-expanded={isOpen}
             {...props}
@@ -134,9 +134,9 @@ vi.mock('@/components/ui/alert', () => ({
 
 vi.mock('@/components/ui/button', () => ({
     Button: ({ children, onClick, className, variant, size, ...props }: any) => (
-        <button 
-            data-testid="button" 
-            onClick={onClick} 
+        <button
+            data-testid="button"
+            onClick={onClick}
             className={className}
             data-variant={variant}
             data-size={size}
@@ -158,11 +158,11 @@ const mockUseAuth = vi.mocked(useAuth);
 describe('Monthly Purchases E2E Integration', () => {
     const mockFamilyId = 'test-family-id';
     const mockUserId = 'test-user-id';
-    const mockApiUrl = 'http://localhost:3000';
+    const mockApiUrl = 'http://localhost:3001';
 
     beforeEach(() => {
         vi.clearAllMocks();
-        
+
         // Setup default auth mock
         mockUseAuth.mockReturnValue({
             profile: {
@@ -266,7 +266,7 @@ describe('Monthly Purchases E2E Integration', () => {
 
         it('should handle user interactions correctly', async () => {
             const user = userEvent.setup();
-            
+
             const mockPurchases = [
                 createMockPurchase('1', '2024-03-15T10:00:00Z', 125.50, 'Grocery Store'),
                 createMockPurchase('2', '2024-03-20T14:30:00Z', 45.75, 'Pharmacy'),
@@ -290,7 +290,7 @@ describe('Monthly Purchases E2E Integration', () => {
             // Initially, current month should be expanded (if it's March 2024)
             const currentDate = new Date();
             const currentMonthYear = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-            
+
             if (currentMonthYear === '2024-03') {
                 expect(screen.getByTestId('accordion-content')).toBeInTheDocument();
             }
@@ -325,7 +325,7 @@ describe('Monthly Purchases E2E Integration', () => {
 
         it('should handle API errors with proper user feedback', async () => {
             const user = userEvent.setup();
-            
+
             // Mock API error
             const apiError = new Error('Network error');
             mockedAxios.get = vi.fn().mockRejectedValue(apiError);
@@ -339,7 +339,7 @@ describe('Monthly Purchases E2E Integration', () => {
 
             // Verify error message is displayed
             expect(screen.getByTestId('alert-description')).toBeInTheDocument();
-            
+
             // Verify retry button is present
             const retryButton = screen.getByTestId('button');
             expect(retryButton).toHaveTextContent('Retry');
@@ -439,7 +439,7 @@ describe('Monthly Purchases E2E Integration', () => {
 
         it('should use provided familyId prop over auth context', async () => {
             const customFamilyId = 'custom-family-id';
-            
+
             const mockData = [
                 createMockMonthlyGroup('2024-03', 'March 2024', [
                     createMockPurchase('1', '2024-03-15T10:00:00Z', 100.0, 'Test Store'),
@@ -467,7 +467,7 @@ describe('Monthly Purchases E2E Integration', () => {
     describe('Performance and Responsiveness', () => {
         it('should handle large datasets efficiently', async () => {
             // Create large dataset
-            const largePurchaseSet = Array.from({ length: 100 }, (_, i) => 
+            const largePurchaseSet = Array.from({ length: 100 }, (_, i) =>
                 createMockPurchase(
                     `purchase-${i}`,
                     `2024-03-${String((i % 28) + 1).padStart(2, '0')}T10:00:00Z`,
@@ -497,13 +497,13 @@ describe('Monthly Purchases E2E Integration', () => {
 
             // Should render large dataset within reasonable time
             expect(renderTime).toBeLessThan(3000);
-            
+
             console.log(`Rendered 100 purchases in ${renderTime.toFixed(2)}ms`);
         });
 
         it('should handle rapid user interactions without performance degradation', async () => {
             const user = userEvent.setup();
-            
+
             const mockData = Array.from({ length: 12 }, (_, i) => {
                 const month = String(i + 1).padStart(2, '0');
                 return createMockMonthlyGroup(
@@ -525,22 +525,22 @@ describe('Monthly Purchases E2E Integration', () => {
             });
 
             const triggers = screen.getAllByTestId('accordion-trigger');
-            
+
             // Perform rapid clicks
             const clickStart = performance.now();
-            
+
             for (let i = 0; i < 6; i++) {
                 await act(async () => {
                     await user.click(triggers[i]);
                 });
             }
-            
+
             const clickEnd = performance.now();
             const clickTime = clickEnd - clickStart;
-            
+
             // Should handle rapid interactions efficiently
             expect(clickTime).toBeLessThan(2000);
-            
+
             console.log(`6 rapid clicks completed in ${clickTime.toFixed(2)}ms`);
         });
     });
@@ -668,7 +668,7 @@ describe('Monthly Purchases E2E Integration', () => {
 
         it('should handle keyboard navigation properly', async () => {
             const user = userEvent.setup();
-            
+
             const mockData = [
                 createMockMonthlyGroup('2024-03', 'March 2024', [
                     createMockPurchase('1', '2024-03-15T10:00:00Z', 100.0, 'Test Store'),
@@ -689,7 +689,7 @@ describe('Monthly Purchases E2E Integration', () => {
             // Test keyboard interaction
             const trigger = screen.getByTestId('accordion-trigger');
             trigger.focus();
-            
+
             await act(async () => {
                 await user.keyboard('{Enter}');
             });
