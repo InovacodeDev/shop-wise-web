@@ -1,8 +1,8 @@
 import { SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from '@lingui/react/macro';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faChartColumn,
     faCog,
@@ -47,6 +47,15 @@ export function MainNav() {
         { href: "/home", label: t`Insights`, icon: faHome },
         { href: "/list", label: t`Shopping List`, icon: faList },
         { href: "/purchases", label: t`Add Purchase`, icon: faPlusCircle },
+        // New finance entries
+        { href: "/investments", label: t`Investments`, icon: faChartColumn },
+        { href: "/budgets", label: t`Budgets`, icon: faFileLines },
+        { href: "/goals", label: t`Goals`, icon: faFileLines },
+        { href: "/credit-cards", label: t`Credit Cards`, icon: faFileLines },
+        { href: "/achievements", label: t`Achievements`, icon: faFileLines },
+        { href: "/education", label: t`Education`, icon: faFileLines },
+        { href: "/bank", label: t`Bank`, icon: faFileLines },
+        { href: "/projections", label: t`Projections`, icon: faChartColumn },
     ];
 
     const settingsMenuItems = [

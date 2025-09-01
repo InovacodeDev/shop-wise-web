@@ -1,6 +1,10 @@
 import { logApiCall } from '@/lib/dev-utils';
 import { ExtractProductDataOutput } from '@/types/ai-flows';
 import type {
+    // Finance types
+    Account,
+    AccountSummary,
+    Achievement,
     AnalyzeConsumptionDataOutput,
     // AI Flow types
     AnalyzeConsumptionRequest,
@@ -8,6 +12,11 @@ import type {
     AuthResponse,
     AvailableMonth,
     AvailableMonthsSummary,
+    BalanceProjection,
+    BankAccount,
+    BankTransaction,
+    Budget,
+    BudgetProgress,
     BulkDeletePurchaseItemsResponse,
     BulkUpdatePurchaseItemsResponse,
     // Category types
@@ -23,13 +32,27 @@ import type {
     CreateShoppingListRequest,
     CreateStoreRequest,
     CreateUserRequest,
+    CreditCard,
+    CreditCardInvoice,
+    CreditTransaction,
     // Generic types
     DeleteResponse,
+    EducationalContent,
+    Expense,
+    ExpenseFilters,
+    ExpensesSummary,
     ExtractDataFromPageRequest,
     ExtractDataFromPdfRequest,
     ExtractProductDataRequest,
     // Family types
     Family,
+    Goal,
+    GoalDeposit,
+    GoalProgress,
+    Investment,
+    InvestmentPortfolio,
+    InvestmentSummary,
+    InvestmentTransaction,
     MarkAllNotificationsAsReadResponse,
     MarkNotificationAsReadResponse,
     MeResponse,
@@ -38,12 +61,15 @@ import type {
     Notification,
     // Pantry Item types
     PantryItem,
+    PaymentMethod,
+    Plan,
     // Product types
     Product,
     // Purchase types
     Purchase,
     // Purchase Item types
     PurchaseItem,
+    RecurringTransaction,
     RefreshTokenResponse,
     RevokeTokenResponse,
     // Shopping List types
@@ -54,6 +80,7 @@ import type {
     SignUpRequest,
     // Store types
     Store,
+    Subscription,
     SuggestMissingItemsOutput,
     SuggestMissingItemsRequest,
     UpdateFamilyRequest,
@@ -65,13 +92,20 @@ import type {
     UpdateUserRequest,
     // User types
     User,
+    UserFeatures,
+    UserStats,
 } from '@/types/api';
 import type { CrawlAndEnhanceNfceResponse, CrawlNfceRequest, CrawlNfceResponse } from '@/types/webcrawler';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export class ApiService {
-    // Use VITE_API_URL if provided, otherwise default to '/api' so dev server can proxy and avoid CORS
-    private baseURL = (import.meta.env.VITE_API_URL as string) || '/api';
+    // Normalize VITE_API_URL to always include '/api' prefix expected by backend
+    private baseURL = (() => {
+        const configured = (import.meta.env.VITE_API_URL as string) || '';
+        if (!configured) return '/api';
+        const trimmed = configured.replace(/\/+$/, '');
+        return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+    })();
     private axiosInstance: AxiosInstance;
     // In-memory token store (safer than always using localStorage)
     private inMemoryBackendToken: string | null = null;
@@ -366,18 +400,6 @@ export class ApiService {
 
     async getStore(id: string): Promise<Store> {
         return this.makeRequest<Store>(`/stores/${id}`);
-    }
-
-    // Categories endpoints
-    async getCategories(): Promise<Category[]> {
-        return this.makeRequest<Category[]>('/categories');
-    }
-
-    async createCategory(data: CreateCategoryRequest): Promise<Category> {
-        return this.makeRequest<Category>('/categories', {
-            method: 'POST',
-            data: data,
-        });
     }
 
     // Purchases endpoints
@@ -692,6 +714,342 @@ export class ApiService {
                 data: { itemIds },
             },
         );
+    }
+
+    // ===============================
+    // Finance Methods
+    // ===============================
+
+    // Expense methods
+    async getExpenses(filters?: ExpenseFilters): Promise<Expense[]> {
+        const queryParams = new URLSearchParams();
+        if (filters) {
+            Object.entries(filters).forEach(([key, value]) => {
+                if (value !== undefined && value !== null) {
+                    queryParams.append(key, value.toString());
+                }
+            });
+        }
+        return this.makeRequest<Expense[]>(`/expenses?${queryParams.toString()}`);
+    }
+
+    async createExpense(data: Omit<Expense, '_id' | 'createdAt' | 'updatedAt'>): Promise<Expense> {
+        return this.makeRequest<Expense>('/expenses', {
+            method: 'POST',
+            data,
+        });
+    }
+
+    async updateExpense(id: string, data: Partial<Expense>): Promise<Expense> {
+        return this.makeRequest<Expense>(`/expenses/${id}`, {
+            method: 'PATCH',
+            data,
+        });
+    }
+
+    async deleteExpense(id: string): Promise<DeleteResponse> {
+        return this.makeRequest<DeleteResponse>(`/expenses/${id}`, {
+            method: 'DELETE',
+        });
+    }
+
+    async getExpensesSummary(month?: string): Promise<ExpensesSummary> {
+        const query = month ? `?month=${month}` : '';
+        return this.makeRequest<ExpensesSummary>(`/expenses/summary${query}`);
+    }
+
+    async getMonthlyExpenses(yearMonth: string): Promise<ExpensesSummary> {
+        return this.makeRequest<ExpensesSummary>(`/expenses/monthly/${yearMonth}`);
+    }
+
+    // Account methods
+    async getAccounts(): Promise<Account[]> {
+        return this.makeRequest<Account[]>('/accounts');
+    }
+
+    async createAccount(data: Omit<Account, '_id' | 'createdAt' | 'updatedAt'>): Promise<Account> {
+        return this.makeRequest<Account>('/accounts', {
+            method: 'POST',
+            data,
+        });
+    }
+
+    async updateAccount(id: string, data: Partial<Account>): Promise<Account> {
+        return this.makeRequest<Account>(`/accounts/${id}`, {
+            method: 'PATCH',
+            data,
+        });
+    }
+
+    async deleteAccount(id: string): Promise<DeleteResponse> {
+        return this.makeRequest<DeleteResponse>(`/accounts/${id}`, {
+            method: 'DELETE',
+        });
+    }
+
+    async getAccountSummary(): Promise<AccountSummary> {
+        return this.makeRequest<AccountSummary>('/accounts/summary');
+    }
+
+    async getTotalBalance(): Promise<{ totalBalance: number }> {
+        return this.makeRequest<{ totalBalance: number }>('/accounts/balance');
+    }
+
+    // Category methods
+    async getCategories(): Promise<Category[]> {
+        return this.makeRequest<Category[]>('/categories');
+    }
+
+    async createCategory(data: Omit<Category, '_id' | 'createdAt' | 'updatedAt'>): Promise<Category> {
+        return this.makeRequest<Category>('/categories', {
+            method: 'POST',
+            data,
+        });
+    }
+
+    async updateCategory(id: string, data: Partial<Category>): Promise<Category> {
+        return this.makeRequest<Category>(`/categories/${id}`, {
+            method: 'PATCH',
+            data,
+        });
+    }
+
+    async deleteCategory(id: string): Promise<DeleteResponse> {
+        return this.makeRequest<DeleteResponse>(`/categories/${id}`, {
+            method: 'DELETE',
+        });
+    }
+
+    // Investment methods
+    async getInvestments(): Promise<Investment[]> {
+        return this.makeRequest<Investment[]>('/investments');
+    }
+
+    async createInvestment(data: Omit<Investment, '_id' | 'createdAt' | 'updatedAt'>): Promise<Investment> {
+        return this.makeRequest<Investment>('/investments', {
+            method: 'POST',
+            data,
+        });
+    }
+
+    async updateInvestment(id: string, data: Partial<Investment>): Promise<Investment> {
+        return this.makeRequest<Investment>(`/investments/${id}`, {
+            method: 'PATCH',
+            data,
+        });
+    }
+
+    async deleteInvestment(id: string): Promise<DeleteResponse> {
+        return this.makeRequest<DeleteResponse>(`/investments/${id}`, {
+            method: 'DELETE',
+        });
+    }
+
+    async getInvestmentPortfolio(): Promise<InvestmentPortfolio> {
+        return this.makeRequest<InvestmentPortfolio>('/investments/portfolio');
+    }
+
+    async getInvestmentSummary(): Promise<InvestmentSummary> {
+        return this.makeRequest<InvestmentSummary>('/investments/summary');
+    }
+
+    async createInvestmentTransaction(
+        data: Omit<InvestmentTransaction, '_id' | 'createdAt' | 'updatedAt'>,
+    ): Promise<InvestmentTransaction> {
+        return this.makeRequest<InvestmentTransaction>('/investments/transactions', {
+            method: 'POST',
+            data,
+        });
+    }
+
+    async getInvestmentTransactions(investmentId: string): Promise<InvestmentTransaction[]> {
+        return this.makeRequest<InvestmentTransaction[]>(`/investments/${investmentId}/transactions`);
+    }
+
+    async updatePrices(prices: Record<string, number>): Promise<{ updated: number }> {
+        return this.makeRequest<{ updated: number }>('/investments/update-prices', {
+            method: 'POST',
+            data: { prices },
+        });
+    }
+
+    // Credit Card methods
+    async getCreditCards(): Promise<CreditCard[]> {
+        return this.makeRequest<CreditCard[]>('/credit-cards');
+    }
+
+    async createCreditCard(data: Omit<CreditCard, '_id' | 'createdAt' | 'updatedAt'>): Promise<CreditCard> {
+        return this.makeRequest<CreditCard>('/credit-cards', {
+            method: 'POST',
+            data,
+        });
+    }
+
+    async updateCreditCard(id: string, data: Partial<CreditCard>): Promise<CreditCard> {
+        return this.makeRequest<CreditCard>(`/credit-cards/${id}`, {
+            method: 'PATCH',
+            data,
+        });
+    }
+
+    async deleteCreditCard(id: string): Promise<DeleteResponse> {
+        return this.makeRequest<DeleteResponse>(`/credit-cards/${id}`, {
+            method: 'DELETE',
+        });
+    }
+
+    async generateInvoice(cardId: string, month: string): Promise<CreditCardInvoice> {
+        return this.makeRequest<CreditCardInvoice>(`/credit-cards/${cardId}/invoices/${month}`);
+    }
+
+    // Budget methods
+    async getBudgets(): Promise<Budget[]> {
+        return this.makeRequest<Budget[]>('/budgets');
+    }
+
+    async createBudget(data: Omit<Budget, '_id' | 'createdAt' | 'updatedAt'>): Promise<Budget> {
+        return this.makeRequest<Budget>('/budgets', {
+            method: 'POST',
+            data,
+        });
+    }
+
+    async updateBudget(id: string, data: Partial<Budget>): Promise<Budget> {
+        return this.makeRequest<Budget>(`/budgets/${id}`, {
+            method: 'PATCH',
+            data,
+        });
+    }
+
+    async deleteBudget(id: string): Promise<DeleteResponse> {
+        return this.makeRequest<DeleteResponse>(`/budgets/${id}`, {
+            method: 'DELETE',
+        });
+    }
+
+    async getBudgetProgress(): Promise<BudgetProgress[]> {
+        return this.makeRequest<BudgetProgress[]>('/budgets/progress');
+    }
+
+    // Goal methods
+    async getGoals(): Promise<Goal[]> {
+        return this.makeRequest<Goal[]>('/goals');
+    }
+
+    async createGoal(data: Omit<Goal, '_id' | 'createdAt' | 'updatedAt'>): Promise<Goal> {
+        return this.makeRequest<Goal>('/goals', {
+            method: 'POST',
+            data,
+        });
+    }
+
+    async updateGoal(id: string, data: Partial<Goal>): Promise<Goal> {
+        return this.makeRequest<Goal>(`/goals/${id}`, {
+            method: 'PATCH',
+            data,
+        });
+    }
+
+    async deleteGoal(id: string): Promise<DeleteResponse> {
+        return this.makeRequest<DeleteResponse>(`/goals/${id}`, {
+            method: 'DELETE',
+        });
+    }
+
+    async createGoalDeposit(data: Omit<GoalDeposit, '_id' | 'createdAt' | 'updatedAt'>): Promise<GoalDeposit> {
+        return this.makeRequest<GoalDeposit>(`/goals/deposits`, {
+            method: 'POST',
+            data,
+        });
+    }
+
+    async getGoalProgress(): Promise<GoalProgress[]> {
+        return this.makeRequest<GoalProgress[]>('/goals/progress');
+    }
+
+    // Subscription methods
+    async getCurrentSubscription(): Promise<Subscription | null> {
+        return this.makeRequest<Subscription | null>('/subscriptions/current');
+    }
+
+    async getUserFeatures(): Promise<UserFeatures> {
+        return this.makeRequest<UserFeatures>('/subscriptions/features');
+    }
+
+    async getSubscriptionStatus(): Promise<{
+        hasActiveSubscription: boolean;
+        isTrial: boolean;
+        daysRemaining: number;
+        planName?: string;
+    }> {
+        return this.makeRequest<{
+            hasActiveSubscription: boolean;
+            isTrial: boolean;
+            daysRemaining: number;
+            planName?: string;
+        }>('/subscriptions/status');
+    }
+
+    async upgradeSubscription(planId: string): Promise<Subscription> {
+        return this.makeRequest<Subscription>(`/subscriptions/upgrade/${planId}`, {
+            method: 'POST',
+        });
+    }
+
+    async cancelSubscription(subscriptionId: string): Promise<Subscription> {
+        return this.makeRequest<Subscription>(`/subscriptions/${subscriptionId}/cancel`, {
+            method: 'POST',
+        });
+    }
+
+    async getPlans(): Promise<Plan[]> {
+        return this.makeRequest<Plan[]>('/subscriptions/plans');
+    }
+
+    // Gamification methods
+    async getAchievements(): Promise<Achievement[]> {
+        return this.makeRequest<Achievement[]>('/achievements');
+    }
+
+    async getUserStats(): Promise<UserStats> {
+        return this.makeRequest<UserStats>('/users/stats');
+    }
+
+    // Education methods
+    async getEducationalContent(): Promise<EducationalContent[]> {
+        return this.makeRequest<EducationalContent[]>('/education/content');
+    }
+
+    async markContentAsRead(contentId: string): Promise<{ success: boolean }> {
+        return this.makeRequest<{ success: boolean }>(`/education/content/${contentId}/read`, {
+            method: 'POST',
+        });
+    }
+
+    async bookmarkContent(contentId: string): Promise<{ success: boolean }> {
+        return this.makeRequest<{ success: boolean }>(`/education/content/${contentId}/bookmark`, {
+            method: 'POST',
+        });
+    }
+
+    // Bank Integration methods
+    async getBankAccounts(): Promise<BankAccount[]> {
+        return this.makeRequest<BankAccount[]>('/bank-accounts');
+    }
+
+    async syncBankAccount(accountId: string): Promise<{ synced: number }> {
+        return this.makeRequest<{ synced: number }>(`/bank-accounts/${accountId}/sync`, {
+            method: 'POST',
+        });
+    }
+
+    async getBankTransactions(accountId: string): Promise<BankTransaction[]> {
+        return this.makeRequest<BankTransaction[]>(`/bank-accounts/${accountId}/transactions`);
+    }
+
+    // Balance Projection methods
+    async getBalanceProjection(period: '3months' | '6months' | '1year'): Promise<BalanceProjection> {
+        return this.makeRequest<BalanceProjection>(`/balances/projection?period=${period}`);
     }
 
     // ===============================
