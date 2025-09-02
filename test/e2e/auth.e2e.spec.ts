@@ -11,7 +11,7 @@ if (process.env.RUN_E2E !== 'true') {
     });
 } else {
     describe('e2e auth', () => {
-        const baseURL = process.env.VITE_API_URL || 'http://localhost:3001';
+        const baseURL = process.env.VITE_API_URL || 'http://localhost:9001';
         const jar = new CookieJar();
         const client = wrapper(axios.create({ baseURL, jar, withCredentials: true }));
 

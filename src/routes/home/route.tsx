@@ -25,6 +25,7 @@ import {
     faDollarSign,
     faShoppingBag,
     faArrowTrendUp,
+    faChartColumn,
     faTag,
     faScaleBalanced,
     faHashtag,
@@ -68,6 +69,7 @@ interface PurchaseItem {
 }
 
 const dateLocales: Record<string, Locale> = {
+    "pt": ptBR,
     "pt-BR": ptBR,
     "en-US": enUS,
     en: enUS,
@@ -151,6 +153,9 @@ function DashboardPage() {
     // AI analysis states
     const [consumptionAnalysis, setConsumptionAnalysis] = useState<string | null>(null);
     const [isAnalysisLoading, setIsAnalysisLoading] = useState(false);
+    // Goals summary state (merged into Insights)
+    const [goals, setGoals] = useState<any[]>([]);
+    const [goalProgress, setGoalProgress] = useState<any[]>([]);
 
     const chartConfig = useMemo<any>(
         () => ({
@@ -502,6 +507,18 @@ function DashboardPage() {
 
             setMonthlySpendingByStore(enhancedStoreData);
 
+            // Fetch goals and progress to merge into the dashboard
+            try {
+                const [g, p] = await Promise.all([
+                    apiService.getGoals(),
+                    apiService.getGoalProgress(),
+                ]);
+                setGoals(g);
+                setGoalProgress(p);
+            } catch (err) {
+                // ignore errors for goals fetching so insights still render
+            }
+
             // -- Generate Historical Insights --
             if (monthlyGroups.length > 1) {
                 const historicalMonths = monthlyGroups.filter(g => g.monthYear !== format(now, "yyyy-MM"));
@@ -816,6 +833,43 @@ function DashboardPage() {
                                     <p className="text-xs text-muted-foreground">
                                         {historicalInsights ? t`Based on spending pattern analysis` : t`Need more data for analysis`}
                                     </p>
+                                </CardContent>
+                            </Card>
+                        </InsightModal>
+                        {/* Goals summary merged into Insights */}
+                        <InsightModal
+                            title={t`Goals Summary`}
+                            description={t`Overview of your active goals and their progress.`}
+                            data={goals}
+                            type="goalsSummary"
+                        >
+                            <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">{t`Goals`}</CardTitle>
+                                    <FontAwesomeIcon icon={faChartColumn} className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    {goals.length === 0 ? (
+                                        <div className="text-sm text-muted-foreground">{t`No active goals`}</div>
+                                    ) : (
+                                        <div className="space-y-2">
+                                            {goals.slice(0, 3).map((g) => {
+                                                const pr = goalProgress.find((x) => x.goalId === g._id);
+                                                return (
+                                                    <div key={g._id} className="rounded border p-2">
+                                                        <div className="font-medium">{g.name}</div>
+                                                        <div className="text-xs text-muted-foreground">
+                                                            {t`Target`}: {i18n.number(g.targetAmount, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                                            &nbsp;•&nbsp;{t`Current`}: {i18n.number(g.currentAmount, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                                        </div>
+                                                        {pr && (
+                                                            <div className="text-xs text-muted-foreground">{t`Progress`}: {pr.progressPercentage.toFixed(1)}%</div>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
                                 </CardContent>
                             </Card>
                         </InsightModal>

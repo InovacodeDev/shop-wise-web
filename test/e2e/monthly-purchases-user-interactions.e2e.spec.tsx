@@ -198,8 +198,15 @@ describe('Monthly Purchases User Interactions E2E', () => {
         } as any);
 
         // Setup axios defaults
-        mockedAxios.create = vi.fn(() => mockedAxios);
-        mockedAxios.defaults = { baseURL: 'http://localhost:3001' };
+        // Mock create to return the mocked axios instance; cast to any to satisfy CreateAxiosDefaults -> AxiosInstance signature
+        mockedAxios.create = vi.fn(() => mockedAxios as unknown as any);
+        // Ensure defaults include headers to satisfy AxiosDefaults typing
+        mockedAxios.defaults = {
+            ...(mockedAxios.defaults || {}),
+            baseURL: 'http://localhost:3001',
+            // preserve existing headers if present, otherwise provide an empty object
+            headers: (mockedAxios.defaults && (mockedAxios.defaults as any).headers) ? (mockedAxios.defaults as any).headers : {},
+        } as any;
     });
 
     afterEach(() => {
@@ -209,7 +216,6 @@ describe('Monthly Purchases User Interactions E2E', () => {
     const createMockPurchase = (id: string, date: string, amount: number, storeName: string): Purchase => ({
         _id: id,
         familyId: mockFamilyId,
-        purchasedBy: mockUserId,
         storeId: `store-${id}`,
         storeName,
         accessKey: `access-${id}`,
@@ -220,6 +226,7 @@ describe('Monthly Purchases User Interactions E2E', () => {
         items: [
             {
                 _id: `item-${id}-1`,
+                purchaseId: 'item-${id}-1',
                 name: 'Test Item',
                 quantity: 1,
                 price: amount,

@@ -53,7 +53,7 @@ Create a `.env` file in the root directory with the following variables:
 
 ```env
 # API Configuration
-VITE_API_URL=http://localhost:3001/api
+VITE_API_URL=http://localhost:9001/api
 
 # Authentication
 VITE_PERSIST_TOKENS=true
@@ -149,19 +149,20 @@ The app supports multiple languages using Lingui:
 This project uses GitHub Actions for continuous integration:
 
 - **CI Pipeline**: Runs on every PR and push to main
-  - Security audit
-  - Code formatting check
-  - TypeScript type checking
-  - Unit tests
-  - Application build
+    - Security audit
+    - Code formatting check
+    - TypeScript type checking
+    - Unit tests
+    - Application build
 
 - **Build Verification**: Runs on pushes to main
-  - Full CI pipeline
-  - Build artifacts generation
+    - Full CI pipeline
+    - Build artifacts generation
 
 ### Branch Protection
 
 The `main` branch is protected and requires:
+
 - All CI checks to pass
 - Up-to-date branches before merging
 

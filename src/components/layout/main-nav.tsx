@@ -43,19 +43,31 @@ export function MainNav() {
     const isAdmin = profile?.isAdmin || false;
     const { state } = useSidebar();
 
-    const menuItems = [
-        { href: "/home", label: t`Insights`, icon: faHome },
-        { href: "/list", label: t`Shopping List`, icon: faList },
-        { href: "/purchases", label: t`Add Purchase`, icon: faPlusCircle },
-        // New finance entries
+    // Sections:
+    // Finance related
+    const financeMenu = [
         { href: "/investments", label: t`Investments`, icon: faChartColumn },
         { href: "/budgets", label: t`Budgets`, icon: faFileLines },
-        { href: "/goals", label: t`Goals`, icon: faFileLines },
         { href: "/credit-cards", label: t`Credit Cards`, icon: faFileLines },
-        { href: "/achievements", label: t`Achievements`, icon: faFileLines },
-        { href: "/education", label: t`Education`, icon: faFileLines },
         { href: "/bank", label: t`Bank`, icon: faFileLines },
+    ];
+
+    // Top menu: put Insights first so it's the primary entry point
+    const topMenu = [
+        { href: "/home", label: t`Insights`, icon: faChartColumn },
+        { href: "/goals", label: t`Goals`, icon: faFileLines },
+        { href: "/achievements", label: t`Achievements`, icon: faUsers },
         { href: "/projections", label: t`Projections`, icon: faChartColumn },
+    ];
+
+    // Shopping related
+    const shoppingMenu = [
+        { href: "/list", label: t`Shopping List`, icon: faList },
+        { href: "/purchases", label: t`Add Purchase`, icon: faShoppingBasket },
+    ];
+
+    const educationMenu = [
+        { href: "/education", label: t`Education`, icon: faFileLines },
     ];
 
     const settingsMenuItems = [
@@ -111,7 +123,82 @@ export function MainNav() {
     return (
         <SidebarContent>
             <SidebarMenu>
-                {menuItems.map((item) => (
+                {topMenu.map((item) => (
+                    <SidebarMenuItem key={item.href}>
+                        <Link to={item.href}>
+                            <SidebarMenuButton isActive={isActive(item.href)} tooltip={item.label} asChild={false}>
+                                <FontAwesomeIcon icon={item.icon} className="h-5 w-5" />
+                                <span
+                                    className={cn(
+                                        "transition-all duration-300 ease-in-out",
+                                        state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
+                                    )}
+                                >
+                                    {item.label}
+                                </span>
+                            </SidebarMenuButton>
+                        </Link>
+                    </SidebarMenuItem>
+                ))}
+                <p
+                    className={cn(
+                        "px-4 py-2 text-xs font-semibold text-muted-foreground transition-opacity duration-300",
+                        state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
+                    )}
+                >
+                    {t`Finanças Pessoais`}
+                </p>
+                {financeMenu.map((item) => (
+                    <SidebarMenuItem key={item.href}>
+                        <Link to={item.href}>
+                            <SidebarMenuButton isActive={isActive(item.href)} tooltip={item.label} asChild={false}>
+                                <FontAwesomeIcon icon={item.icon} className="h-5 w-5" />
+                                <span
+                                    className={cn(
+                                        "transition-all duration-300 ease-in-out",
+                                        state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
+                                    )}
+                                >
+                                    {item.label}
+                                </span>
+                            </SidebarMenuButton>
+                        </Link>
+                    </SidebarMenuItem>
+                ))}
+                <p
+                    className={cn(
+                        "px-4 py-2 text-xs font-semibold text-muted-foreground transition-opacity duration-300",
+                        state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
+                    )}
+                >
+                    {t`Compras`}
+                </p>
+                {shoppingMenu.map((item) => (
+                    <SidebarMenuItem key={item.href}>
+                        <Link to={item.href}>
+                            <SidebarMenuButton isActive={isActive(item.href)} tooltip={item.label} asChild={false}>
+                                <FontAwesomeIcon icon={item.icon} className="h-5 w-5" />
+                                <span
+                                    className={cn(
+                                        "transition-all duration-300 ease-in-out",
+                                        state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
+                                    )}
+                                >
+                                    {item.label}
+                                </span>
+                            </SidebarMenuButton>
+                        </Link>
+                    </SidebarMenuItem>
+                ))}
+                <p
+                    className={cn(
+                        "px-4 py-2 text-xs font-semibold text-muted-foreground transition-opacity duration-300",
+                        state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
+                    )}
+                >
+                    {t`Educacional`}
+                </p>
+                {educationMenu.map((item) => (
                     <SidebarMenuItem key={item.href}>
                         <Link to={item.href}>
                             <SidebarMenuButton isActive={isActive(item.href)} tooltip={item.label} asChild={false}>
