@@ -9,7 +9,6 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { Checkbox } from "../ui/checkbox";
 import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
-import { Link } from "@tanstack/react-router";
 import { useLingui } from '@lingui/react/macro';
 import { apiService } from "@/services/api";
 

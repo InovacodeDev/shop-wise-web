@@ -349,70 +349,39 @@ function DashboardPage() {
             setTotalSpentChange(finalTotalSpentChange);
             setTotalItemsChange(finalTotalItemsChange);
 
-            // -- Process Bar Chart data using ALL available months from monthlyGroups --
+            // -- Process Bar Chart data: Current month + Last 5 months (6 months total) --
             const monthlyData: { [key: string]: any } = {};
             const currentMonthKey = format(now, "MMM/yy", { locale });
 
-            // Initialize chart data with all available months from the API
-            if (monthlyGroups.length > 0) {
-                // Sort monthly groups by monthYear to ensure chronological order
-                const sortedGroups = [...monthlyGroups].sort((a, b) => a.monthYear.localeCompare(b.monthYear));
-
-                sortedGroups.forEach(group => {
-                    const date = new Date(group.monthYear + '-01'); // Convert YYYY-MM to date
-                    const monthKey = format(date, "MMM/yy", { locale });
-                    const isCurrentMonth = monthKey === currentMonthKey;
-
-                    monthlyData[monthKey] = {
-                        month: monthKey,
-                        monthYear: group.monthYear,
-                        totalAmount: group.totalAmount,
-                        purchaseCount: group.purchaseCount,
-                        isCurrentMonth: isCurrentMonth,
-                        displayName: isCurrentMonth ? `${monthKey} (${t`Current`})` : monthKey,
-                        ...Object.fromEntries(
-                            Object.keys(chartConfig)
-                                .filter((k) => !["total", "value"].includes(k))
-                                .map((k) => [k, 0])
-                        ),
-                    };
-                });
-
-                // Ensure current month is always included even if no data
-                if (!monthlyData[currentMonthKey]) {
-                    monthlyData[currentMonthKey] = {
-                        month: currentMonthKey,
-                        monthYear: format(now, "yyyy-MM"),
-                        totalAmount: 0,
-                        purchaseCount: 0,
-                        isCurrentMonth: true,
-                        displayName: `${currentMonthKey} (${t`Current`})`,
-                        ...Object.fromEntries(
-                            Object.keys(chartConfig)
-                                .filter((k) => !["total", "value"].includes(k))
-                                .map((k) => [k, 0])
-                        ),
-                    };
-                }
-            } else {
-                // Fallback: create last 12 months if no monthly groups available
-                for (let i = 11; i >= 0; i--) {
-                    const date = subMonths(now, i);
-                    const monthKey = format(date, "MMM/yy", { locale });
-                    const isCurrentMonth = monthKey === currentMonthKey;
-
-                    monthlyData[monthKey] = {
-                        month: monthKey,
-                        isCurrentMonth: isCurrentMonth,
-                        displayName: isCurrentMonth ? `${monthKey} (${t`Current`})` : monthKey,
-                        ...Object.fromEntries(
-                            Object.keys(chartConfig)
-                                .filter((k) => !["total", "value"].includes(k))
-                                .map((k) => [k, 0])
-                        ),
-                    };
-                }
+            // Generate 6 months: current month + last 5 months
+            const targetMonths: Array<{ date: Date; monthKey: string; monthYear: string; isCurrentMonth: boolean }> = [];
+            for (let i = 5; i >= 0; i--) {
+                const date = subMonths(now, i);
+                const monthKey = format(date, "MMM/yy", { locale });
+                const monthYear = format(date, "yyyy-MM");
+                const isCurrentMonth = i === 0;
+                targetMonths.push({ date, monthKey, monthYear, isCurrentMonth });
             }
+
+            // Initialize chart data for these 6 months
+            targetMonths.forEach(({ monthKey, monthYear, isCurrentMonth }) => {
+                // Find matching data from monthlyGroups if available
+                const groupData = monthlyGroups.find(group => group.monthYear === monthYear);
+                
+                monthlyData[monthKey] = {
+                    month: monthKey,
+                    monthYear: monthYear,
+                    totalAmount: groupData?.totalAmount || 0,
+                    purchaseCount: groupData?.purchaseCount || 0,
+                    isCurrentMonth: isCurrentMonth,
+                    displayName: isCurrentMonth ? `${monthKey} (${t`Current`})` : monthKey,
+                    ...Object.fromEntries(
+                        Object.keys(chartConfig)
+                            .filter((k) => !["total", "value"].includes(k))
+                            .map((k) => [k, 0])
+                    ),
+                };
+            });
 
             // Populate category spending data for each month
             allItems.forEach((item) => {

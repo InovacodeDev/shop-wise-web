@@ -561,7 +561,7 @@ export class ApiService {
     }
 
     async createShoppingList(familyId: string, data: CreateShoppingListRequest): Promise<ShoppingList> {
-        return this.makeRequest<ShoppingList>(`/families/${familyId}/shopping-lists`, {
+        return this.makeRequest<ShoppingList>(`/families/${familyId}/shopping-lists/ai`, {
             method: 'POST',
             data: data,
         });

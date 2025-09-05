@@ -44,6 +44,16 @@ export function MainNav() {
     const { state } = useSidebar();
 
     // Sections:
+    // Routes that require premium access (these screens use PremiumFeatureGuard)
+    const premiumRoutes = new Set<string>([
+        "/achievements",
+        "/budgets",
+        "/investments",
+        "/projections",
+        "/education",
+        "/bank",
+        "/credit-cards",
+    ]);
     // Finance related
     const financeMenu = [
         { href: "/investments", label: t`Investments`, icon: faChartColumn },
@@ -55,9 +65,9 @@ export function MainNav() {
     // Top menu: put Insights first so it's the primary entry point
     const topMenu = [
         { href: "/home", label: t`Insights`, icon: faChartColumn },
-        { href: "/goals", label: t`Goals`, icon: faFileLines },
-        { href: "/achievements", label: t`Achievements`, icon: faUsers },
-        { href: "/projections", label: t`Projections`, icon: faChartColumn },
+        // { href: "/goals", label: t`Goals`, icon: faFileLines },
+        // { href: "/achievements", label: t`Achievements`, icon: faUsers },
+        // { href: "/projections", label: t`Projections`, icon: faChartColumn },
     ];
 
     // Shopping related
@@ -140,7 +150,7 @@ export function MainNav() {
                         </Link>
                     </SidebarMenuItem>
                 ))}
-                <p
+                {/* <p
                     className={cn(
                         "px-4 py-2 text-xs font-semibold text-muted-foreground transition-opacity duration-300",
                         state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
@@ -164,7 +174,7 @@ export function MainNav() {
                             </SidebarMenuButton>
                         </Link>
                     </SidebarMenuItem>
-                ))}
+                ))} */}
                 <p
                     className={cn(
                         "px-4 py-2 text-xs font-semibold text-muted-foreground transition-opacity duration-300",
@@ -190,7 +200,7 @@ export function MainNav() {
                         </Link>
                     </SidebarMenuItem>
                 ))}
-                <p
+                {/* <p
                     className={cn(
                         "px-4 py-2 text-xs font-semibold text-muted-foreground transition-opacity duration-300",
                         state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
@@ -214,7 +224,7 @@ export function MainNav() {
                             </SidebarMenuButton>
                         </Link>
                     </SidebarMenuItem>
-                ))}
+                ))} */}
             </SidebarMenu>
             <SidebarMenu className="mt-auto">
                 <p
