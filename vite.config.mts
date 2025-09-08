@@ -7,11 +7,11 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
     server: {
-        port: 3001,
+        port: 9090,
         proxy: {
             // Proxy API requests during development to backend to avoid CORS issues
             '/api': {
-                target: 'http://localhost:3001',
+                target: 'http://localhost:9091',
                 changeOrigin: true,
                 secure: false,
                 rewrite: (path) => path.replace(/^\/api/, ''),

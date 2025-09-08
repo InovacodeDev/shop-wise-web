@@ -10,8 +10,16 @@ i18n.load({
     en: enMessages,
     pt: ptMessages,
 });
-i18n.activate("pt");
-i18n.activate("en");
+// Activate an initial locale based on the browser language (prefer pt) or default to English.
+const getInitialLocale = () => {
+    if (typeof window !== "undefined") {
+        const nav = (navigator && (navigator.language || (navigator as any).userLanguage)) || "en";
+        if (typeof nav === "string" && nav.toLowerCase().startsWith("pt")) return "pt";
+    }
+    return "en";
+};
+
+i18n.activate(getInitialLocale());
 
 function PageViewTracker(): React.ReactNode {
     return null;

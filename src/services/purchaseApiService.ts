@@ -1,17 +1,17 @@
-import { apiService } from "@/services/api";
-import type { PurchaseData } from "@/components/purchases/manual-purchase-form";
-import type { ExtractProductDataOutput, Product } from "@/types/ai-flows";
-import type { Purchase, CreatePurchaseItemRequest, MonthlyPurchaseGroup } from "@/types/api";
+import type { PurchaseData } from '@/components/purchases/manual-purchase-form';
+import { apiService } from '@/services/api';
+import type { ExtractProductDataOutput, Product } from '@/types/ai-flows';
+import type { CreatePurchaseItemRequest, MonthlyPurchaseGroup, Purchase } from '@/types/api';
 
 export async function savePurchase(
-    familyId: string, 
-    userId: string, 
-    purchaseData: ExtractProductDataOutput | PurchaseData, 
-    products: Product[], 
-    entryMethod: 'import' | 'manual' | 'nfce'
+    familyId: string,
+    userId: string,
+    purchaseData: ExtractProductDataOutput | PurchaseData,
+    products: Product[],
+    entryMethod: 'import' | 'manual' | 'nfce',
 ): Promise<{ success: boolean; purchaseId: string }> {
     if (!familyId || !userId) {
-        throw new Error("Family ID and User ID are required.");
+        throw new Error('Family ID and User ID are required.');
     }
 
     if ('accessKey' in purchaseData && purchaseData.accessKey) {
@@ -34,7 +34,7 @@ export async function savePurchase(
         const itemTotal = item.price || 0;
         return acc + itemTotal;
     }, 0);
-    
+
     let purchaseDate: string;
     if (purchaseData.date instanceof Date) {
         purchaseDate = purchaseData.date.toISOString();
@@ -42,11 +42,13 @@ export async function savePurchase(
         const dateParts = purchaseData.date.split(/[\/-]/);
         if (dateParts.length === 3) {
             let year, month, day;
-            if (dateParts[0].length === 4) { // YYYY-MM-DD
+            if (dateParts[0].length === 4) {
+                // YYYY-MM-DD
                 year = parseInt(dateParts[0], 10);
                 month = parseInt(dateParts[1], 10) - 1;
                 day = parseInt(dateParts[2], 10);
-            } else { // DD/MM/YYYY
+            } else {
+                // DD/MM/YYYY
                 day = parseInt(dateParts[0], 10);
                 month = parseInt(dateParts[1], 10) - 1;
                 year = parseInt(dateParts[2], 10);
@@ -60,7 +62,7 @@ export async function savePurchase(
     }
 
     let storeId = 'unknown';
-    if (entryMethod === 'import' && 'cnpj' in purchaseData && purchaseData.cnpj) {
+    if ('cnpj' in purchaseData && purchaseData.cnpj) {
         try {
             const storeData = {
                 name: purchaseData.storeName,
@@ -85,8 +87,9 @@ export async function savePurchase(
         storeName: purchaseData.storeName,
         date: purchaseDate,
         totalAmount: parseFloat(totalAmount.toFixed(2)),
-        discount: 'discount' in purchaseData ? (purchaseData.discount || 0) : 0,
-        accessKey: 'accessKey' in purchaseData && purchaseData.accessKey ? purchaseData.accessKey.replace(/\s/g, '') : null,
+        discount: 'discount' in purchaseData ? purchaseData.discount || 0 : 0,
+        accessKey:
+            'accessKey' in purchaseData && purchaseData.accessKey ? purchaseData.accessKey.replace(/\s/g, '') : null,
     };
 
     try {
@@ -149,9 +152,10 @@ export async function getPurchasesByMonth(familyId: string): Promise<MonthlyPurc
         const enhancedError = new Error(errorMessage);
         enhancedError.cause = error;
         (enhancedError as any).status = error?.status;
-        (enhancedError as any).isRetryable = (error && [408, 429, 500, 502, 503, 504].includes(error.status)) || 
-                                            (error && error.message?.includes('Network Error')) || 
-                                            (error && error.message?.includes('timeout'));
+        (enhancedError as any).isRetryable =
+            (error && [408, 429, 500, 502, 503, 504].includes(error.status)) ||
+            (error && error.message?.includes('Network Error')) ||
+            (error && error.message?.includes('timeout'));
         throw enhancedError;
     }
 }
@@ -164,6 +168,9 @@ export async function updatePurchase(familyId: string, purchaseId: string, data:
     return apiService.updatePurchase(familyId, purchaseId, data);
 }
 
-export async function deletePurchase(familyId: string, purchaseId: string): Promise<{ success: boolean; deletedId: string }> {
+export async function deletePurchase(
+    familyId: string,
+    purchaseId: string,
+): Promise<{ success: boolean; deletedId: string }> {
     return apiService.deletePurchase(familyId, purchaseId);
 }

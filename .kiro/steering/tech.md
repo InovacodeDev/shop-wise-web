@@ -3,7 +3,7 @@
 ## Core Technologies
 
 - **Frontend Framework**: React 18 with TypeScript
-- **Build Tool**: Vite 7.1.2 with development server on port 3000
+  -- **Build Tool**: Vite 7.1.2 with development server on port 9000
 - **Routing**: TanStack Router with file-based routing and auto code-splitting
 - **State Management**: TanStack Query for server state, React hooks for local state
 - **Styling**: Tailwind CSS with shadcn/ui components and CSS variables for theming
@@ -48,6 +48,6 @@ pnpm install          # Install dependencies
 ## Build Configuration
 
 - **Vite Config**: Uses React plugin, TanStack Router plugin, and Lingui plugin
-- **API Proxy**: Development server proxies `/api` requests to `localhost:3001`
+- **API Proxy**: Development server proxies `/api` requests to `localhost:9001`
 - **Path Aliases**: `@/*` maps to `./src/*`
 - **Auto-generated**: Router tree is auto-generated in `src/routeTree.gen.ts`

@@ -158,7 +158,7 @@ const mockUseAuth = vi.mocked(useAuth);
 describe('Monthly Purchases E2E Integration', () => {
     const mockFamilyId = 'test-family-id';
     const mockUserId = 'test-user-id';
-    const mockApiUrl = 'http://localhost:3001';
+    const mockApiUrl = 'http://localhost:9001';
 
     beforeEach(() => {
         vi.clearAllMocks();

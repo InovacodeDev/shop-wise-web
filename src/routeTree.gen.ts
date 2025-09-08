@@ -12,12 +12,20 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteRouteImport } from './routes/signup/route'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
 import { Route as PurchasesRouteRouteImport } from './routes/purchases/route'
+import { Route as ProjectionsRouteRouteImport } from './routes/projections/route'
 import { Route as LoginRouteRouteImport } from './routes/login/route'
 import { Route as ListRouteRouteImport } from './routes/list/route'
+import { Route as InvestmentsRouteRouteImport } from './routes/investments/route'
 import { Route as HomeRouteRouteImport } from './routes/home/route'
+import { Route as GoalsRouteRouteImport } from './routes/goals/route'
 import { Route as ForgotPasswordRouteRouteImport } from './routes/forgot-password/route'
 import { Route as FamilyRouteRouteImport } from './routes/family/route'
+import { Route as EducationRouteRouteImport } from './routes/education/route'
+import { Route as CreditCardsRouteRouteImport } from './routes/credit-cards/route'
+import { Route as BudgetsRouteRouteImport } from './routes/budgets/route'
+import { Route as BankRouteRouteImport } from './routes/bank/route'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
+import { Route as AchievementsRouteRouteImport } from './routes/achievements/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminUsersRouteRouteImport } from './routes/admin/users/route'
 import { Route as AdminSettingsRouteRouteImport } from './routes/admin/settings/route'
@@ -43,6 +51,11 @@ const PurchasesRouteRoute = PurchasesRouteRouteImport.update({
   path: '/purchases',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectionsRouteRoute = ProjectionsRouteRouteImport.update({
+  id: '/projections',
+  path: '/projections',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRouteRoute = LoginRouteRouteImport.update({
   id: '/login',
   path: '/login',
@@ -53,9 +66,19 @@ const ListRouteRoute = ListRouteRouteImport.update({
   path: '/list',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InvestmentsRouteRoute = InvestmentsRouteRouteImport.update({
+  id: '/investments',
+  path: '/investments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HomeRouteRoute = HomeRouteRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GoalsRouteRoute = GoalsRouteRouteImport.update({
+  id: '/goals',
+  path: '/goals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotPasswordRouteRoute = ForgotPasswordRouteRouteImport.update({
@@ -68,9 +91,34 @@ const FamilyRouteRoute = FamilyRouteRouteImport.update({
   path: '/family',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EducationRouteRoute = EducationRouteRouteImport.update({
+  id: '/education',
+  path: '/education',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreditCardsRouteRoute = CreditCardsRouteRouteImport.update({
+  id: '/credit-cards',
+  path: '/credit-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BudgetsRouteRoute = BudgetsRouteRouteImport.update({
+  id: '/budgets',
+  path: '/budgets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BankRouteRoute = BankRouteRouteImport.update({
+  id: '/bank',
+  path: '/bank',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRouteRoute = AdminRouteRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AchievementsRouteRoute = AchievementsRouteRouteImport.update({
+  id: '/achievements',
+  path: '/achievements',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -122,12 +170,20 @@ const AdminAuditRouteRoute = AdminAuditRouteRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRouteRoute
   '/admin': typeof AdminRouteRouteWithChildren
+  '/bank': typeof BankRouteRoute
+  '/budgets': typeof BudgetsRouteRoute
+  '/credit-cards': typeof CreditCardsRouteRoute
+  '/education': typeof EducationRouteRoute
   '/family': typeof FamilyRouteRoute
   '/forgot-password': typeof ForgotPasswordRouteRoute
+  '/goals': typeof GoalsRouteRoute
   '/home': typeof HomeRouteRoute
+  '/investments': typeof InvestmentsRouteRoute
   '/list': typeof ListRouteRoute
   '/login': typeof LoginRouteRoute
+  '/projections': typeof ProjectionsRouteRoute
   '/purchases': typeof PurchasesRouteRoute
   '/settings': typeof SettingsRouteRoute
   '/signup': typeof SignupRouteRoute
@@ -142,12 +198,20 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRouteRoute
   '/admin': typeof AdminRouteRouteWithChildren
+  '/bank': typeof BankRouteRoute
+  '/budgets': typeof BudgetsRouteRoute
+  '/credit-cards': typeof CreditCardsRouteRoute
+  '/education': typeof EducationRouteRoute
   '/family': typeof FamilyRouteRoute
   '/forgot-password': typeof ForgotPasswordRouteRoute
+  '/goals': typeof GoalsRouteRoute
   '/home': typeof HomeRouteRoute
+  '/investments': typeof InvestmentsRouteRoute
   '/list': typeof ListRouteRoute
   '/login': typeof LoginRouteRoute
+  '/projections': typeof ProjectionsRouteRoute
   '/purchases': typeof PurchasesRouteRoute
   '/settings': typeof SettingsRouteRoute
   '/signup': typeof SignupRouteRoute
@@ -163,12 +227,20 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRouteRoute
   '/admin': typeof AdminRouteRouteWithChildren
+  '/bank': typeof BankRouteRoute
+  '/budgets': typeof BudgetsRouteRoute
+  '/credit-cards': typeof CreditCardsRouteRoute
+  '/education': typeof EducationRouteRoute
   '/family': typeof FamilyRouteRoute
   '/forgot-password': typeof ForgotPasswordRouteRoute
+  '/goals': typeof GoalsRouteRoute
   '/home': typeof HomeRouteRoute
+  '/investments': typeof InvestmentsRouteRoute
   '/list': typeof ListRouteRoute
   '/login': typeof LoginRouteRoute
+  '/projections': typeof ProjectionsRouteRoute
   '/purchases': typeof PurchasesRouteRoute
   '/settings': typeof SettingsRouteRoute
   '/signup': typeof SignupRouteRoute
@@ -185,12 +257,20 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/achievements'
     | '/admin'
+    | '/bank'
+    | '/budgets'
+    | '/credit-cards'
+    | '/education'
     | '/family'
     | '/forgot-password'
+    | '/goals'
     | '/home'
+    | '/investments'
     | '/list'
     | '/login'
+    | '/projections'
     | '/purchases'
     | '/settings'
     | '/signup'
@@ -205,12 +285,20 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/achievements'
     | '/admin'
+    | '/bank'
+    | '/budgets'
+    | '/credit-cards'
+    | '/education'
     | '/family'
     | '/forgot-password'
+    | '/goals'
     | '/home'
+    | '/investments'
     | '/list'
     | '/login'
+    | '/projections'
     | '/purchases'
     | '/settings'
     | '/signup'
@@ -225,12 +313,20 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/achievements'
     | '/admin'
+    | '/bank'
+    | '/budgets'
+    | '/credit-cards'
+    | '/education'
     | '/family'
     | '/forgot-password'
+    | '/goals'
     | '/home'
+    | '/investments'
     | '/list'
     | '/login'
+    | '/projections'
     | '/purchases'
     | '/settings'
     | '/signup'
@@ -246,12 +342,20 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AchievementsRouteRoute: typeof AchievementsRouteRoute
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
+  BankRouteRoute: typeof BankRouteRoute
+  BudgetsRouteRoute: typeof BudgetsRouteRoute
+  CreditCardsRouteRoute: typeof CreditCardsRouteRoute
+  EducationRouteRoute: typeof EducationRouteRoute
   FamilyRouteRoute: typeof FamilyRouteRoute
   ForgotPasswordRouteRoute: typeof ForgotPasswordRouteRoute
+  GoalsRouteRoute: typeof GoalsRouteRoute
   HomeRouteRoute: typeof HomeRouteRoute
+  InvestmentsRouteRoute: typeof InvestmentsRouteRoute
   ListRouteRoute: typeof ListRouteRoute
   LoginRouteRoute: typeof LoginRouteRoute
+  ProjectionsRouteRoute: typeof ProjectionsRouteRoute
   PurchasesRouteRoute: typeof PurchasesRouteRoute
   SettingsRouteRoute: typeof SettingsRouteRoute
   SignupRouteRoute: typeof SignupRouteRoute
@@ -280,6 +384,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PurchasesRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projections': {
+      id: '/projections'
+      path: '/projections'
+      fullPath: '/projections'
+      preLoaderRoute: typeof ProjectionsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -294,11 +405,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/investments': {
+      id: '/investments'
+      path: '/investments'
+      fullPath: '/investments'
+      preLoaderRoute: typeof InvestmentsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/home': {
       id: '/home'
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof HomeRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/goals': {
+      id: '/goals'
+      path: '/goals'
+      fullPath: '/goals'
+      preLoaderRoute: typeof GoalsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forgot-password': {
@@ -315,11 +440,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FamilyRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/education': {
+      id: '/education'
+      path: '/education'
+      fullPath: '/education'
+      preLoaderRoute: typeof EducationRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/credit-cards': {
+      id: '/credit-cards'
+      path: '/credit-cards'
+      fullPath: '/credit-cards'
+      preLoaderRoute: typeof CreditCardsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/budgets': {
+      id: '/budgets'
+      path: '/budgets'
+      fullPath: '/budgets'
+      preLoaderRoute: typeof BudgetsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bank': {
+      id: '/bank'
+      path: '/bank'
+      fullPath: '/bank'
+      preLoaderRoute: typeof BankRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/achievements': {
+      id: '/achievements'
+      path: '/achievements'
+      fullPath: '/achievements'
+      preLoaderRoute: typeof AchievementsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -416,12 +576,20 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AchievementsRouteRoute: AchievementsRouteRoute,
   AdminRouteRoute: AdminRouteRouteWithChildren,
+  BankRouteRoute: BankRouteRoute,
+  BudgetsRouteRoute: BudgetsRouteRoute,
+  CreditCardsRouteRoute: CreditCardsRouteRoute,
+  EducationRouteRoute: EducationRouteRoute,
   FamilyRouteRoute: FamilyRouteRoute,
   ForgotPasswordRouteRoute: ForgotPasswordRouteRoute,
+  GoalsRouteRoute: GoalsRouteRoute,
   HomeRouteRoute: HomeRouteRoute,
+  InvestmentsRouteRoute: InvestmentsRouteRoute,
   ListRouteRoute: ListRouteRoute,
   LoginRouteRoute: LoginRouteRoute,
+  ProjectionsRouteRoute: ProjectionsRouteRoute,
   PurchasesRouteRoute: PurchasesRouteRoute,
   SettingsRouteRoute: SettingsRouteRoute,
   SignupRouteRoute: SignupRouteRoute,

@@ -45,7 +45,7 @@ interface InsightModalProps {
     data: any[];
     chartData?: any[];
     chartConfig?: any;
-    type: "spendingByStore" | "recentItems" | "topCategories" | "savingsOpportunities" | "consumptionAnalysis";
+    type: "spendingByStore" | "recentItems" | "topCategories" | "savingsOpportunities" | "consumptionAnalysis" | "goalsSummary";
     analysis?: string | null;
     isLoading?: boolean;
     onOpen?: () => void;
@@ -328,6 +328,37 @@ export function InsightModal({
                             ))}
                         </TableBody>
                     </Table>
+                );
+            case "goalsSummary":
+                return (
+                    <div>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>{t`Goal`}</TableHead>
+                                    <TableHead className="text-right">{t`Target`}</TableHead>
+                                    <TableHead className="text-right">{t`Current`}</TableHead>
+                                    <TableHead className="text-right">{t`Progress`}</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {data.map((g: any, idx: number) => (
+                                    <TableRow key={g._id || idx}>
+                                        <TableCell className="font-medium">{g.name}</TableCell>
+                                        <TableCell className="text-right">
+                                            {i18n.number(g.targetAmount || 0, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                        </TableCell>
+                                        <TableCell className="text-right text-muted-foreground">
+                                            {i18n.number(g.currentAmount || 0, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            {typeof g.progress === 'number' ? `${g.progress.toFixed(1)}%` : t`-`}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                 );
             case "consumptionAnalysis":
                 if (!isPremium) {

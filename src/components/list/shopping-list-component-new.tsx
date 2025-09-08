@@ -51,6 +51,7 @@ export function ShoppingListComponent() {
                 const lists = await apiService.getShoppingLists(familyId);
                 const activeList = lists.find((list: ApiShoppingList) => list.status === "active");
 
+                console.log({ activeList });
                 if (activeList) {
                     return activeList.id || activeList._id;
                 } else {
