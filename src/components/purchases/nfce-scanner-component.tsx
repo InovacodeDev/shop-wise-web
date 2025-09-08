@@ -236,7 +236,7 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
                                         <span className="font-medium">{product.brand || 'Natural'}</span>
                                     </TableCell>
                                     <TableCell className="text-center">
-                                        <div className="space-y-1">
+                                        <div className="space-y-1 space-x-1">
                                             {product.category && (
                                                 <Badge variant="outline" className="text-xs bg-red-50 text-red-700 border-red-200">
                                                     {product.category}
