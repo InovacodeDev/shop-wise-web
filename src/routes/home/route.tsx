@@ -683,7 +683,6 @@ function DashboardPage() {
                         >
                             <Card
                                 variant="elevated"
-                                interactive={true}
                                 className="transition-all duration-300 ease-in-out"
                             >
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -729,7 +728,6 @@ function DashboardPage() {
                         >
                             <Card
                                 variant="filled"
-                                interactive={true}
                                 className="transition-all duration-300 ease-in-out"
                             >
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -1028,74 +1026,79 @@ function DashboardPage() {
                         </InsightModal>
                     </div>
 
-                    <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
+                    <Card variant="elevated" className="transition-all duration-300 ease-in-out hover:shadow-lg">
                         <CardHeader>
-                            <CardTitle>{t`Top Expenses - ${currentMonthName}`}</CardTitle>
+                            <CardTitle className="flex items-center gap-2">
+                                <FontAwesomeIcon icon={faChartSimple} className="h-5 w-5 text-primary" />
+                                {t`Top Expenses - ${currentMonthName}`}
+                            </CardTitle>
                             <CardDescription>{t`Products that had the biggest impact on your budget in ${currentMonthName}.`}</CardDescription>
                         </CardHeader>
                         <CardContent>
                             {topExpensesData.length > 0 ? (
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>
-                                                <FontAwesomeIcon icon={faBarcode} className="inline-block mr-1 w-4 h-4" />{" "}
+                                <div className="rounded-lg border border-outline-variant bg-surface">
+                                    <div className="p-4 border-b border-outline-variant bg-surface-variant/30">
+                                        <div className="grid grid-cols-7 gap-4 text-sm font-medium text-on-surface-variant">
+                                            <div className="flex items-center gap-2">
+                                                <FontAwesomeIcon icon={faBarcode} className="h-3 w-3" />
                                                 {t`Barcode`}
-                                            </TableHead>
-                                            <TableHead>{t`Product`}</TableHead>
-                                            <TableHead>
-                                                <FontAwesomeIcon icon={faCopyright} className="inline-block mr-1 w-4 h-4" />{" "}
+                                            </div>
+                                            <div>{t`Product`}</div>
+                                            <div className="flex items-center gap-2">
+                                                <FontAwesomeIcon icon={faCopyright} className="h-3 w-3" />
                                                 {t`Brand`}
-                                            </TableHead>
-                                            <TableHead className="w-[200px]">
-                                                <FontAwesomeIcon icon={faTag} className="inline-block mr-1 w-4 h-4" />{" "}
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <FontAwesomeIcon icon={faTag} className="h-3 w-3" />
                                                 {t`Category`}
-                                            </TableHead>
-                                            <TableHead className="w-[80px] text-center">
-                                                <FontAwesomeIcon icon={faHashtag} className="inline-block mr-1 w-4 h-4" />{" "}
-                                                {t`Qtt`}
-                                            </TableHead>
-                                            <TableHead className="text-right">
-                                                <FontAwesomeIcon
-                                                    icon={faScaleBalanced}
-                                                    className="inline-block mr-1 w-4 h-4"
-                                                />{" "}
+                                            </div>
+                                            <div className="text-center">
+                                                <FontAwesomeIcon icon={faHashtag} className="h-3 w-3 mr-1" />
+                                                {t`Qty`}
+                                            </div>
+                                            <div className="text-right">
+                                                <FontAwesomeIcon icon={faScaleBalanced} className="h-3 w-3 mr-1" />
                                                 {t`Unit Price`}
-                                            </TableHead>
-                                            <TableHead className="text-right">
-                                                <FontAwesomeIcon
-                                                    icon={faDollarSign}
-                                                    className="inline-block mr-1 w-4 h-4"
-                                                />{" "}
+                                            </div>
+                                            <div className="text-right">
+                                                <FontAwesomeIcon icon={faDollarSign} className="h-3 w-3 mr-1" />
                                                 {t`Total Price`}
-                                            </TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {topExpensesData.map((item) => (
-                                            <TableRow key={item.id} className="cursor-pointer hover:bg-muted/50" onClick={() => {
-                                                setSelectedItem(item);
-                                                setIsComparisonOpen(true);
-                                                trackEvent('open_price_comparison_modal');
-                                            }}>
-                                                <TableCell className="font-mono">{item.barcode || "--"}</TableCell>
-                                                <TableCell className="font-medium">{item.name || "--"}</TableCell>
-                                                <TableCell>{item.brand || "--"}</TableCell>
-                                                <TableCell>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="divide-y divide-outline-variant">
+                                        {topExpensesData.map((item, index) => (
+                                            <div
+                                                key={item.id}
+                                                className="grid grid-cols-7 gap-4 p-4 hover:bg-surface-variant/50 cursor-pointer transition-colors"
+                                                onClick={() => {
+                                                    setSelectedItem(item);
+                                                    setIsComparisonOpen(true);
+                                                    trackEvent('open_price_comparison_modal');
+                                                }}
+                                            >
+                                                <div className="font-mono text-sm text-on-surface-variant">
+                                                    {item.barcode || "--"}
+                                                </div>
+                                                <div className="font-medium text-on-surface truncate" title={item.name}>
+                                                    {item.name || "--"}
+                                                </div>
+                                                <div className="text-on-surface-variant truncate" title={item.brand}>
+                                                    {item.brand || "--"}
+                                                </div>
+                                                <div>
                                                     <Chip
-                                                        variant="category"
+                                                        variant="assist"
+                                                        size="small"
                                                         className={cn(getCategoryClass(item.category))}
-                                                        asChild
                                                     >
-                                                        <span>
-                                                            {item.category ? (chartConfig[getCategoryKey(item.category)]?.label || item.category) : "--"}
-                                                        </span>
+                                                        {item.category ? (chartConfig[getCategoryKey(item.category)]?.label || item.category) : "--"}
                                                     </Chip>
-                                                </TableCell>
-                                                <TableCell className="text-center">
+                                                </div>
+                                                <div className="text-center font-medium text-on-surface">
                                                     {i18n.number(item.quantity, { maximumFractionDigits: 2 })}
-                                                </TableCell>
-                                                <TableCell className="text-right">
+                                                </div>
+                                                <div className="text-right font-medium text-on-surface">
                                                     {i18n.number(
                                                         item.price,
                                                         {
@@ -1104,8 +1107,8 @@ function DashboardPage() {
                                                             currency: getCurrencyFromLocale(i18n.locale),
                                                         }
                                                     )}
-                                                </TableCell>
-                                                <TableCell className="text-right">
+                                                </div>
+                                                <div className="text-right font-bold text-primary">
                                                     {i18n.number(
                                                         item.totalPrice,
                                                         {
@@ -1114,11 +1117,11 @@ function DashboardPage() {
                                                             currency: getCurrencyFromLocale(i18n.locale),
                                                         }
                                                     )}
-                                                </TableCell>
-                                            </TableRow>
+                                                </div>
+                                            </div>
                                         ))}
-                                    </TableBody>
-                                </Table>
+                                    </div>
+                                </div>
                             ) : (
                                 <EmptyState
                                     title={t`No Expenses This Month`}

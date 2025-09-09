@@ -2,15 +2,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/md3/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/md3/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/md3/card";
+import {
+    Form,
+    FormInput,
+    FormPasswordInput,
+    FormSubmitButton
+} from "@/components/ui/md3-form";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/md3/card";
 import { useAuth } from "@/hooks/use-auth";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-
 import { trackEvent } from "@/services/analytics-service";
 import { useLingui } from '@lingui/react/macro';
 import { apiService } from "@/services/api";
@@ -29,8 +30,6 @@ export function ProfileForm() {
     const { user, reloadUser } = useAuth();
     const { toast } = useToast();
     const { t } = useLingui();
-    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-    const [showNewPassword, setShowNewPassword] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -109,44 +108,33 @@ export function ProfileForm() {
                     <CardTitle>{t`Profile Information`}</CardTitle>
                     <CardDescription>{t`Update your personal details.`}</CardDescription>
                 </CardHeader>
-                <Form {...profileForm}>
-                    <form onSubmit={profileForm.handleSubmit(onProfileSubmit)}>
-                        <CardContent className="space-y-4">
-                            <FormField
-                                control={profileForm.control}
+                <CardContent>
+                    <Form {...profileForm}>
+                        <form onSubmit={profileForm.handleSubmit(onProfileSubmit)} className="space-y-6">
+                            <FormInput
                                 name="displayName"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>{t`Display Name`}</FormLabel>
-                                        <FormControl>
-                                            <Input {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label={t`Display Name`}
+                                required
                             />
-                            <FormField
-                                control={profileForm.control}
+
+                            <FormInput
                                 name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>{t`Email`}</FormLabel>
-                                        <FormControl>
-                                            <Input type="email" {...field} disabled />
-                                        </FormControl>
-                                        <p className="text-xs text-muted-foreground">{t`Your email address cannot be changed.`}</p>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label={t`Email`}
+                                type="email"
+                                disabled
+                                description={t`Your email address cannot be changed.`}
                             />
-                        </CardContent>
-                        <CardFooter>
-                            <Button type="submit" disabled={!isProfileDirty || !isProfileValid || isProfileSubmitting}>
+
+                            <FormSubmitButton
+                                disabled={!isProfileDirty || !isProfileValid}
+                                loading={isProfileSubmitting}
+                                loadingText={t`Saving...`}
+                            >
                                 {t`Save Changes`}
-                            </Button>
-                        </CardFooter>
-                    </form>
-                </Form>
+                            </FormSubmitButton>
+                        </form>
+                    </Form>
+                </CardContent>
             </Card>
 
             <Card>
@@ -154,98 +142,31 @@ export function ProfileForm() {
                     <CardTitle>{t`Change Password`}</CardTitle>
                     <CardDescription>{t`Choose a new strong password.`}</CardDescription>
                 </CardHeader>
-                <Form {...passwordForm}>
-                    <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)}>
-                        <CardContent className="space-y-4">
-                            <FormField
-                                control={passwordForm.control}
+                <CardContent>
+                    <Form {...passwordForm}>
+                        <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="space-y-6">
+                            <FormPasswordInput
                                 name="currentPassword"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>{t`Current Password`}</FormLabel>
-                                        <div className="relative">
-                                            <FormControl>
-                                                <Input type={showCurrentPassword ? "text" : "password"} {...field} />
-                                            </FormControl>
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="icon"
-                                                className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
-                                                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                                            >
-                                                {showCurrentPassword ? (
-                                                    <FontAwesomeIcon
-                                                        icon={faEyeSlash}
-                                                        className="h-4 w-4"
-                                                        aria-hidden="true"
-                                                    />
-                                                ) : (
-                                                    <FontAwesomeIcon
-                                                        icon={faEye}
-                                                        className="h-4 w-4"
-                                                        aria-hidden="true"
-                                                    />
-                                                )}
-                                                <span className="sr-only">
-                                                    {showCurrentPassword ? t`Hide password` : t`Show password`}
-                                                </span>
-                                            </Button>
-                                        </div>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label={t`Current Password`}
+                                required
                             />
-                            <FormField
-                                control={passwordForm.control}
+
+                            <FormPasswordInput
                                 name="newPassword"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>{t`New Password`}</FormLabel>
-                                        <div className="relative">
-                                            <FormControl>
-                                                <Input type={showNewPassword ? "text" : "password"} {...field} />
-                                            </FormControl>
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="icon"
-                                                className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
-                                                onClick={() => setShowNewPassword(!showNewPassword)}
-                                            >
-                                                {showNewPassword ? (
-                                                    <FontAwesomeIcon
-                                                        icon={faEyeSlash}
-                                                        className="h-4 w-4"
-                                                        aria-hidden="true"
-                                                    />
-                                                ) : (
-                                                    <FontAwesomeIcon
-                                                        icon={faEye}
-                                                        className="h-4 w-4"
-                                                        aria-hidden="true"
-                                                    />
-                                                )}
-                                                <span className="sr-only">
-                                                    {showNewPassword ? t`Hide password` : t`Show password`}
-                                                </span>
-                                            </Button>
-                                        </div>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label={t`New Password`}
+                                required
                             />
-                        </CardContent>
-                        <CardFooter>
-                            <Button
-                                type="submit"
-                                disabled={!isPasswordDirty || !isPasswordValid || isPasswordSubmitting}
+
+                            <FormSubmitButton
+                                disabled={!isPasswordDirty || !isPasswordValid}
+                                loading={isPasswordSubmitting}
+                                loadingText={t`Updating...`}
                             >
                                 {t`Change Password`}
-                            </Button>
-                        </CardFooter>
-                    </form>
-                </Form>
+                            </FormSubmitButton>
+                        </form>
+                    </Form>
+                </CardContent>
             </Card>
         </div>
     );

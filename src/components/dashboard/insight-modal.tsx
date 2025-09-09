@@ -144,92 +144,94 @@ export function InsightModal({
                 const pieData = data.map((item) => ({ ...item, percentage: ((item.value / total) * 100).toFixed(0) }));
 
                 return (
-                    <div className="grid">
-                        <div>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>
-                                            <FontAwesomeIcon icon={faStore} className="mr-2 h-4 w-4" />
-                                            {t`Store`}
-                                        </TableHead>
-                                        <TableHead className="text-right">
-                                            <FontAwesomeIcon icon={faDollarSign} className="mr-2 h-4 w-4" />
-                                            {t`This Month`}
-                                        </TableHead>
-                                        <TableHead className="text-right">
-                                            {t`Avg/Month`}
-                                        </TableHead>
-                                        <TableHead className="text-center">
-                                            {t`Months Active`}
-                                        </TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {data.map((item, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell className="font-medium">{item.name}</TableCell>
-                                            <TableCell className="text-right">
-                                                {i18n.number(
-                                                    item.value,
-                                                    {
-                                                        style: 'currency',
-                                                        currencySign: 'accounting',
-                                                        currency: getCurrencyFromLocale(i18n.locale),
-                                                    }
-                                                )}
-                                            </TableCell>
-                                            <TableCell className="text-right text-muted-foreground">
-                                                {i18n.number(
-                                                    item.historicalAverage || item.value,
-                                                    {
-                                                        style: 'currency',
-                                                        currencySign: 'accounting',
-                                                        currency: getCurrencyFromLocale(i18n.locale),
-                                                    }
-                                                )}
-                                            </TableCell>
-                                            <TableCell className="text-center">
-                                                <Badge variant="secondary">{item.monthsActive || 1}</Badge>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                    <div className="rounded-lg border border-outline-variant bg-surface">
+                        <div className="p-4 border-b border-outline-variant bg-surface-variant/30">
+                            <div className="grid grid-cols-4 gap-4 text-sm font-medium text-on-surface-variant">
+                                <div className="flex items-center gap-2">
+                                    <FontAwesomeIcon icon={faStore} className="h-3 w-3" />
+                                    {t`Store`}
+                                </div>
+                                <div className="flex items-center gap-2 text-right">
+                                    <FontAwesomeIcon icon={faDollarSign} className="h-3 w-3" />
+                                    {t`This Month`}
+                                </div>
+                                <div className="text-right">
+                                    {t`Avg/Month`}
+                                </div>
+                                <div className="text-center">
+                                    {t`Months Active`}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="divide-y divide-outline-variant">
+                            {data.map((item, index) => (
+                                <div key={index} className="grid grid-cols-4 gap-4 p-4 hover:bg-surface-variant/50 transition-colors">
+                                    <div className="font-medium text-on-surface truncate" title={item.name}>
+                                        {item.name}
+                                    </div>
+                                    <div className="text-right font-medium text-primary">
+                                        {i18n.number(
+                                            item.value,
+                                            {
+                                                style: 'currency',
+                                                currencySign: 'accounting',
+                                                currency: getCurrencyFromLocale(i18n.locale),
+                                            }
+                                        )}
+                                    </div>
+                                    <div className="text-right text-on-surface-variant">
+                                        {i18n.number(
+                                            item.historicalAverage || item.value,
+                                            {
+                                                style: 'currency',
+                                                currencySign: 'accounting',
+                                                currency: getCurrencyFromLocale(i18n.locale),
+                                            }
+                                        )}
+                                    </div>
+                                    <div className="text-center">
+                                        <Chip variant="assist" size="small" className="bg-secondary text-on-secondary">
+                                            {item.monthsActive || 1}
+                                        </Chip>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 );
             case "recentItems":
                 return (
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>
-                                    <FontAwesomeIcon icon={faBox} className="mr-2 h-4 w-4" />
+                    <div className="rounded-lg border border-outline-variant bg-surface">
+                        <div className="p-4 border-b border-outline-variant bg-surface-variant/30">
+                            <div className="grid grid-cols-3 gap-4 text-sm font-medium text-on-surface-variant">
+                                <div className="flex items-center gap-2">
+                                    <FontAwesomeIcon icon={faBox} className="h-3 w-3" />
                                     {t`Product`}
-                                </TableHead>
-                                <TableHead>
-                                    <FontAwesomeIcon icon={faCalendar} className="mr-2 h-4 w-4" />
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <FontAwesomeIcon icon={faCalendar} className="h-3 w-3" />
                                     {t`Purchase Date`}
-                                </TableHead>
-                                <TableHead className="text-right">
-                                    <FontAwesomeIcon icon={faDollarSign} className="mr-2 h-4 w-4" />
+                                </div>
+                                <div className="flex items-center gap-2 justify-end">
+                                    <FontAwesomeIcon icon={faDollarSign} className="h-3 w-3" />
                                     {t`Price`}
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="divide-y divide-outline-variant">
                             {data.map((item, index) => (
-                                <TableRow key={index}>
-                                    <TableCell className="font-medium">{item.name}</TableCell>
-                                    <TableCell>
+                                <div key={index} className="grid grid-cols-3 gap-4 p-4 hover:bg-surface-variant/50 transition-colors">
+                                    <div className="font-medium text-on-surface truncate" title={item.name}>
+                                        {item.name}
+                                    </div>
+                                    <div className="text-on-surface-variant">
                                         {i18n.date(item.purchaseDate, {
                                             month: '2-digit',
                                             day: '2-digit',
                                             year: 'numeric',
                                         })}
-                                    </TableCell>
-                                    <TableCell className="text-right">
+                                    </div>
+                                    <div className="text-right font-medium text-primary">
                                         {i18n.number(
                                             item.price,
                                             {
@@ -238,55 +240,53 @@ export function InsightModal({
                                                 currency: getCurrencyFromLocale(i18n.locale),
                                             }
                                         )}
-                                    </TableCell>
-                                </TableRow>
+                                    </div>
+                                </div>
                             ))}
-                        </TableBody>
-                    </Table>
+                        </div>
+                    </div>
                 );
             case "topCategories":
                 return (
-                    <div className="grid md:grid-cols-2 gap-6 items-center">
-                        <div>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>
-                                            <FontAwesomeIcon icon={faTags} className="mr-2 h-4 w-4" />
-                                            {t`Category`}
-                                        </TableHead>
-                                        <TableHead className="text-right">
-                                            <FontAwesomeIcon icon={faDollarSign} className="mr-2 h-4 w-4" />
-                                            {t`Amount Spent`}
-                                        </TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {data.map((item, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>
-                                                <Chip
-                                                    variant="category"
-                                                    className={cn(getCategoryClass(item.name))}
-                                                    asChild
-                                                >
-                                                    <span>{item.name}</span>
-                                                </Chip>
-                                            </TableCell>
-                                            <TableCell className="text-right">
-                                                {i18n.number(
-                                                    item.value,
-                                                    {
-                                                        style: 'currency',
-                                                        currencySign: 'accounting',
-                                                        currency: getCurrencyFromLocale(i18n.locale),
-                                                    }
-                                                )}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                    <div className="grid md:grid-cols-2 gap-6 items-start">
+                        <div className="rounded-lg border border-outline-variant bg-surface">
+                            <div className="p-4 border-b border-outline-variant bg-surface-variant/30">
+                                <div className="grid grid-cols-2 gap-4 text-sm font-medium text-on-surface-variant">
+                                    <div className="flex items-center gap-2">
+                                        <FontAwesomeIcon icon={faTags} className="h-3 w-3" />
+                                        {t`Category`}
+                                    </div>
+                                    <div className="flex items-center gap-2 text-right">
+                                        <FontAwesomeIcon icon={faDollarSign} className="h-3 w-3" />
+                                        {t`Amount Spent`}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="divide-y divide-outline-variant">
+                                {data.map((item, index) => (
+                                    <div key={index} className="grid grid-cols-2 gap-4 p-4 hover:bg-surface-variant/50 transition-colors">
+                                        <div>
+                                            <Chip
+                                                variant="assist"
+                                                size="small"
+                                                className={cn(getCategoryClass(item.name))}
+                                            >
+                                                {item.name}
+                                            </Chip>
+                                        </div>
+                                        <div className="text-right font-medium text-primary">
+                                            {i18n.number(
+                                                item.value,
+                                                {
+                                                    style: 'currency',
+                                                    currencySign: 'accounting',
+                                                    currency: getCurrencyFromLocale(i18n.locale),
+                                                }
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         {chartData && chartData.length > 0 && (
                             <div className="flex items-center justify-center h-64">
@@ -338,33 +338,44 @@ export function InsightModal({
                 );
             case "goalsSummary":
                 return (
-                    <div>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>{t`Goal`}</TableHead>
-                                    <TableHead className="text-right">{t`Target`}</TableHead>
-                                    <TableHead className="text-right">{t`Current`}</TableHead>
-                                    <TableHead className="text-right">{t`Progress`}</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {data.map((g: any, idx: number) => (
-                                    <TableRow key={g._id || idx}>
-                                        <TableCell className="font-medium">{g.name}</TableCell>
-                                        <TableCell className="text-right">
-                                            {i18n.number(g.targetAmount || 0, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
-                                        </TableCell>
-                                        <TableCell className="text-right text-muted-foreground">
-                                            {i18n.number(g.currentAmount || 0, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            {typeof g.progress === 'number' ? `${g.progress.toFixed(1)}%` : t`-`}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                    <div className="rounded-lg border border-outline-variant bg-surface">
+                        <div className="p-4 border-b border-outline-variant bg-surface-variant/30">
+                            <div className="grid grid-cols-4 gap-4 text-sm font-medium text-on-surface-variant">
+                                <div>{t`Goal`}</div>
+                                <div className="text-right">{t`Target`}</div>
+                                <div className="text-right">{t`Current`}</div>
+                                <div className="text-right">{t`Progress`}</div>
+                            </div>
+                        </div>
+                        <div className="divide-y divide-outline-variant">
+                            {data.map((g: any, idx: number) => (
+                                <div key={g._id || idx} className="grid grid-cols-4 gap-4 p-4 hover:bg-surface-variant/50 transition-colors">
+                                    <div className="font-medium text-on-surface truncate" title={g.name}>
+                                        {g.name}
+                                    </div>
+                                    <div className="text-right font-medium text-on-surface">
+                                        {i18n.number(g.targetAmount || 0, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                    </div>
+                                    <div className="text-right text-on-surface-variant">
+                                        {i18n.number(g.currentAmount || 0, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                    </div>
+                                    <div className="text-right">
+                                        {typeof g.progress === 'number' ? (
+                                            <Chip variant="assist" size="small" className={cn(
+                                                g.progress >= 100 ? "bg-green-100 text-green-800 border-green-200" :
+                                                    g.progress >= 75 ? "bg-blue-100 text-blue-800 border-blue-200" :
+                                                        g.progress >= 50 ? "bg-yellow-100 text-yellow-800 border-yellow-200" :
+                                                            "bg-gray-100 text-gray-800 border-gray-200"
+                                            )}>
+                                                {g.progress.toFixed(1)}%
+                                            </Chip>
+                                        ) : (
+                                            <span className="text-on-surface-variant">{t`-`}</span>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 );
             case "consumptionAnalysis":

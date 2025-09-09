@@ -1,12 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/md3/button";
 import { Input } from "@/components/md3/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/md3/card";
+import { Chip } from "@/components/md3/chip";
+import { LoadingIndicator } from "@/components/md3/loading-indicator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { suggestMissingItems } from "../../routes/list/actions";
 import { useToast } from "@/hooks/use-toast";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faWandMagicSparkles, faPlus, faShareNodes, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "@/hooks/use-auth";
@@ -14,6 +17,7 @@ import { apiService } from "@/services/api";
 import { useLingui } from '@lingui/react/macro';
 import { trackEvent } from "@/services/analytics-service";
 import type { ShoppingList as ApiShoppingList } from "@/types/api";
+import { cn } from "@/lib/utils";
 
 interface ListItem {
     id: string;
@@ -268,13 +272,18 @@ export function ShoppingListComponent() {
 
     if (loading) {
         return (
-            <div className="space-y-4">
-                <div className="animate-pulse space-y-2">
-                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-                </div>
-            </div>
+            <Card>
+                <CardContent className="p-8">
+                    <div className="flex items-center justify-center">
+                        <LoadingIndicator
+                            size="lg"
+                            showLabel={true}
+                            label={t`Loading shopping list...`}
+                            labelPosition="bottom"
+                        />
+                    </div>
+                </CardContent>
+            </Card>
         );
     }
 
@@ -288,32 +297,41 @@ export function ShoppingListComponent() {
                         disabled={isLoadingSuggestions}
                         variant="outlined"
                         size="sm"
+                        className={cn(isLoadingSuggestions && "pointer-events-none")}
                     >
-                        <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4 mr-2" />
+                        {isLoadingSuggestions ? (
+                            <LoadingIndicator size="xs" className="mr-2" />
+                        ) : (
+                            <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4 mr-2" />
+                        )}
                         {isLoadingSuggestions ? t`Getting suggestions...` : t`AI Suggestions`}
                     </Button>
                 </div>
 
                 {suggestedItems.length > 0 && (
-                    <Alert>
-                        <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4" />
-                        <AlertTitle>{t`AI Suggestions`}</AlertTitle>
-                        <AlertDescription>
-                            <div className="mt-2 space-y-2">
+                    <Card variant="outlined" className="border-primary/20 bg-primary-container/10">
+                        <CardHeader className="pb-3">
+                            <CardTitle className="flex items-center gap-2 text-on-primary-container">
+                                <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4 text-primary" />
+                                {t`AI Suggestions`}
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="flex flex-wrap gap-2">
                                 {suggestedItems.map((item, index) => (
-                                    <div key={index} className="flex items-center justify-between">
-                                        <span>{item}</span>
-                                        <Button
-                                            size="sm"
-                                            onClick={() => handleAddSuggestedItem(item)}
-                                        >
-                                            <FontAwesomeIcon icon={faPlus} className="h-3 w-3" />
-                                        </Button>
-                                    </div>
+                                    <Chip
+                                        key={index}
+                                        variant="assist"
+                                        onClick={() => handleAddSuggestedItem(item)}
+                                        className="cursor-pointer hover:bg-primary/10 transition-colors"
+                                    >
+                                        <span className="mr-2">{item}</span>
+                                        <FontAwesomeIcon icon={faPlus} className="h-3 w-3" />
+                                    </Chip>
                                 ))}
                             </div>
-                        </AlertDescription>
-                    </Alert>
+                        </CardContent>
+                    </Card>
                 )}
 
                 <div className="grid grid-cols-12 gap-2">
@@ -359,32 +377,44 @@ export function ShoppingListComponent() {
 
             <div className="space-y-4">
                 {pendingItems.length > 0 && (
-                    <div>
-                        <h3 className="text-lg font-semibold mb-3">{t`To Buy`} ({pendingItems.length})</h3>
-                        <div className="space-y-2">
-                            {pendingItems.map((item) => (
-                                <div key={item.id} className="flex items-center justify-between p-3 border rounded-lg">
-                                    <div className="flex items-center space-x-3">
-                                        <Checkbox
-                                            checked={item.checked}
-                                            onCheckedChange={() => handleToggleItem(item)}
-                                        />
-                                        <span className="font-medium">{item.name}</span>
-                                        <span className="text-sm text-muted-foreground">
-                                            {item.quantity} {item.unit}
-                                        </span>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center justify-between">
+                                <span>{t`To Buy`}</span>
+                                <Chip variant="assist" size="small" className="bg-primary text-on-primary">
+                                    {pendingItems.length}
+                                </Chip>
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="space-y-3">
+                                {pendingItems.map((item) => (
+                                    <div key={item.id} className="flex items-center justify-between p-3 rounded-lg border border-outline-variant hover:bg-surface-variant/30 transition-colors">
+                                        <div className="flex items-center space-x-3">
+                                            <Checkbox
+                                                checked={item.checked}
+                                                onCheckedChange={() => handleToggleItem(item)}
+                                            />
+                                            <div className="flex flex-col">
+                                                <span className="font-medium text-on-surface">{item.name}</span>
+                                                <span className="text-body-small text-on-surface-variant">
+                                                    {item.quantity} {item.unit}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <Button
+                                            variant="text"
+                                            size="sm"
+                                            onClick={() => handleDeleteItem(item.id)}
+                                            className="text-error hover:bg-error-container/50"
+                                        >
+                                            <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
+                                        </Button>
                                     </div>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => handleDeleteItem(item.id)}
-                                    >
-                                        <FontAwesomeIcon icon={faTrash} className="h-4 w-4 text-red-500" />
-                                    </Button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
                 )}
 
                 {completedItems.length > 0 && (

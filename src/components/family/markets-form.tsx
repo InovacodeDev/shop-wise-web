@@ -2,19 +2,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/md3/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/md3/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/md3/card";
+import {
+    Form,
+    FormInput,
+    FormSubmitButton
+} from "@/components/ui/md3-form";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/md3/card";
+import { Chip } from "@/components/md3/chip";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
-
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle, faStore, faTrash, faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import { Separator } from "../ui/separator";
-import { Label } from "../ui/label";
 import { cn } from "@/lib/utils";
 import { useLingui } from '@lingui/react/macro';
 
@@ -56,6 +55,8 @@ export function MarketsForm() {
     const [favoriteStores, setFavoriteStores] = useState([allStores[0], allStores[1]]);
     const [ignoredStores, setIgnoredStores] = useState([allStores[3]]);
 
+    const [selectedType, setSelectedType] = useState<string>("supermercado");
+
     const marketTypes = ["supermercado", "atacado", "feira", "acougue", "padaria", "marketplace", "farmacia", "outro"];
 
     const marketTypeLabels: Record<string, string> = {
@@ -80,12 +81,16 @@ export function MarketsForm() {
     });
 
     const handleAddMarket = (values: MarketData) => {
+        // Include the selected type in the values
+        const marketData = { ...values, type: selectedType as any };
+
         // In a real app, this would save to the global 'stores' collection
         // and then add the new store's ID to the family's 'favoriteStores' array.
-        const newStore = { ...values, id: `store${Date.now()}` };
+        const newStore = { ...marketData, id: `store${Date.now()}` };
         allStores.push(newStore); // Mock adding to global list
         setFavoriteStores([...favoriteStores, newStore]);
         form.reset();
+        setSelectedType("supermercado");
         toast({
             title: t`Market Added`,
             description: t`${values.name} was added to your favorites.`,
@@ -121,110 +126,63 @@ export function MarketsForm() {
 
     return (
         <div className="space-y-8">
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(handleAddMarket)}>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>{t`Add New Store`}</CardTitle>
-                            <CardDescription>{t`Add a new supermarket, wholesale or market to your preferred locations.`}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
+            <Card>
+                <CardHeader>
+                    <CardTitle>{t`Add New Store`}</CardTitle>
+                    <CardDescription>{t`Add a new supermarket, wholesale or market to your preferred locations.`}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(handleAddMarket)} className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <FormField
-                                    control={form.control}
+                                <FormInput
                                     name="name"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>{t`Store Name`}</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder={t`e.g., Neighborhood Supermarket`} {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                    label={t`Store Name`}
+                                    placeholder={t`e.g., Neighborhood Supermarket`}
+                                    required
                                 />
-                                <FormField
-                                    control={form.control}
+                                <FormInput
                                     name="cnpj"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>{t`CNPJ (Optional)`}</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="00.000.000/0001-00" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="address"
-                                    render={({ field }) => (
-                                        <FormItem className="col-span-1 md:col-span-2">
-                                            <FormLabel>{t`Address (Optional)`}</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder={t`e.g., 123 Flower St, City`} {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="type"
-                                    render={({ field }) => (
-                                        <FormItem className="col-span-1 md:col-span-2 space-y-3">
-                                            <FormLabel>{t`Store Type`}</FormLabel>
-                                            <FormControl>
-                                                <RadioGroup
-                                                    onValueChange={field.onChange}
-                                                    defaultValue={field.value}
-                                                    className="flex flex-wrap gap-2"
-                                                >
-                                                    {marketTypes.map((type) => (
-                                                        <FormItem
-                                                            key={type}
-                                                            className="flex items-center space-x-2 space-y-0"
-                                                        >
-                                                            <FormControl>
-                                                                <RadioGroupItem
-                                                                    value={type}
-                                                                    id={`type-${type}`}
-                                                                    className="sr-only"
-                                                                />
-                                                            </FormControl>
-                                                            <Label
-                                                                htmlFor={`type-${type}`}
-                                                                className={cn(
-                                                                    "rounded-full border px-3 py-1 text-sm font-medium transition-colors cursor-pointer",
-                                                                    "hover:bg-muted/50",
-                                                                    field.value === type &&
-                                                                    "bg-primary text-primary-foreground border-primary hover:bg-primary/90"
-                                                                )}
-                                                            >
-                                                                {marketTypeLabels[type]}
-                                                            </Label>
-                                                        </FormItem>
-                                                    ))}
-                                                </RadioGroup>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                    label={t`CNPJ (Optional)`}
+                                    placeholder="00.000.000/0001-00"
                                 />
                             </div>
-                        </CardContent>
-                        <CardFooter>
-                            <Button type="submit">
+
+                            <FormInput
+                                name="address"
+                                label={t`Address (Optional)`}
+                                placeholder={t`e.g., 123 Flower St, City`}
+                            />
+
+                            <div className="space-y-3">
+                                <label className="text-body-small font-medium text-on-surface-variant block">
+                                    {t`Store Type`}
+                                </label>
+                                <div className="flex flex-wrap gap-2">
+                                    {marketTypes.map((type) => (
+                                        <Chip
+                                            key={type}
+                                            variant={selectedType === type ? "filter" : "assist"}
+                                            onClick={() => setSelectedType(type)}
+                                            className={cn(
+                                                "cursor-pointer transition-colors",
+                                                selectedType === type && "bg-primary-container text-on-primary-container"
+                                            )}
+                                        >
+                                            {marketTypeLabels[type]}
+                                        </Chip>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <FormSubmitButton>
                                 <FontAwesomeIcon icon={faPlusCircle} className="mr-2 h-4 w-4" />
                                 {t`Add to Favorites`}
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                </form>
-            </Form>
-
-            <Separator />
+                            </FormSubmitButton>
+                        </form>
+                    </Form>
+                </CardContent>
+            </Card>
 
             <MarketList
                 title={t`Favorite Stores`}
@@ -299,59 +257,62 @@ function MarketList({
                 <CardDescription>{description}</CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="border rounded-md">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>
-                                    <FontAwesomeIcon icon={faStore} className="mr-2 h-4 w-4" />{" "}
+                {stores.length === 0 ? (
+                    <div className="text-center py-8 text-on-surface-variant">
+                        {t`This list is empty.`}
+                    </div>
+                ) : (
+                    <div className="rounded-lg border border-outline-variant bg-surface">
+                        <div className="p-4 border-b border-outline-variant bg-surface-variant/30">
+                            <div className="grid grid-cols-4 gap-4 text-sm font-medium text-on-surface-variant">
+                                <div className="flex items-center gap-2">
+                                    <FontAwesomeIcon icon={faStore} className="h-3 w-3" />
                                     {t`Name`}
-                                </TableHead>
-                                <TableHead>{t`Type`}</TableHead>
-                                <TableHead>{t`Address`}</TableHead>
-                                <TableHead className="w-[120px] text-right">
-                                    {t`Actions`}
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {stores.length === 0 && (
-                                <TableRow>
-                                    <TableCell colSpan={4} className="text-center h-24">
-                                        {t`This list is empty.`}
-                                    </TableCell>
-                                </TableRow>
-                            )}
+                                </div>
+                                <div>{t`Type`}</div>
+                                <div>{t`Address`}</div>
+                                <div className="text-right">{t`Actions`}</div>
+                            </div>
+                        </div>
+                        <div className="divide-y divide-outline-variant">
                             {stores.map((store) => (
-                                <TableRow key={store.id}>
-                                    <TableCell className="font-medium">{store.name}</TableCell>
-                                    <TableCell>{marketTypeLabels[store.type]}</TableCell>
-                                    <TableCell>{store.address}</TableCell>
-                                    <TableCell className="text-right">
-                                        <div className="flex justify-end gap-1">
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                title={actionTooltip}
-                                                onClick={() => onAction(store)}
-                                            >
-                                                <FontAwesomeIcon icon={actionIcon} className="h-4 w-4" />
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                title={t`Remove from my lists`}
-                                                onClick={() => onRemove(store.id, listType)}
-                                            >
-                                                <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
+                                <div key={store.id} className="grid grid-cols-4 gap-4 p-4 hover:bg-surface-variant/50 transition-colors">
+                                    <div className="font-medium text-on-surface truncate" title={store.name}>
+                                        {store.name}
+                                    </div>
+                                    <div className="text-on-surface-variant">
+                                        <Chip variant="assist" size="small" className="bg-secondary text-on-secondary">
+                                            {marketTypeLabels[store.type]}
+                                        </Chip>
+                                    </div>
+                                    <div className="text-on-surface-variant truncate" title={store.address}>
+                                        {store.address}
+                                    </div>
+                                    <div className="flex justify-end gap-2">
+                                        <Button
+                                            variant="text"
+                                            size="sm"
+                                            title={actionTooltip}
+                                            onClick={() => onAction(store)}
+                                            className="text-primary hover:bg-primary-container/50"
+                                        >
+                                            <FontAwesomeIcon icon={actionIcon} className="h-4 w-4" />
+                                        </Button>
+                                        <Button
+                                            variant="text"
+                                            size="sm"
+                                            title={t`Remove from my lists`}
+                                            onClick={() => onRemove(store.id, listType)}
+                                            className="text-error hover:bg-error-container/50"
+                                        >
+                                            <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                </div>
                             ))}
-                        </TableBody>
-                    </Table>
-                </div>
+                        </div>
+                    </div>
+                )}
             </CardContent>
         </Card>
     );

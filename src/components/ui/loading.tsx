@@ -1,6 +1,8 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { useLingui } from '@lingui/react/macro';
+import { LoadingIndicator } from '@/components/md3/loading-indicator';
+import { Card, CardContent } from '@/components/md3/card';
 
 interface LoadingProps {
     text?: string;
@@ -8,6 +10,7 @@ interface LoadingProps {
     className?: string;
     size?: 'sm' | 'md' | 'lg';
     layout?: 'horizontal' | 'vertical';
+    variant?: 'default' | 'card' | 'minimal';
 }
 
 export function Loading({
@@ -15,14 +18,16 @@ export function Loading({
     description,
     className = '',
     size = 'md',
-    layout = 'horizontal'
+    layout = 'horizontal',
+    variant = 'default'
 }: LoadingProps) {
     const { t } = useLingui();
     const defaultText = text || t`Loading...`;
-    const sizeClasses = {
-        sm: 'h-4 w-4',
-        md: 'h-8 w-8',
-        lg: 'h-12 w-12'
+
+    const sizeMap = {
+        sm: 'sm' as const,
+        md: 'default' as const,
+        lg: 'lg' as const
     };
 
     const paddingClasses = {
@@ -31,26 +36,69 @@ export function Loading({
         lg: 'p-12'
     };
 
+    const content = (
+        <>
+            <LoadingIndicator
+                size={sizeMap[size]}
+                label={defaultText}
+                showLabel={false}
+                className="mb-4"
+            />
+            <div className="text-center">
+                <h3 className="text-title-medium font-medium text-on-surface mb-2">
+                    {defaultText}
+                </h3>
+                {description && (
+                    <p className="text-body-small text-on-surface-variant">
+                        {description}
+                    </p>
+                )}
+            </div>
+        </>
+    );
+
+    if (variant === 'card') {
+        return (
+            <Card className={cn("w-full", className)}>
+                <CardContent className={cn(
+                    "flex flex-col items-center justify-center text-center",
+                    paddingClasses[size]
+                )}>
+                    {content}
+                </CardContent>
+            </Card>
+        );
+    }
+
+    if (variant === 'minimal') {
+        return (
+            <div className={cn("flex items-center justify-center space-x-3", className)}>
+                <LoadingIndicator size={sizeMap[size]} />
+                <span className="text-body-medium text-on-surface">{defaultText}</span>
+            </div>
+        );
+    }
+
     if (layout === 'vertical') {
         return (
-            <div className={cn(`flex flex-col items-center justify-center space-y-4 ${paddingClasses[size]}`, className)}>
-                <div className={cn("animate-spin rounded-full border-b-2 border-primary", sizeClasses[size])}></div>
-                <div className="text-center">
-                    <h3 className="text-xl font-semibold">{defaultText}</h3>
-                    {description && (
-                        <p className="text-muted-foreground text-center mt-2">
-                            {description}
-                        </p>
-                    )}
-                </div>
+            <div className={cn(
+                "flex flex-col items-center justify-center text-center space-y-4",
+                paddingClasses[size],
+                className
+            )}>
+                {content}
             </div>
         );
     }
 
     return (
-        <div className={cn(`flex items-center justify-center ${paddingClasses[size]}`, className)}>
-            <div className={cn("animate-spin rounded-full border-b-2 border-primary", sizeClasses[size])}></div>
-            <span className="ml-2">{defaultText}</span>
+        <div className={cn(
+            "flex items-center justify-center space-x-3",
+            paddingClasses[size],
+            className
+        )}>
+            <LoadingIndicator size={sizeMap[size]} />
+            <span className="text-body-medium text-on-surface">{defaultText}</span>
         </div>
     );
 }

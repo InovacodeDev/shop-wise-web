@@ -1,26 +1,27 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/md3/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/md3/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/md3/card";
-import { Separator } from "../ui/separator";
-import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/use-auth";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-
-import { trackEvent } from "@/services/analytics-service";
-import { apiService } from "@/services/api";
 import { Link, useRouter } from "@tanstack/react-router";
 import { useLingui } from '@lingui/react/macro';
+
+import { Button } from "@/components/md3/button";
+import {
+    Form,
+    FormInput,
+    FormPasswordInput,
+    FormSubmitButton,
+    FormCard
+} from "@/components/ui/md3-form";
+import { Separator } from "../ui/separator";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
+import { apiService } from "@/services/api";
+import { trackEvent } from "@/services/analytics-service";
 
 export function LoginForm() {
     const router = useRouter();
     const { toast } = useToast();
-    const [showPassword, setShowPassword] = useState(false);
     const { t } = useLingui();
     const { user, loading, reloadUser } = useAuth();
 
@@ -61,101 +62,65 @@ export function LoginForm() {
     const { isValid, isSubmitting } = form.formState;
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle className="text-2xl font-headline">{t`Welcome Back!`}</CardTitle>
-                <CardDescription>{t`Enter your credentials to access your account.`}</CardDescription>
-            </CardHeader>
+        <FormCard
+            title={t`Welcome Back!`}
+            description={t`Enter your credentials to access your account.`}
+            variant="elevated"
+        >
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <CardContent className="space-y-4">
-                        <div className="space-y-2">
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>{t`Email`}</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder={t`seu@email.com`} {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="password"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <div className="flex items-center justify-between">
-                                            <FormLabel>{t`Password`}</FormLabel>
-                                            <Link to="/forgot-password">
-                                                <Button variant="link" className="px-0 h-auto text-sm">
-                                                    {t`Forgot password?`}
-                                                </Button>
-                                            </Link>
-                                        </div>
-                                        <div className="relative">
-                                            <FormControl>
-                                                <Input
-                                                    type={showPassword ? "text" : "password"}
-                                                    placeholder="••••••••"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="icon"
-                                                className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
-                                                onClick={() => setShowPassword(!showPassword)}
-                                            >
-                                                {showPassword ? (
-                                                    <FontAwesomeIcon
-                                                        icon={faEyeSlash}
-                                                        className="h-4 w-4"
-                                                        aria-hidden="true"
-                                                    />
-                                                ) : (
-                                                    <FontAwesomeIcon
-                                                        icon={faEye}
-                                                        className="h-4 w-4"
-                                                        aria-hidden="true"
-                                                    />
-                                                )}
-                                                <span className="sr-only">
-                                                    {showPassword ? t`Hide password` : t`Show password`}
-                                                </span>
-                                            </Button>
-                                        </div>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <FormInput
+                        name="email"
+                        label={t`Email`}
+                        placeholder={t`seu@email.com`}
+                        type="email"
+                        required
+                    />
+
+                    <div className="space-y-2">
+                        <FormPasswordInput
+                            name="password"
+                            label={t`Password`}
+                            placeholder="••••••••"
+                            required
+                        />
+                        <div className="flex justify-end">
+                            <Link to="/forgot-password">
+                                <Button variant="text" size="sm" className="p-0 h-auto text-body-small">
+                                    {t`Forgot password?`}
+                                </Button>
+                            </Link>
                         </div>
-                        <Button type="submit" className="w-full" disabled={!isValid || isSubmitting}>
-                            {t`Login`}
-                        </Button>
-                        <div className="relative">
-                            <Separator />
-                            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-sm text-muted-foreground">
-                                {t`or`}
-                            </p>
-                        </div>
-                    </CardContent>
-                    <CardFooter className="flex-col gap-2">
-                        <p className="text-sm text-muted-foreground">
+                    </div>
+
+                    <FormSubmitButton
+                        disabled={!isValid}
+                        loading={isSubmitting}
+                        loadingText={t`Signing in...`}
+                        className="mt-6"
+                    >
+                        {t`Login`}
+                    </FormSubmitButton>
+
+                    <div className="relative">
+                        <Separator />
+                        <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface px-3 text-body-small text-on-surface-variant">
+                            {t`or`}
+                        </p>
+                    </div>
+
+                    <div className="text-center pt-4">
+                        <p className="text-body-small text-on-surface-variant">
                             {t`Don't have an account?`}{" "}
                             <Link to="/signup">
-                                <Button variant="link" className="px-0 h-auto">
+                                <Button variant="text" size="sm" className="p-0 h-auto text-primary">
                                     {t`Create Account`}
                                 </Button>
                             </Link>
                         </p>
-                    </CardFooter>
+                    </div>
                 </form>
             </Form>
-        </Card>
+        </FormCard>
     );
 }
