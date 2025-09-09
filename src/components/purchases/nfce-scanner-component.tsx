@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { QrScannerComponent } from '@/components/qr-scanner';
 import { ManualUrlInput } from '@/components/manual-url-input';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/md3/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/md3/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/md3/tabs';
+import { Badge } from '@/components/md3/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loading } from '@/components/ui/loading';
@@ -160,7 +160,7 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
             <p className="text-muted-foreground text-center max-w-md">
                 {analysisState.error || t`Não foi possível processar a NFCe. Verifique se a URL está correta e tente novamente.`}
             </p>
-            <Button onClick={resetScan} variant="outline">
+            <Button onClick={resetScan} variant="outlined">
                 <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 mr-2" />
                 {t`Tentar Novamente`}
             </Button>
@@ -275,7 +275,7 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
 
                     {/* Add Item Manually Button */}
                     <div className="p-4 border-t">
-                        <Button variant="outline" className="w-fit">
+                        <Button variant="outlined" className="w-fit">
                             <FontAwesomeIcon icon={faPlusCircle} className="w-4 h-4 mr-2" />
                             {t`Add Item Manually`}
                         </Button>

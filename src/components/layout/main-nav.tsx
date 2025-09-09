@@ -32,7 +32,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "../ui/alert-dialog";
-import { Button } from "../ui/button";
+import { Button } from "@/components/md3/button";
 import { trackEvent } from "@/services/analytics-service";
 import { Link, useRouter } from "@tanstack/react-router";
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/md3/card";
 import { useLingui } from '@lingui/react/macro';
 import { getCurrencyFromLocale } from '@/lib/localeCurrency';
 import {
@@ -17,7 +17,8 @@ import {
     YAxis,
 } from "recharts";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/md3/badge";
+import { Chip } from "@/components/md3/chip";
 import { cn } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -47,7 +48,7 @@ import { subMonths, startOfMonth, endOfMonth, format, Locale } from "date-fns";
 import { ptBR, enUS } from "date-fns/locale";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { SideBarLayout } from '@/components/layout/sidebar-layout';
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/md3/button";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/services/analytics-service";
 
@@ -680,7 +681,11 @@ function DashboardPage() {
                             data={monthlySpendingByStore}
                             type="spendingByStore"
                         >
-                            <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
+                            <Card
+                                variant="elevated"
+                                interactive={true}
+                                className="transition-all duration-300 ease-in-out"
+                            >
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">
                                         {t`Total Spending`}
@@ -722,7 +727,11 @@ function DashboardPage() {
                             data={recentItems}
                             type="recentItems"
                         >
-                            <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl">
+                            <Card
+                                variant="filled"
+                                interactive={true}
+                                className="transition-all duration-300 ease-in-out"
+                            >
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">{t`Items Purchased`}</CardTitle>
                                     <FontAwesomeIcon icon={faShoppingBag} className="h-4 w-4 text-muted-foreground" />
@@ -1073,9 +1082,15 @@ function DashboardPage() {
                                                 <TableCell className="font-medium">{item.name || "--"}</TableCell>
                                                 <TableCell>{item.brand || "--"}</TableCell>
                                                 <TableCell>
-                                                    <Badge variant="tag" className={cn(getCategoryClass(item.category))}>
-                                                        {item.category ? (chartConfig[getCategoryKey(item.category)]?.label || item.category) : "--"}
-                                                    </Badge>
+                                                    <Chip
+                                                        variant="category"
+                                                        className={cn(getCategoryClass(item.category))}
+                                                        asChild
+                                                    >
+                                                        <span>
+                                                            {item.category ? (chartConfig[getCategoryKey(item.category)]?.label || item.category) : "--"}
+                                                        </span>
+                                                    </Chip>
                                                 </TableCell>
                                                 <TableCell className="text-center">
                                                     {i18n.number(item.quantity, { maximumFractionDigits: 2 })}

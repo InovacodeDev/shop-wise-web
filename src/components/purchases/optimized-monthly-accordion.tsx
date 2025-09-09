@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, memo, useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/md3/card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faDollarSign, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { useLingui, Plural } from '@lingui/react/macro';
@@ -36,18 +36,18 @@ const MonthlyGroupItem = memo(function MonthlyGroupItem({
     virtualScrollHeight,
 }: MonthlyGroupItemProps) {
     const { t } = useLingui();
-    
-    const shouldUseVirtualScrolling = useMemo(() => 
-        group.purchases.length > maxVisiblePurchases, 
+
+    const shouldUseVirtualScrolling = useMemo(() =>
+        group.purchases.length > maxVisiblePurchases,
         [group.purchases.length, maxVisiblePurchases]
     );
-    
-    const displayedPurchases = useMemo(() => 
+
+    const displayedPurchases = useMemo(() =>
         shouldUseVirtualScrolling ? group.purchases : group.purchases.slice(0, maxVisiblePurchases),
         [group.purchases, shouldUseVirtualScrolling, maxVisiblePurchases]
     );
-    
-    const hasMorePurchases = useMemo(() => 
+
+    const hasMorePurchases = useMemo(() =>
         !shouldUseVirtualScrolling && group.purchases.length > maxVisiblePurchases,
         [shouldUseVirtualScrolling, group.purchases.length, maxVisiblePurchases]
     );
@@ -63,41 +63,41 @@ const MonthlyGroupItem = memo(function MonthlyGroupItem({
                 >
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <FontAwesomeIcon 
-                                icon={faCalendar} 
-                                className="w-5 h-5 text-primary" 
+                            <FontAwesomeIcon
+                                icon={faCalendar}
+                                className="w-5 h-5 text-primary"
                             />
                             <div className="text-left">
                                 <div className="font-semibold text-lg">
                                     {group.displayName}
                                 </div>
                                 <div className="text-sm text-muted-foreground">
-                                    <Plural 
-                                        value={group.purchaseCount} 
-                                        one="# purchase" 
-                                        other="# purchases" 
+                                    <Plural
+                                        value={group.purchaseCount}
+                                        one="# purchase"
+                                        other="# purchases"
                                     />
                                 </div>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
                             <div className="flex items-center gap-2 font-bold text-lg">
-                                <FontAwesomeIcon 
-                                    icon={faDollarSign} 
-                                    className="w-5 h-5 text-primary" 
+                                <FontAwesomeIcon
+                                    icon={faDollarSign}
+                                    className="w-5 h-5 text-primary"
                                 />
                                 <span>${group.totalAmount.toFixed(2)}</span>
                             </div>
-                            <FontAwesomeIcon 
+                            <FontAwesomeIcon
                                 icon={isExpanded ? faChevronUp : faChevronDown}
                                 className="w-4 h-4 text-muted-foreground transition-transform duration-200"
                             />
                         </div>
                     </div>
                 </button>
-                
+
                 {isExpanded && (
-                    <div 
+                    <div
                         id={`month-content-${group.monthYear}`}
                         className="border-t bg-background/50"
                     >
@@ -132,19 +132,19 @@ const MonthlyGroupItem = memo(function MonthlyGroupItem({
     );
 });
 
-const PurchaseCard = memo(function PurchaseCard({ 
-    purchase, 
-    onClick 
-}: { 
-    purchase: Purchase; 
-    onClick?: () => void; 
+const PurchaseCard = memo(function PurchaseCard({
+    purchase,
+    onClick
+}: {
+    purchase: Purchase;
+    onClick?: () => void;
 }) {
     const { t } = useLingui();
-    
+
     const purchaseDate = useMemo(() => new Date(purchase.date), [purchase.date]);
     const itemCount = useMemo(() => purchase.items?.length || 0, [purchase.items?.length]);
-    
-    const formattedDate = useMemo(() => 
+
+    const formattedDate = useMemo(() =>
         purchaseDate.toLocaleDateString(undefined, {
             day: '2-digit',
             month: 'short',
@@ -152,24 +152,23 @@ const PurchaseCard = memo(function PurchaseCard({
             minute: '2-digit'
         }), [purchaseDate]
     );
-    
-    const formattedAmount = useMemo(() => 
+
+    const formattedAmount = useMemo(() =>
         purchase.totalAmount.toFixed(2), [purchase.totalAmount]
     );
 
     return (
-        <Card 
-            className={`transition-all duration-200 ${
-                onClick ? 'hover:shadow-md cursor-pointer hover:bg-accent/50' : ''
-            }`}
+        <Card
+            className={`transition-all duration-200 ${onClick ? 'hover:shadow-md cursor-pointer hover:bg-accent/50' : ''
+                }`}
             onClick={onClick}
         >
             <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <FontAwesomeIcon 
-                            icon={faCalendar} 
-                            className="w-4 h-4 text-primary" 
+                        <FontAwesomeIcon
+                            icon={faCalendar}
+                            className="w-4 h-4 text-primary"
                         />
                         <div>
                             <div className="font-medium truncate max-w-[200px]">
@@ -188,9 +187,9 @@ const PurchaseCard = memo(function PurchaseCard({
                             </div>
                         )}
                         <div className="flex items-center gap-1 font-semibold">
-                            <FontAwesomeIcon 
-                                icon={faDollarSign} 
-                                className="w-4 h-4 text-primary" 
+                            <FontAwesomeIcon
+                                icon={faDollarSign}
+                                className="w-4 h-4 text-primary"
                             />
                             <span>${formattedAmount}</span>
                         </div>
@@ -231,7 +230,7 @@ export function OptimizedMonthlyAccordion({
         }
     }, [accordionState, enablePerformanceMonitoring, performanceMetrics]);
 
-    const memoizedGroups = useMemo(() => 
+    const memoizedGroups = useMemo(() =>
         monthlyGroups.map(group => ({
             ...group,
             isExpanded: accordionState.isExpanded(group.monthYear),

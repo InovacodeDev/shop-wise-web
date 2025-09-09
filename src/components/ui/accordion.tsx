@@ -4,28 +4,42 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 import { cn } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { materialSpacing } from "@/lib/material-design";
 
 const Accordion = AccordionPrimitive.Root;
 
 const AccordionItem = React.forwardRef<
     React.ElementRef<typeof AccordionPrimitive.Item>,
     React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
->(({ className, ...props }, ref) => (
-    <AccordionPrimitive.Item ref={ref} className={cn("border-b", className)} {...props} />
+>(({ className, style, ...props }, ref) => (
+    <AccordionPrimitive.Item
+        ref={ref}
+        className={cn("border-b border-outline/20", className)}
+        style={{
+            marginBottom: materialSpacing.lg,
+            ...style,
+        }}
+        {...props}
+    />
 ));
 AccordionItem.displayName = "AccordionItem";
 
 const AccordionTrigger = React.forwardRef<
     React.ElementRef<typeof AccordionPrimitive.Trigger>,
     React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+>(({ className, children, style, ...props }, ref) => (
     <AccordionPrimitive.Header className="flex">
         <AccordionPrimitive.Trigger
             ref={ref}
             className={cn(
-                "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
+                "flex flex-1 items-center justify-between font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
                 className
             )}
+            style={{
+                paddingTop: materialSpacing.lg,
+                paddingBottom: materialSpacing.lg,
+                ...style,
+            }}
             {...props}
         >
             {children}

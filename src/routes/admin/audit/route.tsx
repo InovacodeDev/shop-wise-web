@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/md3/card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicroscope } from "@fortawesome/free-solid-svg-icons";
 import { useLingui } from '@lingui/react/macro';

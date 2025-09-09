@@ -1,11 +1,11 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/md3/card";
+import { Button } from "@/components/md3/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort, faSortUp, faSortDown, faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/md3/input";
+import { Badge } from "@/components/md3/badge";
 import { cn } from "@/lib/utils";
 
 export type SortDirection = 'asc' | 'desc' | null;
@@ -94,14 +94,14 @@ export function DataTable<T extends Record<string, any>>({
     key: string;
     direction: SortDirection;
   }>({ key: '', direction: null });
-  
+
   const [searchQuery, setSearchQuery] = React.useState('');
   const [currentPage, setCurrentPage] = React.useState(1);
 
   // Filter data based on search query
   const filteredData = React.useMemo(() => {
     if (!searchQuery) return data;
-    
+
     if (onSearch) {
       return onSearch(searchQuery, data);
     }
@@ -141,7 +141,7 @@ export function DataTable<T extends Record<string, any>>({
   // Paginate data
   const paginatedData = React.useMemo(() => {
     if (!showPagination) return sortedData;
-    
+
     const startIndex = (currentPage - 1) * pageSize;
     return sortedData.slice(startIndex, startIndex + pageSize);
   }, [sortedData, currentPage, pageSize, showPagination]);
@@ -154,7 +154,7 @@ export function DataTable<T extends Record<string, any>>({
     if (!column?.sortable) return;
 
     let direction: SortDirection = 'asc';
-    
+
     if (sortConfig.key === columnKey && sortConfig.direction === 'asc') {
       direction = 'desc';
     } else if (sortConfig.key === columnKey && sortConfig.direction === 'desc') {
@@ -212,15 +212,15 @@ export function DataTable<T extends Record<string, any>>({
           {description && <p className="text-sm text-muted-foreground">{description}</p>}
         </CardHeader>
       )}
-      
+
       <CardContent className="p-0">
         {/* Search and Filters */}
         {showSearch && (
           <div className="flex items-center space-x-2 p-4 border-b">
             <div className="relative flex-1">
-              <FontAwesomeIcon 
-                icon={faSearch} 
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" 
+              <FontAwesomeIcon
+                icon={faSearch}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4"
               />
               <Input
                 placeholder={searchPlaceholder}
@@ -274,9 +274,9 @@ export function DataTable<T extends Record<string, any>>({
                     <div className="flex items-center space-x-2">
                       <span>{column.label}</span>
                       {column.sortable && (
-                        <FontAwesomeIcon 
-                          icon={getSortIcon(column.key)} 
-                          className="w-3 h-3 text-muted-foreground" 
+                        <FontAwesomeIcon
+                          icon={getSortIcon(column.key)}
+                          className="w-3 h-3 text-muted-foreground"
                         />
                       )}
                     </div>
@@ -284,7 +284,7 @@ export function DataTable<T extends Record<string, any>>({
                 ))}
               </TableRow>
             </TableHeader>
-            
+
             <TableBody>
               {loading ? (
                 // Loading skeleton
@@ -301,8 +301,8 @@ export function DataTable<T extends Record<string, any>>({
               ) : displayData.length === 0 ? (
                 // Empty state
                 <TableRow>
-                  <TableCell 
-                    colSpan={columns.length + (selectable ? 1 : 0)} 
+                  <TableCell
+                    colSpan={columns.length + (selectable ? 1 : 0)}
                     className="text-center py-8 text-muted-foreground"
                   >
                     {emptyMessage}
@@ -332,7 +332,7 @@ export function DataTable<T extends Record<string, any>>({
                     {columns.map((column) => {
                       const value = row[column.key];
                       const content = column.render ? column.render(value, row, index) : value;
-                      
+
                       return (
                         <TableCell
                           key={column.key}
@@ -361,21 +361,21 @@ export function DataTable<T extends Record<string, any>>({
             </div>
             <div className="flex items-center space-x-2">
               <Button
-                variant="outline"
+                variant="outlined"
                 size="sm"
                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                 disabled={currentPage === 1}
               >
                 Previous
               </Button>
-              
+
               <div className="flex items-center space-x-1">
                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                   const page = i + 1;
                   return (
                     <Button
                       key={page}
-                      variant={currentPage === page ? "default" : "outline"}
+                      variant={currentPage === page ? "default" : "outlined"}
                       size="sm"
                       onClick={() => setCurrentPage(page)}
                       className="w-8"
@@ -388,7 +388,7 @@ export function DataTable<T extends Record<string, any>>({
                   <>
                     <span className="text-muted-foreground">...</span>
                     <Button
-                      variant={currentPage === totalPages ? "default" : "outline"}
+                      variant={currentPage === totalPages ? "default" : "outlined"}
                       size="sm"
                       onClick={() => setCurrentPage(totalPages)}
                       className="w-8"
@@ -398,9 +398,9 @@ export function DataTable<T extends Record<string, any>>({
                   </>
                 )}
               </div>
-              
+
               <Button
-                variant="outline"
+                variant="outlined"
                 size="sm"
                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                 disabled={currentPage === totalPages}

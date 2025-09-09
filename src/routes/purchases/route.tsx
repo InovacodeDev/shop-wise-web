@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { NfceScannerComponent } from "@/components/purchases/nfce-scanner-component";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/md3/card";
 
 import { useAuth } from '@/hooks/use-auth';
 import { savePurchase } from "./actions";

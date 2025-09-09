@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/md3/card";
+import { Input } from "@/components/md3/input";
+import { Button } from "@/components/md3/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLingui, Plural } from '@lingui/react/macro';
 import {
@@ -12,7 +12,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/md3/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
     AlertDialog,
@@ -56,7 +56,8 @@ import { enqueueGetPurchaseItems } from '@/lib/api-queue';
 import { MonthlyPurchaseDisplay } from "@/components/purchases/monthly-purchase-display";
 import type { MonthlyPurchaseGroup, Purchase as ApiPurchase } from "@/types/api";
 import { getCurrencyFromLocale } from "@/lib/localeCurrency";
-import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/md3';
+import { materialSpacing, materialShapes, materialElevation, materialTypography } from "@/lib/material-design";
 
 // Simple Levenshtein distance - used for fuzzy name matching
 function levenshtein(a: string, b: string) {
@@ -269,17 +270,38 @@ export function HistoryTab() {
         selectedPeriod === "all";
 
     return (
-        <div className="space-y-8">
+        <div
+            className="flex flex-col"
+            style={{ gap: materialSpacing['2xl'] }} // 48px gap using Material Design 3
+        >
             {loadingSelectedItems && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-                    <div className="bg-white dark:bg-slate-800 rounded-lg p-6 flex items-center gap-4 shadow-lg">
-                        <svg className="animate-spin h-7 w-7 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+                    <div
+                        className="bg-surface text-on-surface p-8 flex items-center gap-6 transition-all duration-200"
+                        style={{
+                            borderRadius: materialShapes.components.dialog,
+                            boxShadow: materialElevation.level3,
+                        }}
+                    >
+                        <svg className="animate-spin h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
                         </svg>
                         <div>
-                            <div className="font-medium">{t`Loading purchase...`}</div>
-                            <div className="text-sm text-muted-foreground">{t`Your request is queued to avoid API rate limits.`}</div>
+                            <div
+                                className="font-medium text-on-surface mb-1"
+                                style={{
+                                    fontSize: materialTypography.titleMedium.fontSize,
+                                    fontWeight: materialTypography.titleMedium.fontWeight,
+                                }}
+                            >{t`Loading purchase...`}</div>
+                            <div
+                                className="text-on-surface-variant"
+                                style={{
+                                    fontSize: materialTypography.bodyMedium.fontSize,
+                                    fontWeight: materialTypography.bodyMedium.fontWeight,
+                                }}
+                            >{t`Your request is queued to avoid API rate limits.`}</div>
                         </div>
                     </div>
                 </div>
@@ -436,23 +458,45 @@ export function HistoryTab() {
             {/* Selected Purchase Modal */}
             {selectedPurchase && (
                 <Dialog open={!!selectedPurchase} onOpenChange={(open) => { if (!open) setSelectedPurchase(null); }}>
-                    <DialogContent className="max-w-4xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6">
+                    <DialogContent
+                        variant="basic"
+                        className="max-w-4xl"
+                    >
                         <DialogHeader>
-                            <div className="flex items-start justify-between gap-4">
+                            <div className="flex items-start justify-between gap-6">
                                 <div>
-                                    <DialogTitle className="flex items-center gap-3">
-                                        <span className="inline-flex items-center justify-center w-9 h-9 rounded-md bg-primary/10 text-primary">
-                                            <FontAwesomeIcon icon={faReceipt} className="w-4 h-4" />
+                                    <DialogTitle className="flex items-center gap-3 mb-2">
+                                        <span
+                                            className="inline-flex items-center justify-center text-primary bg-primary/10"
+                                            style={{
+                                                width: '40px',
+                                                height: '40px',
+                                                borderRadius: materialShapes.corner.medium,
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faReceipt} className="w-5 h-5" />
                                         </span>
                                         <span className="leading-tight">{t`Purchase Details`}</span>
                                     </DialogTitle>
-                                    <DialogDescription className="text-sm text-muted-foreground mt-1">
+                                    <DialogDescription className="text-on-surface-variant">
                                         {selectedPurchase.storeName} • {new Date(selectedPurchase.date).toLocaleString()}
                                     </DialogDescription>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-sm text-muted-foreground">{t`Total`}</div>
-                                    <div className="text-lg font-semibold">
+                                    <div
+                                        className="text-on-surface-variant mb-1"
+                                        style={{
+                                            fontSize: materialTypography.labelMedium.fontSize,
+                                            fontWeight: materialTypography.labelMedium.fontWeight,
+                                        }}
+                                    >{t`Total`}</div>
+                                    <div
+                                        className="text-on-surface font-semibold"
+                                        style={{
+                                            fontSize: materialTypography.headlineSmall.fontSize,
+                                            fontWeight: materialTypography.headlineSmall.fontWeight,
+                                        }}
+                                    >
                                         {i18n.number(
                                             selectedPurchase.totalAmount || selectedPurchase.items.reduce((s, it) => s + (it.price || 0), 0),
                                             { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) }
@@ -462,11 +506,17 @@ export function HistoryTab() {
                             </div>
                         </DialogHeader>
 
-                        <div className="max-h-[60vh] overflow-y-auto pt-4">
+                        <div
+                            className="max-h-[60vh] overflow-y-auto"
+                            style={{
+                                borderRadius: materialShapes.corner.small,
+                                border: `1px solid hsl(var(--border))`,
+                            }}
+                        >
                             <Table className="min-w-full">
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead className="pl-4">{t`Product`}</TableHead>
+                                        <TableHead style={{ padding: materialSpacing.md }}>{t`Product`}</TableHead>
                                         <TableHead className="w-[120px] text-center">{t`Qtt`}</TableHead>
                                         <TableHead className="w-[140px] text-right">{t`Unit Price`}</TableHead>
                                         <TableHead className="w-[140px] text-right">{t`Total Price`}</TableHead>
@@ -476,10 +526,24 @@ export function HistoryTab() {
                                     {selectedPurchase.items.map((item) => {
                                         const unitPrice = item.unitPrice !== undefined && item.unitPrice > 0 ? item.unitPrice : (item.quantity ? (item.price || 0) / item.quantity : 0);
                                         return (
-                                            <TableRow key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                                                <TableCell className="pl-4">
-                                                    <div className="font-medium truncate">{item.name}</div>
-                                                    {item.volume && <div className="text-xs text-muted-foreground">{item.volume}</div>}
+                                            <TableRow key={item.id} className="hover:bg-surface-variant/20 transition-colors duration-150">
+                                                <TableCell style={{ padding: materialSpacing.md }}>
+                                                    <div
+                                                        className="font-medium truncate"
+                                                        style={{
+                                                            fontSize: materialTypography.bodyMedium.fontSize,
+                                                            fontWeight: materialTypography.bodyMedium.fontWeight,
+                                                        }}
+                                                    >{item.name}</div>
+                                                    {item.volume && (
+                                                        <div
+                                                            className="text-on-surface-variant"
+                                                            style={{
+                                                                fontSize: materialTypography.bodySmall.fontSize,
+                                                                fontWeight: materialTypography.bodySmall.fontWeight,
+                                                            }}
+                                                        >{item.volume}</div>
+                                                    )}
                                                 </TableCell>
                                                 <TableCell className="text-center">{item.quantity}</TableCell>
                                                 <TableCell className="text-right">{i18n.number(unitPrice, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</TableCell>
@@ -614,7 +678,7 @@ function PurchaseCard({ purchase, onDelete, allPurchases, globalDisabled }: { pu
                     </CardContent>
                 </Card>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl">
+            <DialogContent variant="basic" className="max-w-4xl">
                 <DialogHeader>
                     <DialogTitle>{t`Purchase Details: ${purchase.storeName}`}</DialogTitle>
                     <DialogDescription>
@@ -814,7 +878,7 @@ function PurchaseCard({ purchase, onDelete, allPurchases, globalDisabled }: { pu
                             ))}
                         </TableBody>
                     </Table>
-                    <Button variant="outline" className="mt-4" onClick={handleAddItem} disabled={!!editingItemId}>
+                    <Button variant="outlined" className="mt-4" onClick={handleAddItem} disabled={!!editingItemId}>
                         <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
                         {t`Add Item`}
                     </Button>
@@ -823,7 +887,7 @@ function PurchaseCard({ purchase, onDelete, allPurchases, globalDisabled }: { pu
                     <div>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <Button variant="destructive-outline">
+                                <Button variant="destructive-outlined">
                                     <FontAwesomeIcon icon={faTrash} className="mr-2 h-4 w-4" />
                                     {t`Delete Purchase`}
                                 </Button>

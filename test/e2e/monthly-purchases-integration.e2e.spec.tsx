@@ -184,7 +184,6 @@ describe('Monthly Purchases E2E Integration', () => {
     const createMockPurchase = (id: string, date: string, amount: number, storeName: string): Purchase => ({
         _id: id,
         familyId: mockFamilyId,
-        purchasedBy: mockUserId,
         storeId: `store-${id}`,
         storeName,
         accessKey: `access-${id}`,
@@ -195,6 +194,7 @@ describe('Monthly Purchases E2E Integration', () => {
         items: [
             {
                 _id: `item-${id}-1`,
+                purchaseId: '',
                 name: 'Test Item',
                 quantity: 1,
                 price: amount,

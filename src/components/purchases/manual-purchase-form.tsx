@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/md3/button";
+import { Input } from "@/components/md3/input";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/md3/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -119,7 +119,7 @@ export function ManualPurchaseForm({ onSave }: ManualPurchaseFormProps) {
                                         <PopoverTrigger asChild>
                                             <FormControl>
                                                 <Button
-                                                    variant={"outline"}
+                                                    variant={"outlined"}
                                                     className={cn(
                                                         "w-full pl-3 text-left font-normal",
                                                         !field.value && "text-muted-foreground"
@@ -259,7 +259,7 @@ export function ManualPurchaseForm({ onSave }: ManualPurchaseFormProps) {
                         <FormMessage>{form.formState.errors.items?.root?.message}</FormMessage>
                         <Button
                             type="button"
-                            variant="outline"
+                            variant="outlined"
                             className="mt-4"
                             onClick={() =>
                                 append({ name: "", quantity: 1, unitPrice: 0, price: 0, barcode: "", volume: "" })

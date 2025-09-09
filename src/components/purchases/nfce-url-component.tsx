@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { ManualUrlInput } from '@/components/manual-url-input';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/md3/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/md3/card';
+import { Badge } from '@/components/md3/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loading } from '@/components/ui/loading';
@@ -152,7 +152,7 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
             <p className="text-muted-foreground text-center max-w-md">
                 {analysisState.error || t`Não foi possível processar a NFCe. Verifique se a URL está correta e tente novamente.`}
             </p>
-            <Button onClick={resetScan} variant="outline">
+            <Button onClick={resetScan} variant="outlined">
                 <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 mr-2" />
                 {t`Tentar Novamente`}
             </Button>
@@ -172,7 +172,7 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
                         <p className="text-sm text-muted-foreground">{t`Dados extraídos da nota fiscal`}</p>
                     </div>
                     <div className="flex gap-2">
-                        <Button onClick={resetScan} variant="outline">
+                        <Button onClick={resetScan} variant="outlined">
                             <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 mr-2" />
                             {t`Nova Análise`}
                         </Button>

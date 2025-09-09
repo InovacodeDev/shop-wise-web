@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/md3/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/md3/card";
 import { extractDataFromPdf } from "../../routes/purchases/actions";
 import { useToast } from "@/hooks/use-toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
-import { Input } from "../ui/input";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Input } from "@/components/md3/input";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/md3/dialog";
 import { Label } from "../ui/label";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,7 +31,8 @@ import { faCalendar } from "@fortawesome/free-regular-svg-icons";
 
 // currency util centralized in src/lib/localeCurrency.ts
 
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/md3/badge";
+import { Chip } from "@/components/md3/chip";
 import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
@@ -418,19 +419,21 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                                 <TableCell>{product.brand}</TableCell>
                                                 <TableCell>
                                                     <div className="flex flex-col gap-1">
-                                                        <Badge
-                                                            variant="tag"
+                                                        <Chip
+                                                            variant="category"
                                                             className={cn(getCategoryClass(product.category))}
+                                                            asChild
                                                         >
-                                                            {product.category}
-                                                        </Badge>
+                                                            <span>{product.category}</span>
+                                                        </Chip>
                                                         {product.subcategory && (
-                                                            <Badge
-                                                                variant="tag"
+                                                            <Chip
+                                                                variant="category"
                                                                 className={cn(getSubcategoryClass(product.category))}
+                                                                asChild
                                                             >
-                                                                {product.subcategory}
-                                                            </Badge>
+                                                                <span>{product.subcategory}</span>
+                                                            </Chip>
                                                         )}
                                                     </div>
                                                 </TableCell>
@@ -463,7 +466,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                         ))}
                                     </TableBody>
                                 </Table>
-                                <Button variant="outline" onClick={handleAddNewItem}>
+                                <Button variant="outlined" onClick={handleAddNewItem}>
                                     <FontAwesomeIcon icon={faPlusCircle} className="mr-2 h-4 w-4" />{" "}
                                     {t`Add Item Manually`}
                                 </Button>

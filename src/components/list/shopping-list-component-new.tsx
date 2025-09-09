@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/md3/button";
+import { Input } from "@/components/md3/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -286,7 +286,7 @@ export function ShoppingListComponent() {
                     <Button
                         onClick={handleGetSuggestions}
                         disabled={isLoadingSuggestions}
-                        variant="outline"
+                        variant="outlined"
                         size="sm"
                     >
                         <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4 mr-2" />

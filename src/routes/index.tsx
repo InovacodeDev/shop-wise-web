@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/md3/button";
 import { t } from "@lingui/core/macro";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ShopWiseLogo } from "@/components/icons";

@@ -4,10 +4,10 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/components/md3/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/md3/button";
 import { useLingui } from '@lingui/react/macro';
 import { getCurrencyFromLocale } from "@/lib/localeCurrency";
 import { format, subMonths } from "date-fns";

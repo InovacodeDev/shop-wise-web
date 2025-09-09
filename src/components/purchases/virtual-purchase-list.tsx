@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import { Purchase } from '@/types/api';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/md3/card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStore, faShoppingCart, faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import { useLingui, Plural } from '@lingui/react/macro';
@@ -26,11 +26,11 @@ interface PurchaseItemProps {
 const PurchaseItem = React.memo(function PurchaseItem({ index, style, data }: PurchaseItemProps) {
     const { purchases, onPurchaseSelect, t } = data;
     const purchase = purchases[index];
-    
+
     const purchaseDate = useMemo(() => new Date(purchase.date), [purchase.date]);
     const itemCount = useMemo(() => purchase.items?.length || 0, [purchase.items?.length]);
-    
-    const formattedDate = useMemo(() => 
+
+    const formattedDate = useMemo(() =>
         purchaseDate.toLocaleDateString(undefined, {
             day: '2-digit',
             month: 'short',
@@ -38,8 +38,8 @@ const PurchaseItem = React.memo(function PurchaseItem({ index, style, data }: Pu
             minute: '2-digit'
         }), [purchaseDate]
     );
-    
-    const formattedAmount = useMemo(() => 
+
+    const formattedAmount = useMemo(() =>
         purchase.totalAmount.toFixed(2), [purchase.totalAmount]
     );
 
@@ -51,18 +51,17 @@ const PurchaseItem = React.memo(function PurchaseItem({ index, style, data }: Pu
 
     return (
         <div style={style} className="px-2">
-            <Card 
-                className={`transition-all duration-200 ${
-                    onPurchaseSelect ? 'hover:shadow-md cursor-pointer hover:bg-accent/50' : ''
-                }`}
+            <Card
+                className={`transition-all duration-200 ${onPurchaseSelect ? 'hover:shadow-md cursor-pointer hover:bg-accent/50' : ''
+                    }`}
                 onClick={handleClick}
             >
                 <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <FontAwesomeIcon 
-                                icon={faStore} 
-                                className="w-4 h-4 text-primary" 
+                            <FontAwesomeIcon
+                                icon={faStore}
+                                className="w-4 h-4 text-primary"
                             />
                             <div>
                                 <div className="font-medium truncate max-w-[200px]">
@@ -81,9 +80,9 @@ const PurchaseItem = React.memo(function PurchaseItem({ index, style, data }: Pu
                                 </div>
                             )}
                             <div className="flex items-center gap-1 font-semibold">
-                                <FontAwesomeIcon 
-                                    icon={faDollarSign} 
-                                    className="w-4 h-4 text-primary" 
+                                <FontAwesomeIcon
+                                    icon={faDollarSign}
+                                    className="w-4 h-4 text-primary"
                                 />
                                 <span>${formattedAmount}</span>
                             </div>
@@ -95,15 +94,15 @@ const PurchaseItem = React.memo(function PurchaseItem({ index, style, data }: Pu
     );
 });
 
-export function VirtualPurchaseList({ 
-    purchases, 
-    onPurchaseSelect, 
+export function VirtualPurchaseList({
+    purchases,
+    onPurchaseSelect,
     height = 400,
-    itemHeight = 80 
+    itemHeight = 80
 }: VirtualPurchaseListProps) {
     const { t } = useLingui();
     const listRef = useRef<List>(null);
-    
+
     const itemData = useMemo(() => ({
         purchases,
         onPurchaseSelect,
@@ -130,6 +129,7 @@ export function VirtualPurchaseList({
             <List
                 ref={listRef}
                 height={height}
+                width="100%"
                 itemCount={purchases.length}
                 itemSize={itemHeight}
                 itemData={itemData}

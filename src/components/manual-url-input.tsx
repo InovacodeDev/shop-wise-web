@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/components/md3/button';
+import { Input } from '@/components/md3/input';
 import { Label } from '@/components/ui/label';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faSpinner } from '@fortawesome/free-solid-svg-icons';

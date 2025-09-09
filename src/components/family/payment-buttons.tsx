@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import type { BillingCycle } from "./plan-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faApple } from "@fortawesome/free-brands-svg-icons";
-import { Button } from "../ui/button";
+import { Button } from "@/components/md3/button";
 import { useLingui } from '@lingui/react/macro';
 import { getPaymentConfigFromLocale } from '@/lib/localeCurrency';
 

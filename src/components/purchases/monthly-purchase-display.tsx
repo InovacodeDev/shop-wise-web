@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo, useCallback, memo } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/md3/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/md3/button";
 import { useLingui, Plural } from '@lingui/react/macro';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,6 +22,7 @@ import { toast } from "@/hooks/use-toast";
 import { getPurchasesByMonth } from "@/services/purchaseApiService";
 import type { MonthlyPurchaseGroup, Purchase } from "@/types/api";
 import { getCurrencyFromLocale } from "@/lib/localeCurrency";
+import { materialSpacing } from "@/lib/material-design";
 
 interface MonthlyPurchaseDisplayProps {
     /** Optional family ID override - if not provided, uses current user's family */
@@ -198,7 +199,7 @@ export function MonthlyPurchaseDisplay({
                             <div className="flex items-center justify-between">
                                 <span>{error}</span>
                                 <Button
-                                    variant="outline"
+                                    variant="outlined"
                                     size="sm"
                                     onClick={handleRetry}
                                     disabled={isRetrying}
@@ -244,7 +245,10 @@ export function MonthlyPurchaseDisplay({
     }
 
     return (
-        <div className="space-y-6">
+        <div
+            className="flex flex-col"
+            style={{ gap: materialSpacing['2xl'] }}
+        >
             {/* Fallback Mode Warning */}
             {fallbackMode && (
                 <Card>
@@ -339,7 +343,14 @@ export function MonthlyPurchaseDisplay({
                                     </div>
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    <div className="space-y-3 pt-2">
+                                    <div
+                                        className="pt-2"
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: materialSpacing.lg
+                                        }}
+                                    >
                                         {group.purchases.map((purchase) => (
                                             <PurchaseCard
                                                 key={purchase._id}
@@ -430,7 +441,10 @@ function MonthlyPurchaseDisplaySkeleton() {
     const { t } = useLingui();
 
     return (
-        <div className="space-y-6">
+        <div
+            className="flex flex-col"
+            style={{ gap: materialSpacing['2xl'] }}
+        >
             {/* Summary Card Skeleton */}
             <Card>
                 <CardHeader>
@@ -445,7 +459,10 @@ function MonthlyPurchaseDisplaySkeleton() {
             {/* Monthly Groups Skeleton */}
             <Card>
                 <CardContent className="pt-6">
-                    <div className="space-y-4">
+                    <div
+                        className="flex flex-col"
+                        style={{ gap: materialSpacing.lg }}
+                    >
                         {[...Array(3)].map((_, i) => (
                             <div key={i} className="border-b pb-4">
                                 <div className="flex items-center justify-between mb-3">
@@ -458,7 +475,14 @@ function MonthlyPurchaseDisplaySkeleton() {
                                     </div>
                                     <Skeleton className="h-6 w-20" />
                                 </div>
-                                <div className="space-y-2 ml-8">
+                                <div
+                                    className="ml-8"
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: materialSpacing.sm
+                                    }}
+                                >
                                     {[...Array(2)].map((_, j) => (
                                         <Card key={j}>
                                             <CardContent className="p-4">

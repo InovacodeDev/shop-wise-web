@@ -1,6 +1,6 @@
 import { useRouter, useSearch, createFileRoute } from "@tanstack/react-router";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/md3/tabs";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/md3/card";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faGem, faStore, faHistory } from "@fortawesome/free-solid-svg-icons";

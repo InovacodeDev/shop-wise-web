@@ -5,7 +5,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/md3/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useLingui } from '@lingui/react/macro';
 import {
@@ -29,9 +29,10 @@ import {
     faRocket,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/md3/badge";
+import { Chip } from "@/components/md3/chip";
 import { Skeleton } from "../ui/skeleton";
-import { Button } from "../ui/button";
+import { Button } from "@/components/md3/button";
 import { Alert, AlertTitle } from "../ui/alert";
 import ReactMarkdown from "react-markdown";
 import { Link } from "@tanstack/react-router";
@@ -264,7 +265,13 @@ export function InsightModal({
                                     {data.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell>
-                                                <Badge variant="tag" className={cn(getCategoryClass(item.name))}>{item.name}</Badge>
+                                                <Chip
+                                                    variant="category"
+                                                    className={cn(getCategoryClass(item.name))}
+                                                    asChild
+                                                >
+                                                    <span>{item.name}</span>
+                                                </Chip>
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 {i18n.number(

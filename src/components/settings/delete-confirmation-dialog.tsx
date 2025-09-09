@@ -8,8 +8,8 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/md3/button";
+import { Input } from "@/components/md3/input";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect, ReactNode } from "react";
 import { useLingui } from '@lingui/react/macro';

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/md3/button";
 import { useAuth } from "@/hooks/use-auth";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -146,7 +146,7 @@ export function ShoppingListPopover() {
                     </ScrollArea>
                     <Separator />
                     <div className="flex flex-col gap-2">
-                        <Button variant="outline" asChild>
+                        <Button variant="outlined" asChild>
                             <a href={generateGoogleKeepLink()} target="_blank" rel="noopener noreferrer">
                                 <FontAwesomeIcon icon={faGoogle} className="mr-2 h-4 w-4" />
                                 {t`Exportar para Google Keep`}

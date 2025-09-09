@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ShoppingListComponent } from "@/components/list/shopping-list-component-new";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/md3/card";
 import { useLingui } from '@lingui/react/macro';
 import { SideBarLayout } from '@/components/layout/sidebar-layout';
 

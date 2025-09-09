@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import QrScanner from 'qr-scanner';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/md3/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faStop, faRotate } from '@fortawesome/free-solid-svg-icons';
 import type { QrScannerProps, QrScanResult } from '@/types/webcrawler';
@@ -128,7 +128,7 @@ export function QrScannerComponent({
                 <p className="text-gray-600 text-center mb-4">
                     {t`Camera access is required to scan QR codes`}
                 </p>
-                <Button onClick={() => window.location.reload()} variant="outline">
+                <Button onClick={() => window.location.reload()} variant="outlined">
                     {t`Refresh to retry`}
                 </Button>
             </div>
@@ -164,7 +164,7 @@ export function QrScannerComponent({
                 {cameras.length > 1 && (
                     <Button
                         onClick={switchCamera}
-                        variant="outline"
+                        variant="outlined"
                         disabled={!isScanning}
                     >
                         <FontAwesomeIcon icon={faRotate} className="w-4 h-4" />
