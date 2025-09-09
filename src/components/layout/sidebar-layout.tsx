@@ -34,19 +34,29 @@ export function SideBarLayout({ children }: { children: ReactNode }) {
     }
 
     return (
-        <SidebarProvider>
-            <Header />
-            <Sidebar>
-                <MainNav />
-            </Sidebar>
-            <main
-                className={cn(
-                    "flex-1 bg-background transition-[margin-left] duration-300 ease-in-out p-4 md:p-6 lg:p-8 pt-20",
-                    "md:ml-[var(--sidebar-width)]"
-                )}
-            >
-                <div className="mx-auto w-full max-w-[1200px]">{children}</div>
-            </main>
-        </SidebarProvider>
+        <div className="flex h-screen bg-surface-container-lowest overflow-hidden">
+            <SidebarProvider>
+                <Header />
+                <Sidebar
+                    className={cn(
+                        "fixed left-0 top-16 h-[calc(100vh-4rem)] z-40",
+                        "border-r border-outline-variant/20 bg-surface-container"
+                    )}
+                >
+                    <MainNav />
+                </Sidebar>
+                <main
+                    className={cn(
+                        "flex-1 bg-surface-container-lowest transition-[margin-left] duration-300 ease-in-out",
+                        "pt-16 ml-0 md:ml-[var(--sidebar-width)]",
+                        "overflow-auto h-screen"
+                    )}
+                >
+                    <div className="p-4 md:p-6 lg:p-8">
+                        <div className="mx-auto w-full max-w-[1200px]">{children}</div>
+                    </div>
+                </main>
+            </SidebarProvider>
+        </div>
     );
 }

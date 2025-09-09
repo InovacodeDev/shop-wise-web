@@ -60,14 +60,18 @@ function SettingsPage() {
                     </CardHeader>
                     <div className="p-6 pt-0">
                         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-                            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-                                <TabsTrigger value="profile">
+                            <TabsList
+                                className="w-full flex [&>div]:w-full [&>div]:flex"
+                                type="fixed"
+                                alignment="fill"
+                            >
+                                <TabsTrigger value="profile" className="flex-1 min-w-0">
                                     <FontAwesomeIcon icon={faUser} className="mr-2 h-4 w-4" /> {t`Profile`}
                                 </TabsTrigger>
-                                <TabsTrigger value="preferences">
+                                <TabsTrigger value="preferences" className="flex-1 min-w-0">
                                     <FontAwesomeIcon icon={faGears} className="mr-2 h-4 w-4" /> {t`Preferences`}
                                 </TabsTrigger>
-                                <TabsTrigger value="privacy">
+                                <TabsTrigger value="privacy" className="flex-1 min-w-0">
                                     <FontAwesomeIcon icon={faShieldHalved} className="mr-2 h-4 w-4" /> {t`Privacy and Security`}
                                 </TabsTrigger>
                             </TabsList>

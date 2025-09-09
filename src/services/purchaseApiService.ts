@@ -170,3 +170,46 @@ export async function deletePurchase(
 ): Promise<{ success: boolean; deletedId: string }> {
     return apiService.deletePurchase(familyId, purchaseId);
 }
+
+export async function getAllFamilyPurchaseItems(familyId: string): Promise<{
+    [monthYear: string]: {
+        [purchaseId: string]: {
+            purchaseInfo: {
+                date: string;
+                storeName?: string;
+                storeId: string;
+                totalAmount?: number;
+                purchasedBy: string;
+            };
+            items: Array<{
+                productId: string;
+                name: string;
+                description?: string;
+                barcode?: string;
+                brand?: string;
+                category: string;
+                subCategory?: string;
+                unit: string;
+                quantity: number;
+                price: number;
+                total: number;
+            }>;
+        };
+    };
+}> {
+    if (!familyId) {
+        throw new Error('Family ID is required.');
+    }
+
+    try {
+        return await apiService.getAllFamilyPurchaseItems(familyId);
+    } catch (error: any) {
+        const enhancedError = new Error(`Failed to fetch family purchase items: ${error.message}`);
+        (enhancedError as any).status = error?.status;
+        (enhancedError as any).isRetryable =
+            (error && [408, 429, 500, 502, 503, 504].includes(error.status)) ||
+            (error && error.message?.includes('Network Error')) ||
+            (error && error.message?.includes('timeout'));
+        throw enhancedError;
+    }
+}

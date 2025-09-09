@@ -187,11 +187,15 @@ export function PlanForm() {
                                                         }
                                                         className="w-full"
                                                     >
-                                                        <TabsList className="grid w-full grid-cols-2">
-                                                            <TabsTrigger value="monthly">
+                                                        <TabsList
+                                                            className="w-full flex [&>div]:w-full [&>div]:flex"
+                                                            type="fixed"
+                                                            alignment="fill"
+                                                        >
+                                                            <TabsTrigger value="monthly" className='flex-1 min-w-0'>
                                                                 {t`Monthly billing`}
                                                             </TabsTrigger>
-                                                            <TabsTrigger value="annually" className="relative group">
+                                                            <TabsTrigger value="annually" className="relative group flex-1 min-w-0">
                                                                 {t`Annual billing`}
                                                                 <Badge
                                                                     variant="outline"

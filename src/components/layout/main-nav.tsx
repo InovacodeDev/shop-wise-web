@@ -17,6 +17,8 @@ import {
     faSignOutAlt,
     faUser,
     faUserGroup,
+    faPlus,
+    faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { faFileLines, faMessage } from "@fortawesome/free-regular-svg-icons";
 import { apiService } from "@/services/api";
@@ -32,6 +34,12 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { Button } from "@/components/md3/button";
 import { trackEvent } from "@/services/analytics-service";
 import { Link, useRouter } from "@tanstack/react-router";
@@ -131,7 +139,58 @@ export function MainNav() {
     };
 
     return (
-        <SidebarContent>
+        <SidebarContent className="pt-6">
+            {/* Split Button for Add Purchase */}
+            <div className="px-4 mb-6">
+                <div className="flex">
+                    <Link to="/purchases" className="flex-1">
+                        <Button
+                            variant="filled"
+                            className={cn(
+                                "w-full justify-start rounded-r-none border-r border-primary-container",
+                                state === "collapsed" ? "px-3" : "px-4"
+                            )}
+                        >
+                            <FontAwesomeIcon icon={faPlus} className="h-4 w-4" />
+                            {state !== "collapsed" && (
+                                <span className="ml-2">{t`Add Purchase`}</span>
+                            )}
+                        </Button>
+                    </Link>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="filled"
+                                size="icon"
+                                className="rounded-l-none border-l-0 w-10 shrink-0"
+                            >
+                                <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-48">
+                            <DropdownMenuItem asChild>
+                                <Link to="/purchases" className="flex items-center gap-2">
+                                    <FontAwesomeIcon icon={faShoppingBasket} className="h-4 w-4" />
+                                    {t`Manual Entry`}
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link to="/purchases" className="flex items-center gap-2">
+                                    <FontAwesomeIcon icon={faPlusCircle} className="h-4 w-4" />
+                                    {t`Scan Receipt`}
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link to="/list" className="flex items-center gap-2">
+                                    <FontAwesomeIcon icon={faList} className="h-4 w-4" />
+                                    {t`Shopping List`}
+                                </Link>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            </div>
+
             <SidebarMenu>
                 {topMenu.map((item) => (
                     <SidebarMenuItem key={item.href}>

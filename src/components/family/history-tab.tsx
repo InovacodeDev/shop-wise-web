@@ -43,6 +43,9 @@ import {
     faSave,
     faPencil,
     faCheck,
+    faTags,
+    faPercent,
+    faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from "@fortawesome/free-regular-svg-icons";
 import { useAuth } from "@/hooks/use-auth";
@@ -277,19 +280,22 @@ export function HistoryTab() {
             {loadingSelectedItems && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
                     <div
-                        className="bg-surface text-on-surface p-8 flex items-center gap-6 transition-all duration-200"
+                        className="bg-surface-container text-on-surface p-8 flex flex-col items-center gap-6 transition-all duration-200 min-w-80"
                         style={{
                             borderRadius: materialShapes.components.dialog,
-                            boxShadow: materialElevation.level3,
+                            boxShadow: materialElevation.level3.shadow,
                         }}
                     >
-                        <svg className="animate-spin h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-                        </svg>
-                        <div>
+                        <div className="relative">
+                            <svg className="animate-spin h-12 w-12 text-primary" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"></circle>
+                                <path className="opacity-75" fill="currentColor" d="m15.84 10.24-1.41-1.41L12 11.26 9.57 8.83 8.16 10.24 12 14.08l3.84-3.84z"></path>
+                            </svg>
+                            <div className="absolute inset-0 rounded-full bg-primary/10 animate-pulse"></div>
+                        </div>
+                        <div className="text-center">
                             <div
-                                className="font-medium text-on-surface mb-1"
+                                className="font-medium text-on-surface mb-2"
                                 style={{
                                     fontSize: materialTypography.titleMedium.fontSize,
                                     fontWeight: materialTypography.titleMedium.fontWeight,
@@ -460,7 +466,8 @@ export function HistoryTab() {
                 <Dialog open={!!selectedPurchase} onOpenChange={(open) => { if (!open) setSelectedPurchase(null); }}>
                     <DialogContent
                         variant="basic"
-                        className="max-w-4xl"
+                        className="min-[]:500"
+                        showCloseButton={false}
                     >
                         <DialogHeader>
                             <div className="flex items-start justify-between gap-6">
@@ -678,206 +685,279 @@ function PurchaseCard({ purchase, onDelete, allPurchases, globalDisabled }: { pu
                     </CardContent>
                 </Card>
             </DialogTrigger>
-            <DialogContent variant="basic" className="max-w-4xl">
+            <DialogContent variant="basic" className="max-w-7xl w-full" showCloseButton={false}>
                 <DialogHeader>
                     <DialogTitle>{t`Purchase Details: ${purchase.storeName}`}</DialogTitle>
-                    <DialogDescription>
-                        {purchase.date.toLocaleString("pt-BR", { dateStyle: "full", timeStyle: "short" })}
-                        <span className="font-bold ml-4">
-                            {`Total: ${i18n.number(
-                                totalAmount,
-                                {
-                                    style: 'currency',
-                                    currencySign: 'accounting',
-                                    currency: getCurrencyFromLocale(i18n.locale),
-                                }
-                            )}`}
-                        </span>
+                    <DialogDescription className="space-y-2">
+                        <div>
+                            {purchase.date.toLocaleString("pt-BR", { dateStyle: "full", timeStyle: "short" })}
+                        </div>
+                        <div className="flex flex-wrap gap-6 text-sm">
+                            <div className="flex items-center gap-2 font-bold">
+                                <FontAwesomeIcon icon={faReceipt} className="w-4 h-4 text-primary" />
+                                <span>
+                                    {`Total da Nota: ${i18n.number(
+                                        totalAmount,
+                                        {
+                                            style: 'currency',
+                                            currencySign: 'accounting',
+                                            currency: getCurrencyFromLocale(i18n.locale),
+                                        }
+                                    )}`}
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <FontAwesomeIcon icon={faPercent} className="w-4 h-4 text-orange-500" />
+                                <span>
+                                    {`Desconto: ${i18n.number(
+                                        (purchase as any).discount || 0,
+                                        {
+                                            style: 'currency',
+                                            currencySign: 'accounting',
+                                            currency: getCurrencyFromLocale(i18n.locale),
+                                        }
+                                    )}`}
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2 font-semibold text-green-600">
+                                <FontAwesomeIcon icon={faCoins} className="w-4 h-4" />
+                                <span>
+                                    {`Total Pago: ${i18n.number(
+                                        totalAmount - ((purchase as any).discount || 0),
+                                        {
+                                            style: 'currency',
+                                            currencySign: 'accounting',
+                                            currency: getCurrencyFromLocale(i18n.locale),
+                                        }
+                                    )}`}
+                                </span>
+                            </div>
+                        </div>
                     </DialogDescription>
                 </DialogHeader>
-                <div className="max-h-[60vh] overflow-y-auto pr-4">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>
-                                    <FontAwesomeIcon icon={faBox} className="inline-block mr-1 w-4 h-4" />{" "}
-                                    {t`Product`}
-                                </TableHead>
-                                <TableHead className="w-[120px]">
-                                    <FontAwesomeIcon icon={faWeightHanging} className="inline-block mr-1 w-4 h-4" />{" "}
-                                    {t`Volume`}
-                                </TableHead>
-                                <TableHead className="text-center w-[100px]">
-                                    <FontAwesomeIcon icon={faHashtag} className="inline-block mr-1 w-4 h-4" />{" "}
-                                    {t`Quantity`}
-                                </TableHead>
-                                <TableHead className="text-center w-[120px]">{t`Unit Price`}</TableHead>
-                                <TableHead className="text-right w-[120px]">{t`Total Price`}</TableHead>
-                                <TableHead className="text-right w-[120px]">{t`Change`}</TableHead>
-                                <TableHead className="w-[100px] text-right">{t`Actions`}</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {items.map((item, index) => (
-                                <TableRow key={item.id}>
-                                    <TableCell>
-                                        <Input
-                                            value={item.name}
-                                            onChange={(e) => handleItemChange(index, "name", e.target.value)}
-                                            placeholder={t`Item name`}
-                                            disabled={editingItemId !== item.id}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Input
-                                            value={item.volume}
-                                            onChange={(e) => handleItemChange(index, "volume", e.target.value)}
-                                            placeholder={t`ex: 1kg, 500ml`}
-                                            disabled={editingItemId !== item.id}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Input
-                                            type="number"
-                                            value={item.quantity}
-                                            onChange={(e) =>
-                                                handleItemChange(index, "quantity", parseFloat(e.target.value) || 0)
-                                            }
-                                            className="text-center"
-                                            disabled={editingItemId !== item.id}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Input
-                                            type="number"
-                                            value={item.unitPrice}
-                                            onChange={(e) =>
-                                                handleItemChange(index, "unitPrice", parseFloat(e.target.value) || 0)
-                                            }
-                                            className="text-center"
-                                            disabled={editingItemId !== item.id}
-                                        />
-                                    </TableCell>
-                                    <TableCell className="text-right font-medium">
-                                        {i18n.number(
-                                            item.price,
-                                            {
-                                                style: 'currency',
-                                                currencySign: 'accounting',
-                                                currency: getCurrencyFromLocale(i18n.locale),
-                                            }
-                                        )}
-                                    </TableCell>
-                                    <TableCell className="text-right font-medium">
-                                        {(() => {
-                                            const purchasesList = allPurchases || [];
-                                            // Flatten matching items with context
-                                            const matches: Array<{ price: number; date: Date; store: string; name?: string }> = [];
+                <div className="max-h-[65vh] overflow-y-auto pr-2">
+                    <div className="min-w-full overflow-hidden">
+                        <Table className="table-fixed w-full">
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="w-[180px]">
+                                        <FontAwesomeIcon icon={faBox} className="inline-block mr-1 w-4 h-4" />{" "}
+                                        {t`Product`}
+                                    </TableHead>
+                                    <TableHead className="w-[120px]">
+                                        <FontAwesomeIcon icon={faTags} className="inline-block mr-1 w-4 h-4" />{" "}
+                                        {t`Category`}
+                                    </TableHead>
+                                    <TableHead className="w-[120px]">
+                                        <FontAwesomeIcon icon={faWeightHanging} className="inline-block mr-1 w-4 h-4" />{" "}
+                                        {t`Volume`}
+                                    </TableHead>
+                                    <TableHead className="text-center w-[100px]">
+                                        <FontAwesomeIcon icon={faHashtag} className="inline-block mr-1 w-4 h-4" />{" "}
+                                        {t`Qty`}
+                                    </TableHead>
+                                    <TableHead className="text-center w-[120px]">{t`Unit Price`}</TableHead>
+                                    <TableHead className="text-right w-[120px]">{t`Total Price`}</TableHead>
+                                    <TableHead className="text-right w-[120px]">{t`Change`}</TableHead>
+                                    <TableHead className="w-[100px] text-right">{t`Actions`}</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {items.map((item, index) => (
+                                    <TableRow key={item.id}>
+                                        <TableCell className="relative">
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <div className="relative min-h-[2.5rem]">
+                                                        {editingItemId === item.id ? (
+                                                            <Input
+                                                                value={item.name}
+                                                                onChange={(e) => handleItemChange(index, "name", e.target.value)}
+                                                                placeholder={t`Item name`}
+                                                                className="text-sm"
+                                                            />
+                                                        ) : (
+                                                            <div
+                                                                className="p-2 text-sm cursor-pointer hover:bg-muted/50 rounded"
+                                                                style={{
+                                                                    display: '-webkit-box',
+                                                                    WebkitBoxOrient: 'vertical',
+                                                                    WebkitLineClamp: 2,
+                                                                    overflow: 'hidden',
+                                                                    lineHeight: '1.2',
+                                                                    maxHeight: '2.4em'
+                                                                }}
+                                                            >
+                                                                {item.name || t`Item name`}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </TooltipTrigger>
+                                                <TooltipContent side="top" align="start" className="max-w-sm">
+                                                    <p className="break-words text-sm">{item.name}</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Input
+                                                value={(item as any).category || ''}
+                                                onChange={(e) => handleItemChange(index, "category", e.target.value)}
+                                                placeholder={t`Category`}
+                                                disabled={editingItemId !== item.id}
+                                                className="text-sm"
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Input
+                                                value={item.volume || ''}
+                                                onChange={(e) => handleItemChange(index, "volume", e.target.value)}
+                                                placeholder={t`ex: 1kg, 500ml`}
+                                                disabled={editingItemId !== item.id}
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Input
+                                                type="number"
+                                                value={item.quantity}
+                                                onChange={(e) =>
+                                                    handleItemChange(index, "quantity", parseFloat(e.target.value) || 0)
+                                                }
+                                                className="text-center"
+                                                disabled={editingItemId !== item.id}
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Input
+                                                type="number"
+                                                value={item.unitPrice}
+                                                onChange={(e) =>
+                                                    handleItemChange(index, "unitPrice", parseFloat(e.target.value) || 0)
+                                                }
+                                                className="text-center"
+                                                disabled={editingItemId !== item.id}
+                                            />
+                                        </TableCell>
+                                        <TableCell className="text-right font-medium">
+                                            {i18n.number(
+                                                item.price,
+                                                {
+                                                    style: 'currency',
+                                                    currencySign: 'accounting',
+                                                    currency: getCurrencyFromLocale(i18n.locale),
+                                                }
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="text-right font-medium">
+                                            {(() => {
+                                                const purchasesList = allPurchases || [];
+                                                // Flatten matching items with context
+                                                const matches: Array<{ price: number; date: Date; store: string; name?: string }> = [];
 
-                                            for (const p of purchasesList) {
-                                                for (const it of p.items) {
-                                                    let matched = false;
-                                                    // 1) match by productRef.id if available
-                                                    // @ts-ignore - some items may not have productRef typed
-                                                    if ((it as any).productRef?.id && (item as any).productRef?.id) {
-                                                        if ((it as any).productRef.id === (item as any).productRef.id) matched = true;
-                                                    }
+                                                for (const p of purchasesList) {
+                                                    for (const it of p.items) {
+                                                        let matched = false;
+                                                        // 1) match by productRef.id if available
+                                                        // @ts-ignore - some items may not have productRef typed
+                                                        if ((it as any).productRef?.id && (item as any).productRef?.id) {
+                                                            if ((it as any).productRef.id === (item as any).productRef.id) matched = true;
+                                                        }
 
-                                                    // 2) exact barcode
-                                                    if (!matched && item.barcode && it.barcode) {
-                                                        matched = it.barcode === item.barcode;
-                                                    }
+                                                        // 2) exact barcode
+                                                        if (!matched && item.barcode && it.barcode) {
+                                                            matched = it.barcode === item.barcode;
+                                                        }
 
-                                                    // 3) fuzzy name match using Levenshtein similarity (threshold 0.75)
-                                                    if (!matched && item.name && it.name) {
-                                                        const sim = nameSimilarity(item.name, it.name);
-                                                        if (sim >= 0.75) matched = true;
-                                                    }
+                                                        // 3) fuzzy name match using Levenshtein similarity (threshold 0.75)
+                                                        if (!matched && item.name && it.name) {
+                                                            const sim = nameSimilarity(item.name, it.name);
+                                                            if (sim >= 0.75) matched = true;
+                                                        }
 
-                                                    if (matched) {
-                                                        matches.push({ price: it.price, date: p.date as unknown as Date, store: p.storeName, name: it.name });
+                                                        if (matched) {
+                                                            matches.push({ price: it.price, date: p.date as unknown as Date, store: p.storeName, name: it.name });
+                                                        }
                                                     }
                                                 }
-                                            }
 
-                                            if (matches.length === 0) return <span className="text-muted-foreground">{t`No history`}</span>;
+                                                if (matches.length === 0) return <span className="text-muted-foreground">{t`No history`}</span>;
 
-                                            // Sort matches descending by date
-                                            matches.sort((a, b) => b.date.getTime() - a.date.getTime());
+                                                // Sort matches descending by date
+                                                matches.sort((a, b) => b.date.getTime() - a.date.getTime());
 
-                                            // previous is the most recent before this purchase date
-                                            const prev = matches.find(m => m.date.getTime() < purchase.date.getTime()) || null;
-                                            if (!prev) return <span className="text-muted-foreground">{t`No previous`}</span>;
+                                                // previous is the most recent before this purchase date
+                                                const prev = matches.find(m => m.date.getTime() < purchase.date.getTime()) || null;
+                                                if (!prev) return <span className="text-muted-foreground">{t`No previous`}</span>;
 
-                                            const diff = item.price - prev.price;
-                                            const pct = prev.price > 0 ? (diff / prev.price) : 0;
-                                            const cls = diff > 0 ? 'text-destructive' : (diff < 0 ? 'text-green-600' : 'text-muted-foreground');
+                                                const diff = item.price - prev.price;
+                                                const pct = prev.price > 0 ? (diff / prev.price) : 0;
+                                                const cls = diff > 0 ? 'text-destructive' : (diff < 0 ? 'text-green-600' : 'text-muted-foreground');
 
-                                            const last3 = matches.slice(0, 3);
-                                            const tooltipContent = (
-                                                <div className="space-y-1 text-sm">
-                                                    {last3.map((m, i) => (
-                                                        <div key={i} className="flex justify-between">
-                                                            <div className="truncate">{m.name || m.store}</div>
-                                                            <div className="text-right">
-                                                                <div>{i18n.number(m.price, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</div>
-                                                                <div className="text-xs text-muted-foreground">{m.date.toLocaleDateString()}</div>
+                                                const last3 = matches.slice(0, 3);
+                                                const tooltipContent = (
+                                                    <div className="space-y-1 text-sm">
+                                                        {last3.map((m, i) => (
+                                                            <div key={i} className="flex justify-between">
+                                                                <div className="truncate">{m.name || m.store}</div>
+                                                                <div className="text-right">
+                                                                    <div>{i18n.number(m.price, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</div>
+                                                                    <div className="text-xs text-muted-foreground">{m.date.toLocaleDateString()}</div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            );
-
-                                            return (
-                                                <Tooltip>
-                                                    <div className={`text-sm ${cls}`}>
-                                                        <TooltipTrigger asChild>
-                                                            <div className="cursor-help">
-                                                                <div>{i18n.number(diff, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</div>
-                                                                <div className="text-xs text-muted-foreground">{i18n.number(pct, { style: 'percent', maximumFractionDigits: 1 })} • {prev.date.toLocaleDateString()}</div>
-                                                            </div>
-                                                        </TooltipTrigger>
-                                                        <TooltipContent side="top" align="center">
-                                                            {tooltipContent}
-                                                        </TooltipContent>
+                                                        ))}
                                                     </div>
-                                                </Tooltip>
-                                            );
-                                        })()}
-                                    </TableCell>
-                                    <TableCell>
-                                        <div className="flex justify-end gap-1">
-                                            {editingItemId === item.id ? (
+                                                );
+
+                                                return (
+                                                    <Tooltip>
+                                                        <div className={`text-sm ${cls}`}>
+                                                            <TooltipTrigger asChild>
+                                                                <div className="cursor-help">
+                                                                    <div>{i18n.number(diff, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</div>
+                                                                    <div className="text-xs text-muted-foreground">{i18n.number(pct, { style: 'percent', maximumFractionDigits: 1 })} • {prev.date.toLocaleDateString()}</div>
+                                                                </div>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent side="top" align="center">
+                                                                {tooltipContent}
+                                                            </TooltipContent>
+                                                        </div>
+                                                    </Tooltip>
+                                                );
+                                            })()}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex justify-end gap-1">
+                                                {editingItemId === item.id ? (
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        onClick={() => setEditingItemId(null)}
+                                                    >
+                                                        <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-primary" />
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        onClick={() => setEditingItemId(item.id)}
+                                                    >
+                                                        <FontAwesomeIcon icon={faPencil} className="h-4 w-4" />
+                                                    </Button>
+                                                )}
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    onClick={() => setEditingItemId(null)}
+                                                    onClick={() => handleRemoveItem(index)}
+                                                    disabled={editingItemId === item.id}
                                                 >
-                                                    <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-primary" />
+                                                    <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
                                                 </Button>
-                                            ) : (
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    onClick={() => setEditingItemId(item.id)}
-                                                >
-                                                    <FontAwesomeIcon icon={faPencil} className="h-4 w-4" />
-                                                </Button>
-                                            )}
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => handleRemoveItem(index)}
-                                                disabled={editingItemId === item.id}
-                                            >
-                                                <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                     <Button variant="outlined" className="mt-4" onClick={handleAddItem} disabled={!!editingItemId}>
                         <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
                         {t`Add Item`}

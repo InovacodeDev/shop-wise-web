@@ -522,26 +522,26 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
             </CardContent>
 
             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-                <DialogContent>
+                <DialogContent className="overflow-hidden">
                     <DialogHeader>
                         <DialogTitle>{t`Edit Item`}</DialogTitle>
                         <DialogDescription>{t`Make corrections to the extracted item's details here.`}</DialogDescription>
                     </DialogHeader>
                     {editingProduct && (
-                        <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="name" className="text-right">
+                        <div className="grid gap-4 py-4 overflow-x-hidden">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                                <Label htmlFor="name" className="sm:text-right">
                                     {t`Name`}
                                 </Label>
                                 <Input
                                     id="name"
                                     value={editingProduct.name}
                                     onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
-                                    className="col-span-3"
+                                    className="sm:col-span-3"
                                 />
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="brand" className="text-right">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                                <Label htmlFor="brand" className="sm:text-right">
                                     {t`Brand`}
                                 </Label>
                                 <Input
@@ -550,11 +550,11 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                     onChange={(e) =>
                                         setEditingProduct({ ...editingProduct, brand: e.target.value ?? "" })
                                     }
-                                    className="col-span-3"
+                                    className="sm:col-span-3"
                                 />
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="category" className="text-right">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                                <Label htmlFor="category" className="sm:text-right">
                                     {t`Category`}
                                 </Label>
                                 <Select
@@ -567,7 +567,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                         });
                                     }}
                                 >
-                                    <SelectTrigger className="col-span-3">
+                                    <SelectTrigger className="sm:col-span-3">
                                         <SelectValue placeholder={t`Select a category`} />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -579,8 +579,8 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                     </SelectContent>
                                 </Select>
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="subcategory" className="text-right">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                                <Label htmlFor="subcategory" className="sm:text-right">
                                     {t`Subcategory`}
                                 </Label>
                                 <Select
@@ -594,7 +594,7 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                         categoriesMap[editingProduct.category].length === 0
                                     }
                                 >
-                                    <SelectTrigger className="col-span-3">
+                                    <SelectTrigger className="sm:col-span-3">
                                         <SelectValue placeholder={t`Select a subcategory`} />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -607,8 +607,8 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                     </SelectContent>
                                 </Select>
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="quantity" className="text-right">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                                <Label htmlFor="quantity" className="sm:text-right">
                                     {t`Quantity`}
                                 </Label>
                                 <Input
@@ -621,11 +621,11 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                             quantity: parseFloat(e.target.value) || 0,
                                         })
                                     }
-                                    className="col-span-3"
+                                    className="sm:col-span-3"
                                 />
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="unitPrice" className="text-right">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                                <Label htmlFor="unitPrice" className="sm:text-right">
                                     {t`Unit Price`} (R$)
                                 </Label>
                                 <Input
@@ -640,12 +640,12 @@ export function PdfImportComponent({ onSave }: PdfImportProps) {
                                             price: newUnitPrice * editingProduct.quantity,
                                         });
                                     }}
-                                    className="col-span-3"
+                                    className="sm:col-span-3"
                                 />
                             </div>
                         </div>
                     )}
-                    <DialogFooter>
+                    <DialogFooter className="flex-col sm:flex-row gap-2">
                         <Button variant="ghost" onClick={() => setIsEditDialogOpen(false)}>
                             {t`Cancel`}
                         </Button>

@@ -34,7 +34,6 @@ import {
     faArrowDown,
     faArrowUp,
     faCopyright,
-    faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -46,9 +45,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { apiService } from "@/services/api";
 import { subMonths, startOfMonth, endOfMonth, format, Locale } from "date-fns";
 import { ptBR, enUS } from "date-fns/locale";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { SideBarLayout } from '@/components/layout/sidebar-layout';
-import { Button } from "@/components/md3/button";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/services/analytics-service";
 
@@ -227,45 +225,47 @@ function DashboardPage() {
             // Set current month name for display
             setCurrentMonthName(format(now, "MMMM yyyy", { locale }));
 
-            // 1. Fetch all monthly purchase groups for comprehensive insights
+            // 1. Fetch all family purchase items data using the optimized endpoint
+            let allFamilyPurchaseItems: any = {};
             let monthlyGroups: any[] = [];
-            let allPurchases: any[] = [];
             try {
+                allFamilyPurchaseItems = await apiService.getAllFamilyPurchaseItems(profile.familyId);
                 monthlyGroups = await apiService.getPurchasesByMonth(profile.familyId);
-                // Convert monthly groups to flat purchases for insights processing
-                allPurchases = monthlyGroups.flatMap(group => group.purchases);
-            } catch (monthlyError) {
-                console.warn("Monthly purchase data failed, using flat list for insights:", monthlyError);
-                // Fallback to flat purchase list
-                allPurchases = await apiService.getPurchases(profile.familyId);
+                console.log({ allFamilyPurchaseItems, monthlyGroups });
+            } catch (error) {
+                console.error("Failed to fetch family purchase data:", error);
+                setLoading(false);
+                return;
             }
 
             let allItems: PurchaseItem[] = [];
 
-            // 2. For each purchase across ALL months, fetch its items for comprehensive analysis
-            for (const purchase of allPurchases) {
-                const purchaseItems = await apiService.getPurchaseItems(profile.familyId, purchase._id);
+            // 2. Process allFamilyPurchaseItems data structure to create PurchaseItem array
+            Object.entries(allFamilyPurchaseItems).forEach(([monthYear, monthData]: [string, any]) => {
+                Object.entries(monthData).forEach(([purchaseId, purchaseData]: [string, any]) => {
+                    const { purchaseInfo, items } = purchaseData;
 
-                for (const item of purchaseItems) {
-                    const purchaseItem: PurchaseItem = {
-                        id: item.id || item._id,
-                        productRef: { id: item.productId }, // Convert to reference-like object
-                        quantity: item.quantity,
-                        price: item.price,
-                        totalPrice: item.totalPrice || item.price,
-                        purchaseDate: item.purchaseDate ? new Date(item.purchaseDate) : new Date(purchase.date),
-                        storeName: item.storeName || purchase.storeName || 'Unknown Store',
-                        name: item.productName || item.name,
-                        barcode: item.productBarcode || item.barcode,
-                        volume: item.productVolume,
-                        brand: item.productBrand,
-                        category: item.productCategory || item.category,
-                        subcategory: item.productSubcategory,
-                    };
+                    items.forEach((item: any) => {
+                        const purchaseItem: PurchaseItem = {
+                            id: item.productId, // Using productId as unique identifier
+                            productRef: { id: item.productId },
+                            quantity: item.quantity,
+                            price: item.price,
+                            totalPrice: item.total,
+                            purchaseDate: new Date(purchaseInfo.date),
+                            storeName: purchaseInfo.storeName || 'Unknown Store',
+                            name: item.name,
+                            barcode: item.barcode,
+                            volume: item.unit, // Using 'unit' field as volume
+                            brand: item.brand,
+                            category: item.category,
+                            subcategory: item.subCategory,
+                        };
 
-                    allItems.push(purchaseItem);
-                }
-            }
+                        allItems.push(purchaseItem);
+                    });
+                });
+            });
 
             // persist allItems so comparison modal can use the historical dataset
             setAllItemsState(allItems);
@@ -727,7 +727,7 @@ function DashboardPage() {
                             type="recentItems"
                         >
                             <Card
-                                variant="filled"
+                                variant="elevated"
                                 className="transition-all duration-300 ease-in-out"
                             >
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -1132,15 +1132,6 @@ function DashboardPage() {
                     </Card>
                 </div>
 
-                <Link to="/purchases">
-                    <Button
-                        className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg z-20"
-                        size="icon"
-                        aria-label={t`Add Purchase`}
-                    >
-                        <FontAwesomeIcon icon={faPlus} className="h-6 w-6" />
-                    </Button>
-                </Link>
                 <PriceComparisonModal
                     open={isComparisonOpen}
                     onOpenChange={(open) => { if (!open) setSelectedItem(null); setIsComparisonOpen(open); }}

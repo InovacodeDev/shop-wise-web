@@ -9,6 +9,7 @@ export interface PurchaseItem {
     quantity: number;
     price: number;
     unitPrice?: number;
+    category?: string;
 }
 
 const getOrCreateProduct = async (productData: any) => {
@@ -16,8 +17,8 @@ const getOrCreateProduct = async (productData: any) => {
     if (!productData.barcode) return null;
 
     const formattedBarcode = productData.barcode.replace(/\D/g, '');
-    if(!formattedBarcode) return null;
-    
+    if (!formattedBarcode) return null;
+
     try {
         // Try to get existing product
         const existingProducts = await apiService.getProducts();
@@ -35,13 +36,13 @@ const getOrCreateProduct = async (productData: any) => {
             });
             return newProduct.id;
         }
-        
+
         return existingProduct.id;
     } catch (error) {
         console.error('Error creating/getting product:', error);
         return null;
     }
-}
+};
 
 export async function updatePurchaseItems(familyId: string, purchaseId: string, items: PurchaseItem[]) {
     try {
@@ -49,43 +50,57 @@ export async function updatePurchaseItems(familyId: string, purchaseId: string, 
         const existingItems = await apiService.getPurchaseItems(familyId, purchaseId);
         const existingIds = new Set(existingItems.map((item: any) => item.id));
 
-        // 2. Process each item
+        // 2. Prepare parallel operations for better performance
+        const operations: Promise<any>[] = [];
+
+        // Process each item in parallel
         for (const item of items) {
-            // Get or create product if it has a barcode
-            let productId = null;
-            if (item.barcode) {
-                productId = await getOrCreateProduct({
+            const processItem = async () => {
+                // Get or create product if it has a barcode
+                let productId = null;
+                if (item.barcode) {
+                    productId = await getOrCreateProduct({
+                        name: item.name,
+                        barcode: item.barcode,
+                        volume: item.volume,
+                    });
+                }
+
+                const itemData = {
+                    productId: productId,
                     name: item.name,
                     barcode: item.barcode,
                     volume: item.volume,
-                });
-            }
+                    quantity: item.quantity,
+                    price: item.price,
+                    unitPrice: item.unitPrice || item.price / item.quantity,
+                    category: item.category,
+                };
 
-            const itemData = {
-                productId: productId,
-                name: item.name,
-                barcode: item.barcode,
-                volume: item.volume,
-                quantity: item.quantity,
-                price: item.price,
-                unitPrice: item.unitPrice || (item.price / item.quantity),
+                if (item.id && existingIds.has(item.id)) {
+                    // Update existing item
+                    await apiService.updatePurchaseItem(familyId, purchaseId, item.id, itemData);
+                    existingIds.delete(item.id);
+                } else {
+                    // Create new item
+                    await apiService.createPurchaseItem(familyId, purchaseId, itemData);
+                }
             };
 
-            if (item.id && existingIds.has(item.id)) {
-                // Update existing item
-                await apiService.updatePurchaseItem(familyId, purchaseId, item.id, itemData);
-                existingIds.delete(item.id);
-            } else {
-                // Create new item
-                await apiService.createPurchaseItem(familyId, purchaseId, itemData);
-            }
+            operations.push(processItem());
         }
 
-        // 3. Delete items that are no longer in the list
-        for (const idToDelete of existingIds) {
-            await apiService.deletePurchaseItem(familyId, purchaseId, idToDelete);
-        }
+        // Execute all item operations in parallel
+        await Promise.all(operations);
 
+        // 3. Delete items that are no longer in the list (in parallel)
+        const deleteOperations = Array.from(existingIds).map((idToDelete) =>
+            apiService.deletePurchaseItem(familyId, purchaseId, idToDelete),
+        );
+
+        if (deleteOperations.length > 0) {
+            await Promise.all(deleteOperations);
+        }
     } catch (error) {
         console.error('Error updating purchase items:', error);
         throw error;

@@ -1069,6 +1069,36 @@ export class ApiService {
             data: request,
         });
     }
+
+    // Purchase methods
+    async getAllFamilyPurchaseItems(familyId: string): Promise<{
+        [monthYear: string]: {
+            [purchaseId: string]: {
+                purchaseInfo: {
+                    date: string;
+                    storeName?: string;
+                    storeId: string;
+                    totalAmount?: number;
+                    purchasedBy: string;
+                };
+                items: Array<{
+                    productId: string;
+                    name: string;
+                    description?: string;
+                    barcode?: string;
+                    brand?: string;
+                    category: string;
+                    subCategory?: string;
+                    unit: string;
+                    quantity: number;
+                    price: number;
+                    total: number;
+                }>;
+            };
+        };
+    }> {
+        return this.makeRequest(`/families/${familyId}/purchases/family-items`);
+    }
 }
 
 export const apiService = new ApiService();

@@ -308,16 +308,20 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
 
     return (
         <Tabs defaultValue="pdf" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="pdf">
+            <TabsList
+                className="w-full flex [&>div]:w-full [&>div]:flex"
+                type="fixed"
+                alignment="fill"
+            >
+                <TabsTrigger value="pdf" className='flex-1 min-w-0'>
                     <FontAwesomeIcon icon={faFilePdf} className="mr-2 h-4 w-4" />
                     {t`PDF`}
                 </TabsTrigger>
-                <TabsTrigger value="qr-code">
+                <TabsTrigger value="qr-code" className='flex-1 min-w-0'>
                     <FontAwesomeIcon icon={faQrcode} className="mr-2 h-4 w-4" />
                     {t`QR Code`}
                 </TabsTrigger>
-                <TabsTrigger value="url-manual">
+                <TabsTrigger value="url-manual" className='flex-1 min-w-0'>
                     <FontAwesomeIcon icon={faKeyboard} className="mr-2 h-4 w-4" />
                     {t`URL Manual`}
                 </TabsTrigger>

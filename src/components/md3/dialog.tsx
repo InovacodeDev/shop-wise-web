@@ -17,7 +17,7 @@ const DialogClose = DialogPrimitive.Close;
 
 // Material Design 3 Dialog specifications
 const dialogVariants = cva(
-    "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+    "fixed left-[50%] top-[50%] z-50 grid w-full max-w-[calc(100vw-2rem)] translate-x-[-50%] translate-y-[-50%] duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] overflow-hidden",
     {
         variants: {
             variant: {
@@ -25,7 +25,9 @@ const dialogVariants = cva(
                 basic: [
                     "bg-surface-container-high text-on-surface",
                     "max-w-[560px] min-w-[280px]",
-                    "gap-0" // Remove default gap to control spacing manually per MD3 specs
+                    "gap-0", // Remove default gap to control spacing manually per MD3 specs
+                    "max-h-[calc(100vh-2rem)]", // Prevent dialog from being taller than viewport
+                    "overflow-x-hidden overflow-y-auto" // Prevent horizontal scroll, allow vertical if needed
                 ],
                 // Full-screen dialog - complex tasks requiring multiple steps (mobile only)
                 fullscreen: [
@@ -33,7 +35,8 @@ const dialogVariants = cva(
                     "w-screen h-screen max-w-none",
                     "top-0 left-0 translate-x-0 translate-y-0",
                     "rounded-none",
-                    "gap-0"
+                    "gap-0",
+                    "overflow-hidden"
                 ]
             }
         },
@@ -72,7 +75,7 @@ const DialogContent = React.forwardRef<
     const getDialogStyles = () => {
         const baseStyles = {
             borderRadius: variant === "fullscreen" ? "0px" : materialShapes.corner.extraLarge, // 28dp for basic, 0 for fullscreen
-            boxShadow: materialElevation.level3,
+            boxShadow: materialElevation.level3.shadow,
         };
 
         if (variant === "basic") {
@@ -217,7 +220,7 @@ const DialogBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
     ({ className, ...props }, ref) => (
         <div
             ref={ref}
-            className={cn("flex-1 overflow-auto", className)}
+            className={cn("flex-1 overflow-x-hidden overflow-y-auto", className)}
             style={{
                 padding: `0 ${materialSpacing.lg}`, // 24px horizontal padding
                 maxHeight: "60vh", // Limit height to ensure footer remains visible

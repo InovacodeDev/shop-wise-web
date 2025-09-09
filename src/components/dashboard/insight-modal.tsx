@@ -144,32 +144,32 @@ export function InsightModal({
                 const pieData = data.map((item) => ({ ...item, percentage: ((item.value / total) * 100).toFixed(0) }));
 
                 return (
-                    <div className="rounded-lg border border-outline-variant bg-surface">
+                    <div className="rounded-lg border border-outline-variant bg-surface overflow-hidden">
                         <div className="p-4 border-b border-outline-variant bg-surface-variant/30">
-                            <div className="grid grid-cols-4 gap-4 text-sm font-medium text-on-surface-variant">
-                                <div className="flex items-center gap-2">
-                                    <FontAwesomeIcon icon={faStore} className="h-3 w-3" />
-                                    {t`Store`}
+                            <div className="grid grid-cols-4 gap-4 text-sm font-medium text-on-surface-variant min-w-0">
+                                <div className="flex items-center gap-2 truncate">
+                                    <FontAwesomeIcon icon={faStore} className="h-3 w-3 flex-shrink-0" />
+                                    <span className="truncate">{t`Store`}</span>
                                 </div>
-                                <div className="flex items-center gap-2 text-right">
-                                    <FontAwesomeIcon icon={faDollarSign} className="h-3 w-3" />
-                                    {t`This Month`}
+                                <div className="flex items-center gap-2 text-right truncate">
+                                    <FontAwesomeIcon icon={faDollarSign} className="h-3 w-3 flex-shrink-0" />
+                                    <span className="truncate">{t`This Month`}</span>
                                 </div>
-                                <div className="text-right">
+                                <div className="text-right truncate">
                                     {t`Avg/Month`}
                                 </div>
-                                <div className="text-center">
+                                <div className="text-center truncate">
                                     {t`Months Active`}
                                 </div>
                             </div>
                         </div>
                         <div className="divide-y divide-outline-variant">
                             {data.map((item, index) => (
-                                <div key={index} className="grid grid-cols-4 gap-4 p-4 hover:bg-surface-variant/50 transition-colors">
-                                    <div className="font-medium text-on-surface truncate" title={item.name}>
+                                <div key={index} className="grid grid-cols-4 gap-4 p-4 hover:bg-surface-variant/50 transition-colors min-w-0">
+                                    <div className="font-medium text-on-surface truncate min-w-0" title={item.name}>
                                         {item.name}
                                     </div>
-                                    <div className="text-right font-medium text-primary">
+                                    <div className="text-right font-medium text-primary truncate">
                                         {i18n.number(
                                             item.value,
                                             {
@@ -179,7 +179,7 @@ export function InsightModal({
                                             }
                                         )}
                                     </div>
-                                    <div className="text-right text-on-surface-variant">
+                                    <div className="text-right text-on-surface-variant truncate">
                                         {i18n.number(
                                             item.historicalAverage || item.value,
                                             {
@@ -189,7 +189,7 @@ export function InsightModal({
                                             }
                                         )}
                                     </div>
-                                    <div className="text-center">
+                                    <div className="text-center flex justify-center">
                                         <Chip variant="assist" size="small" className="bg-secondary text-on-secondary">
                                             {item.monthsActive || 1}
                                         </Chip>
@@ -201,37 +201,37 @@ export function InsightModal({
                 );
             case "recentItems":
                 return (
-                    <div className="rounded-lg border border-outline-variant bg-surface">
+                    <div className="rounded-lg border border-outline-variant bg-surface overflow-hidden">
                         <div className="p-4 border-b border-outline-variant bg-surface-variant/30">
-                            <div className="grid grid-cols-3 gap-4 text-sm font-medium text-on-surface-variant">
-                                <div className="flex items-center gap-2">
-                                    <FontAwesomeIcon icon={faBox} className="h-3 w-3" />
-                                    {t`Product`}
+                            <div className="grid grid-cols-3 gap-4 text-sm font-medium text-on-surface-variant min-w-0">
+                                <div className="flex items-center gap-2 truncate">
+                                    <FontAwesomeIcon icon={faBox} className="h-3 w-3 flex-shrink-0" />
+                                    <span className="truncate">{t`Product`}</span>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <FontAwesomeIcon icon={faCalendar} className="h-3 w-3" />
-                                    {t`Purchase Date`}
+                                <div className="flex items-center gap-2 truncate">
+                                    <FontAwesomeIcon icon={faCalendar} className="h-3 w-3 flex-shrink-0" />
+                                    <span className="truncate">{t`Purchase Date`}</span>
                                 </div>
-                                <div className="flex items-center gap-2 justify-end">
-                                    <FontAwesomeIcon icon={faDollarSign} className="h-3 w-3" />
-                                    {t`Price`}
+                                <div className="flex items-center gap-2 justify-end truncate">
+                                    <FontAwesomeIcon icon={faDollarSign} className="h-3 w-3 flex-shrink-0" />
+                                    <span className="truncate">{t`Price`}</span>
                                 </div>
                             </div>
                         </div>
                         <div className="divide-y divide-outline-variant">
                             {data.map((item, index) => (
-                                <div key={index} className="grid grid-cols-3 gap-4 p-4 hover:bg-surface-variant/50 transition-colors">
-                                    <div className="font-medium text-on-surface truncate" title={item.name}>
+                                <div key={index} className="grid grid-cols-3 gap-4 p-4 hover:bg-surface-variant/50 transition-colors min-w-0">
+                                    <div className="font-medium text-on-surface truncate min-w-0" title={item.name}>
                                         {item.name}
                                     </div>
-                                    <div className="text-on-surface-variant">
+                                    <div className="text-on-surface-variant truncate">
                                         {i18n.date(item.purchaseDate, {
                                             month: '2-digit',
                                             day: '2-digit',
                                             year: 'numeric',
                                         })}
                                     </div>
-                                    <div className="text-right font-medium text-primary">
+                                    <div className="text-right font-medium text-primary truncate">
                                         {i18n.number(
                                             item.price,
                                             {
@@ -248,33 +248,33 @@ export function InsightModal({
                 );
             case "topCategories":
                 return (
-                    <div className="grid md:grid-cols-2 gap-6 items-start">
-                        <div className="rounded-lg border border-outline-variant bg-surface">
+                    <div className="grid md:grid-cols-2 gap-6 items-start min-w-0">
+                        <div className="rounded-lg border border-outline-variant bg-surface overflow-hidden">
                             <div className="p-4 border-b border-outline-variant bg-surface-variant/30">
-                                <div className="grid grid-cols-2 gap-4 text-sm font-medium text-on-surface-variant">
-                                    <div className="flex items-center gap-2">
-                                        <FontAwesomeIcon icon={faTags} className="h-3 w-3" />
-                                        {t`Category`}
+                                <div className="grid grid-cols-2 gap-4 text-sm font-medium text-on-surface-variant min-w-0">
+                                    <div className="flex items-center gap-2 truncate">
+                                        <FontAwesomeIcon icon={faTags} className="h-3 w-3 flex-shrink-0" />
+                                        <span className="truncate">{t`Category`}</span>
                                     </div>
-                                    <div className="flex items-center gap-2 text-right">
-                                        <FontAwesomeIcon icon={faDollarSign} className="h-3 w-3" />
-                                        {t`Amount Spent`}
+                                    <div className="flex items-center gap-2 text-right justify-end truncate">
+                                        <FontAwesomeIcon icon={faDollarSign} className="h-3 w-3 flex-shrink-0" />
+                                        <span className="truncate">{t`Amount Spent`}</span>
                                     </div>
                                 </div>
                             </div>
                             <div className="divide-y divide-outline-variant">
                                 {data.map((item, index) => (
-                                    <div key={index} className="grid grid-cols-2 gap-4 p-4 hover:bg-surface-variant/50 transition-colors">
-                                        <div>
+                                    <div key={index} className="grid grid-cols-2 gap-4 p-4 hover:bg-surface-variant/50 transition-colors min-w-0">
+                                        <div className="min-w-0">
                                             <Chip
                                                 variant="assist"
                                                 size="small"
-                                                className={cn(getCategoryClass(item.name))}
+                                                className={cn(getCategoryClass(item.name), "truncate max-w-full")}
                                             >
-                                                {item.name}
+                                                <span className="truncate">{item.name}</span>
                                             </Chip>
                                         </div>
-                                        <div className="text-right font-medium text-primary">
+                                        <div className="text-right font-medium text-primary truncate">
                                             {i18n.number(
                                                 item.value,
                                                 {
@@ -289,8 +289,8 @@ export function InsightModal({
                             </div>
                         </div>
                         {chartData && chartData.length > 0 && (
-                            <div className="flex items-center justify-center h-64">
-                                <ChartContainer config={chartConfig} className="h-full w-full">
+                            <div className="flex items-center justify-center h-64 min-w-0 overflow-hidden">
+                                <ChartContainer config={chartConfig} className="h-full w-full min-w-0">
                                     <ResponsiveContainer>
                                         <RechartsPieChart>
                                             <ChartTooltip
@@ -338,28 +338,28 @@ export function InsightModal({
                 );
             case "goalsSummary":
                 return (
-                    <div className="rounded-lg border border-outline-variant bg-surface">
+                    <div className="rounded-lg border border-outline-variant bg-surface overflow-hidden">
                         <div className="p-4 border-b border-outline-variant bg-surface-variant/30">
-                            <div className="grid grid-cols-4 gap-4 text-sm font-medium text-on-surface-variant">
-                                <div>{t`Goal`}</div>
-                                <div className="text-right">{t`Target`}</div>
-                                <div className="text-right">{t`Current`}</div>
-                                <div className="text-right">{t`Progress`}</div>
+                            <div className="grid grid-cols-4 gap-4 text-sm font-medium text-on-surface-variant min-w-0">
+                                <div className="truncate">{t`Goal`}</div>
+                                <div className="text-right truncate">{t`Target`}</div>
+                                <div className="text-right truncate">{t`Current`}</div>
+                                <div className="text-right truncate">{t`Progress`}</div>
                             </div>
                         </div>
                         <div className="divide-y divide-outline-variant">
                             {data.map((g: any, idx: number) => (
-                                <div key={g._id || idx} className="grid grid-cols-4 gap-4 p-4 hover:bg-surface-variant/50 transition-colors">
-                                    <div className="font-medium text-on-surface truncate" title={g.name}>
+                                <div key={g._id || idx} className="grid grid-cols-4 gap-4 p-4 hover:bg-surface-variant/50 transition-colors min-w-0">
+                                    <div className="font-medium text-on-surface truncate min-w-0" title={g.name}>
                                         {g.name}
                                     </div>
-                                    <div className="text-right font-medium text-on-surface">
+                                    <div className="text-right font-medium text-on-surface truncate">
                                         {i18n.number(g.targetAmount || 0, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
                                     </div>
-                                    <div className="text-right text-on-surface-variant">
+                                    <div className="text-right text-on-surface-variant truncate">
                                         {i18n.number(g.currentAmount || 0, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
                                     </div>
-                                    <div className="text-right">
+                                    <div className="text-right flex justify-end">
                                         {typeof g.progress === 'number' ? (
                                             <Chip variant="assist" size="small" className={cn(
                                                 g.progress >= 100 ? "bg-green-100 text-green-800 border-green-200" :
@@ -432,12 +432,14 @@ export function InsightModal({
     return (
         <Dialog onOpenChange={(open) => open && onOpen?.()}>
             <DialogTrigger asChild>{children}</DialogTrigger>
-            <DialogContent className="max-w-3xl">
+            <DialogContent className="max-w-3xl overflow-hidden">
                 <DialogHeader>
                     <DialogTitle className="text-xl">{title}</DialogTitle>
                     <DialogDescription>{description}</DialogDescription>
                 </DialogHeader>
-                <div className="py-4 max-h-[70vh] overflow-y-auto">{renderContent()}</div>
+                <div className="py-4 max-h-[70vh] overflow-x-hidden overflow-y-auto">
+                    <div className="min-w-0">{renderContent()}</div>
+                </div>
             </DialogContent>
         </Dialog>
     );

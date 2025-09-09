@@ -46,17 +46,21 @@ function FamilyPage() {
                     </CardHeader>
                     <div className="p-6 pt-0">
                         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-                            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-                                <TabsTrigger value="composition">
+                            <TabsList
+                                className="w-full flex [&>div]:w-full [&>div]:flex"
+                                type="fixed"
+                                alignment="fill"
+                            >
+                                <TabsTrigger value="composition" className="flex-1 min-w-0">
                                     <FontAwesomeIcon icon={faUsers} className="mr-2 h-4 w-4" /> {t`Composition`}
                                 </TabsTrigger>
-                                <TabsTrigger value="markets">
+                                <TabsTrigger value="markets" className="flex-1 min-w-0">
                                     <FontAwesomeIcon icon={faStore} className="mr-2 h-4 w-4" /> {t`Markets`}
                                 </TabsTrigger>
-                                <TabsTrigger value="history">
+                                <TabsTrigger value="history" className="flex-1 min-w-0">
                                     <FontAwesomeIcon icon={faHistory} className="mr-2 h-4 w-4" /> {t`Purchase History`}
                                 </TabsTrigger>
-                                <TabsTrigger value="plan">
+                                <TabsTrigger value="plan" className="flex-1 min-w-0">
                                     <FontAwesomeIcon icon={faGem} className="mr-2 h-4 w-4" /> {t`Plan`}
                                 </TabsTrigger>
                             </TabsList>
