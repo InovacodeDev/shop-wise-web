@@ -34,6 +34,7 @@ import {
     faDollarSign,
     faLightbulb,
     faBox,
+    faReceipt,
     faHashtag,
     faBarcode,
     faWeightHanging,
@@ -51,9 +52,39 @@ import { toast } from "@/hooks/use-toast";
 import { PurchaseItem, updatePurchaseItems } from "../../routes/family/actions";
 import { trackEvent } from "@/services/analytics-service";
 import { apiService } from "@/services/api";
+import { enqueueGetPurchaseItems } from '@/lib/api-queue';
 import { MonthlyPurchaseDisplay } from "@/components/purchases/monthly-purchase-display";
 import type { MonthlyPurchaseGroup, Purchase as ApiPurchase } from "@/types/api";
 import { getCurrencyFromLocale } from "@/lib/localeCurrency";
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+
+// Simple Levenshtein distance - used for fuzzy name matching
+function levenshtein(a: string, b: string) {
+    const m = a.length;
+    const n = b.length;
+    const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+    for (let i = 0; i <= m; i++) dp[i][0] = i;
+    for (let j = 0; j <= n; j++) dp[0][j] = j;
+    for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+        }
+    }
+    return dp[m][n];
+}
+
+function nameSimilarity(a?: string, b?: string) {
+    if (!a || !b) return 0;
+    const aa = a.trim().toLowerCase();
+    const bb = b.trim().toLowerCase();
+    if (aa === bb) return 1;
+    const dist = levenshtein(aa, bb);
+    const maxLen = Math.max(aa.length, bb.length) || 1;
+    return 1 - dist / maxLen;
+}
+
+// Use a global enqueue helper to serialize and rate-limit requests to avoid 429
 
 interface Purchase {
     id: string;
@@ -64,9 +95,11 @@ interface Purchase {
 }
 
 export function HistoryTab() {
-    const { t } = useLingui();
+    const { t, i18n } = useLingui();
     const { profile } = useAuth();
     const [purchases, setPurchases] = useState<Purchase[]>([]);
+    const [selectedPurchase, setSelectedPurchase] = useState<Purchase | null>(null);
+    const [loadingSelectedItems, setLoadingSelectedItems] = useState(false);
     const [monthlyGroups, setMonthlyGroups] = useState<MonthlyPurchaseGroup[]>([]);
     const [loading, setLoading] = useState(true);
     const [useMonthlyView, setUseMonthlyView] = useState(true);
@@ -92,8 +125,8 @@ export function HistoryTab() {
                     const flatPurchases: Purchase[] = [];
                     for (const group of monthlyData) {
                         for (const purchase of group.purchases) {
-                            const items = await apiService.getPurchaseItems(profile.familyId!, purchase._id);
-                            const purchaseItems = items.map<PurchaseItem>((item: any) => ({
+                            const items = await enqueueGetPurchaseItems(profile.familyId!, purchase._id);
+                            const purchaseItems = (items as any[]).map((item: any) => ({
                                 id: item.id,
                                 productId: item.productId,
                                 name: item.productName || item.name,
@@ -103,7 +136,7 @@ export function HistoryTab() {
                                 price: item.totalPrice || item.price,
                                 unitPrice: item.unitPrice || item.price,
                                 productRef: { id: item.productId }
-                            }));
+                            })) as PurchaseItem[];
 
                             flatPurchases.push({
                                 id: purchase._id,
@@ -123,9 +156,9 @@ export function HistoryTab() {
                     const purchases = await apiService.getPurchases(profile.familyId);
                     const allPurchases = await Promise.all(
                         purchases.map(async (purchase: any) => {
-                            const items = await apiService.getPurchaseItems(profile.familyId!, purchase.id);
+                            const items = await enqueueGetPurchaseItems(profile.familyId!, purchase.id);
 
-                            const purchaseItems = items.map<PurchaseItem>((item: any) => ({
+                            const purchaseItems = (items as any[]).map((item: any) => ({
                                 id: item.id,
                                 productId: item.productId,
                                 name: item.productName || item.name,
@@ -135,7 +168,7 @@ export function HistoryTab() {
                                 price: item.totalPrice || item.price,
                                 unitPrice: item.unitPrice || item.price,
                                 productRef: { id: item.productId }
-                            }));
+                            })) as PurchaseItem[];
 
                             return {
                                 id: purchase.id,
@@ -237,20 +270,58 @@ export function HistoryTab() {
 
     return (
         <div className="space-y-8">
+            {loadingSelectedItems && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+                    <div className="bg-white dark:bg-slate-800 rounded-lg p-6 flex items-center gap-4 shadow-lg">
+                        <svg className="animate-spin h-7 w-7 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                        </svg>
+                        <div>
+                            <div className="font-medium">{t`Loading purchase...`}</div>
+                            <div className="text-sm text-muted-foreground">{t`Your request is queued to avoid API rate limits.`}</div>
+                        </div>
+                    </div>
+                </div>
+            )}
             {shouldUseMonthlyView ? (
                 // Use the monthly purchase display component
                 <MonthlyPurchaseDisplay
                     familyId={profile?.familyId || undefined}
-                    onPurchaseSelect={(purchase) => {
-                        // Convert API purchase to local Purchase format for dialog
-                        const localPurchase: Purchase = {
-                            id: purchase._id,
-                            storeName: purchase.storeName,
-                            date: new Date(purchase.date),
-                            totalAmount: purchase.totalAmount,
-                            items: [] // Items will be loaded when dialog opens
-                        };
-                        // You could implement a purchase selection handler here if needed
+                    onPurchaseSelect={async (purchase) => {
+                        if (!profile?.familyId) return;
+                        setLoadingSelectedItems(true);
+                        try {
+                            const familyId = profile.familyId!;
+                            const purchaseId = (purchase as any)._id || (purchase as any).id;
+                            const items = await enqueueGetPurchaseItems(familyId, purchaseId);
+                            const mappedItems: PurchaseItem[] = (items as any[]).map((item: any) => ({
+                                id: item.id,
+                                productId: item.productId,
+                                name: item.productName || item.name,
+                                barcode: item.productBarcode || item.barcode,
+                                volume: item.productVolume || item.volume,
+                                quantity: item.quantity,
+                                price: item.totalPrice || item.price,
+                                unitPrice: item.unitPrice || item.price,
+                                productRef: { id: item.productId }
+                            })) as PurchaseItem[];
+
+                            const localPurchase: Purchase = {
+                                id: String(purchase._id || purchase.id),
+                                storeName: purchase.storeName,
+                                date: new Date(purchase.date),
+                                totalAmount: purchase.totalAmount,
+                                items: mappedItems,
+                            };
+
+                            setSelectedPurchase(localPurchase);
+                        } catch (err) {
+                            console.error('Error loading purchase items', err);
+                            toast({ title: t`Error`, description: t`Failed to load purchase items.` });
+                        } finally {
+                            setLoadingSelectedItems(false);
+                        }
                     }}
                 />
             ) : (
@@ -330,6 +401,8 @@ export function HistoryTab() {
                                                 key={purchase.id}
                                                 purchase={purchase}
                                                 onDelete={handleDeletePurchase}
+                                                allPurchases={purchases}
+                                                globalDisabled={loadingSelectedItems}
                                             />
                                         ))}
                                     </div>
@@ -360,17 +433,78 @@ export function HistoryTab() {
                     />
                 </CardContent>
             </Card>
+            {/* Selected Purchase Modal */}
+            {selectedPurchase && (
+                <Dialog open={!!selectedPurchase} onOpenChange={(open) => { if (!open) setSelectedPurchase(null); }}>
+                    <DialogContent className="max-w-4xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6">
+                        <DialogHeader>
+                            <div className="flex items-start justify-between gap-4">
+                                <div>
+                                    <DialogTitle className="flex items-center gap-3">
+                                        <span className="inline-flex items-center justify-center w-9 h-9 rounded-md bg-primary/10 text-primary">
+                                            <FontAwesomeIcon icon={faReceipt} className="w-4 h-4" />
+                                        </span>
+                                        <span className="leading-tight">{t`Purchase Details`}</span>
+                                    </DialogTitle>
+                                    <DialogDescription className="text-sm text-muted-foreground mt-1">
+                                        {selectedPurchase.storeName} • {new Date(selectedPurchase.date).toLocaleString()}
+                                    </DialogDescription>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-sm text-muted-foreground">{t`Total`}</div>
+                                    <div className="text-lg font-semibold">
+                                        {i18n.number(
+                                            selectedPurchase.totalAmount || selectedPurchase.items.reduce((s, it) => s + (it.price || 0), 0),
+                                            { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) }
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </DialogHeader>
+
+                        <div className="max-h-[60vh] overflow-y-auto pt-4">
+                            <Table className="min-w-full">
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead className="pl-4">{t`Product`}</TableHead>
+                                        <TableHead className="w-[120px] text-center">{t`Qtt`}</TableHead>
+                                        <TableHead className="w-[140px] text-right">{t`Unit Price`}</TableHead>
+                                        <TableHead className="w-[140px] text-right">{t`Total Price`}</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {selectedPurchase.items.map((item) => {
+                                        const unitPrice = item.unitPrice !== undefined && item.unitPrice > 0 ? item.unitPrice : (item.quantity ? (item.price || 0) / item.quantity : 0);
+                                        return (
+                                            <TableRow key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                                                <TableCell className="pl-4">
+                                                    <div className="font-medium truncate">{item.name}</div>
+                                                    {item.volume && <div className="text-xs text-muted-foreground">{item.volume}</div>}
+                                                </TableCell>
+                                                <TableCell className="text-center">{item.quantity}</TableCell>
+                                                <TableCell className="text-right">{i18n.number(unitPrice, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</TableCell>
+                                                <TableCell className="text-right font-medium">{i18n.number(item.price || (unitPrice * item.quantity), { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            )}
         </div>
     );
 }
 
-function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (id: string) => void }) {
+function PurchaseCard({ purchase, onDelete, allPurchases, globalDisabled }: { purchase: Purchase; onDelete: (id: string) => void; allPurchases?: Purchase[]; globalDisabled?: boolean }) {
     const { i18n, t } = useLingui();
     const { profile } = useAuth();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [items, setItems] = useState<PurchaseItem[]>(purchase.items);
     const [isSaving, setIsSaving] = useState(false);
     const [editingItemId, setEditingItemId] = useState<string | null>(null);
+    // globalDisabled is received from props to temporarily disable interactions while background requests are queued
 
     const originalItemsJson = useMemo(() => JSON.stringify(purchase.items), [purchase.items]);
     const isDirty = useMemo(() => JSON.stringify(items) !== originalItemsJson, [items, originalItemsJson]);
@@ -515,6 +649,7 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                                 </TableHead>
                                 <TableHead className="text-center w-[120px]">{t`Unit Price`}</TableHead>
                                 <TableHead className="text-right w-[120px]">{t`Total Price`}</TableHead>
+                                <TableHead className="text-right w-[120px]">{t`Change`}</TableHead>
                                 <TableHead className="w-[100px] text-right">{t`Actions`}</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -568,6 +703,83 @@ function PurchaseCard({ purchase, onDelete }: { purchase: Purchase; onDelete: (i
                                                 currency: getCurrencyFromLocale(i18n.locale),
                                             }
                                         )}
+                                    </TableCell>
+                                    <TableCell className="text-right font-medium">
+                                        {(() => {
+                                            const purchasesList = allPurchases || [];
+                                            // Flatten matching items with context
+                                            const matches: Array<{ price: number; date: Date; store: string; name?: string }> = [];
+
+                                            for (const p of purchasesList) {
+                                                for (const it of p.items) {
+                                                    let matched = false;
+                                                    // 1) match by productRef.id if available
+                                                    // @ts-ignore - some items may not have productRef typed
+                                                    if ((it as any).productRef?.id && (item as any).productRef?.id) {
+                                                        if ((it as any).productRef.id === (item as any).productRef.id) matched = true;
+                                                    }
+
+                                                    // 2) exact barcode
+                                                    if (!matched && item.barcode && it.barcode) {
+                                                        matched = it.barcode === item.barcode;
+                                                    }
+
+                                                    // 3) fuzzy name match using Levenshtein similarity (threshold 0.75)
+                                                    if (!matched && item.name && it.name) {
+                                                        const sim = nameSimilarity(item.name, it.name);
+                                                        if (sim >= 0.75) matched = true;
+                                                    }
+
+                                                    if (matched) {
+                                                        matches.push({ price: it.price, date: p.date as unknown as Date, store: p.storeName, name: it.name });
+                                                    }
+                                                }
+                                            }
+
+                                            if (matches.length === 0) return <span className="text-muted-foreground">{t`No history`}</span>;
+
+                                            // Sort matches descending by date
+                                            matches.sort((a, b) => b.date.getTime() - a.date.getTime());
+
+                                            // previous is the most recent before this purchase date
+                                            const prev = matches.find(m => m.date.getTime() < purchase.date.getTime()) || null;
+                                            if (!prev) return <span className="text-muted-foreground">{t`No previous`}</span>;
+
+                                            const diff = item.price - prev.price;
+                                            const pct = prev.price > 0 ? (diff / prev.price) : 0;
+                                            const cls = diff > 0 ? 'text-destructive' : (diff < 0 ? 'text-green-600' : 'text-muted-foreground');
+
+                                            const last3 = matches.slice(0, 3);
+                                            const tooltipContent = (
+                                                <div className="space-y-1 text-sm">
+                                                    {last3.map((m, i) => (
+                                                        <div key={i} className="flex justify-between">
+                                                            <div className="truncate">{m.name || m.store}</div>
+                                                            <div className="text-right">
+                                                                <div>{i18n.number(m.price, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</div>
+                                                                <div className="text-xs text-muted-foreground">{m.date.toLocaleDateString()}</div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            );
+
+                                            return (
+                                                <Tooltip>
+                                                    <div className={`text-sm ${cls}`}>
+                                                        <TooltipTrigger asChild>
+                                                            <div className="cursor-help">
+                                                                <div>{i18n.number(diff, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</div>
+                                                                <div className="text-xs text-muted-foreground">{i18n.number(pct, { style: 'percent', maximumFractionDigits: 1 })} • {prev.date.toLocaleDateString()}</div>
+                                                            </div>
+                                                        </TooltipTrigger>
+                                                        <TooltipContent side="top" align="center">
+                                                            {tooltipContent}
+                                                        </TooltipContent>
+                                                    </div>
+                                                </Tooltip>
+                                            );
+                                        })()}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex justify-end gap-1">

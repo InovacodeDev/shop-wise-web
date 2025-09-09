@@ -39,6 +39,7 @@ import { useAuth } from "@/hooks/use-auth";
 
 import { EmptyState } from "@/components/ui/empty-state";
 import { InsightModal } from "@/components/dashboard/insight-modal";
+import PriceComparisonModal from "@/components/dashboard/price-comparison-modal";
 import { analyzeConsumptionData } from "./actions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiService } from "@/services/api";
@@ -132,6 +133,7 @@ function DashboardPage() {
     const [barChartData, setBarChartData] = useState<any[]>([]);
     const [pieChartData, setPieChartData] = useState<any[]>([]);
     const [topExpensesData, setTopExpensesData] = useState<PurchaseItem[]>([]);
+    const [allItemsState, setAllItemsState] = useState<PurchaseItem[]>([]);
     const [monthlySpendingByStore, setMonthlySpendingByStore] = useState<any[]>([]);
     const [recentItems, setRecentItems] = useState<PurchaseItem[]>([]);
     const [spendingByCategory, setSpendingByCategory] = useState<any[]>([]);
@@ -156,6 +158,8 @@ function DashboardPage() {
     // Goals summary state (merged into Insights)
     const [goals, setGoals] = useState<any[]>([]);
     const [goalProgress, setGoalProgress] = useState<any[]>([]);
+    const [selectedItem, setSelectedItem] = useState<PurchaseItem | null>(null);
+    const [isComparisonOpen, setIsComparisonOpen] = useState(false);
 
     const chartConfig = useMemo<any>(
         () => ({
@@ -262,6 +266,9 @@ function DashboardPage() {
                 }
             }
 
+            // persist allItems so comparison modal can use the historical dataset
+            setAllItemsState(allItems);
+
             // 3. Consolidate items
             const consolidatedItemsMap = new Map<string, PurchaseItem>();
             allItems.forEach((item) => {
@@ -367,7 +374,7 @@ function DashboardPage() {
             targetMonths.forEach(({ monthKey, monthYear, isCurrentMonth }) => {
                 // Find matching data from monthlyGroups if available
                 const groupData = monthlyGroups.find(group => group.monthYear === monthYear);
-                
+
                 monthlyData[monthKey] = {
                     month: monthKey,
                     monthYear: monthYear,
@@ -1057,7 +1064,11 @@ function DashboardPage() {
                                     </TableHeader>
                                     <TableBody>
                                         {topExpensesData.map((item) => (
-                                            <TableRow key={item.id}>
+                                            <TableRow key={item.id} className="cursor-pointer hover:bg-muted/50" onClick={() => {
+                                                setSelectedItem(item);
+                                                setIsComparisonOpen(true);
+                                                trackEvent('open_price_comparison_modal');
+                                            }}>
                                                 <TableCell className="font-mono">{item.barcode || "--"}</TableCell>
                                                 <TableCell className="font-medium">{item.name || "--"}</TableCell>
                                                 <TableCell>{item.brand || "--"}</TableCell>
@@ -1112,6 +1123,13 @@ function DashboardPage() {
                         <FontAwesomeIcon icon={faPlus} className="h-6 w-6" />
                     </Button>
                 </Link>
+                <PriceComparisonModal
+                    open={isComparisonOpen}
+                    onOpenChange={(open) => { if (!open) setSelectedItem(null); setIsComparisonOpen(open); }}
+                    item={selectedItem}
+                    allItems={allItemsState}
+                    locale={i18n.locale}
+                />
             </div>
         </SideBarLayout>
     );

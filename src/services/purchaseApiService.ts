@@ -68,10 +68,6 @@ export async function savePurchase(
                 name: purchaseData.storeName,
                 cnpj: purchaseData.cnpj,
                 address: purchaseData.address || '',
-                location: {
-                    latitude: (purchaseData as any).latitude || null,
-                    longitude: (purchaseData as any).longitude || null,
-                },
                 type: 'farmacia', // TODO
             };
             const store = await apiService.createStore(storeData);
