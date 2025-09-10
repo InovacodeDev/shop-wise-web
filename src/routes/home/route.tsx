@@ -400,6 +400,7 @@ function DashboardPage() {
                 }
             });
 
+            console.log(Object.values(monthlyData)); // Debug log to verify data structure
             setBarChartData(Object.values(monthlyData));
 
             // -- Process Pie Chart data (this month) --
@@ -672,7 +673,7 @@ function DashboardPage() {
 
     return (
         <SideBarLayout>
-            <div className="relative">
+            <div className="container mx-auto pt-4">
                 <div className="space-y-6">
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                         <InsightModal
@@ -907,21 +908,16 @@ function DashboardPage() {
                                                         content={({ active, payload, label }) => {
                                                             if (!active || !payload || !payload.length) return null;
 
-                                                            // Find the data point for this month
                                                             const monthData = barChartData.find(d => d.displayName === label);
                                                             const purchaseCount = monthData?.purchaseCount || 0;
 
-                                                            // Calculate total from category values (this is what's actually displayed in the chart)
                                                             const calculatedTotal = payload.reduce((sum, entry) => {
                                                                 return sum + (typeof entry.value === 'number' ? entry.value : 0);
                                                             }, 0);
 
-                                                            // Use calculated total for consistency with chart display and percentage calculations
                                                             const displayTotal = calculatedTotal;
 
-                                                            // Calculate average for comparison using chart data totals
                                                             const allTotals = barChartData.map(d => {
-                                                                // Calculate total for each month from category values
                                                                 const monthTotal = Object.keys(chartConfig)
                                                                     .filter(k => !["total", "value"].includes(k))
                                                                     .reduce((sum, key) => sum + (d[key] || 0), 0);

@@ -53,18 +53,16 @@ function ScanPage() {
 
     return (
         <SideBarLayout>
-            <div className="container mx-auto py-8">
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-2xl font-headline">{t`Add New Purchase`}</CardTitle>
-                        <CardDescription>
-                            {t`Import from PDF, scan NFCe QR code, enter NFCe URL, or add manually.`}
-                        </CardDescription>
-                    </CardHeader>
-                    <div className="p-6 pt-0">
-                        <NfceScannerComponent onSave={(data, prods, method) => handleSavePurchase(data, prods, method || 'nfce')} />
-                    </div>
-                </Card>
+            <div className="container mx-auto pt-4">
+                <CardHeader>
+                    <CardTitle className="text-2xl font-headline">{t`Add New Purchase`}</CardTitle>
+                    <CardDescription>
+                        {t`Import from PDF, scan NFCe QR code, enter NFCe URL, or add manually.`}
+                    </CardDescription>
+                </CardHeader>
+                <div className="p-6 pt-0">
+                    <NfceScannerComponent onSave={(data, prods, method) => handleSavePurchase(data, prods, method || 'nfce')} />
+                </div>
             </div>
         </SideBarLayout>
     );

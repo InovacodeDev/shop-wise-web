@@ -58,32 +58,23 @@ export function Header() {
     return (
         <header className={cn(
             "fixed top-0 left-0 right-0 z-50 h-16",
-            "bg-surface border-b border-outline-variant/20",
-            "transition-all duration-300 ease-in-out"
+            "bg-surface-container transition-all duration-300 ease-in-out"
         )}>
-            <div className="flex h-full items-center justify-between px-4 md:px-6">
-                {/* Left section */}
+            <div className="flex h-full items-center justify-between px-2">
                 <div className="flex items-center gap-4">
-                    <SidebarTrigger className={cn(
-                        "h-10 w-10 shrink-0",
-                        "hover:bg-on-surface/8 active:bg-on-surface/12",
-                        "rounded-full transition-colors duration-200"
-                    )} />
+                    <SidebarTrigger
+                        className={cn(
+                            "h-10 w-10 shrink-0",
+                            "hover:bg-on-surface/8 active:bg-on-surface/12",
+                            "rounded-full transition-colors duration-200"
+                        )}
+                    />
 
                     <div className="flex items-center gap-3">
                         <ShopWiseLogo className="h-8 w-auto" />
-                        <div className="hidden md:flex flex-col">
-                            <span className="text-lg font-medium text-on-surface tracking-tight">
-                                ShopWise
-                            </span>
-                            <span className="text-xs text-on-surface-variant -mt-1">
-                                Smart Family Finance
-                            </span>
-                        </div>
                     </div>
                 </div>
 
-                {/* Right section */}
                 <div className="flex items-center gap-2">
                     <ShoppingListPopover />
 
@@ -94,22 +85,6 @@ export function Header() {
                             onMarkAllAsRead={markAllAsRead}
                         />
                     )}
-
-                    {/* User Avatar */}
-                    <Button
-                        variant="outlined"
-                        size="icon"
-                        className={cn(
-                            "h-10 w-10 rounded-full",
-                            "border-outline-variant/40",
-                            "hover:bg-on-surface/8"
-                        )}
-                    >
-                        <FontAwesomeIcon
-                            icon={faUser}
-                            className="h-4 w-4 text-on-surface-variant"
-                        />
-                    </Button>
                 </div>
             </div>
         </header>

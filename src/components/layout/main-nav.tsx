@@ -141,30 +141,20 @@ export function MainNav() {
     return (
         <SidebarContent className="pt-6">
             {/* Split Button for Add Purchase */}
-            <div className="px-4 mb-6">
-                <div className="flex">
-                    <Link to="/purchases" className="flex-1">
-                        <Button
-                            variant="filled"
-                            className={cn(
-                                "w-full justify-start rounded-r-none border-r border-primary-container",
-                                state === "collapsed" ? "px-3" : "px-4"
-                            )}
-                        >
-                            <FontAwesomeIcon icon={faPlus} className="h-4 w-4" />
-                            {state !== "collapsed" && (
-                                <span className="ml-2">{t`Add Purchase`}</span>
-                            )}
-                        </Button>
-                    </Link>
+            <div className={state === "collapsed" ? "mb-6" : "mb-6 px-4"}>
+                {state === "collapsed" ? (
+                    // Icon-only button when collapsed
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
                                 variant="filled"
                                 size="icon"
-                                className="rounded-l-none border-l-0 w-10 shrink-0"
+                                className={cn(
+                                    "w-10 h-10 my-2 rounded-full mx-auto",
+                                    "bg-primary hover:bg-primary/90 text-on-primary"
+                                )}
                             >
-                                <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3" />
+                                <FontAwesomeIcon icon={faPlus} className="h-4 w-4" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-48">
@@ -188,23 +178,81 @@ export function MainNav() {
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                </div>
+                ) : (
+                    // Split button when expanded
+                    <div className="flex rounded-full overflow-hidden">
+                        <Link to="/purchases" className="flex-1">
+                            <Button
+                                variant="filled"
+                                className={cn(
+                                    "w-full justify-start rounded-r-none border-r-0",
+                                    "bg-primary hover:bg-primary/90 text-on-primary",
+                                    "h-12 px-4"
+                                )}
+                            >
+                                <FontAwesomeIcon icon={faPlus} className="h-4 w-4" />
+                                <span className="ml-2 font-medium">{t`Add Purchase`}</span>
+                            </Button>
+                        </Link>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="filled"
+                                    size="icon"
+                                    className={cn(
+                                        "rounded-l-none border-l border-primary-container/20",
+                                        "bg-primary hover:bg-primary/90 text-on-primary",
+                                        "h-12 w-12 shrink-0"
+                                    )}
+                                >
+                                    <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-48">
+                                <DropdownMenuItem asChild>
+                                    <Link to="/purchases" className="flex items-center gap-2">
+                                        <FontAwesomeIcon icon={faShoppingBasket} className="h-4 w-4" />
+                                        {t`Manual Entry`}
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link to="/purchases" className="flex items-center gap-2">
+                                        <FontAwesomeIcon icon={faPlusCircle} className="h-4 w-4" />
+                                        {t`Scan Receipt`}
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link to="/list" className="flex items-center gap-2">
+                                        <FontAwesomeIcon icon={faList} className="h-4 w-4" />
+                                        {t`Shopping List`}
+                                    </Link>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                )}
             </div>
 
             <SidebarMenu>
                 {topMenu.map((item) => (
                     <SidebarMenuItem key={item.href}>
                         <Link to={item.href}>
-                            <SidebarMenuButton isActive={isActive(item.href)} tooltip={item.label} asChild={false}>
+                            <SidebarMenuButton
+                                isActive={isActive(item.href)}
+                                tooltip={item.label}
+                                asChild={false}
+                            >
                                 <FontAwesomeIcon icon={item.icon} className="h-5 w-5" />
-                                <span
-                                    className={cn(
-                                        "transition-all duration-300 ease-in-out",
-                                        state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
-                                    )}
-                                >
-                                    {item.label}
-                                </span>
+                                {state === "collapsed" ? null : (
+                                    <span
+                                        className={cn(
+                                            "transition-all duration-300 ease-in-out",
+                                            "opacity-100"
+                                        )}
+                                    >
+                                        {item.label}
+                                    </span>
+                                )}
                             </SidebarMenuButton>
                         </Link>
                     </SidebarMenuItem>
@@ -245,16 +293,22 @@ export function MainNav() {
                 {shoppingMenu.map((item) => (
                     <SidebarMenuItem key={item.href}>
                         <Link to={item.href}>
-                            <SidebarMenuButton isActive={isActive(item.href)} tooltip={item.label} asChild={false}>
+                            <SidebarMenuButton
+                                isActive={isActive(item.href)}
+                                tooltip={item.label}
+                                asChild={false}
+                            >
                                 <FontAwesomeIcon icon={item.icon} className="h-5 w-5" />
-                                <span
-                                    className={cn(
-                                        "transition-all duration-300 ease-in-out",
-                                        state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
-                                    )}
-                                >
-                                    {item.label}
-                                </span>
+                                {state === "collapsed" ? null : (
+                                    <span
+                                        className={cn(
+                                            "transition-all duration-300 ease-in-out",
+                                            "opacity-100"
+                                        )}
+                                    >
+                                        {item.label}
+                                    </span>
+                                )}
                             </SidebarMenuButton>
                         </Link>
                     </SidebarMenuItem>
@@ -297,16 +351,22 @@ export function MainNav() {
                 {settingsMenuItems.map((item) => (
                     <SidebarMenuItem key={item.href}>
                         <Link to={item.href}>
-                            <SidebarMenuButton isActive={isActive(item.href)} tooltip={item.label} asChild={false}>
+                            <SidebarMenuButton
+                                isActive={isActive(item.href)}
+                                tooltip={item.label}
+                                asChild={false}
+                            >
                                 <FontAwesomeIcon icon={item.icon} className="h-5 w-5" />
-                                <span
-                                    className={cn(
-                                        "transition-all duration-300 ease-in-out",
-                                        state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
-                                    )}
-                                >
-                                    {item.label}
-                                </span>
+                                {state === "collapsed" ? null : (
+                                    <span
+                                        className={cn(
+                                            "transition-all duration-300 ease-in-out",
+                                            "opacity-100"
+                                        )}
+                                    >
+                                        {item.label}
+                                    </span>
+                                )}
                             </SidebarMenuButton>
                         </Link>
                     </SidebarMenuItem>
@@ -314,16 +374,21 @@ export function MainNav() {
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <SidebarMenuItem>
-                            <SidebarMenuButton tooltip={t`Sair`} asChild={false}>
+                            <SidebarMenuButton
+                                tooltip={t`Sair`}
+                                asChild={false}
+                            >
                                 <FontAwesomeIcon icon={faSignOutAlt} className="h-5 w-5" />
-                                <span
-                                    className={cn(
-                                        "transition-all duration-300 ease-in-out",
-                                        state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
-                                    )}
-                                >
-                                    {t`Sign out`}
-                                </span>
+                                {state === "collapsed" ? null : (
+                                    <span
+                                        className={cn(
+                                            "transition-all duration-300 ease-in-out",
+                                            "opacity-100"
+                                        )}
+                                    >
+                                        {t`Sign out`}
+                                    </span>
+                                )}
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     </AlertDialogTrigger>
@@ -360,14 +425,16 @@ export function MainNav() {
                                         asChild={false}
                                     >
                                         <FontAwesomeIcon icon={item.icon} className="h-5 w-5" />
-                                        <span
-                                            className={cn(
-                                                "transition-all duration-300 ease-in-out",
-                                                state === "collapsed" ? "opacity-0 w-0" : "opacity-100"
-                                            )}
-                                        >
-                                            {item.label}
-                                        </span>
+                                        {state === "collapsed" ? null : (
+                                            <span
+                                                className={cn(
+                                                    "transition-all duration-300 ease-in-out",
+                                                    "opacity-100"
+                                                )}
+                                            >
+                                                {item.label}
+                                            </span>
+                                        )}
                                     </SidebarMenuButton>
                                 </Link>
                             </SidebarMenuItem>

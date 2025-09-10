@@ -437,7 +437,7 @@ export function InsightModal({
                     <DialogTitle className="text-xl">{title}</DialogTitle>
                     <DialogDescription>{description}</DialogDescription>
                 </DialogHeader>
-                <div className="py-4 max-h-[70vh] overflow-x-hidden overflow-y-auto">
+                <div className="p-4 max-h-[70vh] overflow-x-hidden overflow-y-auto">
                     <div className="min-w-0">{renderContent()}</div>
                 </div>
             </DialogContent>

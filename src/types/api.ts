@@ -314,8 +314,8 @@ export interface CreatePurchaseItemRequest {
     productId?: string | null;
     name?: string;
     quantity: number;
+    total: number;
     price: number;
-    unitPrice?: number;
     barcode?: string;
     category?: string;
     meta?: Record<string, unknown>;

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faBars } from "@fortawesome/free-solid-svg-icons";
 
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useSidebarState } from "@/hooks/use-sidebar-state";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/md3/button";
 import { Input } from "@/components/md3/input";
@@ -14,6 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/md3";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
+const SIDEBAR_STORAGE_KEY = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
@@ -52,23 +54,21 @@ const SidebarProvider = React.forwardRef<
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
 
-    // This is the internal state of the sidebar.
-    // We use openProp and setOpenProp for control from outside the component.
-    const [_open, _setOpen] = React.useState(defaultOpen);
-    const open = openProp ?? _open;
+    // Use the custom hook for state management with persistence
+    const sidebarState = useSidebarState(defaultOpen);
+
+    // Use external state if provided, otherwise use internal state with persistence
+    const open = openProp ?? sidebarState.isOpen;
     const setOpen = React.useCallback(
         (value: boolean | ((value: boolean) => boolean)) => {
             const openState = typeof value === "function" ? value(open) : value;
             if (setOpenProp) {
                 setOpenProp(openState);
             } else {
-                _setOpen(openState);
+                sidebarState.setOpen(openState);
             }
-
-            // This sets the cookie to keep the sidebar state.
-            document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
         },
-        [setOpenProp, open]
+        [setOpenProp, open, sidebarState]
     );
 
     // Helper to toggle the sidebar.
@@ -175,7 +175,7 @@ const Sidebar = React.forwardRef<
         <aside
             ref={ref}
             className={cn(
-                "group/sidebar peer hidden md:flex flex-col text-card-foreground fixed left-0 top-16 h-[calc(100svh-4rem)] bg-card transition-[width] duration-300 ease-in-out border-r",
+                "group/sidebar peer hidden md:flex flex-col text-card-foreground fixed left-0 top-16 h-[calc(100svh-4rem)] bg-card transition-[width] duration-300 ease-in-out",
                 state === "expanded" ? "w-[--sidebar-width]" : "w-[--sidebar-width-icon]",
                 className
             )}

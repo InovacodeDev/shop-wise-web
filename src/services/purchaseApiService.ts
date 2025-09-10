@@ -43,12 +43,10 @@ export async function savePurchase(
         if (dateParts.length === 3) {
             let year, month, day;
             if (dateParts[0].length === 4) {
-                // YYYY-MM-DD
                 year = parseInt(dateParts[0], 10);
                 month = parseInt(dateParts[1], 10) - 1;
                 day = parseInt(dateParts[2], 10);
             } else {
-                // DD/MM/YYYY
                 day = parseInt(dateParts[0], 10);
                 month = parseInt(dateParts[1], 10) - 1;
                 year = parseInt(dateParts[2], 10);
@@ -68,7 +66,7 @@ export async function savePurchase(
                 name: purchaseData.storeName,
                 cnpj: purchaseData.cnpj,
                 address: purchaseData.address || '',
-                type: 'farmacia', // TODO
+                type: 'farmacia',
             };
             const store = await apiService.createStore(storeData);
             storeId = store._id;
@@ -77,7 +75,6 @@ export async function savePurchase(
         }
     }
 
-    // Create purchase via API
     const purchaseDataForApi = {
         storeId: storeId,
         storeName: purchaseData.storeName,
@@ -91,19 +88,23 @@ export async function savePurchase(
     try {
         const purchase = await apiService.createPurchase(familyId, purchaseDataForApi);
 
-        // If the backend supports purchase items, create them via API.
-        // We attempt to create items if products were supplied.
         if (products && products.length && purchase?._id) {
-            // Use bulk endpoint to create/update items on the purchase
-            const items: CreatePurchaseItemRequest[] = products;
-            // Prefer bulk update so we can create many items in one call
+            const items: CreatePurchaseItemRequest[] = products.map<CreatePurchaseItemRequest>((product) => ({
+                name: product.name,
+                barcode: product.barcode,
+                brand: product.brand,
+                category: product.category || 'outros',
+                subCategory: product.subcategory,
+                quantity: product.quantity || 1,
+                price: product.unitPrice || 0,
+                total: product.price || 0,
+            }));
             try {
                 const purchaseId = purchase.id || purchase._id;
                 if (purchaseId) {
                     await apiService.bulkUpdatePurchaseItems(familyId, purchaseId, items);
                 }
             } catch (e) {
-                // If bulk endpoint fails, log and continue — purchase succeeded.
                 console.warn('bulkUpdatePurchaseItems failed, skipping attaching items:', e);
             }
         }
