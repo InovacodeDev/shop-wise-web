@@ -7,7 +7,6 @@ import { faSearch, faTimes, faArrowLeft, faMicrophone, faCamera } from "@fortawe
 
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
-import { Input } from "./input";
 
 // MD3 Search variants following Material Design 3 specifications
 const searchVariants = cva([

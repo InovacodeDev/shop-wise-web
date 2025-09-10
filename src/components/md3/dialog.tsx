@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { materialShapes, materialElevation, materialSpacing, materialTypography, materialColors } from "@/lib/material-design";
+import { materialShapes, materialElevation, materialSpacing, materialTypography } from "@/lib/material-design";
 
 const Dialog = DialogPrimitive.Root;
 

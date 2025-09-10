@@ -7,11 +7,9 @@ import { Input } from "./input";
 import { Button } from "./button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "./dialog";
-import { materialComponents, materialShapes, materialColors, materialSpacing } from "@/lib/material-design";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faClock, faKeyboard, faAngleUp, faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import { format, isValid, parse } from "date-fns";
-import { enUS, ptBR } from "date-fns/locale";
+import { faCalendar, faClock, faKeyboard } from "@fortawesome/free-solid-svg-icons";
+import { format } from "date-fns";
 
 // Material Design 3 Date Picker Context
 interface DatePickerContextValue {

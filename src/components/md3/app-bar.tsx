@@ -6,7 +6,6 @@ import { Slot } from "@radix-ui/react-slot";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
-import { materialComponents, materialColors, materialElevation } from "@/lib/material-design";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faArrowLeft, faEllipsisV, faSearch } from "@fortawesome/free-solid-svg-icons";
 

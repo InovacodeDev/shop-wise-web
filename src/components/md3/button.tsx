@@ -3,7 +3,6 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
-import { materialComponents, materialShapes, materialTypography, materialElevation } from "@/lib/material-design";
 
 // Material Design 3 Button variants following MD3 specifications
 const buttonVariants = cva(

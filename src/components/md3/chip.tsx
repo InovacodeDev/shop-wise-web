@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import { materialColors, materialTypography, materialShapes, materialSpacing } from "@/lib/material-design";
+import { materialTypography, materialSpacing } from "@/lib/material-design";
 
 // Material Design 3 Chip specifications
 const chipVariants = cva(
