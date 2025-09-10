@@ -186,13 +186,13 @@ msgstr "Adultos"
 msgid "Advanced AI-driven insights"
 msgstr "Insights avançados com IA"
 
-#: src/types/finance-examples.ts:175
-msgid "Advanced budgets"
-msgstr ""
+#: src/types/finance-examples.ts:371
+msgstr "High"
 
-#: src/types/finance-examples.ts:193
-msgid "Advanced reports"
-msgstr ""
+#. placeholder {0}: historicalInsights.topCategoryTrend
+#: src/routes/home/route.tsx:783
+msgid "Historical top: {0}"
+msgstr "Top histórico: {0}"
 
 #: src/components/list/shopping-list-component-new.tsx:307
 #: src/components/list/shopping-list-component-new.tsx:316
@@ -222,7 +222,7 @@ msgstr "Já tem uma conta?"
 #: src/components/finance/charts/monthly-expense-chart.tsx:49
 #: src/components/finance/charts/monthly-expense-chart.tsx:96
 msgid "Amount"
-msgstr ""
+msgstr "Valor"
 
 #: src/components/dashboard/insight-modal.tsx:261
 msgid "Amount Spent"
@@ -312,7 +312,7 @@ msgstr "Digitalização automática de recibos"
 
 #: src/types/finance-examples.ts:188
 msgid "Automatic synchronization with banks"
-msgstr ""
+msgstr "Sincronização automática com bancos"
 
 #: src/components/dashboard/price-comparison-modal.tsx:127
 msgid "Avg Unit Price"
@@ -355,11 +355,11 @@ msgstr "Banco"
 
 #: src/types/finance-examples.ts:187
 msgid "Bank integration"
-msgstr ""
+msgstr "Integração bancária"
 
 #: src/types/finance-examples.ts:346
 msgid "Bank Transfer"
-msgstr ""
+msgstr "Transferência bancária"
 
 #: src/routes/home/route.tsx:1040
 msgid "Barcode"
@@ -371,7 +371,7 @@ msgstr "Baseado na análise de padrões de gastos"
 
 #: src/types/finance-examples.ts:169
 msgid "Basic finance control"
-msgstr ""
+msgstr "Controle financeiro básico"
 
 #: src/components/family/plan-form.tsx:38
 msgid "Basic spending insights"
@@ -383,7 +383,7 @@ msgstr "Bebidas"
 
 #: src/types/finance-examples.ts:353
 msgid "Bonds"
-msgstr ""
+msgstr "Títulos"
 
 #: src/components/purchases/nfce-scanner-component.tsx:206
 #: src/components/purchases/pdf-import-component.tsx:393
@@ -423,11 +423,11 @@ msgstr "Cancelar e iniciar nova importação"
 
 #: src/types/finance-examples.ts:377
 msgid "Canceled"
-msgstr ""
+msgstr "Cancelado"
 
 #: src/types/finance-examples.ts:343
 msgid "Cash"
-msgstr ""
+msgstr "Dinheiro"
 
 #: src/components/dashboard/insight-modal.tsx:257
 #: src/components/family/history-tab.tsx:749
@@ -490,7 +490,7 @@ msgstr "Comparando preço unitário e quantidade para o produto selecionado nos 
 
 #: src/types/finance-examples.ts:182
 msgid "Complete investment tracking"
-msgstr ""
+msgstr "Rastreamento completo de investimentos"
 
 #: src/components/list/shopping-list-component-new.tsx:424
 msgid "Completed"
@@ -574,7 +574,7 @@ msgstr "Crie sua conta"
 
 #: src/types/finance-examples.ts:344
 msgid "Credit Card"
-msgstr ""
+msgstr "Cartão de crédito"
 
 #: src/components/layout/main-nav.tsx:69
 msgid "Credit Cards"
@@ -582,7 +582,7 @@ msgstr "Cartões de crédito"
 
 #: src/types/finance-examples.ts:355
 msgid "Cryptocurrencies"
-msgstr ""
+msgstr "Criptomoedas"
 
 #: src/components/dashboard/insight-modal.tsx:346
 #: src/components/dashboard/price-comparison-modal.tsx:78
@@ -613,7 +613,7 @@ msgstr "Personalize a aparência e o comportamento do aplicativo."
 
 #: src/types/finance-examples.ts:361
 msgid "Daily"
-msgstr ""
+msgstr "Diário"
 
 #: src/routes/home/route.tsx:179
 msgid "Dairy and Chilled"
@@ -644,7 +644,7 @@ msgstr "Data:"
 
 #: src/types/finance-examples.ts:345
 msgid "Debit Card"
-msgstr ""
+msgstr "Cartão de débito"
 
 #: src/components/purchases/pdf-import-component.tsx:495
 msgid "Debug Raw Data"
@@ -685,7 +685,7 @@ msgstr "Excluir compra?"
 
 #: src/types/finance-examples.ts:194
 msgid "Detailed analytics and projections"
-msgstr ""
+msgstr "Análises detalhadas e projeções"
 
 #: src/components/examples/toolbar-examples.tsx:540
 #~ msgid "Different States"
@@ -823,7 +823,7 @@ msgstr "ex: 1kg, 500ml"
 
 #: src/types/finance-examples.ts:378
 msgid "Expired"
-msgstr ""
+msgstr "Expirado"
 
 #: src/components/family/plan-form.tsx:44
 msgid "Exportable reports and CSV"
@@ -923,11 +923,11 @@ msgstr "Controle total"
 
 #: src/types/finance-examples.ts:176
 msgid "Full featured budget system"
-msgstr ""
+msgstr "Sistema de orçamento completo"
 
 #: src/types/finance-examples.ts:354
 msgid "Funds"
-msgstr ""
+msgstr "Fundos"
 
 #: src/routes/admin/reports/route.tsx:23
 msgid "Generate and view system usage reports."
@@ -972,7 +972,7 @@ msgstr "Ocultar senha"
 
 #: src/types/finance-examples.ts:371
 msgid "High"
-msgstr ""
+msgstr "Alto"
 
 #. placeholder {0}: historicalInsights.topCategoryTrend
 #: src/routes/home/route.tsx:783
@@ -1025,7 +1025,7 @@ msgstr "Dados insuficientes"
 
 #: src/types/finance-examples.ts:181
 msgid "Investment portfolio"
-msgstr ""
+msgstr "Carteira de investimentos"
 
 #: src/components/layout/main-nav.tsx:67
 msgid "Investments"
@@ -1110,7 +1110,7 @@ msgstr "Erro de login"
 
 #: src/types/finance-examples.ts:369
 msgid "Low"
-msgstr ""
+msgstr "Baixo"
 
 #: src/components/list/shopping-list-component-new.tsx:64
 msgid "Main Shopping List"
@@ -1200,7 +1200,7 @@ msgstr "Carnes e frutos do mar"
 
 #: src/types/finance-examples.ts:370
 msgid "Medium"
-msgstr ""
+msgstr "Médio"
 
 #: src/components/list/shopping-list-component-new.tsx:366
 msgid "ML"
@@ -1208,15 +1208,15 @@ msgstr "mL"
 
 #: src/components/subscription/PremiumFeatureGuard.tsx:71
 msgid "month"
-msgstr ""
+msgstr "mês"
 
 #: src/components/finance/charts/monthly-expense-chart.tsx:88
 msgid "Month"
-msgstr ""
+msgstr "Mês"
 
 #: src/types/finance-examples.ts:363
 msgid "Monthly"
-msgstr ""
+msgstr "Mensal"
 
 #: src/components/family/plan-form.tsx:196
 msgid "Monthly billing"
@@ -1431,7 +1431,7 @@ msgstr "A senha deve ter pelo menos 6 caracteres."
 
 #: src/types/finance-examples.ts:379
 msgid "Past due"
-msgstr ""
+msgstr "Vencido"
 
 #: src/components/manual-url-input.tsx:109
 msgid "Paste the full URL in the field above"
@@ -1501,7 +1501,7 @@ msgstr "Farmácia"
 
 #: src/types/finance-examples.ts:347
 msgid "PIX"
-msgstr ""
+msgstr "PIX"
 
 #: src/routes/family/route.tsx:63
 msgid "Plan"
@@ -1513,7 +1513,7 @@ msgstr "Plano atualizado com sucesso!"
 
 #: src/components/subscription/PremiumFeatureGuard.tsx:71
 msgid "Plans starting at"
-msgstr ""
+msgstr "Planos a partir de"
 
 #: src/components/auth/login-form.tsx:30
 msgid "Please enter a password with at least 6 characters."
@@ -1732,11 +1732,11 @@ msgstr "Quantidade"
 
 #: src/types/finance-examples.ts:364
 msgid "Quarterly"
-msgstr ""
+msgstr "Trimestral"
 
 #: src/types/finance-examples.ts:356
 msgid "Real Estate"
-msgstr ""
+msgstr "Imóveis"
 
 #: src/routes/index.tsx:74
 msgid "Receive AI-powered suggestions and never forget an item again."
@@ -2028,7 +2028,7 @@ msgstr "Iniciar escaneamento"
 
 #: src/types/finance-examples.ts:352
 msgid "Stocks"
-msgstr ""
+msgstr "Ações"
 
 #: src/components/qr-scanner.tsx:161
 msgid "Stop Scanning"
@@ -2221,11 +2221,11 @@ msgstr "Total: {0}"
 
 #: src/types/finance-examples.ts:170
 msgid "Track expenses, accounts and categories"
-msgstr ""
+msgstr "Acompanhe despesas, contas e categorias"
 
 #: src/types/finance-examples.ts:375
 msgid "Trial"
-msgstr ""
+msgstr "Avaliação"
 
 #: src/components/family/history-tab.tsx:440
 msgid "Try adjusting your filters or add a new purchase to get started."
@@ -2273,7 +2273,7 @@ msgstr "Atualizando..."
 
 #: src/components/subscription/PremiumFeatureGuard.tsx:77
 msgid "Upgrade to access this and many other advanced features."
-msgstr ""
+msgstr "Atualize para acessar este e muitos outros recursos avançados."
 
 #: src/components/dashboard/insight-modal.tsx:393
 msgid "Upgrade your Plan"
@@ -2345,7 +2345,7 @@ msgstr "Não usaremos dados dessas lojas para insights de comparação de preço
 
 #: src/types/finance-examples.ts:362
 msgid "Weekly"
-msgstr ""
+msgstr "Semanal"
 
 #: src/components/auth/login-form.tsx:66
 msgid "Welcome Back!"
@@ -2362,7 +2362,7 @@ msgstr "Atacarejo"
 
 #: src/types/finance-examples.ts:365
 msgid "Yearly"
-msgstr ""
+msgstr "Anual"
 
 #: src/components/family/history-tab.tsx:988
 msgid "Yes, delete"
