@@ -25,14 +25,14 @@ export function ManualUrlInput({ onSubmit, isLoading = false, className = '' }: 
                 url.includes('nfe.');
 
             if (!isNfceUrl) {
-                setError(t`Por favor, insira uma URL válida de NFCe`);
+                setError(t`Please enter a valid NFCe URL`);
                 return false;
             }
 
             setError('');
             return true;
         } catch {
-            setError(t`Por favor, insira uma URL válida`);
+            setError(t`Please enter a valid URL`);
             return false;
         }
     };
@@ -64,7 +64,7 @@ export function ManualUrlInput({ onSubmit, isLoading = false, className = '' }: 
         <div className={`space-y-4 ${className}`}>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                    <Label htmlFor="nfce-url">{t`URL da NFCe`}</Label>
+                    <Label htmlFor="nfce-url">{t`NFCe URL`}</Label>
                     <Input
                         id="nfce-url"
                         type="url"
@@ -78,7 +78,7 @@ export function ManualUrlInput({ onSubmit, isLoading = false, className = '' }: 
                         <p className="text-sm text-red-600">{error}</p>
                     )}
                     <p className="text-sm text-gray-600">
-                        {t`Cole aqui a URL da NFCe que você deseja analisar`}
+                        {t`Paste the NFCe URL you want to analyze here`}
                     </p>
                 </div>
 
@@ -95,16 +95,16 @@ export function ManualUrlInput({ onSubmit, isLoading = false, className = '' }: 
                     ) : (
                         <>
                             <FontAwesomeIcon icon={faLink} className="w-4 h-4 mr-2" />
-                            {t`Analisar NFCe`}
+                            {t`Analyze NFCe`}
                         </>
                     )}
                 </Button>
             </form>
 
             <div className="text-xs text-gray-500 space-y-1">
-                <p className="font-medium">{t`Como obter a URL da NFCe:`}</p>
+                <p className="font-medium">{t`How to get the NFCe URL:`}</p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
-                    <li>{t`Acesse o QR code da sua nota fiscal`}</li>
+                    <li>{t`Access the QR code of your fiscal receipt`}</li>
                     <li>{t`Use um leitor de QR code para obter a URL`}</li>
                     <li>{t`Cole a URL completa no campo acima`}</li>
                 </ul>

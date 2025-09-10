@@ -63,7 +63,7 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
             }));
         } catch (error) {
             console.error('Error processing NFCe:', error);
-            const errorMessage = error instanceof Error ? error.message : t`Erro ao processar NFCe`;
+            const errorMessage = error instanceof Error ? error.message : t`Error processing NFCe`;
 
             setAnalysisState(prev => ({
                 ...prev,
@@ -73,7 +73,7 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
 
             toast({
                 variant: 'destructive',
-                title: t`Erro ao processar NFCe`,
+                title: t`Error processing NFCe`,
                 description: errorMessage,
             });
         }
@@ -129,7 +129,7 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
             <div className="text-center space-y-2">
                 <h3 className="text-lg font-semibold">{t`NFCe via URL`}</h3>
                 <p className="text-sm text-muted-foreground">
-                    {t`Cole a URL da NFCe para extrair os dados automaticamente.`}
+                    {t`Paste the NFCe URL to automatically extract the data.`}
                 </p>
             </div>
             <ManualUrlInput onSubmit={handleManualUrl} />
@@ -138,8 +138,8 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
 
     const renderLoadingStep = () => (
         <Loading
-            text={t`Analisando NFCe...`}
-            description={t`Estamos extraindo as informações da sua nota fiscal. Isso pode levar alguns segundos.`}
+            text={t`Analyzing NFCe...`}
+            description={t`We are extracting information from your fiscal receipt. This may take a few seconds.`}
             layout="vertical"
             size="lg"
         />
@@ -148,9 +148,9 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
     const renderErrorStep = () => (
         <div className="flex flex-col items-center justify-center space-y-4 py-12">
             <FontAwesomeIcon icon={faExclamationTriangle} className="w-12 h-12 text-red-500" />
-            <h3 className="text-xl font-semibold text-red-600">{t`Erro ao processar NFCe`}</h3>
+            <h3 className="text-xl font-semibold text-red-600">{t`Error processing NFCe`}</h3>
             <p className="text-muted-foreground text-center max-w-md">
-                {analysisState.error || t`Não foi possível processar a NFCe. Verifique se a URL está correta e tente novamente.`}
+                {analysisState.error || t`Could not process the NFCe. Please check if the URL is correct and try again.`}
             </p>
             <Button onClick={resetScan} variant="outlined">
                 <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 mr-2" />
@@ -168,16 +168,16 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h3 className="text-lg font-semibold">{t`Resultado da Análise NFCe`}</h3>
-                        <p className="text-sm text-muted-foreground">{t`Dados extraídos da nota fiscal`}</p>
+                        <h3 className="text-lg font-semibold">{t`NFCe Analysis Result`}</h3>
+                        <p className="text-sm text-muted-foreground">{t`Data extracted from fiscal receipt`}</p>
                     </div>
                     <div className="flex gap-2">
                         <Button onClick={resetScan} variant="outlined">
                             <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 mr-2" />
-                            {t`Nova Análise`}
+                            {t`New Analysis`}
                         </Button>
                         <Button onClick={handleSaveData}>
-                            {t`Salvar Compra`}
+                            {t`Save Purchase`}
                         </Button>
                     </div>
                 </div>
@@ -213,7 +213,7 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-base">
                                 <FontAwesomeIcon icon={faReceipt} className="w-4 h-4 text-green-600" />
-                                {t`Compra`}
+                                {t`Purchase`}
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-2">

@@ -81,7 +81,7 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
             }));
         } catch (error) {
             console.error('Error processing NFCe:', error);
-            const errorMessage = error instanceof Error ? error.message : t`Erro ao processar NFCe`;
+            const errorMessage = error instanceof Error ? error.message : t`Error processing NFCe`;
 
             setAnalysisState(prev => ({
                 ...prev,
@@ -91,7 +91,7 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
 
             toast({
                 variant: 'destructive',
-                title: t`Erro ao processar NFCe`,
+                title: t`Error processing NFCe`,
                 description: errorMessage,
             });
         }
@@ -146,8 +146,8 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
 
     const renderLoadingStep = () => (
         <Loading
-            text={t`Analisando NFCe...`}
-            description={t`Estamos extraindo as informações da sua nota fiscal. Isso pode levar alguns segundos.`}
+            text={t`Analyzing NFCe...`}
+            description={t`We are extracting information from your fiscal receipt. This may take a few seconds.`}
             layout="vertical"
             size="lg"
         />
@@ -156,9 +156,9 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
     const renderErrorStep = () => (
         <div className="flex flex-col items-center justify-center space-y-4 py-12">
             <FontAwesomeIcon icon={faExclamationTriangle} className="w-12 h-12 text-red-500" />
-            <h3 className="text-xl font-semibold text-red-600">{t`Erro ao processar NFCe`}</h3>
+            <h3 className="text-xl font-semibold text-red-600">{t`Error processing NFCe`}</h3>
             <p className="text-muted-foreground text-center max-w-md">
-                {analysisState.error || t`Não foi possível processar a NFCe. Verifique se a URL está correta e tente novamente.`}
+                {analysisState.error || t`Could not process the NFCe. Please check if the URL is correct and try again.`}
             </p>
             <Button onClick={resetScan} variant="outlined">
                 <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 mr-2" />
@@ -335,7 +335,7 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
                         <div className="text-center space-y-2">
                             <h3 className="text-lg font-semibold">{t`Scanner QR Code`}</h3>
                             <p className="text-sm text-muted-foreground">
-                                {t`Posicione o QR code da NFCe na frente da câmera`}
+                                {t`Position the NFCe QR code in front of the camera`}
                             </p>
                         </div>
                         <QrScannerComponent
@@ -365,7 +365,7 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
                         <div className="text-center space-y-2">
                             <h3 className="text-lg font-semibold">{t`Inserir URL Manualmente`}</h3>
                             <p className="text-sm text-muted-foreground">
-                                {t`Cole a URL da NFCe obtida através de um leitor de QR code`}
+                                {t`Paste the NFCe URL obtained through a QR code reader`}
                             </p>
                         </div>
                         <ManualUrlInput onSubmit={handleManualUrl} />

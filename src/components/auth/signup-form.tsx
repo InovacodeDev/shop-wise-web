@@ -50,7 +50,7 @@ export function SignupForm() {
         } catch (error: any) {
             toast({
                 variant: "destructive",
-                title: t`Erro ao Criar Conta`,
+                title: t`Error Creating Account`,
                 description: error.message,
             });
         }

@@ -114,14 +114,14 @@ export function ShoppingListPopover() {
             <PopoverTrigger asChild>
                 <Button variant="ghost" size="icon">
                     <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
-                    <span className="sr-only">{t`Lista de compras ativa`}</span>
+                    <span className="sr-only">{t`Active shopping list`}</span>
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80">
                 <div className="flex flex-col space-y-4">
                     <div className="space-y-2">
                         <h4 className="font-medium leading-none">{listName}</h4>
-                        <p className="text-sm text-muted-foreground">{t`Sua lista de compras ativa no momento.`}</p>
+                        <p className="text-sm text-muted-foreground">{t`Your active shopping list at the moment.`}</p>
                     </div>
                     <Separator />
                     <ScrollArea className="h-64">
@@ -155,7 +155,7 @@ export function ShoppingListPopover() {
                         {/* <Button variant="secondary" asChild>
                             <Link to="/list">
                                 <FontAwesomeIcon icon={faExternalLinkAlt} className="mr-2 h-4 w-4" />
-                                {t`Ver lista completa`}
+                                {t`View full list`}
                             </Link>
                         </Button> */}
                     </div>

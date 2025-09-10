@@ -263,7 +263,7 @@ export function MainNav() {
                         state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
                     )}
                 >
-                    {t`Finanças Pessoais`}
+                    {t`Personal Finance`}
                 </p>
                 {financeMenu.map((item) => (
                     <SidebarMenuItem key={item.href}>
@@ -288,7 +288,7 @@ export function MainNav() {
                         state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
                     )}
                 >
-                    {t`Compras`}
+                    {t`Purchases`}
                 </p>
                 {shoppingMenu.map((item) => (
                     <SidebarMenuItem key={item.href}>
