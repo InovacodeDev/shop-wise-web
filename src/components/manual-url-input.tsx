@@ -41,7 +41,7 @@ export function ManualUrlInput({ onSubmit, isLoading = false, className = '' }: 
         e.preventDefault();
 
         if (!url.trim()) {
-            setError(t`Por favor, insira uma URL`);
+            setError(t`Please enter a URL`);
             return;
         }
 
@@ -90,7 +90,7 @@ export function ManualUrlInput({ onSubmit, isLoading = false, className = '' }: 
                     {isLoading ? (
                         <>
                             <FontAwesomeIcon icon={faSpinner} className="w-4 h-4 mr-2 animate-spin" />
-                            {t`Analisando...`}
+                            {t`Analyzing...`}
                         </>
                     ) : (
                         <>
@@ -105,8 +105,8 @@ export function ManualUrlInput({ onSubmit, isLoading = false, className = '' }: 
                 <p className="font-medium">{t`How to get the NFCe URL:`}</p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
                     <li>{t`Access the QR code of your fiscal receipt`}</li>
-                    <li>{t`Use um leitor de QR code para obter a URL`}</li>
-                    <li>{t`Cole a URL completa no campo acima`}</li>
+                    <li>{t`Use a QR code reader to obtain the URL`}</li>
+                    <li>{t`Paste the full URL in the field above`}</li>
                 </ul>
             </div>
         </div>

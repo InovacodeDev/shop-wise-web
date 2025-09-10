@@ -162,7 +162,7 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
             </p>
             <Button onClick={resetScan} variant="outlined">
                 <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 mr-2" />
-                {t`Tentar Novamente`}
+                {t`Try Again`}
             </Button>
         </div>
     );

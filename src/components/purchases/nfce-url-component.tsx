@@ -154,7 +154,7 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
             </p>
             <Button onClick={resetScan} variant="outlined">
                 <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 mr-2" />
-                {t`Tentar Novamente`}
+                {t`Try Again`}
             </Button>
         </div>
     );
@@ -186,7 +186,7 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
                     <Alert className="border-green-200 bg-green-50">
                         <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-green-600" />
                         <AlertDescription className="text-green-800">
-                            <span className="font-medium">{t`NFCe processada com IA:`}</span> {t`Os dados foram enriquecidos automaticamente.`}
+                            <span className="font-medium">{t`NFCe processed with AI:`}</span> {t`Data was automatically enriched.`}
                         </AlertDescription>
                     </Alert>
                 )}
@@ -197,7 +197,7 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-base">
                                 <FontAwesomeIcon icon={faStore} className="w-4 h-4 text-blue-600" />
-                                {t`Loja`}
+                                {t`Store`}
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-2">
@@ -219,7 +219,7 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
                         <CardContent className="space-y-2">
                             <div className="grid grid-cols-2 gap-2 text-sm">
                                 <div>
-                                    <p className="text-muted-foreground">{t`Data`}</p>
+                                    <p className="text-muted-foreground">{t`Date`}</p>
                                     <p className="font-medium">{data.date}</p>
                                 </div>
                                 <div>
@@ -238,7 +238,7 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-base">
                             <FontAwesomeIcon icon={faShoppingCart} className="w-4 h-4 text-purple-600" />
-                            {t`Produtos`} ({data.products.length})
+                            {t`Products`} ({data.products.length})
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -246,8 +246,8 @@ export function NfceUrlComponent({ onSave }: NfceUrlComponentProps) {
                             <Table>
                                 <TableHeader>
                                     <TableRow className="bg-muted/50">
-                                        <TableHead>{t`Produto`}</TableHead>
-                                        <TableHead className="text-center w-20">{t`Qtd`}</TableHead>
+                                        <TableHead>{t`Product`}</TableHead>
+                                        <TableHead className="text-center w-20">{t`Qty`}</TableHead>
                                         <TableHead className="text-right w-24">{t`Total`}</TableHead>
                                     </TableRow>
                                 </TableHeader>
