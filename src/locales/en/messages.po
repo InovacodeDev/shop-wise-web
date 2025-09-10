@@ -1,17 +1,11 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2025-09-10 11:41-0300\n"
+"POT-Creation-Date: 2025-09-10 12:49-0300\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
 
 #: src/components/dashboard/insight-modal.tsx:373
 msgid "-"
@@ -114,10 +108,6 @@ msgstr "Active"
 msgid "Active shopping list"
 msgstr "Active shopping list"
 
-#: src/components/examples/toolbar-examples.tsx:261
-#~ msgid "Add"
-#~ msgstr "Add"
-
 #: src/routes/home/route.tsx:1124
 msgid "Add a new purchase to see your top expenses here."
 msgstr "Add a new purchase to see your top expenses here."
@@ -152,10 +142,6 @@ msgstr "Add New Store"
 #: src/components/layout/main-nav.tsx:194
 msgid "Add Purchase"
 msgstr "Add Purchase"
-
-#: src/components/examples/sheets-examples.tsx:486
-#~ msgid "Add to cart"
-#~ msgstr "Add to cart"
 
 #: src/components/family/markets-form.tsx:180
 msgid "Add to Favorites"
@@ -336,10 +322,6 @@ msgstr "Avg/Month"
 msgid "Baby and Child care"
 msgstr "Baby and Child care"
 
-#: src/components/examples/toolbar-examples.tsx:267
-#~ msgid "Back"
-#~ msgstr "Back"
-
 #: src/components/family/markets-form.tsx:67
 #: src/components/family/markets-form.tsx:244
 msgid "Bakery"
@@ -468,10 +450,6 @@ msgstr "Children"
 msgid "Choose a new strong password."
 msgstr "Choose a new strong password."
 
-#: src/components/examples/sheets-examples.tsx:122
-#~ msgid "Choose an action to continue"
-#~ msgstr "Choose an action to continue"
-
 #: src/components/family/plan-form.tsx:103
 msgid "Choose the plan that best fits your needs."
 msgstr "Choose the plan that best fits your needs."
@@ -516,14 +494,6 @@ msgstr "Consumption Overview"
 #: src/routes/home/route.tsx:864
 msgid "Consumption Overview - Through {currentMonthName}"
 msgstr "Consumption Overview - Through {currentMonthName}"
-
-#: src/components/examples/toolbar-examples.tsx:539
-#~ msgid "Controlled"
-#~ msgstr "Controlled"
-
-#: src/components/examples/sheets-examples.tsx:144
-#~ msgid "Copy link"
-#~ msgstr "Copy link"
 
 #: src/components/list/shopping-list-component-new.tsx:142
 msgid "Could not add item to shopping list"
@@ -654,11 +624,6 @@ msgstr "Debug Raw Data"
 msgid "Decreasing"
 msgstr "Decreasing"
 
-#: src/components/examples/sheets-examples.tsx:159
-#: src/components/examples/toolbar-examples.tsx:243
-#~ msgid "Delete"
-#~ msgstr "Delete"
-
 #: src/routes/settings/route.tsx:132
 msgid "Delete Account"
 msgstr "Delete Account"
@@ -687,10 +652,6 @@ msgstr "Delete Purchase?"
 msgid "Detailed analytics and projections"
 msgstr "Detailed analytics and projections"
 
-#: src/components/examples/toolbar-examples.tsx:540
-#~ msgid "Different States"
-#~ msgstr "Different States"
-
 #: src/components/purchases/pdf-import-component.tsx:481
 msgid "Discounts"
 msgstr "Discounts"
@@ -703,10 +664,6 @@ msgstr "Display Name"
 msgid "Don't have an account?"
 msgstr "Don't have an account?"
 
-#: src/components/examples/sheets-examples.tsx:137
-#~ msgid "Download"
-#~ msgstr "Download"
-
 #: src/components/family/markets-form.tsx:154
 msgid "e.g., 123 Flower St, City"
 msgstr "e.g., 123 Flower St, City"
@@ -715,11 +672,6 @@ msgstr "e.g., 123 Flower St, City"
 #: src/components/purchases/manual-purchase-form.tsx:96
 msgid "e.g., Neighborhood Supermarket"
 msgstr "e.g., Neighborhood Supermarket"
-
-#: src/components/examples/toolbar-examples.tsx:237
-#: src/components/examples/toolbar-examples.tsx:400
-#~ msgid "Edit"
-#~ msgstr "Edit"
 
 #: src/components/purchases/pdf-import-component.tsx:527
 msgid "Edit Item"
@@ -812,10 +764,6 @@ msgstr "Everything you need to take control of your finances."
 #: src/components/purchases/manual-purchase-form.tsx:199
 msgid "ex: 1kg, 500ml"
 msgstr "ex: 1kg, 500ml"
-
-#: src/components/examples/toolbar-examples.tsx:548
-#~ msgid "Examples - Material Design 3 Toolbar"
-#~ msgstr "Examples - Material Design 3 Toolbar"
 
 #: src/types/finance-examples.ts:378
 msgid "Expired"
@@ -1257,26 +1205,6 @@ msgstr "My Account"
 msgid "Name"
 msgstr "Name"
 
-#: src/components/examples/navigation-examples.tsx:41
-#~ msgid "Navigation Bar - Basic"
-#~ msgstr "Navigation Bar - Basic"
-
-#: src/components/examples/navigation-examples.tsx:78
-#~ msgid "Navigation Bar - Compact"
-#~ msgstr "Navigation Bar - Compact"
-
-#: src/components/examples/navigation-examples.tsx:112
-#~ msgid "Navigation Bar - Without Labels"
-#~ msgstr "Navigation Bar - Without Labels"
-
-#: src/components/examples/navigation-examples.tsx:202
-#~ msgid "Navigation Rail - Expanded"
-#~ msgstr "Navigation Rail - Expanded"
-
-#: src/components/examples/navigation-examples.tsx:158
-#~ msgid "Navigation Rail - Standard"
-#~ msgstr "Navigation Rail - Standard"
-
 #: src/routes/home/route.tsx:818
 msgid "Need more data for analysis"
 msgstr "Need more data for analysis"
@@ -1627,10 +1555,6 @@ msgstr "Product"
 msgid "Product Comparison"
 msgstr "Product Comparison"
 
-#: src/components/examples/sheets-examples.tsx:486
-#~ msgid "Product unavailable"
-#~ msgstr "Product unavailable"
-
 #: src/components/purchases/nfce-url-component.tsx:241
 msgid "Products"
 msgstr "Products"
@@ -1750,10 +1674,6 @@ msgstr "Recently Purchased Items - {currentMonthName}"
 msgid "Recommendations and Insights"
 msgstr "Recommendations and Insights"
 
-#: src/components/examples/toolbar-examples.tsx:377
-#~ msgid "Redo"
-#~ msgstr "Redo"
-
 #: src/components/qr-scanner.tsx:132
 msgid "Refresh to retry"
 msgstr "Refresh to retry"
@@ -1769,10 +1689,6 @@ msgstr "Remembered your password?"
 #: src/components/family/markets-form.tsx:304
 msgid "Remove from my lists"
 msgstr "Remove from my lists"
-
-#: src/components/examples/sheets-examples.tsx:151
-#~ msgid "Rename"
-#~ msgstr "Rename"
 
 #: src/routes/admin/reports/route.tsx:26
 msgid "Reporting tools will be available here."
@@ -1790,14 +1706,6 @@ msgstr "Retry attempt: {retryCount}"
 msgid "Retrying..."
 msgstr "Retrying..."
 
-#: src/components/examples/sheets-examples.tsx:472
-#~ msgid "reviews"
-#~ msgstr "reviews"
-
-#: src/components/examples/sheets-examples.tsx:461
-#~ msgid "Reviews"
-#~ msgstr "Reviews"
-
 #: src/routes/admin/audit/route.tsx:23
 msgid "Run audits and tests on the system."
 msgstr "Run audits and tests on the system."
@@ -1809,10 +1717,6 @@ msgstr "Running in fallback mode - some features may be limited"
 #: src/components/layout/main-nav.tsx:378
 msgid "Sair"
 msgstr "Sair"
-
-#: src/components/examples/toolbar-examples.tsx:255
-#~ msgid "Save"
-#~ msgstr "Save"
 
 #: src/components/family/history-tab.tsx:997
 #: src/components/purchases/pdf-import-component.tsx:653
@@ -1913,14 +1817,6 @@ msgstr "Select Plan"
 msgid "Select the PDF of your electronic fiscal receipt (NFC-e) to automatically extract the purchase data."
 msgstr "Select the PDF of your electronic fiscal receipt (NFC-e) to automatically extract the purchase data."
 
-#: src/components/examples/toolbar-examples.tsx:88
-#~ msgid "Select this text to see the formatting toolbar..."
-#~ msgstr "Select this text to see the formatting toolbar..."
-
-#: src/components/examples/toolbar-examples.tsx:450
-#~ msgid "selected"
-#~ msgstr "selected"
-
 #: src/routes/admin/notifications/route.tsx:22
 msgid "Send and manage global notifications."
 msgstr "Send and manage global notifications."
@@ -1943,11 +1839,6 @@ msgstr "Settings"
 #: src/components/auth/signup-form.tsx:91
 msgid "seu@email.com"
 msgstr "seu@email.com"
-
-#: src/components/examples/sheets-examples.tsx:130
-#: src/components/examples/toolbar-examples.tsx:249
-#~ msgid "Share"
-#~ msgstr "Share"
 
 #: src/components/layout/main-nav.tsx:83
 #: src/components/layout/main-nav.tsx:176
@@ -2095,10 +1986,6 @@ msgstr "System overview."
 msgid "Target"
 msgstr "Target"
 
-#: src/components/examples/toolbar-examples.tsx:83
-#~ msgid "Text Editor - Floating Toolbar"
-#~ msgstr "Text Editor - Floating Toolbar"
-
 #: src/routes/admin/logs/route.tsx:25
 msgid "The logs viewer will be here."
 msgstr "The logs viewer will be here."
@@ -2159,10 +2046,6 @@ msgstr "To Buy"
 #: src/components/settings/delete-confirmation-dialog.tsx:81
 msgid "To confirm, please enter the code <b>{confirmationCode}</b> in the box below."
 msgstr "To confirm, please enter the code <b>{confirmationCode}</b> in the box below."
-
-#: src/components/examples/toolbar-examples.tsx:470
-#~ msgid "Toolbar with Different States"
-#~ msgstr "Toolbar with Different States"
 
 #: src/routes/home/route.tsx:766
 msgid "Top Category"
@@ -2235,10 +2118,6 @@ msgstr "Try Again"
 #: src/components/family/markets-form.tsx:272
 msgid "Type"
 msgstr "Type"
-
-#: src/components/examples/toolbar-examples.tsx:374
-#~ msgid "Undo"
-#~ msgstr "Undo"
 
 #: src/components/list/shopping-list-component-new.tsx:362
 msgid "Unit"
