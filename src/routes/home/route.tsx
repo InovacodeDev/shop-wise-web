@@ -820,8 +820,8 @@ function DashboardPage() {
                                 </CardContent>
                             </Card>
                         </InsightModal>
-                        {/* Goals summary merged into Insights */}
-                        <InsightModal
+
+                        {/* <InsightModal
                             title={t`Goals Summary`}
                             description={t`Overview of your active goals and their progress.`}
                             data={goals}
@@ -856,7 +856,7 @@ function DashboardPage() {
                                     )}
                                 </CardContent>
                             </Card>
-                        </InsightModal>
+                        </InsightModal> */}
                     </div>
 
                     <div className="grid gap-6">
@@ -1022,7 +1022,7 @@ function DashboardPage() {
                         </InsightModal>
                     </div>
 
-                    <Card variant="elevated" className="transition-all duration-300 ease-in-out hover:shadow-lg">
+                    <Card className="transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-xl col-span-1 lg:col-span-2">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <FontAwesomeIcon icon={faChartSimple} className="h-5 w-5 text-primary" />

@@ -563,7 +563,6 @@ msgstr "Cryptocurrencies"
 #: src/components/dashboard/insight-modal.tsx:346
 #: src/components/dashboard/price-comparison-modal.tsx:78
 #: src/routes/home/route.tsx:385
-#: src/routes/home/route.tsx:847
 msgid "Current"
 msgstr "Current"
 
@@ -901,12 +900,12 @@ msgid "Goal"
 msgstr "Goal"
 
 #: src/routes/home/route.tsx:832
-msgid "Goals"
-msgstr "Goals"
+#~ msgid "Goals"
+#~ msgstr "Goals"
 
 #: src/routes/home/route.tsx:825
-msgid "Goals Summary"
-msgstr "Goals Summary"
+#~ msgid "Goals Summary"
+#~ msgstr "Goals Summary"
 
 #: src/components/list/shopping-list-component-new.tsx:365
 msgid "Gram"
@@ -950,8 +949,12 @@ msgid "Import from PDF"
 msgstr "Import from PDF"
 
 #: src/routes/purchases/route.tsx:60
-msgid "Import from PDF, scan NFCe QR code, enter NFCe URL, or add manually."
-msgstr "Import from PDF, scan NFCe QR code, enter NFCe URL, or add manually."
+#~ msgid "Import from PDF, scan NFCe QR code, enter NFCe URL, or add manually."
+#~ msgstr "Import from PDF, scan NFCe QR code, enter NFCe URL, or add manually."
+
+#: src/routes/purchases/route.tsx:60
+msgid "Import from scan NFCe QR code, enter NFCe URL, or add manually."
+msgstr "Import from scan NFCe QR code, enter NFCe URL, or add manually."
 
 #: src/routes/home/route.tsx:806
 msgid "Increasing"
@@ -961,7 +964,7 @@ msgstr "Increasing"
 msgid "Initializing camera..."
 msgstr "Initializing camera..."
 
-#: src/components/purchases/nfce-scanner-component.tsx:366
+#: src/components/purchases/nfce-scanner-component.tsx:359
 msgid "Inserir URL Manualmente"
 msgstr "Inserir URL Manualmente"
 
@@ -1240,8 +1243,8 @@ msgid "NFCe via URL"
 msgstr "NFCe via URL"
 
 #: src/routes/home/route.tsx:837
-msgid "No active goals"
-msgstr "No active goals"
+#~ msgid "No active goals"
+#~ msgstr "No active goals"
 
 #: src/components/dashboard/insight-modal.tsx:423
 msgid "No Analysis Available"
@@ -1347,8 +1350,8 @@ msgid "Our AI is analyzing your data... this may take a moment."
 msgstr "Our AI is analyzing your data... this may take a moment."
 
 #: src/routes/home/route.tsx:826
-msgid "Overview of your active goals and their progress."
-msgstr "Overview of your active goals and their progress."
+#~ msgid "Overview of your active goals and their progress."
+#~ msgstr "Overview of your active goals and their progress."
 
 #: src/components/auth/login-form.tsx:83
 #: src/components/auth/signup-form.tsx:102
@@ -1367,7 +1370,7 @@ msgstr "Past due"
 msgid "Paste the full URL in the field above"
 msgstr "Paste the full URL in the field above"
 
-#: src/components/purchases/nfce-scanner-component.tsx:368
+#: src/components/purchases/nfce-scanner-component.tsx:361
 msgid "Paste the NFCe URL obtained through a QR code reader"
 msgstr "Paste the NFCe URL obtained through a QR code reader"
 
@@ -1388,8 +1391,8 @@ msgid "Payment Success"
 msgstr "Payment Success"
 
 #: src/components/purchases/nfce-scanner-component.tsx:318
-msgid "PDF"
-msgstr "PDF"
+#~ msgid "PDF"
+#~ msgstr "PDF"
 
 #: src/components/purchases/pdf-import-component.tsx:236
 msgid "PDF data extracted successfully"
@@ -1479,7 +1482,7 @@ msgstr "Please log in again to access your purchase history."
 msgid "Pnatry and Dry goods"
 msgstr "Pnatry and Dry goods"
 
-#: src/components/purchases/nfce-scanner-component.tsx:338
+#: src/components/purchases/nfce-scanner-component.tsx:331
 msgid "Position the NFCe QR code in front of the camera"
 msgstr "Position the NFCe QR code in front of the camera"
 
@@ -1578,7 +1581,6 @@ msgid "Profile Information"
 msgstr "Profile Information"
 
 #: src/components/dashboard/insight-modal.tsx:347
-#: src/routes/home/route.tsx:850
 msgid "Progress"
 msgstr "Progress"
 
@@ -1629,7 +1631,7 @@ msgstr "Purchase updated successfully."
 msgid "Purchases"
 msgstr "Purchases"
 
-#: src/components/purchases/nfce-scanner-component.tsx:322
+#: src/components/purchases/nfce-scanner-component.tsx:318
 msgid "QR Code"
 msgstr "QR Code"
 
@@ -1769,11 +1771,11 @@ msgstr "Scan Receipt"
 msgid "Scan Receipts"
 msgstr "Scan Receipts"
 
-#: src/components/purchases/nfce-scanner-component.tsx:347
+#: src/components/purchases/nfce-scanner-component.tsx:340
 msgid "Scanner error"
 msgstr "Scanner error"
 
-#: src/components/purchases/nfce-scanner-component.tsx:336
+#: src/components/purchases/nfce-scanner-component.tsx:329
 msgid "Scanner QR Code"
 msgstr "Scanner QR Code"
 
@@ -1988,7 +1990,6 @@ msgid "System overview."
 msgstr "System overview."
 
 #: src/components/dashboard/insight-modal.tsx:345
-#: src/routes/home/route.tsx:846
 msgid "Target"
 msgstr "Target"
 
@@ -2160,7 +2161,7 @@ msgstr "Upgrade to access this and many other advanced features."
 msgid "Upgrade your Plan"
 msgstr "Upgrade your Plan"
 
-#: src/components/purchases/nfce-scanner-component.tsx:326
+#: src/components/purchases/nfce-scanner-component.tsx:322
 msgid "URL Manual"
 msgstr "URL Manual"
 

@@ -113,7 +113,7 @@ export function PriceComparisonModal({ open, onOpenChange, item, allItems, local
                     <DialogTitle>{item ? item.name || item.barcode || t`Product Comparison` : t`Product Comparison`}</DialogTitle>
                 </DialogHeader>
 
-                <div className="py-2">
+                <div className="pt-2 pb-4 px-6">
                     <p className="text-sm text-muted-foreground mb-4">{t`Comparing unit price and quantity for the selected product across the last 6 months.`}</p>
 
                     {currentData && (

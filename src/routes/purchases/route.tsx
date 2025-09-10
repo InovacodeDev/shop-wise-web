@@ -57,7 +57,7 @@ function ScanPage() {
                 <CardHeader>
                     <CardTitle className="text-2xl font-headline">{t`Add New Purchase`}</CardTitle>
                     <CardDescription>
-                        {t`Import from PDF, scan NFCe QR code, enter NFCe URL, or add manually.`}
+                        {t`Import from scan NFCe QR code, enter NFCe URL, or add manually.`}
                     </CardDescription>
                 </CardHeader>
                 <div className="p-6 pt-0">

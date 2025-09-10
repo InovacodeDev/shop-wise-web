@@ -313,10 +313,6 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
                 type="fixed"
                 alignment="fill"
             >
-                <TabsTrigger value="pdf" className='flex-1 min-w-0'>
-                    <FontAwesomeIcon icon={faFilePdf} className="mr-2 h-4 w-4" />
-                    {t`PDF`}
-                </TabsTrigger>
                 <TabsTrigger value="qr-code" className='flex-1 min-w-0'>
                     <FontAwesomeIcon icon={faQrcode} className="mr-2 h-4 w-4" />
                     {t`QR Code`}
@@ -326,9 +322,6 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
                     {t`URL Manual`}
                 </TabsTrigger>
             </TabsList>
-            <TabsContent value="pdf" className="mt-6">
-                <PdfImportComponent onSave={(data, prods) => onSave(data, prods, 'import')} />
-            </TabsContent>
             <TabsContent value="qr-code" className="mt-6">
                 {analysisState.step === 'scan' ? (
                     <div className="space-y-6">
