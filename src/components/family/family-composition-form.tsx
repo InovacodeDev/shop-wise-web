@@ -13,7 +13,7 @@ import { apiService } from "@/services/api";
 
 
 const familyCompositionSchema = z.object({
-    adults: z.coerce.number().min(1, { message: "Pelo menos um adulto é necessário." }),
+    adults: z.coerce.number().min(1, { message: "At least one adult is required." }),
     children: z.coerce.number().min(0),
     pets: z.coerce.number().min(0),
 });

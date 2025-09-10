@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2025-08-19 12:05-0300\n"
+"POT-Creation-Date: 2025-09-10 11:41-0300\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,163 +13,168 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/dashboard/insight-modal.tsx:373
+msgid "-"
+msgstr "-"
+
+#: src/routes/home/route.tsx:814
+msgid "--"
+msgstr "--"
+
 #. placeholder {0}: purchase.items.length
-#: src/components/family/history-tab.tsx:404
+#: src/components/family/history-tab.tsx:670
 msgid "{0, plural, one {# item} other {# items}}"
 msgstr "{0, plural, one {# item} other {# items}}"
 
+#. placeholder {0}: group.purchaseCount
+#. placeholder {0}: totalStats.totalPurchases
+#: src/components/purchases/monthly-purchase-display.tsx:277
+#: src/components/purchases/monthly-purchase-display.tsx:323
+#: src/components/purchases/optimized-monthly-accordion.tsx:75
+msgid "{0, plural, one {# purchase} other {# purchases}}"
+msgstr "{0, plural, one {# purchase} other {# purchases}}"
+
+#. placeholder {0}: FEATURE_NAMES[feature]
+#: src/components/subscription/PremiumFeatureGuard.tsx:57
+msgid "{0} is available to premium users only."
+msgstr "{0} is available to premium users only."
+
 #. placeholder {0}: store.name
-#: src/components/family/markets-form.tsx:109
+#: src/components/family/markets-form.tsx:114
 msgid "{0} is now a favorite store."
 msgstr "{0} is now a favorite store."
 
+#. placeholder {0}: i18n.number( topCategoryPercent, { style: 'percent', maximumFractionDigits: 1, } )
+#: src/routes/home/route.tsx:773
+msgid "{0} of total spending"
+msgstr "{0} of total spending"
+
 #. placeholder {0}: values.name
-#: src/components/family/markets-form.tsx:91
+#: src/components/family/markets-form.tsx:96
 msgid "{0} was added to your favorites."
 msgstr "{0} was added to your favorites."
 
 #. placeholder {0}: store.name
-#: src/components/family/markets-form.tsx:100
+#: src/components/family/markets-form.tsx:105
 msgid "{0} will now be ignored in price comparisons."
 msgstr "{0} will now be ignored in price comparisons."
 
-#: src/routes/dashboard/home/route.tsx:543
-#~ msgid "{0}% of total spending"
-#~ msgstr "{0}% of total spending"
+#: src/components/purchases/monthly-purchase-display.tsx:418
+#: src/components/purchases/optimized-monthly-accordion.tsx:186
+#: src/components/purchases/virtual-purchase-list.tsx:79
+msgid "{itemCount, plural, one {# item} other {# items}}"
+msgstr "{itemCount, plural, one {# item} other {# items}}"
 
-#: src/routes/dashboard/home/route.tsx:530
-msgid "{topCategoryPercent}% of total spending"
-msgstr "{topCategoryPercent}% of total spending"
+#: src/routes/home/route.tsx:942
+msgid "{purchaseCount} purchases"
+msgstr "{purchaseCount} purchases"
 
 #. placeholder {0}: new Date().getFullYear()
 #: src/routes/index.tsx:88
 msgid "© {0} ShopWise. All rights reserved."
 msgstr "© {0} ShopWise. All rights reserved."
 
-#: src/components/family/markets-form.tsx:98
-#~ msgid "${name} agora é um estabelecimento favorito."
-#~ msgstr "${name} agora é um estabelecimento favorito."
+#: src/routes/home/route.tsx:681
+msgid "A breakdown of your total spending for {currentMonthName} by store."
+msgstr "A breakdown of your total spending for {currentMonthName} by store."
 
-#: src/components/family/markets-form.tsx:89
-#~ msgid "${name} agora será ignorado nas comparações de preços."
-#~ msgstr "${name} agora será ignorado nas comparações de preços."
-
-#: src/components/family/markets-form.tsx:80
-#~ msgid "${name} foi adicionado aos seus favoritos."
-#~ msgstr "${name} foi adicionado aos seus favoritos."
-
-#: src/routes/dashboard/home/route.tsx:478
-msgid "A breakdown of your total spending for the current month by store."
-msgstr "A breakdown of your total spending for the current month by store."
-
-#: src/routes/dashboard/home/route.tsx:516
-msgid "A detailed view of how your spending is distributed across product categories this month."
-msgstr "A detailed view of how your spending is distributed across product categories this month."
+#: src/routes/home/route.tsx:758
+msgid "A detailed view of how your spending is distributed across product categories in {currentMonthName}."
+msgstr "A detailed view of how your spending is distributed across product categories in {currentMonthName}."
 
 #: src/routes/index.tsx:39
 msgid "A Fuller Life."
 msgstr "A Fuller Life."
 
-#: src/routes/dashboard/home/route.tsx:498
-msgid "A list of the most recent items you purchased this month."
-msgstr "A list of the most recent items you purchased this month."
+#: src/routes/home/route.tsx:726
+msgid "A list of the most recent items you purchased in {currentMonthName}."
+msgstr "A list of the most recent items you purchased in {currentMonthName}."
 
-#: src/components/settings/profile-form.tsx:112
-#~ msgid "Account Linked"
-#~ msgstr "Account Linked"
+#: src/components/settings/profile-form.tsx:31
+msgid "A nova senha deve ter pelo menos 6 caracteres."
+msgstr "A nova senha deve ter pelo menos 6 caracteres."
 
-#: src/components/family/history-tab.tsx:469
-#: src/components/family/markets-form.tsx:290
-#~ msgid "Ações"
-#~ msgstr "Ações"
+#: src/components/manual-url-input.tsx:107
+msgid "Access the QR code of your fiscal receipt"
+msgstr "Access the QR code of your fiscal receipt"
 
-#: src/components/family/history-tab.tsx:439
-#: src/components/family/markets-form.tsx:313
-#: src/components/scan/manual-purchase-form.tsx:169
-#: src/components/scan/pdf-import-component.tsx:405
+#: src/components/family/history-tab.tsx:762
+#: src/components/family/markets-form.tsx:274
+#: src/components/purchases/manual-purchase-form.tsx:169
+#: src/components/purchases/nfce-scanner-component.tsx:225
+#: src/components/purchases/pdf-import-component.tsx:412
 msgid "Actions"
 msgstr "Actions"
 
-#: src/components/list/shopping-list-component.tsx:227
+#: src/types/finance-examples.ts:376
+msgid "Active"
+msgstr "Active"
+
+#: src/components/layout/shopping-list-popover.tsx:117
+msgid "Active shopping list"
+msgstr "Active shopping list"
+
+#: src/components/examples/toolbar-examples.tsx:261
 #~ msgid "Add"
 #~ msgstr "Add"
 
-#: src/routes/dashboard/home/route.tsx:686
+#: src/routes/home/route.tsx:1124
 msgid "Add a new purchase to see your top expenses here."
 msgstr "Add a new purchase to see your top expenses here."
 
-#: src/components/family/markets-form.tsx:129
+#: src/components/family/markets-form.tsx:132
 msgid "Add a new supermarket, wholesale or market to your preferred locations."
 msgstr "Add a new supermarket, wholesale or market to your preferred locations."
 
-#: src/components/family/history-tab.tsx:521
-#: src/components/scan/manual-purchase-form.tsx:268
+#: src/components/family/history-tab.tsx:963
+#: src/components/purchases/manual-purchase-form.tsx:268
 msgid "Add Item"
 msgstr "Add Item"
 
-#: src/components/scan/pdf-import-component.tsx:462
+#: src/components/purchases/nfce-scanner-component.tsx:280
+#: src/components/purchases/pdf-import-component.tsx:471
 msgid "Add Item Manually"
 msgstr "Add Item Manually"
 
-#: src/components/list/shopping-list-component-new.tsx:407
+#: src/components/list/shopping-list-component-new.tsx:456
 msgid "Add items above or use AI suggestions to get started."
 msgstr "Add items above or use AI suggestions to get started."
 
-#: src/components/list/shopping-list-component.tsx:199
-#~ msgid "Add new item..."
-#~ msgstr "Add new item..."
-
-#: src/routes/dashboard/scan/route.tsx:62
+#: src/routes/purchases/route.tsx:58
 msgid "Add New Purchase"
 msgstr "Add New Purchase"
 
-#: src/components/family/markets-form.tsx:128
+#: src/components/family/markets-form.tsx:131
 msgid "Add New Store"
 msgstr "Add New Store"
 
-#: src/components/layout/main-nav.tsx:50
-#: src/routes/dashboard/home/route.tsx:697
+#: src/components/layout/main-nav.tsx:84
+#: src/components/layout/main-nav.tsx:194
 msgid "Add Purchase"
 msgstr "Add Purchase"
 
-#: src/components/family/markets-form.tsx:220
+#: src/components/examples/sheets-examples.tsx:486
+#~ msgid "Add to cart"
+#~ msgstr "Add to cart"
+
+#: src/components/family/markets-form.tsx:180
 msgid "Add to Favorites"
 msgstr "Add to Favorites"
 
-#: src/components/family/markets-form.tsx:311
+#: src/components/family/markets-form.tsx:273
 msgid "Address"
 msgstr "Address"
 
-#: src/components/family/markets-form.tsx:164
+#: src/components/family/markets-form.tsx:153
 msgid "Address (Optional)"
 msgstr "Address (Optional)"
 
-#: src/components/family/markets-form.tsx:209
-#~ msgid "Adicionar aos Favoritos"
-#~ msgstr "Adicionar aos Favoritos"
-
-#: src/routes/dashboard/home/route.tsx:710
-#~ msgid "Adicionar Compra"
-#~ msgstr "Adicionar Compra"
-
-#: src/components/family/history-tab.tsx:551
-#~ msgid "Adicionar Item"
-#~ msgstr "Adicionar Item"
-
-#: src/components/family/markets-form.tsx:117
-#~ msgid "Adicionar Novo Estabelecimento"
-#~ msgstr "Adicionar Novo Estabelecimento"
-
-#: src/components/family/markets-form.tsx:118
-#~ msgid "Adicione um novo mercado, atacado ou feira à sua lista de locais preferidos."
-#~ msgstr "Adicione um novo mercado, atacado ou feira à sua lista de locais preferidos."
-
-#: src/components/layout/main-nav.tsx:59
-#: src/routes/dashboard/admin/route.tsx:20
+#: src/components/layout/main-nav.tsx:97
+#: src/routes/admin/route.tsx:20
 msgid "Admin Dashboard"
 msgstr "Admin Dashboard"
 
-#: src/components/layout/main-nav.tsx:169
+#: src/components/layout/main-nav.tsx:417
 msgid "Administration"
 msgstr "Administration"
 
@@ -181,54 +186,57 @@ msgstr "Adults"
 msgid "Advanced AI-driven insights"
 msgstr "Advanced AI-driven insights"
 
-#: src/routes/dashboard/home/route.tsx:551
-msgid "AI savings insights coming soon!"
-msgstr "AI savings insights coming soon!"
+#: src/types/finance-examples.ts:175
+msgid "Advanced budgets"
+msgstr "Advanced budgets"
 
-#: src/components/list/shopping-list-component-new.tsx:274
-#: src/components/list/shopping-list-component-new.tsx:281
+#: src/types/finance-examples.ts:193
+msgid "Advanced reports"
+msgstr "Advanced reports"
+
+#: src/components/list/shopping-list-component-new.tsx:307
+#: src/components/list/shopping-list-component-new.tsx:316
 msgid "AI Suggestions"
 msgstr "AI Suggestions"
-
-#: src/components/family/history-tab.tsx:326
-#~ msgid "Ainda Sem Recomendações"
-#~ msgstr "Ainda Sem Recomendações"
 
 #: src/components/layout/notification-popover.tsx:98
 msgid "All caught up!"
 msgstr "All caught up!"
 
-#: src/components/family/history-tab.tsx:242
+#: src/components/family/history-tab.tsx:401
 msgid "All periods"
 msgstr "All periods"
 
-#: src/components/family/history-tab.tsx:229
+#: src/components/purchases/monthly-purchase-display.tsx:113
+msgid "All Purchases (Fallback Mode)"
+msgstr "All Purchases (Fallback Mode)"
+
+#: src/components/family/history-tab.tsx:388
 msgid "All stores"
 msgstr "All stores"
 
-#: src/components/auth/signup-form.tsx:219
+#: src/components/auth/signup-form.tsx:153
 msgid "Already have an account?"
 msgstr "Already have an account?"
 
-#: src/components/settings/profile-form.tsx:219
-#: src/components/settings/profile-form.tsx:309
-#~ msgid "Alterar Senha"
-#~ msgstr "Alterar Senha"
+#: src/components/finance/charts/monthly-expense-chart.tsx:49
+#: src/components/finance/charts/monthly-expense-chart.tsx:96
+msgid "Amount"
+msgstr "Amount"
 
-#: src/components/dashboard/insight-modal.tsx:97
-#: src/components/dashboard/insight-modal.tsx:196
+#: src/components/dashboard/insight-modal.tsx:261
 msgid "Amount Spent"
 msgstr "Amount Spent"
 
-#: src/components/family/history-tab.tsx:161
+#: src/components/family/history-tab.tsx:229
 msgid "An error occurred while deleting the purchase. Please try again."
 msgstr "An error occurred while deleting the purchase. Please try again."
 
-#: src/components/settings/preferences-form.tsx:71
+#: src/components/settings/preferences-form.tsx:70
 msgid "An error occurred while saving your preferences. Please try again."
 msgstr "An error occurred while saving your preferences. Please try again."
 
-#: src/components/family/history-tab.tsx:376
+#: src/components/family/history-tab.tsx:642
 msgid "An error occurred while updating the purchase. Please try again."
 msgstr "An error occurred while updating the purchase. Please try again."
 
@@ -240,155 +248,215 @@ msgstr "An unexpected error occurred while saving your preferences. Please try a
 msgid "An unexpected error occurred. Please try again."
 msgstr "An unexpected error occurred. Please try again."
 
-#: src/routes/dashboard/admin/market-insights/route.tsx:22
-#~ msgid "Analise as tendências do mercado com base em dados agregados dos usuários."
-#~ msgstr "Analise as tendências do mercado com base em dados agregados dos usuários."
+#: src/routes/home/route.tsx:792
+msgid "Analysis of your spending patterns and trends based on historical data."
+msgstr "Analysis of your spending patterns and trends based on historical data."
 
-#: src/routes/dashboard/admin/market-insights/route.tsx:22
+#: src/routes/admin/market-insights/route.tsx:22
 msgid "Analyze market trends based on aggregated user data."
 msgstr "Analyze market trends based on aggregated user data."
+
+#: src/components/manual-url-input.tsx:98
+msgid "Analyze NFCe"
+msgstr "Analyze NFCe"
 
 #: src/routes/index.tsx:64
 msgid "Analyze your spending with intuitive charts and make smarter decisions."
 msgstr "Analyze your spending with intuitive charts and make smarter decisions."
 
-#: src/components/family/plan-form.tsx:195
+#: src/components/purchases/nfce-scanner-component.tsx:149
+#: src/components/purchases/nfce-url-component.tsx:141
+msgid "Analyzing NFCe..."
+msgstr "Analyzing NFCe..."
+
+#: src/components/manual-url-input.tsx:93
+msgid "Analyzing..."
+msgstr "Analyzing..."
+
+#: src/components/family/plan-form.tsx:199
 msgid "Annual billing"
 msgstr "Annual billing"
 
-#: src/components/settings/preferences-form.tsx:91
-#~ msgid "Aparência"
-#~ msgstr "Aparência"
-
-#: src/components/settings/preferences-form.tsx:88
+#: src/components/settings/preferences-form.tsx:87
 msgid "Appearance"
 msgstr "Appearance"
 
-#: src/routes/dashboard/settings/route.tsx:93
-#: src/routes/dashboard/settings/route.tsx:119
+#: src/routes/settings/route.tsx:100
+#: src/routes/settings/route.tsx:126
 msgid "Are you absolutely sure?"
 msgstr "Are you absolutely sure?"
 
-#: src/components/layout/main-nav.tsx:149
+#: src/components/layout/main-nav.tsx:397
 msgid "Are you sure you want to sign out?"
 msgstr "Are you sure you want to sign out?"
 
-#: src/routes/dashboard/admin/market-insights/route.tsx:25
-#~ msgid "As ferramentas de análise de mercado estarão aqui."
-#~ msgstr "As ferramentas de análise de mercado estarão aqui."
-
-#: src/routes/dashboard/admin/audit/route.tsx:26
-#~ msgid "As ferramentas de auditoria e teste estarão aqui."
-#~ msgstr "As ferramentas de auditoria e teste estarão aqui."
-
-#: src/routes/dashboard/admin/settings/route.tsx:25
-#~ msgid "As opções de configuração global estarão aqui."
-#~ msgstr "As opções de configuração global estarão aqui."
-
-#: src/components/family/history-tab.tsx:298
+#: src/components/family/history-tab.tsx:460
 msgid "As you add more purchases, our AI will generate personalized recommendations for you here."
 msgstr "As you add more purchases, our AI will generate personalized recommendations for you here."
 
-#: src/components/settings/preferences-form.tsx:133
-#~ msgid "Ativar notificações push"
-#~ msgstr "Ativar notificações push"
-
-#: src/components/settings/profile-form.tsx:140
-#~ msgid "Atualize seus dados pessoais."
-#~ msgstr "Atualize seus dados pessoais."
-
-#: src/routes/dashboard/admin/audit/route.tsx:21
+#: src/routes/admin/audit/route.tsx:21
 msgid "Audit & Testing"
 msgstr "Audit & Testing"
 
-#: src/components/layout/main-nav.tsx:65
+#: src/components/layout/main-nav.tsx:103
 msgid "Audit & Tests"
 msgstr "Audit & Tests"
 
-#: src/routes/dashboard/admin/audit/route.tsx:26
+#: src/routes/admin/audit/route.tsx:26
 msgid "Audit and testing tools will be available here."
 msgstr "Audit and testing tools will be available here."
-
-#: src/routes/dashboard/admin/audit/route.tsx:21
-#~ msgid "Auditoria e Testes"
-#~ msgstr "Auditoria e Testes"
 
 #: src/components/family/plan-form.tsx:40
 msgid "Automatic receipt scanning"
 msgstr "Automatic receipt scanning"
 
-#: src/routes/dashboard/home/route.tsx:181
+#: src/types/finance-examples.ts:188
+msgid "Automatic synchronization with banks"
+msgstr "Automatic synchronization with banks"
+
+#: src/components/dashboard/price-comparison-modal.tsx:127
+msgid "Avg Unit Price"
+msgstr "Avg Unit Price"
+
+#. placeholder {0}: i18n.number( historicalInsights.avgMonthlyItems, { maximumFractionDigits: 0 }, )
+#: src/routes/home/route.tsx:746
+msgid "Avg: {0} items/month"
+msgstr "Avg: {0} items/month"
+
+#. placeholder {0}: i18n.number( historicalInsights.avgMonthlySpending, { style: 'currency', currencySign: 'accounting', currency: getCurrencyFromLocale(i18n.locale), } )
+#: src/routes/home/route.tsx:710
+msgid "Avg: {0}/month"
+msgstr "Avg: {0}/month"
+
+#: src/components/dashboard/insight-modal.tsx:159
+msgid "Avg/Month"
+msgstr "Avg/Month"
+
+#: src/routes/home/route.tsx:198
 msgid "Baby and Child care"
 msgstr "Baby and Child care"
 
-#: src/components/family/markets-form.tsx:66
-#: src/components/family/markets-form.tsx:286
+#: src/components/examples/toolbar-examples.tsx:267
+#~ msgid "Back"
+#~ msgstr "Back"
+
+#: src/components/family/markets-form.tsx:67
+#: src/components/family/markets-form.tsx:244
 msgid "Bakery"
 msgstr "Bakery"
 
-#: src/routes/dashboard/home/route.tsx:158
+#: src/routes/home/route.tsx:175
 msgid "Bakery and Deli"
 msgstr "Bakery and Deli"
 
-#: src/routes/dashboard/home/route.tsx:632
+#: src/components/layout/main-nav.tsx:70
+msgid "Bank"
+msgstr "Bank"
+
+#: src/types/finance-examples.ts:187
+msgid "Bank integration"
+msgstr "Bank integration"
+
+#: src/types/finance-examples.ts:346
+msgid "Bank Transfer"
+msgstr "Bank Transfer"
+
+#: src/routes/home/route.tsx:1040
 msgid "Barcode"
 msgstr "Barcode"
 
-#: src/components/list/shopping-list-component.tsx:275
-#~ msgid "Based on your purchase history, you might need:"
-#~ msgstr "Based on your purchase history, you might need:"
+#: src/routes/home/route.tsx:818
+msgid "Based on spending pattern analysis"
+msgstr "Based on spending pattern analysis"
+
+#: src/types/finance-examples.ts:169
+msgid "Basic finance control"
+msgstr "Basic finance control"
 
 #: src/components/family/plan-form.tsx:38
 msgid "Basic spending insights"
 msgstr "Basic spending insights"
 
-#: src/routes/dashboard/home/route.tsx:174
+#: src/routes/home/route.tsx:191
 msgid "Beverages"
 msgstr "Beverages"
 
-#: src/components/scan/pdf-import-component.tsx:386
-#: src/components/scan/pdf-import-component.tsx:536
-#: src/routes/dashboard/home/route.tsx:637
+#: src/types/finance-examples.ts:353
+msgid "Bonds"
+msgstr "Bonds"
+
+#: src/components/purchases/nfce-scanner-component.tsx:206
+#: src/components/purchases/pdf-import-component.tsx:393
+#: src/components/purchases/pdf-import-component.tsx:545
+#: src/routes/home/route.tsx:1045
 msgid "Brand"
 msgstr "Brand"
 
-#: src/routes/dashboard/home/route.tsx:170
+#: src/routes/home/route.tsx:187
 msgid "Breakfast and Snacks"
 msgstr "Breakfast and Snacks"
 
-#: src/components/family/markets-form.tsx:65
-#: src/components/family/markets-form.tsx:285
+#: src/components/layout/main-nav.tsx:68
+msgid "Budgets"
+msgstr "Budgets"
+
+#: src/components/family/markets-form.tsx:66
+#: src/components/family/markets-form.tsx:243
 msgid "Butcher"
 msgstr "Butcher"
 
-#: src/components/family/history-tab.tsx:539
-#: src/components/layout/main-nav.tsx:153
-#: src/components/scan/pdf-import-component.tsx:641
+#: src/components/qr-scanner.tsx:129
+msgid "Camera access is required to scan QR codes"
+msgstr "Camera access is required to scan QR codes"
+
+#: src/components/family/history-tab.tsx:981
+#: src/components/layout/main-nav.tsx:401
+#: src/components/purchases/pdf-import-component.tsx:650
 #: src/components/settings/delete-confirmation-dialog.tsx:92
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/components/scan/pdf-import-component.tsx:499
+#: src/components/purchases/nfce-scanner-component.tsx:298
+#: src/components/purchases/pdf-import-component.tsx:508
 msgid "Cancel and Start New Import"
 msgstr "Cancel and Start New Import"
 
-#: src/components/settings/delete-confirmation-dialog.tsx:92
-#~ msgid "Cancelar"
-#~ msgstr "Cancelar"
+#: src/types/finance-examples.ts:377
+msgid "Canceled"
+msgstr "Canceled"
 
-#: src/components/dashboard/insight-modal.tsx:192
-#: src/components/scan/pdf-import-component.tsx:390
-#: src/components/scan/pdf-import-component.tsx:549
-#: src/routes/dashboard/home/route.tsx:641
+#: src/types/finance-examples.ts:343
+msgid "Cash"
+msgstr "Cash"
+
+#: src/components/dashboard/insight-modal.tsx:257
+#: src/components/family/history-tab.tsx:749
+#: src/components/family/history-tab.tsx:805
+#: src/components/purchases/nfce-scanner-component.tsx:210
+#: src/components/purchases/pdf-import-component.tsx:397
+#: src/components/purchases/pdf-import-component.tsx:558
+#: src/routes/home/route.tsx:1049
 msgid "Category"
 msgstr "Category"
 
-#: src/components/settings/profile-form.tsx:153
-#: src/components/settings/profile-form.tsx:243
+#: src/routes/home/route.tsx:957
+msgid "Category Breakdown:"
+msgstr "Category Breakdown:"
+
+#: src/components/family/history-tab.tsx:761
+msgid "Change"
+msgstr "Change"
+
+#: src/components/settings/profile-form.tsx:142
+#: src/components/settings/profile-form.tsx:165
 msgid "Change Password"
 msgstr "Change Password"
 
-#: src/components/dashboard/insight-modal.tsx:243
+#: src/components/dashboard/price-comparison-modal.tsx:135
+msgid "Change vs last purchase month"
+msgstr "Change vs last purchase month"
+
+#: src/components/dashboard/insight-modal.tsx:322
 msgid "Cheapest at"
 msgstr "Cheapest at"
 
@@ -396,129 +464,102 @@ msgstr "Cheapest at"
 msgid "Children"
 msgstr "Children"
 
-#: src/components/settings/profile-form.tsx:154
+#: src/components/settings/profile-form.tsx:143
 msgid "Choose a new strong password."
 msgstr "Choose a new strong password."
+
+#: src/components/examples/sheets-examples.tsx:122
+#~ msgid "Choose an action to continue"
+#~ msgstr "Choose an action to continue"
 
 #: src/components/family/plan-form.tsx:103
 msgid "Choose the plan that best fits your needs."
 msgstr "Choose the plan that best fits your needs."
 
-#: src/components/settings/preferences-form.tsx:108
-#~ msgid "Claro"
-#~ msgstr "Claro"
-
-#: src/routes/dashboard/home/route.tsx:176
+#: src/routes/home/route.tsx:193
 msgid "Cleaning and household"
 msgstr "Cleaning and household"
 
-#: src/components/family/markets-form.tsx:140
-#~ msgid "CNPJ (Opcional)"
-#~ msgstr "CNPJ (Opcional)"
-
-#: src/components/family/markets-form.tsx:151
+#: src/components/family/markets-form.tsx:146
 msgid "CNPJ (Optional)"
 msgstr "CNPJ (Optional)"
 
-#: src/components/list/shopping-list-component-new.tsx:375
+#: src/components/dashboard/price-comparison-modal.tsx:117
+msgid "Comparing unit price and quantity for the selected product across the last 6 months."
+msgstr "Comparing unit price and quantity for the selected product across the last 6 months."
+
+#: src/types/finance-examples.ts:182
+msgid "Complete investment tracking"
+msgstr "Complete investment tracking"
+
+#: src/components/list/shopping-list-component-new.tsx:424
 msgid "Completed"
 msgstr "Completed"
 
-#: src/routes/dashboard/family/route.tsx:49
+#: src/routes/family/route.tsx:54
 msgid "Composition"
 msgstr "Composition"
 
-#: src/components/settings/profile-form.tsx:198
-#: src/components/settings/profile-form.tsx:211
-#~ msgid "Conectado"
-#~ msgstr "Conectado"
-
-#: src/components/settings/profile-form.tsx:198
-#: src/components/settings/profile-form.tsx:211
-#~ msgid "Conectar"
-#~ msgstr "Conectar"
-
-#: src/components/settings/profile-form.tsx:185
-#~ msgid "Conecte outras contas para um login mais rápido."
-#~ msgstr "Conecte outras contas para um login mais rápido."
-
-#: src/routes/dashboard/admin/settings/route.tsx:20
-#~ msgid "Configurações Globais"
-#~ msgstr "Configurações Globais"
-
-#: src/routes/dashboard/admin/settings/route.tsx:22
+#: src/routes/admin/settings/route.tsx:22
 msgid "Configure application-wide settings."
 msgstr "Configure application-wide settings."
 
-#: src/routes/dashboard/admin/settings/route.tsx:22
-#~ msgid "Configure as definições de toda a aplicação."
-#~ msgstr "Configure as definições de toda a aplicação."
-
-#: src/components/scan/pdf-import-component.tsx:507
+#: src/components/purchases/nfce-scanner-component.tsx:302
+#: src/components/purchases/pdf-import-component.tsx:516
 msgid "Confirm and Save Purchase"
 msgstr "Confirm and Save Purchase"
 
-#: src/components/family/history-tab.tsx:327
-#~ msgid "Conforme você adiciona mais compras, nossa IA irá gerar recomendações personalizadas para você aqui."
-#~ msgstr "Conforme você adiciona mais compras, nossa IA irá gerar recomendações personalizadas para você aqui."
-
-#: src/components/settings/profile-form.tsx:198
-#: src/components/settings/profile-form.tsx:211
-#~ msgid "Connect"
-#~ msgstr "Connect"
-
-#: src/components/settings/profile-form.tsx:185
-#~ msgid "Connect other accounts for faster login."
-#~ msgstr "Connect other accounts for faster login."
-
-#: src/components/settings/profile-form.tsx:198
-#: src/components/settings/profile-form.tsx:211
-#~ msgid "Connected"
-#~ msgstr "Connected"
-
-#: src/routes/dashboard/home/route.tsx:559
-#: src/routes/dashboard/home/route.tsx:570
+#: src/routes/home/route.tsx:876
 msgid "Consumption Overview"
 msgstr "Consumption Overview"
 
-#: src/components/settings/profile-form.tsx:112
-#~ msgid "Conta Vinculada"
-#~ msgstr "Conta Vinculada"
+#: src/routes/home/route.tsx:864
+msgid "Consumption Overview - Through {currentMonthName}"
+msgstr "Consumption Overview - Through {currentMonthName}"
 
-#: src/components/settings/profile-form.tsx:184
-#~ msgid "Contas Vinculadas"
-#~ msgstr "Contas Vinculadas"
+#: src/components/examples/toolbar-examples.tsx:539
+#~ msgid "Controlled"
+#~ msgstr "Controlled"
 
-#: src/components/list/shopping-list-component-new.tsx:130
+#: src/components/examples/sheets-examples.tsx:144
+#~ msgid "Copy link"
+#~ msgstr "Copy link"
+
+#: src/components/list/shopping-list-component-new.tsx:142
 msgid "Could not add item to shopping list"
 msgstr "Could not add item to shopping list"
 
-#: src/components/list/shopping-list-component-new.tsx:242
+#: src/components/list/shopping-list-component-new.tsx:265
 msgid "Could not add suggested item"
 msgstr "Could not add suggested item"
 
-#: src/components/list/shopping-list-component-new.tsx:169
+#: src/components/list/shopping-list-component-new.tsx:181
 msgid "Could not delete item"
 msgstr "Could not delete item"
 
-#: src/components/list/shopping-list-component-new.tsx:209
+#: src/components/list/shopping-list-component-new.tsx:232
 msgid "Could not get AI suggestions"
 msgstr "Could not get AI suggestions"
 
-#: src/components/list/shopping-list-component-new.tsx:68
+#: src/components/list/shopping-list-component-new.tsx:74
 msgid "Could not load shopping list"
 msgstr "Could not load shopping list"
 
-#: src/components/list/shopping-list-component-new.tsx:85
+#: src/components/list/shopping-list-component-new.tsx:97
 msgid "Could not load shopping list items"
 msgstr "Could not load shopping list items"
 
-#: src/components/list/shopping-list-component-new.tsx:151
+#: src/components/purchases/nfce-scanner-component.tsx:161
+#: src/components/purchases/nfce-url-component.tsx:153
+msgid "Could not process the NFCe. Please check if the URL is correct and try again."
+msgstr "Could not process the NFCe. Please check if the URL is correct and try again."
+
+#: src/components/list/shopping-list-component-new.tsx:163
 msgid "Could not update item"
 msgstr "Could not update item"
 
-#: src/components/auth/login-form.tsx:171
-#: src/components/auth/signup-form.tsx:198
+#: src/components/auth/login-form.tsx:117
+#: src/components/auth/signup-form.tsx:142
 #: src/routes/index.tsx:24
 msgid "Create Account"
 msgstr "Create Account"
@@ -527,183 +568,231 @@ msgstr "Create Account"
 msgid "Create and manage shopping lists"
 msgstr "Create and manage shopping lists"
 
-#: src/components/auth/signup-form.tsx:120
+#: src/components/auth/signup-form.tsx:64
 msgid "Create Your Account"
 msgstr "Create Your Account"
 
-#: src/components/settings/profile-form.tsx:164
+#: src/types/finance-examples.ts:344
+msgid "Credit Card"
+msgstr "Credit Card"
+
+#: src/components/layout/main-nav.tsx:69
+msgid "Credit Cards"
+msgstr "Credit Cards"
+
+#: src/types/finance-examples.ts:355
+msgid "Cryptocurrencies"
+msgstr "Cryptocurrencies"
+
+#: src/components/dashboard/insight-modal.tsx:346
+#: src/components/dashboard/price-comparison-modal.tsx:78
+#: src/routes/home/route.tsx:385
+#: src/routes/home/route.tsx:847
+msgid "Current"
+msgstr "Current"
+
+#: src/components/dashboard/price-comparison-modal.tsx:123
+msgid "Current Month"
+msgstr "Current Month"
+
+#: src/components/settings/profile-form.tsx:150
 msgid "Current Password"
 msgstr "Current Password"
 
-#: src/components/family/plan-form.tsx:236
+#: src/components/family/plan-form.tsx:240
 msgid "Current Plan"
 msgstr "Current Plan"
 
-#: src/components/settings/preferences-form.tsx:82
+#: src/routes/home/route.tsx:878
+msgid "Current: {currentMonthName}"
+msgstr "Current: {currentMonthName}"
+
+#: src/components/settings/preferences-form.tsx:81
 msgid "Customize the look and behavior of the app."
 msgstr "Customize the look and behavior of the app."
 
-#: src/routes/dashboard/home/route.tsx:162
+#: src/types/finance-examples.ts:361
+msgid "Daily"
+msgstr "Daily"
+
+#: src/routes/home/route.tsx:179
 msgid "Dairy and Chilled"
 msgstr "Dairy and Chilled"
 
-#: src/components/settings/preferences-form.tsx:107
+#: src/components/settings/preferences-form.tsx:101
 msgid "Dark"
 msgstr "Dark"
 
-#: src/components/scan/manual-purchase-form.tsx:97
-#: src/components/scan/manual-purchase-form.tsx:117
-#: src/components/scan/pdf-import-component.tsx:367
+#: src/components/purchases/nfce-url-component.tsx:172
+msgid "Data extracted from fiscal receipt"
+msgstr "Data extracted from fiscal receipt"
+
+#: src/components/purchases/nfce-url-component.tsx:189
+msgid "Data was automatically enriched."
+msgstr "Data was automatically enriched."
+
+#: src/components/purchases/manual-purchase-form.tsx:97
+#: src/components/purchases/manual-purchase-form.tsx:117
+#: src/components/purchases/nfce-url-component.tsx:222
+#: src/components/purchases/pdf-import-component.tsx:374
 msgid "Date"
 msgstr "Date"
 
-#: src/components/scan/pdf-import-component.tsx:486
+#: src/components/purchases/nfce-scanner-component.tsx:189
+msgid "Date:"
+msgstr "Date:"
+
+#: src/types/finance-examples.ts:345
+msgid "Debit Card"
+msgstr "Debit Card"
+
+#: src/components/purchases/pdf-import-component.tsx:495
 msgid "Debug Raw Data"
 msgstr "Debug Raw Data"
 
-#: src/routes/dashboard/settings/route.tsx:125
+#: src/routes/home/route.tsx:809
+msgid "Decreasing"
+msgstr "Decreasing"
+
+#: src/components/examples/sheets-examples.tsx:159
+#: src/components/examples/toolbar-examples.tsx:243
+#~ msgid "Delete"
+#~ msgstr "Delete"
+
+#: src/routes/settings/route.tsx:132
 msgid "Delete Account"
 msgstr "Delete Account"
 
-#: src/routes/dashboard/settings/route.tsx:99
+#: src/routes/settings/route.tsx:106
 msgid "Delete All Data"
 msgstr "Delete All Data"
 
-#: src/routes/dashboard/settings/route.tsx:83
+#: src/routes/settings/route.tsx:88
 msgid "Delete All My Data"
 msgstr "Delete All My Data"
 
-#: src/routes/dashboard/settings/route.tsx:109
+#: src/routes/settings/route.tsx:116
 msgid "Delete My Account"
 msgstr "Delete My Account"
 
-#: src/components/family/history-tab.tsx:530
+#: src/components/family/history-tab.tsx:972
 msgid "Delete Purchase"
 msgstr "Delete Purchase"
 
-#: src/components/family/history-tab.tsx:535
+#: src/components/family/history-tab.tsx:977
 msgid "Delete Purchase?"
 msgstr "Delete Purchase?"
 
-#: src/components/family/history-tab.tsx:445
-#~ msgid "Detalhes da Compra: ${storeName}"
-#~ msgstr "Detalhes da Compra: ${storeName}"
+#: src/types/finance-examples.ts:194
+msgid "Detailed analytics and projections"
+msgstr "Detailed analytics and projections"
 
-#: src/components/settings/delete-confirmation-dialog.tsx:87
-#~ msgid "Digite o código de confirmação"
-#~ msgstr "Digite o código de confirmação"
+#: src/components/examples/toolbar-examples.tsx:540
+#~ msgid "Different States"
+#~ msgstr "Different States"
 
-#: src/components/scan/pdf-import-component.tsx:472
+#: src/components/purchases/pdf-import-component.tsx:481
 msgid "Discounts"
 msgstr "Discounts"
 
-#: src/components/settings/profile-form.tsx:119
+#: src/components/settings/profile-form.tsx:116
 msgid "Display Name"
 msgstr "Display Name"
 
-#: src/components/auth/login-form.tsx:168
+#: src/components/auth/login-form.tsx:114
 msgid "Don't have an account?"
 msgstr "Don't have an account?"
 
-#: src/components/family/markets-form.tsx:166
+#: src/components/examples/sheets-examples.tsx:137
+#~ msgid "Download"
+#~ msgstr "Download"
+
+#: src/components/family/markets-form.tsx:154
 msgid "e.g., 123 Flower St, City"
 msgstr "e.g., 123 Flower St, City"
 
-#: src/components/family/markets-form.tsx:140
-#: src/components/scan/manual-purchase-form.tsx:96
+#: src/components/family/markets-form.tsx:141
+#: src/components/purchases/manual-purchase-form.tsx:96
 msgid "e.g., Neighborhood Supermarket"
 msgstr "e.g., Neighborhood Supermarket"
 
-#: src/components/scan/pdf-import-component.tsx:518
+#: src/components/examples/toolbar-examples.tsx:237
+#: src/components/examples/toolbar-examples.tsx:400
+#~ msgid "Edit"
+#~ msgstr "Edit"
+
+#: src/components/purchases/pdf-import-component.tsx:527
 msgid "Edit Item"
 msgstr "Edit Item"
 
+#: src/components/layout/main-nav.tsx:88
+msgid "Education"
+msgstr "Education"
+
 #: src/components/auth/forgot-password-form.tsx:48
-#: src/components/auth/login-form.tsx:87
-#: src/components/auth/signup-form.tsx:145
-#: src/components/settings/profile-form.tsx:132
+#: src/components/auth/login-form.tsx:74
+#: src/components/auth/signup-form.tsx:89
+#: src/components/settings/profile-form.tsx:122
 msgid "Email"
 msgstr "Email"
 
-#: src/components/settings/preferences-form.tsx:130
+#: src/components/settings/profile-form.tsx:26
+msgid "Email inválido."
+msgstr "Email inválido."
+
+#: src/components/settings/preferences-form.tsx:115
 msgid "Enable push notifications"
 msgstr "Enable push notifications"
-
-#: src/components/family/markets-form.tsx:288
-#~ msgid "Endereço"
-#~ msgstr "Endereço"
-
-#: src/components/family/markets-form.tsx:153
-#~ msgid "Endereço (Opcional)"
-#~ msgstr "Endereço (Opcional)"
 
 #: src/components/settings/delete-confirmation-dialog.tsx:87
 msgid "Enter the confirmation code"
 msgstr "Enter the confirmation code"
 
-#: src/components/auth/login-form.tsx:76
+#: src/components/auth/login-form.tsx:67
 msgid "Enter your credentials to access your account."
 msgstr "Enter your credentials to access your account."
 
-#: src/components/family/history-tab.tsx:155
-#: src/components/family/history-tab.tsx:189
-#: src/components/family/history-tab.tsx:404
-#: src/components/settings/delete-confirmation-dialog.tsx:60
-#: src/components/settings/preferences-form.tsx:54
-#~ msgid "Erro"
-#~ msgstr "Erro"
-
-#: src/components/settings/profile-form.tsx:94
-#~ msgid "Erro ao atualizar o perfil."
-#~ msgstr "Erro ao atualizar o perfil."
-
-#: src/components/auth/signup-form.tsx:76
-msgid "Erro ao Criar Conta"
-msgstr "Erro ao Criar Conta"
-
-#: src/components/settings/preferences-form.tsx:73
-#~ msgid "Erro ao Salvar"
-#~ msgstr "Erro ao Salvar"
-
-#: src/components/settings/profile-form.tsx:118
-#~ msgid "Erro ao Vincular Conta"
-#~ msgstr "Erro ao Vincular Conta"
-
 #: src/components/family/family-composition-form.tsx:52
-#: src/components/family/history-tab.tsx:139
-#: src/components/family/history-tab.tsx:160
-#: src/components/family/history-tab.tsx:375
-#: src/components/list/shopping-list-component-new.tsx:67
-#: src/components/list/shopping-list-component-new.tsx:84
-#: src/components/list/shopping-list-component-new.tsx:129
-#: src/components/list/shopping-list-component-new.tsx:150
-#: src/components/list/shopping-list-component-new.tsx:168
-#: src/components/list/shopping-list-component-new.tsx:208
-#: src/components/list/shopping-list-component-new.tsx:241
+#: src/components/family/history-tab.tsx:207
+#: src/components/family/history-tab.tsx:228
+#: src/components/family/history-tab.tsx:349
+#: src/components/family/history-tab.tsx:641
+#: src/components/list/shopping-list-component-new.tsx:73
+#: src/components/list/shopping-list-component-new.tsx:96
+#: src/components/list/shopping-list-component-new.tsx:141
+#: src/components/list/shopping-list-component-new.tsx:162
+#: src/components/list/shopping-list-component-new.tsx:180
+#: src/components/list/shopping-list-component-new.tsx:231
+#: src/components/list/shopping-list-component-new.tsx:264
 #: src/components/settings/delete-confirmation-dialog.tsx:60
-#: src/components/settings/preferences-form.tsx:52
-#: src/routes/dashboard/home/route.tsx:407
-#: src/routes/dashboard/scan/route.tsx:30
+#: src/components/settings/preferences-form.tsx:51
+#: src/routes/home/route.tsx:607
+#: src/routes/purchases/route.tsx:27
 msgid "Error"
 msgstr "Error"
 
-#: src/routes/dashboard/home/route.tsx:408
+#: src/components/auth/signup-form.tsx:53
+msgid "Error Creating Account"
+msgstr "Error Creating Account"
+
+#: src/routes/home/route.tsx:608
 msgid "Error fetching consumption analysis."
 msgstr "Error fetching consumption analysis."
 
-#: src/components/list/shopping-list-component.tsx:170
-#~ msgid "Error fetching suggestions"
-#~ msgstr "Error fetching suggestions"
-
-#: src/components/list/shopping-list-component-new.tsx:198
+#: src/components/list/shopping-list-component-new.tsx:221
 msgid "Error getting suggestions"
 msgstr "Error getting suggestions"
 
-#: src/components/settings/profile-form.tsx:118
-#~ msgid "Error Linking Account"
-#~ msgstr "Error Linking Account"
+#: src/components/purchases/nfce-scanner-component.tsx:84
+#: src/components/purchases/nfce-scanner-component.tsx:94
+#: src/components/purchases/nfce-scanner-component.tsx:159
+#: src/components/purchases/nfce-url-component.tsx:66
+#: src/components/purchases/nfce-url-component.tsx:76
+#: src/components/purchases/nfce-url-component.tsx:151
+msgid "Error processing NFCe"
+msgstr "Error processing NFCe"
 
-#: src/components/settings/preferences-form.tsx:70
+#: src/components/settings/preferences-form.tsx:69
 msgid "Error Saving"
 msgstr "Error Saving"
 
@@ -711,72 +800,56 @@ msgstr "Error Saving"
 msgid "Error updating profile."
 msgstr "Error updating profile."
 
-#: src/components/auth/login-form.tsx:64
-#: src/components/auth/signup-form.tsx:109
-msgid "Error with Google Sign-In"
-msgstr "Error with Google Sign-In"
-
-#: src/components/settings/profile-form.tsx:220
-#~ msgid "Escolha uma senha nova e forte."
-#~ msgstr "Escolha uma senha nova e forte."
-
-#: src/components/settings/preferences-form.tsx:110
-#~ msgid "Escuro"
-#~ msgstr "Escuro"
-
-#: src/components/family/markets-form.tsx:298
-#~ msgid "Esta lista está vazia."
-#~ msgstr "Esta lista está vazia."
-
-#: src/components/family/markets-form.tsx:79
-#~ msgid "Estabelecimento Adicionado"
-#~ msgstr "Estabelecimento Adicionado"
-
-#: src/components/family/markets-form.tsx:108
-#~ msgid "Estabelecimento Removido"
-#~ msgstr "Estabelecimento Removido"
-
-#: src/components/family/markets-form.tsx:219
-#~ msgid "Estabelecimentos Favoritos"
-#~ msgstr "Estabelecimentos Favoritos"
-
-#: src/components/family/markets-form.tsx:231
-#~ msgid "Estabelecimentos Ignorados"
-#~ msgstr "Estabelecimentos Ignorados"
-
-#: src/components/family/markets-form.tsx:220
-#~ msgid "Estas são as lojas onde você compra com mais frequência. Nós as usaremos para gerar insights personalizados."
-#~ msgstr "Estas são as lojas onde você compra com mais frequência. Nós as usaremos para gerar insights personalizados."
+#: src/components/dashboard/price-comparison-modal.tsx:257
+msgid "estimate"
+msgstr "estimate"
 
 #: src/routes/index.tsx:58
 msgid "Everything you need to take control of your finances."
 msgstr "Everything you need to take control of your finances."
 
-#: src/components/family/markets-form.tsx:155
-#~ msgid "ex: Rua das Flores, 123, São Paulo"
-#~ msgstr "ex: Rua das Flores, 123, São Paulo"
+#: src/components/family/history-tab.tsx:814
+#: src/components/purchases/manual-purchase-form.tsx:199
+msgid "ex: 1kg, 500ml"
+msgstr "ex: 1kg, 500ml"
 
-#: src/components/family/markets-form.tsx:129
-#~ msgid "ex: Supermercado Central"
-#~ msgstr "ex: Supermercado Central"
+#: src/components/examples/toolbar-examples.tsx:548
+#~ msgid "Examples - Material Design 3 Toolbar"
+#~ msgstr "Examples - Material Design 3 Toolbar"
 
-#: src/components/list/shopping-list-component.tsx:300
-#~ msgid "Export PDF"
-#~ msgstr "Export PDF"
+#: src/types/finance-examples.ts:378
+msgid "Expired"
+msgstr "Expired"
 
 #: src/components/family/plan-form.tsx:44
 msgid "Exportable reports and CSV"
 msgstr "Exportable reports and CSV"
 
-#: src/components/layout/shopping-list-popover.tsx:154
+#: src/components/layout/shopping-list-popover.tsx:152
 msgid "Exportar para Google Keep"
 msgstr "Exportar para Google Keep"
 
-#: src/components/scan/pdf-import-component.tsx:243
+#: src/components/purchases/pdf-import-component.tsx:338
+msgid "Extracting purchase data from your receipt. This may take a few moments."
+msgstr "Extracting purchase data from your receipt. This may take a few moments."
+
+#: src/components/purchases/pdf-import-component.tsx:246
 msgid "Failed to extract PDF data"
 msgstr "Failed to extract PDF data"
 
-#: src/components/layout/main-nav.tsx:54
+#: src/components/purchases/monthly-purchase-display.tsx:89
+msgid "Failed to load purchase history."
+msgstr "Failed to load purchase history."
+
+#: src/components/family/history-tab.tsx:349
+msgid "Failed to load purchase items."
+msgstr "Failed to load purchase items."
+
+#: src/components/purchases/monthly-purchase-display.tsx:126
+msgid "Fallback Mode Active"
+msgstr "Fallback Mode Active"
+
+#: src/components/layout/main-nav.tsx:92
 msgid "Family"
 msgstr "Family"
 
@@ -784,29 +857,33 @@ msgstr "Family"
 msgid "Family Composition"
 msgstr "Family Composition"
 
-#: src/routes/dashboard/family/route.tsx:42
+#: src/components/purchases/monthly-purchase-display.tsx:64
+msgid "Family ID is required to load purchases."
+msgstr "Family ID is required to load purchases."
+
+#: src/components/purchases/monthly-purchase-display.tsx:95
+msgid "Family not found. Please check your account settings."
+msgstr "Family not found. Please check your account settings."
+
+#: src/routes/family/route.tsx:43
 msgid "Family Settings"
 msgstr "Family Settings"
 
-#: src/components/family/markets-form.tsx:230
+#: src/components/family/markets-form.tsx:188
 msgid "Favorite Stores"
 msgstr "Favorite Stores"
 
-#: src/components/family/history-tab.tsx:239
+#: src/components/family/history-tab.tsx:398
 msgid "Filter by period"
 msgstr "Filter by period"
 
-#: src/components/family/history-tab.tsx:226
+#: src/components/family/history-tab.tsx:385
 msgid "Filter by store"
 msgstr "Filter by store"
 
-#: src/components/family/history-tab.tsx:255
-#~ msgid "Filtrar por loja"
-#~ msgstr "Filtrar por loja"
-
-#: src/components/family/history-tab.tsx:268
-#~ msgid "Filtrar por período"
-#~ msgstr "Filtrar por período"
+#: src/components/family/history-tab.tsx:364
+msgid "Filtered view - clear filters to see monthly organization."
+msgstr "Filtered view - clear filters to see monthly organization."
 
 #: src/components/family/plan-form.tsx:136
 #: src/components/family/plan-form.tsx:137
@@ -818,7 +895,7 @@ msgstr "For individuals and small families starting out."
 msgid "For those who want advanced insights and AI features."
 msgstr "For those who want advanced insights and AI features."
 
-#: src/components/auth/login-form.tsx:104
+#: src/components/auth/login-form.tsx:90
 msgid "Forgot password?"
 msgstr "Forgot password?"
 
@@ -832,7 +909,7 @@ msgstr "Forgot Your Password?"
 msgid "Free"
 msgstr "Free"
 
-#: src/routes/dashboard/home/route.tsx:173
+#: src/routes/home/route.tsx:190
 msgid "Frozen foods"
 msgstr "Frozen foods"
 
@@ -840,24 +917,44 @@ msgstr "Frozen foods"
 msgid "Full Control"
 msgstr "Full Control"
 
-#: src/routes/dashboard/admin/reports/route.tsx:23
+#: src/types/finance-examples.ts:176
+msgid "Full featured budget system"
+msgstr "Full featured budget system"
+
+#: src/types/finance-examples.ts:354
+msgid "Funds"
+msgstr "Funds"
+
+#: src/routes/admin/reports/route.tsx:23
 msgid "Generate and view system usage reports."
 msgstr "Generate and view system usage reports."
 
-#: src/components/list/shopping-list-component-new.tsx:274
+#: src/components/list/shopping-list-component-new.tsx:307
 msgid "Getting suggestions..."
 msgstr "Getting suggestions..."
 
-#: src/routes/dashboard/admin/settings/route.tsx:25
+#: src/routes/admin/settings/route.tsx:25
 msgid "Global configuration options will be available here."
 msgstr "Global configuration options will be available here."
 
-#: src/components/layout/main-nav.tsx:63
-#: src/routes/dashboard/admin/settings/route.tsx:20
+#: src/components/layout/main-nav.tsx:101
+#: src/routes/admin/settings/route.tsx:20
 msgid "Global Settings"
 msgstr "Global Settings"
 
-#: src/components/list/shopping-list-component-new.tsx:328
+#: src/components/dashboard/insight-modal.tsx:344
+msgid "Goal"
+msgstr "Goal"
+
+#: src/routes/home/route.tsx:832
+msgid "Goals"
+msgstr "Goals"
+
+#: src/routes/home/route.tsx:825
+msgid "Goals Summary"
+msgstr "Goals Summary"
+
+#: src/components/list/shopping-list-component-new.tsx:365
 msgid "Gram"
 msgstr "Gram"
 
@@ -865,159 +962,183 @@ msgstr "Gram"
 msgid "Help our AI provide better suggestions by telling us about your family."
 msgstr "Help our AI provide better suggestions by telling us about your family."
 
-#: src/components/auth/login-form.tsx:137
-#: src/components/auth/signup-form.tsx:188
-#: src/components/settings/profile-form.tsx:190
-#: src/components/settings/profile-form.tsx:229
+#: src/components/auth/signup-form.tsx:132
 msgid "Hide password"
 msgstr "Hide password"
 
-#: src/components/family/history-tab.tsx:235
-#~ msgid "Histórico de Compras"
-#~ msgstr "Histórico de Compras"
+#: src/types/finance-examples.ts:371
+msgid "High"
+msgstr "High"
 
-#: src/routes/dashboard/home/route.tsx:186
+#. placeholder {0}: historicalInsights.topCategoryTrend
+#: src/routes/home/route.tsx:783
+msgid "Historical top: {0}"
+msgstr "Historical top: {0}"
+
+#: src/routes/home/route.tsx:203
 msgid "Home and General"
 msgstr "Home and General"
 
-#: src/components/family/markets-form.tsx:242
+#: src/components/manual-url-input.tsx:105
+msgid "How to get the NFCe URL:"
+msgstr "How to get the NFCe URL:"
+
+#: src/components/manual-url-input.tsx:71
+msgid "https://nfce.fazenda..."
+msgstr "https://nfce.fazenda..."
+
+#: src/components/family/markets-form.tsx:200
 msgid "Ignored Stores"
 msgstr "Ignored Stores"
 
-#: src/components/scan/pdf-import-component.tsx:319
+#: src/components/purchases/pdf-import-component.tsx:321
 msgid "Import from PDF"
 msgstr "Import from PDF"
 
-#: src/routes/dashboard/scan/route.tsx:70
-msgid "Import PDF"
-msgstr "Import PDF"
+#: src/routes/purchases/route.tsx:60
+msgid "Import from PDF, scan NFCe QR code, enter NFCe URL, or add manually."
+msgstr "Import from PDF, scan NFCe QR code, enter NFCe URL, or add manually."
 
-#: src/components/settings/profile-form.tsx:139
-#~ msgid "Informações do Perfil"
-#~ msgstr "Informações do Perfil"
+#: src/routes/home/route.tsx:806
+msgid "Increasing"
+msgstr "Increasing"
 
-#: src/components/layout/main-nav.tsx:48
+#: src/components/qr-scanner.tsx:139
+msgid "Initializing camera..."
+msgstr "Initializing camera..."
+
+#: src/components/purchases/nfce-scanner-component.tsx:366
+msgid "Inserir URL Manualmente"
+msgstr "Inserir URL Manualmente"
+
+#: src/components/layout/main-nav.tsx:75
 msgid "Insights"
 msgstr "Insights"
 
-#: src/routes/dashboard/admin/market-insights/route.tsx:20
-#~ msgid "Insights de Mercado"
-#~ msgstr "Insights de Mercado"
-
-#: src/routes/dashboard/home/route.tsx:610
+#: src/routes/home/route.tsx:1015
 msgid "Insufficient Data"
 msgstr "Insufficient Data"
 
-#: src/components/family/history-tab.tsx:449
-#: src/components/list/shopping-list-component-new.tsx:303
-#: src/components/scan/manual-purchase-form.tsx:105
-#: src/components/scan/manual-purchase-form.tsx:184
+#: src/types/finance-examples.ts:181
+msgid "Investment portfolio"
+msgstr "Investment portfolio"
+
+#: src/components/layout/main-nav.tsx:67
+msgid "Investments"
+msgstr "Investments"
+
+#: src/components/family/history-tab.tsx:776
+#: src/components/family/history-tab.tsx:791
+#: src/components/list/shopping-list-component-new.tsx:340
+#: src/components/purchases/manual-purchase-form.tsx:105
+#: src/components/purchases/manual-purchase-form.tsx:184
 msgid "Item name"
 msgstr "Item name"
 
-#: src/components/scan/pdf-import-component.tsx:278
+#: src/components/purchases/pdf-import-component.tsx:281
 msgid "Item updated successfully"
 msgstr "Item updated successfully"
 
-#: src/components/scan/manual-purchase-form.tsx:99
-#: src/components/scan/manual-purchase-form.tsx:159
+#: src/components/purchases/manual-purchase-form.tsx:99
+#: src/components/purchases/manual-purchase-form.tsx:159
 msgid "Items"
 msgstr "Items"
 
-#: src/routes/dashboard/home/route.tsx:504
-msgid "Items Purchased (Month)"
-msgstr "Items Purchased (Month)"
+#: src/routes/home/route.tsx:735
+msgid "Items Purchased"
+msgstr "Items Purchased"
 
-#: src/components/auth/signup-form.tsx:121
+#: src/components/auth/signup-form.tsx:65
 msgid "Join thousands of families who are transforming their financial lives."
 msgstr "Join thousands of families who are transforming their financial lives."
 
-#: src/components/list/shopping-list-component-new.tsx:326
+#: src/components/list/shopping-list-component-new.tsx:363
 msgid "Kg"
 msgstr "Kg"
 
-#: src/components/family/history-tab.tsx:244
+#: src/components/family/history-tab.tsx:403
+#: src/routes/home/route.tsx:816
 msgid "Last 3 months"
 msgstr "Last 3 months"
 
-#: src/components/family/history-tab.tsx:245
+#: src/components/family/history-tab.tsx:404
 msgid "Last 6 months"
 msgstr "Last 6 months"
 
-#: src/components/family/history-tab.tsx:243
+#: src/components/family/history-tab.tsx:402
 msgid "Last month"
 msgstr "Last month"
 
-#: src/components/family/history-tab.tsx:246
+#: src/components/family/history-tab.tsx:405
 msgid "Last year"
 msgstr "Last year"
 
-#: src/components/settings/preferences-form.tsx:105
+#: src/components/settings/preferences-form.tsx:100
 msgid "Light"
 msgstr "Light"
 
-#: src/components/settings/profile-form.tsx:184
-#~ msgid "Linked Accounts"
-#~ msgstr "Linked Accounts"
-
-#: src/components/layout/shopping-list-popover.tsx:118
-msgid "Lista de compras ativa"
-msgstr "Lista de compras ativa"
-
-#: src/components/list/shopping-list-component-new.tsx:327
+#: src/components/list/shopping-list-component-new.tsx:364
 msgid "Liter"
 msgstr "Liter"
 
-#: src/components/list/shopping-list-component.tsx:232
-#~ msgid "Loading list..."
-#~ msgstr "Loading list..."
+#: src/components/family/history-tab.tsx:303
+msgid "Loading purchase..."
+msgstr "Loading purchase..."
+
+#: src/components/list/shopping-list-component-new.tsx:281
+msgid "Loading shopping list..."
+msgstr "Loading shopping list..."
+
+#: src/components/ui/loading.tsx:25
+msgid "Loading..."
+msgstr "Loading..."
 
 #: src/components/auth/forgot-password-form.tsx:65
-#: src/components/auth/login-form.tsx:147
-#: src/components/auth/signup-form.tsx:222
+#: src/components/auth/login-form.tsx:102
+#: src/components/auth/signup-form.tsx:156
 #: src/routes/index.tsx:21
 msgid "Login"
 msgstr "Login"
 
-#: src/components/auth/login-form.tsx:49
+#: src/components/auth/login-form.tsx:50
 msgid "Login Error"
 msgstr "Login Error"
 
-#: src/routes/dashboard/admin/logs/route.tsx:20
-#~ msgid "Logs do Sistema"
-#~ msgstr "Logs do Sistema"
+#: src/types/finance-examples.ts:369
+msgid "Low"
+msgstr "Low"
 
-#: src/components/list/shopping-list-component-new.tsx:58
+#: src/components/list/shopping-list-component-new.tsx:64
 msgid "Main Shopping List"
 msgstr "Main Shopping List"
 
-#: src/components/scan/pdf-import-component.tsx:519
+#: src/components/purchases/pdf-import-component.tsx:528
 msgid "Make corrections to the extracted item's details here."
 msgstr "Make corrections to the extracted item's details here."
 
-#: src/components/layout/main-nav.tsx:64
-#: src/routes/dashboard/admin/notifications/route.tsx:20
+#: src/components/layout/main-nav.tsx:102
+#: src/routes/admin/notifications/route.tsx:20
 msgid "Manage Notifications"
 msgstr "Manage Notifications"
 
-#: src/routes/dashboard/admin/security/route.tsx:22
+#: src/routes/admin/security/route.tsx:22
 msgid "Manage security settings and protocols."
 msgstr "Manage security settings and protocols."
 
-#: src/components/layout/main-nav.tsx:60
-#: src/routes/dashboard/admin/users/route.tsx:20
+#: src/components/layout/main-nav.tsx:98
+#: src/routes/admin/users/route.tsx:20
 msgid "Manage Users"
 msgstr "Manage Users"
 
-#: src/routes/dashboard/settings/route.tsx:57
+#: src/routes/settings/route.tsx:58
 msgid "Manage your account, preferences and privacy settings."
 msgstr "Manage your account, preferences and privacy settings."
 
-#: src/routes/dashboard/list/route.tsx:19
+#: src/routes/list/route.tsx:20
 msgid "Manage your active shopping list. Add, remove and check items."
 msgstr "Manage your active shopping list. Add, remove and check items."
 
-#: src/routes/dashboard/family/route.tsx:43
+#: src/routes/family/route.tsx:44
 msgid "Manage your family composition, preferred stores, and your plan."
 msgstr "Manage your family composition, preferred stores, and your plan."
 
@@ -1029,7 +1150,8 @@ msgstr "Manage your family, preferred stores, and analyze your purchase history.
 msgid "Manage your Plan"
 msgstr "Manage your Plan"
 
-#: src/routes/dashboard/scan/route.tsx:71
+#: src/components/layout/main-nav.tsx:164
+#: src/components/layout/main-nav.tsx:215
 msgid "Manual Entry"
 msgstr "Manual Entry"
 
@@ -1038,262 +1160,328 @@ msgid "Manual expense tracking"
 msgstr "Manual expense tracking"
 
 #: src/components/layout/notification-popover.tsx:64
-#~ msgid "Marcar todas como lidas"
-#~ msgstr "Marcar todas como lidas"
-
-#: src/components/layout/notification-popover.tsx:64
 msgid "Mark all as read"
 msgstr "Mark all as read"
 
-#: src/components/family/markets-form.tsx:64
-#: src/components/family/markets-form.tsx:284
+#: src/components/family/markets-form.tsx:65
+#: src/components/family/markets-form.tsx:242
 msgid "Market"
 msgstr "Market"
 
-#: src/components/family/markets-form.tsx:90
+#: src/components/family/markets-form.tsx:95
 msgid "Market Added"
 msgstr "Market Added"
 
-#: src/routes/dashboard/admin/market-insights/route.tsx:25
+#: src/routes/admin/market-insights/route.tsx:25
 msgid "Market analysis tools will be available here."
 msgstr "Market analysis tools will be available here."
 
-#: src/components/layout/main-nav.tsx:62
-#: src/routes/dashboard/admin/market-insights/route.tsx:20
+#: src/components/layout/main-nav.tsx:100
+#: src/routes/admin/market-insights/route.tsx:20
 msgid "Market Insights"
 msgstr "Market Insights"
 
-#: src/components/family/markets-form.tsx:67
-#: src/components/family/markets-form.tsx:287
+#: src/components/family/markets-form.tsx:68
+#: src/components/family/markets-form.tsx:245
 msgid "Marketplace"
 msgstr "Marketplace"
 
-#: src/routes/dashboard/family/route.tsx:52
+#: src/routes/family/route.tsx:57
 msgid "Markets"
 msgstr "Markets"
 
-#: src/routes/dashboard/home/route.tsx:154
+#: src/routes/home/route.tsx:171
 msgid "Meat and Seafood"
 msgstr "Meat and Seafood"
 
-#: src/components/list/shopping-list-component-new.tsx:329
+#: src/types/finance-examples.ts:370
+msgid "Medium"
+msgstr "Medium"
+
+#: src/components/list/shopping-list-component-new.tsx:366
 msgid "ML"
 msgstr "ML"
 
-#: src/components/family/plan-form.tsx:192
+#: src/components/subscription/PremiumFeatureGuard.tsx:71
+msgid "month"
+msgstr "month"
+
+#: src/components/finance/charts/monthly-expense-chart.tsx:88
+msgid "Month"
+msgstr "Month"
+
+#: src/types/finance-examples.ts:363
+msgid "Monthly"
+msgstr "Monthly"
+
+#: src/components/family/plan-form.tsx:196
 msgid "Monthly billing"
 msgstr "Monthly billing"
 
-#: src/routes/dashboard/home/route.tsx:477
-msgid "Monthly Spending by Store"
-msgstr "Monthly Spending by Store"
+#: src/components/purchases/monthly-purchase-display.tsx:127
+#: src/components/purchases/monthly-purchase-display.tsx:259
+msgid "Monthly grouping is temporarily unavailable. Showing all purchases in a single list."
+msgstr "Monthly grouping is temporarily unavailable. Showing all purchases in a single list."
 
-#: src/components/family/markets-form.tsx:249
+#: src/routes/home/route.tsx:680
+msgid "Monthly Spending by Store - {currentMonthName}"
+msgstr "Monthly Spending by Store - {currentMonthName}"
+
+#: src/components/dashboard/insight-modal.tsx:162
+msgid "Months Active"
+msgstr "Months Active"
+
+#: src/components/family/markets-form.tsx:207
 msgid "Move to favorites"
 msgstr "Move to favorites"
 
-#: src/components/family/markets-form.tsx:237
+#: src/components/family/markets-form.tsx:195
 msgid "Move to ignored"
 msgstr "Move to ignored"
 
-#: src/components/family/markets-form.tsx:108
+#: src/components/family/markets-form.tsx:113
 msgid "Moved to Favorites"
 msgstr "Moved to Favorites"
 
-#: src/components/family/markets-form.tsx:99
+#: src/components/family/markets-form.tsx:104
 msgid "Moved to Ignored"
 msgstr "Moved to Ignored"
 
-#: src/components/family/markets-form.tsx:238
-#~ msgid "Mover para favoritos"
-#~ msgstr "Mover para favoritos"
-
-#: src/components/family/markets-form.tsx:226
-#~ msgid "Mover para ignorados"
-#~ msgstr "Mover para ignorados"
-
-#: src/components/family/markets-form.tsx:97
-#~ msgid "Movido para Favoritos"
-#~ msgstr "Movido para Favoritos"
-
-#: src/components/family/markets-form.tsx:88
-#~ msgid "Movido para Ignorados"
-#~ msgstr "Movido para Ignorados"
-
-#: src/components/layout/main-nav.tsx:55
+#: src/components/layout/main-nav.tsx:93
 msgid "My Account"
 msgstr "My Account"
 
-#: src/components/auth/signup-form.tsx:132
-#: src/components/family/markets-form.tsx:308
-#: src/components/scan/pdf-import-component.tsx:525
+#: src/components/auth/signup-form.tsx:76
+#: src/components/family/markets-form.tsx:270
+#: src/components/purchases/pdf-import-component.tsx:534
 msgid "Name"
 msgstr "Name"
 
-#: src/components/family/markets-form.tsx:232
-#~ msgid "Não usaremos dados dessas lojas para gerar insights de comparação de preços."
-#~ msgstr "Não usaremos dados dessas lojas para gerar insights de comparação de preços."
+#: src/components/examples/navigation-examples.tsx:41
+#~ msgid "Navigation Bar - Basic"
+#~ msgstr "Navigation Bar - Basic"
 
-#: src/components/family/history-tab.tsx:307
-#~ msgid "Nenhuma Compra Encontrada"
-#~ msgstr "Nenhuma Compra Encontrada"
+#: src/components/examples/navigation-examples.tsx:78
+#~ msgid "Navigation Bar - Compact"
+#~ msgstr "Navigation Bar - Compact"
 
-#: src/components/settings/profile-form.tsx:203
+#: src/components/examples/navigation-examples.tsx:112
+#~ msgid "Navigation Bar - Without Labels"
+#~ msgstr "Navigation Bar - Without Labels"
+
+#: src/components/examples/navigation-examples.tsx:202
+#~ msgid "Navigation Rail - Expanded"
+#~ msgstr "Navigation Rail - Expanded"
+
+#: src/components/examples/navigation-examples.tsx:158
+#~ msgid "Navigation Rail - Standard"
+#~ msgstr "Navigation Rail - Standard"
+
+#: src/routes/home/route.tsx:818
+msgid "Need more data for analysis"
+msgstr "Need more data for analysis"
+
+#: src/components/purchases/nfce-url-component.tsx:177
+msgid "New Analysis"
+msgstr "New Analysis"
+
+#: src/components/settings/profile-form.tsx:156
 msgid "New Password"
 msgstr "New Password"
 
-#: src/components/dashboard/insight-modal.tsx:302
+#: src/components/purchases/nfce-url-component.tsx:171
+msgid "NFCe Analysis Result"
+msgstr "NFCe Analysis Result"
+
+#: src/components/purchases/nfce-url-component.tsx:189
+msgid "NFCe processed with AI:"
+msgstr "NFCe processed with AI:"
+
+#: src/components/manual-url-input.tsx:67
+msgid "NFCe URL"
+msgstr "NFCe URL"
+
+#: src/components/purchases/nfce-url-component.tsx:130
+msgid "NFCe via URL"
+msgstr "NFCe via URL"
+
+#: src/routes/home/route.tsx:837
+msgid "No active goals"
+msgstr "No active goals"
+
+#: src/components/dashboard/insight-modal.tsx:423
 msgid "No Analysis Available"
 msgstr "No Analysis Available"
 
-#: src/components/dashboard/insight-modal.tsx:74
+#: src/components/qr-scanner.tsx:34
+msgid "No camera found on device"
+msgstr "No camera found on device"
+
+#: src/components/dashboard/price-comparison-modal.tsx:258
+msgid "No data"
+msgstr "No data"
+
+#: src/components/dashboard/insight-modal.tsx:135
 msgid "No Data to Display"
 msgstr "No Data to Display"
 
-#: src/routes/dashboard/home/route.tsx:685
+#: src/routes/home/route.tsx:1123
 msgid "No Expenses This Month"
 msgstr "No Expenses This Month"
 
-#: src/components/list/shopping-list-component-new.tsx:405
+#: src/components/family/history-tab.tsx:882
+msgid "No history"
+msgstr "No history"
+
+#: src/components/purchases/monthly-purchase-display.tsx:97
+msgid "No internet connection. Please check your network and try again."
+msgstr "No internet connection. Please check your network and try again."
+
+#: src/components/list/shopping-list-component-new.tsx:454
 msgid "No items in your shopping list yet."
 msgstr "No items in your shopping list yet."
+
+#: src/components/family/history-tab.tsx:889
+msgid "No previous"
+msgstr "No previous"
+
+#: src/components/dashboard/price-comparison-modal.tsx:148
+msgid "No previous purchase"
+msgstr "No previous purchase"
 
 #: src/components/auth/forgot-password-form.tsx:38
 msgid "No problem. Enter your email and we'll send you a link to reset it."
 msgstr "No problem. Enter your email and we'll send you a link to reset it."
 
-#: src/components/family/history-tab.tsx:278
+#: src/components/dashboard/price-comparison-modal.tsx:165
+msgid "No product selected."
+msgstr "No product selected."
+
+#: src/components/family/history-tab.tsx:439
+#: src/components/purchases/monthly-purchase-display.tsx:239
 msgid "No Purchases Found"
 msgstr "No Purchases Found"
 
-#: src/components/family/history-tab.tsx:297
+#: src/components/purchases/virtual-purchase-list.tsx:122
+msgid "No purchases to display"
+msgstr "No purchases to display"
+
+#: src/components/family/history-tab.tsx:459
 msgid "No Recommendations Yet"
 msgstr "No Recommendations Yet"
 
-#: src/components/family/markets-form.tsx:285
-#~ msgid "Nome"
-#~ msgstr "Nome"
-
-#: src/components/settings/profile-form.tsx:150
-#~ msgid "Nome de Exibição"
-#~ msgstr "Nome de Exibição"
-
-#: src/components/family/markets-form.tsx:127
-#~ msgid "Nome do Estabelecimento"
-#~ msgstr "Nome do Estabelecimento"
-
-#: src/components/family/history-tab.tsx:479
-#~ msgid "Nome do item"
-#~ msgstr "Nome do item"
-
-#: src/components/layout/notification-popover.tsx:55
-#: src/components/layout/notification-popover.tsx:60
-#: src/components/settings/preferences-form.tsx:125
-#~ msgid "Notificações"
-#~ msgstr "Notificações"
-
-#: src/routes/dashboard/admin/notifications/route.tsx:25
+#: src/routes/admin/notifications/route.tsx:25
 msgid "Notification management tools will be available here."
 msgstr "Notification management tools will be available here."
 
 #: src/components/layout/notification-popover.tsx:55
 #: src/components/layout/notification-popover.tsx:60
-#: src/components/settings/preferences-form.tsx:122
+#: src/components/settings/preferences-form.tsx:111
 msgid "Notifications"
 msgstr "Notifications"
 
-#: src/components/settings/profile-form.tsx:269
-#~ msgid "Nova Senha"
-#~ msgstr "Nova Senha"
-
-#: src/components/family/markets-form.tsx:108
-#~ msgid "O estabelecimento foi removido de suas listas."
-#~ msgstr "O estabelecimento foi removido de suas listas."
-
-#: src/routes/dashboard/admin/logs/route.tsx:25
-#~ msgid "O visualizador de logs estará aqui."
-#~ msgstr "O visualizador de logs estará aqui."
-
-#: src/components/settings/delete-confirmation-dialog.tsx:61
-#~ msgid "Ocorreu um erro inesperado. Por favor, tente novamente."
-#~ msgstr "Ocorreu um erro inesperado. Por favor, tente novamente."
-
-#: src/components/settings/delete-confirmation-dialog.tsx:54
-#~ msgid "Operação concluída com sucesso."
-#~ msgstr "Operação concluída com sucesso."
+#: src/components/settings/profile-form.tsx:25
+msgid "O nome deve ter pelo menos 2 caracteres."
+msgstr "O nome deve ter pelo menos 2 caracteres."
 
 #: src/components/settings/delete-confirmation-dialog.tsx:54
 msgid "Operation completed successfully."
 msgstr "Operation completed successfully."
 
-#: src/components/auth/login-form.tsx:152
+#: src/components/auth/login-form.tsx:108
 msgid "or"
 msgstr "or"
 
-#: src/components/auth/signup-form.tsx:203
+#: src/components/auth/signup-form.tsx:147
 msgid "OR"
 msgstr "OR"
 
-#: src/components/family/markets-form.tsx:69
-#: src/components/family/markets-form.tsx:289
+#: src/components/family/markets-form.tsx:70
+#: src/components/family/markets-form.tsx:247
+#: src/types/finance-examples.ts:348
+#: src/types/finance-examples.ts:357
 msgid "Other"
 msgstr "Other"
 
-#: src/routes/dashboard/home/route.tsx:190
-#: src/routes/dashboard/home/route.tsx:416
+#: src/routes/home/route.tsx:207
+#: src/routes/home/route.tsx:616
 msgid "Others"
 msgstr "Others"
 
-#: src/routes/dashboard/home/route.tsx:538
-msgid "Our AI analyzes your purchases to find potential savings. This feature will be available soon!"
-msgstr "Our AI analyzes your purchases to find potential savings. This feature will be available soon!"
-
-#: src/components/dashboard/insight-modal.tsx:283
+#: src/components/dashboard/insight-modal.tsx:404
 msgid "Our AI is analyzing your data... this may take a moment."
 msgstr "Our AI is analyzing your data... this may take a moment."
 
-#: src/components/settings/delete-confirmation-dialog.tsx:81
-#~ msgid "Para confirmar, por favor, digite o código <b>{confirmationCode}</b> na caixa abaixo."
-#~ msgstr "Para confirmar, por favor, digite o código <b>{confirmationCode}</b> na caixa abaixo."
+#: src/routes/home/route.tsx:826
+msgid "Overview of your active goals and their progress."
+msgstr "Overview of your active goals and their progress."
 
-#: src/components/auth/login-form.tsx:101
-#: src/components/auth/signup-form.tsx:158
+#: src/components/auth/login-form.tsx:83
+#: src/components/auth/signup-form.tsx:102
 msgid "Password"
 msgstr "Password"
 
-#: src/components/auth/signup-form.tsx:31
+#: src/components/auth/signup-form.tsx:28
 msgid "Password must have at least 6 characters."
 msgstr "Password must have at least 6 characters."
 
-#: src/components/scan/pdf-import-component.tsx:233
+#: src/types/finance-examples.ts:379
+msgid "Past due"
+msgstr "Past due"
+
+#: src/components/manual-url-input.tsx:109
+msgid "Paste the full URL in the field above"
+msgstr "Paste the full URL in the field above"
+
+#: src/components/purchases/nfce-scanner-component.tsx:368
+msgid "Paste the NFCe URL obtained through a QR code reader"
+msgstr "Paste the NFCe URL obtained through a QR code reader"
+
+#: src/components/purchases/nfce-url-component.tsx:132
+msgid "Paste the NFCe URL to automatically extract the data."
+msgstr "Paste the NFCe URL to automatically extract the data."
+
+#: src/components/manual-url-input.tsx:81
+msgid "Paste the NFCe URL you want to analyze here"
+msgstr "Paste the NFCe URL you want to analyze here"
+
+#: src/components/family/payment-buttons.tsx:124
+msgid "Payment Error"
+msgstr "Payment Error"
+
+#: src/components/family/payment-buttons.tsx:118
+msgid "Payment Success"
+msgstr "Payment Success"
+
+#: src/components/purchases/nfce-scanner-component.tsx:318
+msgid "PDF"
+msgstr "PDF"
+
+#: src/components/purchases/pdf-import-component.tsx:236
 msgid "PDF data extracted successfully"
 msgstr "PDF data extracted successfully"
 
-#: src/components/scan/pdf-import-component.tsx:234
+#: src/components/purchases/pdf-import-component.tsx:237
 msgid "PDF data was extracted successfully. Please review the items below before saving."
 msgstr "PDF data was extracted successfully. Please review the items below before saving."
 
-#: src/routes/dashboard/settings/route.tsx:85
+#: src/routes/settings/route.tsx:90
 msgid "Permanently delete all your purchase history and related data."
 msgstr "Permanently delete all your purchase history and related data."
 
-#: src/routes/dashboard/settings/route.tsx:111
+#: src/routes/settings/route.tsx:118
 msgid "Permanently delete your ShopWise account."
 msgstr "Permanently delete your ShopWise account."
 
-#: src/routes/dashboard/home/route.tsx:179
+#: src/routes/home/route.tsx:196
 msgid "Personal care"
 msgstr "Personal care"
-
-#: src/components/settings/preferences-form.tsx:85
-#~ msgid "Personalize a aparência e o comportamento do aplicativo."
-#~ msgstr "Personalize a aparência e o comportamento do aplicativo."
 
 #: src/components/family/plan-form.tsx:43
 msgid "Personalized budgeting recommendations"
 msgstr "Personalized budgeting recommendations"
 
-#: src/routes/dashboard/home/route.tsx:184
+#: src/routes/home/route.tsx:201
 msgid "Pet supplies"
 msgstr "Pet supplies"
 
@@ -1301,13 +1489,17 @@ msgstr "Pet supplies"
 msgid "Pets"
 msgstr "Pets"
 
-#: src/components/family/markets-form.tsx:68
-#: src/components/family/markets-form.tsx:288
-#: src/routes/dashboard/home/route.tsx:189
+#: src/components/family/markets-form.tsx:69
+#: src/components/family/markets-form.tsx:246
+#: src/routes/home/route.tsx:206
 msgid "Pharmacy"
 msgstr "Pharmacy"
 
-#: src/routes/dashboard/family/route.tsx:58
+#: src/types/finance-examples.ts:347
+msgid "PIX"
+msgstr "PIX"
+
+#: src/routes/family/route.tsx:63
 msgid "Plan"
 msgstr "Plan"
 
@@ -1315,22 +1507,49 @@ msgstr "Plan"
 msgid "Plan updated successfully!"
 msgstr "Plan updated successfully!"
 
+#: src/components/subscription/PremiumFeatureGuard.tsx:71
+msgid "Plans starting at"
+msgstr "Plans starting at"
+
+#: src/components/auth/login-form.tsx:30
+msgid "Please enter a password with at least 6 characters."
+msgstr "Please enter a password with at least 6 characters."
+
+#: src/components/manual-url-input.tsx:44
+msgid "Please enter a URL"
+msgstr "Please enter a URL"
+
 #: src/components/auth/forgot-password-form.tsx:16
-#: src/components/auth/login-form.tsx:28
-#: src/components/auth/signup-form.tsx:30
+#: src/components/auth/login-form.tsx:29
+#: src/components/auth/signup-form.tsx:27
 msgid "Please enter a valid email."
 msgstr "Please enter a valid email."
 
-#: src/components/auth/signup-form.tsx:29
+#: src/components/manual-url-input.tsx:28
+msgid "Please enter a valid NFCe URL"
+msgstr "Please enter a valid NFCe URL"
+
+#: src/components/manual-url-input.tsx:35
+msgid "Please enter a valid URL"
+msgstr "Please enter a valid URL"
+
+#: src/components/auth/signup-form.tsx:26
 msgid "Please enter at least two caracters."
 msgstr "Please enter at least two caracters."
 
-#: src/routes/dashboard/home/route.tsx:166
+#: src/components/purchases/monthly-purchase-display.tsx:93
+msgid "Please log in again to access your purchase history."
+msgstr "Please log in again to access your purchase history."
+
+#: src/routes/home/route.tsx:183
 msgid "Pnatry and Dry goods"
 msgstr "Pnatry and Dry goods"
 
-#: src/components/dashboard/insight-modal.tsx:244
-#: src/routes/dashboard/home/route.tsx:545
+#: src/components/purchases/nfce-scanner-component.tsx:338
+msgid "Position the NFCe QR code in front of the camera"
+msgstr "Position the NFCe QR code in front of the camera"
+
+#: src/components/dashboard/insight-modal.tsx:323
 msgid "Potential Savings"
 msgstr "Potential Savings"
 
@@ -1338,22 +1557,10 @@ msgstr "Potential Savings"
 msgid "Powerful Features"
 msgstr "Powerful Features"
 
-#: src/components/family/history-tab.tsx:468
-#~ msgid "Preço Total"
-#~ msgstr "Preço Total"
-
-#: src/components/family/history-tab.tsx:467
-#~ msgid "Preço Unit."
-#~ msgstr "Preço Unit."
-
-#: src/components/settings/preferences-form.tsx:81
-#: src/routes/dashboard/settings/route.tsx:66
+#: src/components/settings/preferences-form.tsx:80
+#: src/routes/settings/route.tsx:71
 msgid "Preferences"
 msgstr "Preferences"
-
-#: src/components/settings/preferences-form.tsx:84
-#~ msgid "Preferências"
-#~ msgstr "Preferências"
 
 #: src/components/family/plan-form.tsx:171
 msgid "Premium"
@@ -1367,11 +1574,13 @@ msgstr "Premium — Annually"
 msgid "Premium — Monthly"
 msgstr "Premium — Monthly"
 
-#: src/components/dashboard/insight-modal.tsx:266
+#: src/components/dashboard/insight-modal.tsx:387
+#: src/components/subscription/PremiumFeatureGuard.tsx:53
 msgid "Premium Feature"
 msgstr "Premium Feature"
 
-#: src/components/dashboard/insight-modal.tsx:168
+#: src/components/dashboard/insight-modal.tsx:217
+#: src/components/dashboard/price-comparison-modal.tsx:159
 msgid "Price"
 msgstr "Price"
 
@@ -1379,39 +1588,58 @@ msgstr "Price"
 msgid "Price comparison across stores"
 msgstr "Price comparison across stores"
 
-#: src/routes/dashboard/settings/route.tsx:69
+#: src/components/dashboard/price-comparison-modal.tsx:157
+msgid "Price history (24 months)"
+msgstr "Price history (24 months)"
+
+#: src/routes/settings/route.tsx:74
 msgid "Privacy and Security"
 msgstr "Privacy and Security"
 
-#: src/components/family/plan-form.tsx:234
-#: src/components/scan/pdf-import-component.tsx:335
+#: src/components/purchases/pdf-import-component.tsx:337
+msgid "Processing PDF..."
+msgstr "Processing PDF..."
+
+#: src/components/family/plan-form.tsx:238
 #: src/components/settings/delete-confirmation-dialog.tsx:94
 msgid "Processing..."
 msgstr "Processing..."
 
-#: src/routes/dashboard/home/route.tsx:150
+#: src/routes/home/route.tsx:167
 msgid "Produce and Eggs"
 msgstr "Produce and Eggs"
 
-#: src/components/dashboard/insight-modal.tsx:160
-#: src/components/dashboard/insight-modal.tsx:241
-#: src/components/family/history-tab.tsx:427
-#: src/components/scan/manual-purchase-form.tsx:100
-#: src/components/scan/manual-purchase-form.tsx:165
-#: src/components/scan/pdf-import-component.tsx:379
-#: src/routes/dashboard/home/route.tsx:634
+#: src/components/dashboard/insight-modal.tsx:209
+#: src/components/dashboard/insight-modal.tsx:320
+#: src/components/family/history-tab.tsx:526
+#: src/components/family/history-tab.tsx:745
+#: src/components/purchases/manual-purchase-form.tsx:100
+#: src/components/purchases/manual-purchase-form.tsx:165
+#: src/components/purchases/nfce-scanner-component.tsx:202
+#: src/components/purchases/nfce-url-component.tsx:249
+#: src/components/purchases/pdf-import-component.tsx:386
+#: src/routes/home/route.tsx:1042
 msgid "Product"
 msgstr "Product"
 
-#: src/routes/dashboard/home/route.tsx:623
-msgid "Products that had the biggest impact on your budget this month."
-msgstr "Products that had the biggest impact on your budget this month."
+#: src/components/dashboard/price-comparison-modal.tsx:113
+#: src/components/dashboard/price-comparison-modal.tsx:113
+msgid "Product Comparison"
+msgstr "Product Comparison"
 
-#: src/components/family/history-tab.tsx:457
-#~ msgid "Produto"
-#~ msgstr "Produto"
+#: src/components/examples/sheets-examples.tsx:486
+#~ msgid "Product unavailable"
+#~ msgstr "Product unavailable"
 
-#: src/routes/dashboard/settings/route.tsx:63
+#: src/components/purchases/nfce-url-component.tsx:241
+msgid "Products"
+msgstr "Products"
+
+#: src/routes/home/route.tsx:1031
+msgid "Products that had the biggest impact on your budget in {currentMonthName}."
+msgstr "Products that had the biggest impact on your budget in {currentMonthName}."
+
+#: src/routes/settings/route.tsx:68
 msgid "Profile"
 msgstr "Profile"
 
@@ -1419,87 +1647,116 @@ msgstr "Profile"
 msgid "Profile Information"
 msgstr "Profile Information"
 
-#: src/components/scan/pdf-import-component.tsx:356
+#: src/components/dashboard/insight-modal.tsx:347
+#: src/routes/home/route.tsx:850
+msgid "Progress"
+msgstr "Progress"
+
+#: src/components/purchases/nfce-url-component.tsx:216
+msgid "Purchase"
+msgstr "Purchase"
+
+#: src/components/purchases/pdf-import-component.tsx:363
 msgid "Purchase Data"
 msgstr "Purchase Data"
 
-#: src/components/dashboard/insight-modal.tsx:164
+#: src/components/dashboard/insight-modal.tsx:213
 msgid "Purchase Date"
 msgstr "Purchase Date"
 
-#: src/components/family/history-tab.tsx:153
+#: src/components/family/history-tab.tsx:221
 msgid "Purchase deleted successfully."
 msgstr "Purchase deleted successfully."
 
-#: src/components/scan/manual-purchase-form.tsx:86
+#: src/components/family/history-tab.tsx:486
+#: src/components/purchases/manual-purchase-form.tsx:86
 msgid "Purchase Details"
 msgstr "Purchase Details"
 
 #. placeholder {0}: purchase.storeName
-#: src/components/family/history-tab.tsx:415
+#: src/components/family/history-tab.tsx:690
 msgid "Purchase Details: {0}"
 msgstr "Purchase Details: {0}"
 
-#: src/components/family/history-tab.tsx:206
-#: src/routes/dashboard/family/route.tsx:55
+#: src/components/family/history-tab.tsx:360
+#: src/routes/family/route.tsx:60
 msgid "Purchase History"
 msgstr "Purchase History"
 
-#: src/routes/dashboard/scan/route.tsx:47
+#: src/components/purchases/monthly-purchase-display.tsx:271
+msgid "Purchase History Summary"
+msgstr "Purchase History Summary"
+
+#: src/routes/purchases/route.tsx:44
 msgid "Purchase saved successfully!"
 msgstr "Purchase saved successfully!"
 
-#: src/components/family/history-tab.tsx:364
+#: src/components/family/history-tab.tsx:630
 msgid "Purchase updated successfully."
 msgstr "Purchase updated successfully."
 
-#: src/components/list/shopping-list-component-new.tsx:312
+#: src/components/layout/main-nav.tsx:291
+msgid "Purchases"
+msgstr "Purchases"
+
+#: src/components/purchases/nfce-scanner-component.tsx:322
+msgid "QR Code"
+msgstr "QR Code"
+
+#: src/components/family/history-tab.tsx:527
+msgid "Qtt"
+msgstr "Qtt"
+
+#: src/components/family/history-tab.tsx:757
+#: src/components/list/shopping-list-component-new.tsx:349
+#: src/components/purchases/nfce-url-component.tsx:250
+#: src/routes/home/route.tsx:1053
 msgid "Qty"
 msgstr "Qty"
 
-#: src/components/scan/manual-purchase-form.tsx:101
-#: src/components/scan/manual-purchase-form.tsx:167
+#: src/components/purchases/manual-purchase-form.tsx:101
+#: src/components/purchases/manual-purchase-form.tsx:167
 msgid "Qty."
 msgstr "Qty."
 
-#: src/components/family/history-tab.tsx:465
-#~ msgid "Quantidade"
-#~ msgstr "Quantidade"
-
-#: src/components/family/history-tab.tsx:435
-#: src/components/scan/pdf-import-component.tsx:397
-#: src/components/scan/pdf-import-component.tsx:603
-#: src/routes/dashboard/home/route.tsx:645
+#: src/components/dashboard/price-comparison-modal.tsx:160
+#: src/components/purchases/nfce-scanner-component.tsx:214
+#: src/components/purchases/pdf-import-component.tsx:404
+#: src/components/purchases/pdf-import-component.tsx:612
 msgid "Quantity"
 msgstr "Quantity"
 
-#: src/routes/dashboard/admin/audit/route.tsx:23
-#~ msgid "Realize auditorias e testes no sistema."
-#~ msgstr "Realize auditorias e testes no sistema."
+#: src/types/finance-examples.ts:364
+msgid "Quarterly"
+msgstr "Quarterly"
 
-#: src/components/settings/preferences-form.tsx:136
-#~ msgid "Receba atualizações e sugestões."
-#~ msgstr "Receba atualizações e sugestões."
+#: src/types/finance-examples.ts:356
+msgid "Real Estate"
+msgstr "Real Estate"
 
 #: src/routes/index.tsx:74
 msgid "Receive AI-powered suggestions and never forget an item again."
 msgstr "Receive AI-powered suggestions and never forget an item again."
 
-#: src/components/settings/preferences-form.tsx:133
+#: src/components/settings/preferences-form.tsx:118
 msgid "Receive updates and suggestions."
 msgstr "Receive updates and suggestions."
 
-#: src/routes/dashboard/home/route.tsx:497
-msgid "Recently Purchased Items"
-msgstr "Recently Purchased Items"
+#: src/routes/home/route.tsx:725
+msgid "Recently Purchased Items - {currentMonthName}"
+msgstr "Recently Purchased Items - {currentMonthName}"
 
-#: src/components/family/history-tab.tsx:320
-#~ msgid "Recomendações e Insights"
-#~ msgstr "Recomendações e Insights"
-
-#: src/components/family/history-tab.tsx:291
+#: src/components/family/history-tab.tsx:453
 msgid "Recommendations and Insights"
 msgstr "Recommendations and Insights"
+
+#: src/components/examples/toolbar-examples.tsx:377
+#~ msgid "Redo"
+#~ msgstr "Redo"
+
+#: src/components/qr-scanner.tsx:132
+msgid "Refresh to retry"
+msgstr "Refresh to retry"
 
 #: src/routes/index.tsx:69
 msgid "Register your purchases quickly by scanning the receipt's QR code."
@@ -1509,124 +1766,162 @@ msgstr "Register your purchases quickly by scanning the receipt's QR code."
 msgid "Remembered your password?"
 msgstr "Remembered your password?"
 
-#: src/components/family/markets-form.tsx:343
+#: src/components/family/markets-form.tsx:304
 msgid "Remove from my lists"
 msgstr "Remove from my lists"
 
-#: src/components/family/markets-form.tsx:320
-#~ msgid "Remover das minhas listas"
-#~ msgstr "Remover das minhas listas"
+#: src/components/examples/sheets-examples.tsx:151
+#~ msgid "Rename"
+#~ msgstr "Rename"
 
-#: src/routes/dashboard/admin/reports/route.tsx:26
+#: src/routes/admin/reports/route.tsx:26
 msgid "Reporting tools will be available here."
 msgstr "Reporting tools will be available here."
 
-#: src/routes/dashboard/admin/audit/route.tsx:23
+#: src/components/purchases/monthly-purchase-display.tsx:212
+msgid "Retry"
+msgstr "Retry"
+
+#: src/components/purchases/monthly-purchase-display.tsx:217
+msgid "Retry attempt: {retryCount}"
+msgstr "Retry attempt: {retryCount}"
+
+#: src/components/purchases/monthly-purchase-display.tsx:212
+msgid "Retrying..."
+msgstr "Retrying..."
+
+#: src/components/examples/sheets-examples.tsx:472
+#~ msgid "reviews"
+#~ msgstr "reviews"
+
+#: src/components/examples/sheets-examples.tsx:461
+#~ msgid "Reviews"
+#~ msgstr "Reviews"
+
+#: src/routes/admin/audit/route.tsx:23
 msgid "Run audits and tests on the system."
 msgstr "Run audits and tests on the system."
 
-#: src/components/layout/main-nav.tsx:134
+#: src/components/purchases/monthly-purchase-display.tsx:223
+msgid "Running in fallback mode - some features may be limited"
+msgstr "Running in fallback mode - some features may be limited"
+
+#: src/components/layout/main-nav.tsx:378
 msgid "Sair"
 msgstr "Sair"
 
-#: src/components/family/history-tab.tsx:585
-#: src/components/settings/profile-form.tsx:175
-#~ msgid "Salvar Alterações"
-#~ msgstr "Salvar Alterações"
+#: src/components/examples/toolbar-examples.tsx:255
+#~ msgid "Save"
+#~ msgstr "Save"
 
-#: src/components/settings/preferences-form.tsx:149
-#~ msgid "Salvar Preferências"
-#~ msgstr "Salvar Preferências"
-
-#: src/components/family/history-tab.tsx:555
-#: src/components/scan/pdf-import-component.tsx:644
-#: src/components/settings/profile-form.tsx:144
+#: src/components/family/history-tab.tsx:997
+#: src/components/purchases/pdf-import-component.tsx:653
+#: src/components/settings/profile-form.tsx:133
 msgid "Save Changes"
 msgstr "Save Changes"
 
 #: src/components/family/family-composition-form.tsx:69
-#: src/routes/dashboard/scan/route.tsx:41
+#: src/routes/purchases/route.tsx:38
 msgid "Save Error"
 msgstr "Save Error"
 
 #: src/components/family/family-composition-form.tsx:130
-#: src/components/settings/preferences-form.tsx:146
+#: src/components/settings/preferences-form.tsx:130
 msgid "Save Preferences"
 msgstr "Save Preferences"
 
-#: src/components/scan/manual-purchase-form.tsx:274
-#: src/components/scan/manual-purchase-form.tsx:291
+#: src/components/purchases/manual-purchase-form.tsx:274
+#: src/components/purchases/manual-purchase-form.tsx:291
+#: src/components/purchases/nfce-url-component.tsx:180
 msgid "Save Purchase"
 msgstr "Save Purchase"
 
-#: src/components/family/plan-form.tsx:200
+#: src/components/family/plan-form.tsx:204
 msgid "Save when billed annually"
 msgstr "Save when billed annually"
 
 #: src/components/family/family-composition-form.tsx:130
-#: src/components/family/history-tab.tsx:555
-#: src/components/scan/manual-purchase-form.tsx:274
-#: src/components/scan/manual-purchase-form.tsx:291
-#: src/components/scan/pdf-import-component.tsx:507
-#: src/components/settings/preferences-form.tsx:146
+#: src/components/family/history-tab.tsx:997
+#: src/components/purchases/manual-purchase-form.tsx:274
+#: src/components/purchases/manual-purchase-form.tsx:291
+#: src/components/purchases/pdf-import-component.tsx:516
+#: src/components/settings/preferences-form.tsx:130
+#: src/components/settings/profile-form.tsx:131
 msgid "Saving..."
 msgstr "Saving..."
 
-#: src/routes/dashboard/home/route.tsx:537
-msgid "Savings Opportunities"
-msgstr "Savings Opportunities"
+#: src/components/layout/main-nav.tsx:170
+#: src/components/layout/main-nav.tsx:221
+msgid "Scan Receipt"
+msgstr "Scan Receipt"
 
 #: src/routes/index.tsx:68
 msgid "Scan Receipts"
 msgstr "Scan Receipts"
 
-#: src/components/family/history-tab.tsx:218
+#: src/components/purchases/nfce-scanner-component.tsx:347
+msgid "Scanner error"
+msgstr "Scanner error"
+
+#: src/components/purchases/nfce-scanner-component.tsx:336
+msgid "Scanner QR Code"
+msgstr "Scanner QR Code"
+
+#: src/components/qr-scanner.tsx:177
+msgid "Scanning for QR codes..."
+msgstr "Scanning for QR codes..."
+
+#: src/components/family/history-tab.tsx:377
 msgid "Search by store or product..."
 msgstr "Search by store or product..."
 
-#: src/components/layout/main-nav.tsx:66
-#: src/routes/dashboard/admin/security/route.tsx:20
+#: src/components/layout/main-nav.tsx:104
+#: src/routes/admin/security/route.tsx:20
 msgid "Security"
 msgstr "Security"
 
-#: src/routes/dashboard/admin/security/route.tsx:25
+#: src/routes/admin/security/route.tsx:25
 msgid "Security configuration will be here."
 msgstr "Security configuration will be here."
 
-#: src/components/settings/preferences-form.tsx:102
-#~ msgid "Selecione um tema"
-#~ msgstr "Selecione um tema"
-
-#: src/components/scan/pdf-import-component.tsx:562
+#: src/components/purchases/pdf-import-component.tsx:571
 msgid "Select a category"
 msgstr "Select a category"
 
-#: src/components/scan/manual-purchase-form.tsx:98
-#: src/components/scan/manual-purchase-form.tsx:131
+#: src/components/purchases/manual-purchase-form.tsx:98
+#: src/components/purchases/manual-purchase-form.tsx:131
 msgid "Select a date"
 msgstr "Select a date"
 
-#: src/components/scan/pdf-import-component.tsx:589
+#: src/components/purchases/pdf-import-component.tsx:598
 msgid "Select a subcategory"
 msgstr "Select a subcategory"
 
-#: src/components/settings/preferences-form.tsx:99
+#: src/components/settings/preferences-form.tsx:97
 msgid "Select a theme"
 msgstr "Select a theme"
 
-#: src/components/scan/pdf-import-component.tsx:346
+#: src/components/purchases/pdf-import-component.tsx:353
 msgid "Select PDF File"
 msgstr "Select PDF File"
 
-#: src/components/family/plan-form.tsx:237
+#: src/components/family/plan-form.tsx:241
 msgid "Select Plan"
 msgstr "Select Plan"
 
-#: src/components/scan/pdf-import-component.tsx:320
+#: src/components/purchases/pdf-import-component.tsx:322
 msgid "Select the PDF of your electronic fiscal receipt (NFC-e) to automatically extract the purchase data."
 msgstr "Select the PDF of your electronic fiscal receipt (NFC-e) to automatically extract the purchase data."
 
-#: src/routes/dashboard/admin/notifications/route.tsx:22
+#: src/components/examples/toolbar-examples.tsx:88
+#~ msgid "Select this text to see the formatting toolbar..."
+#~ msgstr "Select this text to see the formatting toolbar..."
+
+#: src/components/examples/toolbar-examples.tsx:450
+#~ msgid "selected"
+#~ msgstr "selected"
+
+#: src/routes/admin/notifications/route.tsx:22
 msgid "Send and manage global notifications."
 msgstr "Send and manage global notifications."
 
@@ -1634,34 +1929,31 @@ msgstr "Send and manage global notifications."
 msgid "Send Reset Link"
 msgstr "Send Reset Link"
 
-#: src/components/settings/profile-form.tsx:230
-#~ msgid "Senha Atual"
-#~ msgstr "Senha Atual"
+#: src/components/settings/profile-form.tsx:30
+msgid "Senha atual é obrigatória."
+msgstr "Senha atual é obrigatória."
 
-#: src/components/layout/main-nav.tsx:112
-#: src/routes/dashboard/settings/route.tsx:56
+#: src/components/layout/main-nav.tsx:349
+#: src/routes/settings/route.tsx:57
 msgid "Settings"
 msgstr "Settings"
 
-#: src/routes/dashboard/home/route.tsx:584
-#~ msgid "Seu comportamento de gastos nos últimos 12 meses."
-#~ msgstr "Seu comportamento de gastos nos últimos 12 meses."
+#: src/components/auth/forgot-password-form.tsx:50
+#: src/components/auth/login-form.tsx:75
+#: src/components/auth/signup-form.tsx:91
+msgid "seu@email.com"
+msgstr "seu@email.com"
 
-#: src/components/settings/profile-form.tsx:167
-#~ msgid "Seu endereço de email não pode ser alterado."
-#~ msgstr "Seu endereço de email não pode ser alterado."
-
-#: src/components/settings/profile-form.tsx:88
-#~ msgid "Seu perfil foi atualizado."
-#~ msgstr "Seu perfil foi atualizado."
-
-#: src/components/list/shopping-list-component.tsx:297
+#: src/components/examples/sheets-examples.tsx:130
+#: src/components/examples/toolbar-examples.tsx:249
 #~ msgid "Share"
 #~ msgstr "Share"
 
-#: src/components/layout/main-nav.tsx:49
-#: src/components/list/shopping-list-component-new.tsx:266
-#: src/routes/dashboard/list/route.tsx:18
+#: src/components/layout/main-nav.tsx:83
+#: src/components/layout/main-nav.tsx:176
+#: src/components/layout/main-nav.tsx:227
+#: src/components/list/shopping-list-component-new.tsx:294
+#: src/routes/list/route.tsx:19
 msgid "Shopping List"
 msgstr "Shopping List"
 
@@ -1669,58 +1961,56 @@ msgstr "Shopping List"
 msgid "ShopWise transforms your receipts into powerful insights, helping you save money, optimize your shopping list, and control your family's finances effortlessly."
 msgstr "ShopWise transforms your receipts into powerful insights, helping you save money, optimize your shopping list, and control your family's finances effortlessly."
 
-#: src/components/auth/login-form.tsx:137
-#: src/components/auth/signup-form.tsx:188
-#: src/components/settings/profile-form.tsx:190
-#: src/components/settings/profile-form.tsx:229
+#: src/components/auth/signup-form.tsx:132
 msgid "Show password"
 msgstr "Show password"
 
-#: src/components/auth/login-form.tsx:162
-msgid "Sign in with Apple"
-msgstr "Sign in with Apple"
+#. placeholder {0}: group.purchaseCount
+#: src/components/purchases/optimized-monthly-accordion.tsx:122
+msgid "Showing {maxVisiblePurchases} of {0} purchases"
+msgstr "Showing {maxVisiblePurchases} of {0} purchases"
 
-#: src/components/auth/login-form.tsx:158
-msgid "Sign in with Google"
-msgstr "Sign in with Google"
-
-#: src/components/layout/main-nav.tsx:142
+#: src/components/layout/main-nav.tsx:389
 msgid "Sign out"
 msgstr "Sign out"
 
-#: src/components/auth/signup-form.tsx:213
-msgid "Sign up with Apple"
-msgstr "Sign up with Apple"
-
-#: src/components/auth/signup-form.tsx:209
-msgid "Sign up with Google"
-msgstr "Sign up with Google"
-
-#: src/components/settings/preferences-form.tsx:112
-#~ msgid "Sistema"
-#~ msgstr "Sistema"
+#: src/components/auth/login-form.tsx:99
+msgid "Signing in..."
+msgstr "Signing in..."
 
 #: src/routes/index.tsx:73
 msgid "Smart Lists"
 msgstr "Smart Lists"
 
-#: src/components/list/shopping-list-component.tsx:273
-#~ msgid "Smart Suggestions"
-#~ msgstr "Smart Suggestions"
-
 #: src/routes/index.tsx:37
 msgid "Smarter Purchases,"
 msgstr "Smarter Purchases,"
 
-#: src/routes/dashboard/home/route.tsx:191
+#: src/routes/home/route.tsx:208
 msgid "Spending"
 msgstr "Spending"
 
-#: src/routes/dashboard/home/route.tsx:515
-msgid "Spending by Category"
-msgstr "Spending by Category"
+#: src/routes/home/route.tsx:757
+msgid "Spending by Category - {currentMonthName}"
+msgstr "Spending by Category - {currentMonthName}"
 
-#: src/routes/dashboard/home/route.tsx:611
+#: src/routes/home/route.tsx:799
+msgid "Spending Trend"
+msgstr "Spending Trend"
+
+#: src/routes/home/route.tsx:791
+msgid "Spending Trend - {currentMonthName}"
+msgstr "Spending Trend - {currentMonthName}"
+
+#: src/routes/home/route.tsx:812
+msgid "Stable"
+msgstr "Stable"
+
+#: src/components/purchases/monthly-purchase-display.tsx:240
+msgid "Start adding purchases to see your monthly spending history here."
+msgstr "Start adding purchases to see your monthly spending history here."
+
+#: src/routes/home/route.tsx:1016
 msgid "Start adding purchases to see your spending analysis."
 msgstr "Start adding purchases to see your spending analysis."
 
@@ -1728,69 +2018,58 @@ msgstr "Start adding purchases to see your spending analysis."
 msgid "Start Now for Free"
 msgstr "Start Now for Free"
 
-#: src/components/dashboard/insight-modal.tsx:93
-#: src/components/scan/pdf-import-component.tsx:363
+#: src/components/qr-scanner.tsx:161
+msgid "Start Scanning"
+msgstr "Start Scanning"
+
+#: src/types/finance-examples.ts:352
+msgid "Stocks"
+msgstr "Stocks"
+
+#: src/components/qr-scanner.tsx:161
+msgid "Stop Scanning"
+msgstr "Stop Scanning"
+
+#: src/components/dashboard/insight-modal.tsx:152
+#: src/components/purchases/nfce-url-component.tsx:200
+#: src/components/purchases/pdf-import-component.tsx:370
 msgid "Store"
 msgstr "Store"
 
-#: src/components/family/markets-form.tsx:138
-#: src/components/scan/manual-purchase-form.tsx:94
+#: src/components/family/markets-form.tsx:140
+#: src/components/purchases/manual-purchase-form.tsx:94
 msgid "Store Name"
 msgstr "Store Name"
 
-#: src/components/family/markets-form.tsx:119
+#: src/components/family/markets-form.tsx:124
 msgid "Store Removed"
 msgstr "Store Removed"
 
-#: src/components/family/markets-form.tsx:177
+#: src/components/family/markets-form.tsx:159
 msgid "Store Type"
 msgstr "Store Type"
 
-#: src/components/settings/profile-form.tsx:113
-#~ msgid "Sua conta foi vinculada com sucesso."
-#~ msgstr "Sua conta foi vinculada com sucesso."
+#: src/components/purchases/nfce-scanner-component.tsx:182
+msgid "Store:"
+msgstr "Store:"
 
-#: src/components/layout/shopping-list-popover.tsx:125
-msgid "Sua lista de compras ativa no momento."
-msgstr "Sua lista de compras ativa no momento."
-
-#: src/components/settings/preferences-form.tsx:67
-#~ msgid "Suas preferências foram salvas."
-#~ msgstr "Suas preferências foram salvas."
-
-#: src/components/scan/pdf-import-component.tsx:575
+#: src/components/purchases/pdf-import-component.tsx:584
 msgid "Subcategory"
 msgstr "Subcategory"
 
 #: src/components/family/family-composition-form.tsx:63
-#: src/components/family/history-tab.tsx:152
-#: src/components/family/history-tab.tsx:363
+#: src/components/family/history-tab.tsx:220
+#: src/components/family/history-tab.tsx:629
 #: src/components/family/plan-form.tsx:80
 #: src/components/settings/delete-confirmation-dialog.tsx:53
-#: src/components/settings/preferences-form.tsx:63
+#: src/components/settings/preferences-form.tsx:62
 #: src/components/settings/profile-form.tsx:74
-#: src/routes/dashboard/scan/route.tsx:46
+#: src/routes/purchases/route.tsx:43
 msgid "Success!"
 msgstr "Success!"
 
-#: src/components/family/history-tab.tsx:181
-#: src/components/family/history-tab.tsx:392
-#: src/components/settings/delete-confirmation-dialog.tsx:53
-#: src/components/settings/preferences-form.tsx:66
-#: src/components/settings/profile-form.tsx:87
-#~ msgid "Sucesso!"
-#~ msgstr "Sucesso!"
-
-#: src/components/list/shopping-list-component.tsx:267
-#~ msgid "Suggest Items with AI"
-#~ msgstr "Suggest Items with AI"
-
-#: src/components/list/shopping-list-component.tsx:267
-#~ msgid "Suggesting items..."
-#~ msgstr "Suggesting items..."
-
-#: src/components/family/markets-form.tsx:62
-#: src/components/family/markets-form.tsx:282
+#: src/components/family/markets-form.tsx:63
+#: src/components/family/markets-form.tsx:240
 msgid "Supermarket"
 msgstr "Supermarket"
 
@@ -1798,88 +2077,82 @@ msgstr "Supermarket"
 msgid "Sync across devices"
 msgstr "Sync across devices"
 
-#: src/components/settings/preferences-form.tsx:109
+#: src/components/settings/preferences-form.tsx:102
 msgid "System"
 msgstr "System"
 
-#: src/components/layout/main-nav.tsx:67
-#: src/routes/dashboard/admin/logs/route.tsx:20
+#: src/components/layout/main-nav.tsx:105
+#: src/routes/admin/logs/route.tsx:20
 msgid "System Logs"
 msgstr "System Logs"
 
-#: src/routes/dashboard/admin/route.tsx:22
+#: src/routes/admin/route.tsx:22
 msgid "System overview."
 msgstr "System overview."
 
-#: src/components/settings/preferences-form.tsx:97
-#~ msgid "Tema"
-#~ msgstr "Tema"
+#: src/components/dashboard/insight-modal.tsx:345
+#: src/routes/home/route.tsx:846
+msgid "Target"
+msgstr "Target"
 
-#: src/components/family/history-tab.tsx:308
-#~ msgid "Tente ajustar seus filtros ou adicione uma nova compra para começar."
-#~ msgstr "Tente ajustar seus filtros ou adicione uma nova compra para começar."
+#: src/components/examples/toolbar-examples.tsx:83
+#~ msgid "Text Editor - Floating Toolbar"
+#~ msgstr "Text Editor - Floating Toolbar"
 
-#: src/routes/dashboard/admin/logs/route.tsx:25
+#: src/routes/admin/logs/route.tsx:25
 msgid "The logs viewer will be here."
 msgstr "The logs viewer will be here."
 
-#: src/components/family/markets-form.tsx:119
+#: src/components/family/markets-form.tsx:124
 msgid "The store was removed from your lists."
 msgstr "The store was removed from your lists."
 
-#: src/routes/dashboard/admin/users/route.tsx:25
+#: src/routes/admin/users/route.tsx:25
 msgid "The user management interface will be here."
 msgstr "The user management interface will be here."
 
-#: src/components/settings/preferences-form.tsx:94
+#: src/components/settings/preferences-form.tsx:90
 msgid "Theme"
 msgstr "Theme"
 
-#: src/components/dashboard/insight-modal.tsx:75
+#: src/components/dashboard/insight-modal.tsx:136
 msgid "There is no data available for the selected insight. Start adding purchases to see your data here."
 msgstr "There is no data available for the selected insight. Start adding purchases to see your data here."
 
-#: src/components/list/shopping-list-component.tsx:171
-#~ msgid "There was a problem contacting the AI. Please try again later."
-#~ msgstr "There was a problem contacting the AI. Please try again later."
-
-#: src/components/family/markets-form.tsx:231
+#: src/components/family/markets-form.tsx:189
 msgid "These are the stores you shop at most often. We'll use them to generate personalized insights."
 msgstr "These are the stores you shop at most often. We'll use them to generate personalized insights."
 
-#: src/routes/dashboard/settings/route.tsx:88
+#: src/routes/settings/route.tsx:94
 msgid "This action is irreversible. All your shopping lists, history and insights will be permanently deleted. This cannot be undone."
 msgstr "This action is irreversible. All your shopping lists, history and insights will be permanently deleted. This cannot be undone."
 
-#: src/routes/dashboard/settings/route.tsx:114
+#: src/routes/settings/route.tsx:121
 msgid "This action is irreversible. Your account, profile and all associated data will be permanently deleted. This cannot be undone."
 msgstr "This action is irreversible. Your account, profile and all associated data will be permanently deleted. This cannot be undone."
 
-#: src/components/family/markets-form.tsx:321
+#: src/components/family/markets-form.tsx:262
 msgid "This list is empty."
 msgstr "This list is empty."
 
-#: src/routes/dashboard/settings/route.tsx:94
+#: src/components/dashboard/insight-modal.tsx:156
+#: src/routes/home/route.tsx:933
+msgid "This Month"
+msgstr "This Month"
+
+#: src/routes/settings/route.tsx:101
 msgid "This will permanently delete all your data."
 msgstr "This will permanently delete all your data."
 
-#: src/components/family/history-tab.tsx:536
+#: src/components/family/history-tab.tsx:978
 msgid "This will permanently delete the purchase and its items. This action can't be undone."
 msgstr "This will permanently delete the purchase and its items. This action can't be undone."
 
-#: src/routes/dashboard/settings/route.tsx:120
+#: src/routes/settings/route.tsx:127
 msgid "This will permanently delete your account."
 msgstr "This will permanently delete your account."
 
-#: src/components/family/markets-form.tsx:287
-#~ msgid "Tipo"
-#~ msgstr "Tipo"
-
-#: src/components/family/markets-form.tsx:166
-#~ msgid "Tipo de Estabelecimento"
-#~ msgstr "Tipo de Estabelecimento"
-
-#: src/components/list/shopping-list-component-new.tsx:344
+#: src/components/list/shopping-list-component-new.tsx:383
 msgid "To Buy"
 msgstr "To Buy"
 
@@ -1887,86 +2160,102 @@ msgstr "To Buy"
 msgid "To confirm, please enter the code <b>{confirmationCode}</b> in the box below."
 msgstr "To confirm, please enter the code <b>{confirmationCode}</b> in the box below."
 
-#: src/components/family/history-tab.tsx:258
-#~ msgid "Todas as lojas"
-#~ msgstr "Todas as lojas"
+#: src/components/examples/toolbar-examples.tsx:470
+#~ msgid "Toolbar with Different States"
+#~ msgstr "Toolbar with Different States"
 
-#: src/components/family/history-tab.tsx:271
-#~ msgid "Todos os períodos"
-#~ msgstr "Todos os períodos"
+#: src/routes/home/route.tsx:766
+msgid "Top Category"
+msgstr "Top Category"
 
-#: src/routes/dashboard/home/route.tsx:524
-msgid "Top Category (Month)"
-msgstr "Top Category (Month)"
+#: src/routes/home/route.tsx:1029
+msgid "Top Expenses - {currentMonthName}"
+msgstr "Top Expenses - {currentMonthName}"
 
-#: src/routes/dashboard/home/route.tsx:622
-msgid "Top Expenses (This Month)"
-msgstr "Top Expenses (This Month)"
-
-#: src/components/family/payment-buttons.tsx:97
-#: src/components/scan/manual-purchase-form.tsx:272
-#: src/components/scan/manual-purchase-form.tsx:279
-#: src/components/scan/pdf-import-component.tsx:467
-#: src/routes/dashboard/home/route.tsx:148
+#: src/components/family/history-tab.tsx:499
+#: src/components/family/payment-buttons.tsx:102
+#: src/components/purchases/manual-purchase-form.tsx:272
+#: src/components/purchases/manual-purchase-form.tsx:279
+#: src/components/purchases/nfce-url-component.tsx:226
+#: src/components/purchases/nfce-url-component.tsx:251
+#: src/components/purchases/pdf-import-component.tsx:476
+#: src/routes/home/route.tsx:165
 msgid "Total"
 msgstr "Total"
 
-#: src/components/family/history-tab.tsx:438
-#: src/components/scan/pdf-import-component.tsx:403
-#: src/routes/dashboard/home/route.tsx:659
+#: src/components/family/history-tab.tsx:529
+#: src/components/family/history-tab.tsx:760
+#: src/components/purchases/nfce-scanner-component.tsx:221
+#: src/components/purchases/pdf-import-component.tsx:410
+#: src/routes/home/route.tsx:1061
 msgid "Total Price"
 msgstr "Total Price"
 
-#: src/routes/dashboard/home/route.tsx:485
-msgid "Total Spending (Month)"
-msgstr "Total Spending (Month)"
+#: src/components/dashboard/price-comparison-modal.tsx:131
+msgid "Total Quantity"
+msgstr "Total Quantity"
 
-#: src/components/scan/pdf-import-component.tsx:475
+#: src/routes/home/route.tsx:691
+msgid "Total Spending"
+msgstr "Total Spending"
+
+#: src/components/purchases/pdf-import-component.tsx:484
 msgid "Total to Pay"
 msgstr "Total to Pay"
 
-#: src/components/family/history-tab.tsx:279
+#: src/components/purchases/nfce-url-component.tsx:284
+#: src/routes/home/route.tsx:986
+msgid "Total:"
+msgstr "Total:"
+
+#. placeholder {0}: formatCurrency(data.totalAmount)
+#. placeholder {0}: i18n.number( totalStats.totalAmount, { style: 'currency', currencySign: 'accounting', currency: getCurrencyFromLocale(i18n.locale), } )
+#: src/components/purchases/monthly-purchase-display.tsx:286
+#: src/components/purchases/nfce-scanner-component.tsx:288
+msgid "Total: {0}"
+msgstr "Total: {0}"
+
+#: src/types/finance-examples.ts:170
+msgid "Track expenses, accounts and categories"
+msgstr "Track expenses, accounts and categories"
+
+#: src/types/finance-examples.ts:375
+msgid "Trial"
+msgstr "Trial"
+
+#: src/components/family/history-tab.tsx:440
 msgid "Try adjusting your filters or add a new purchase to get started."
 msgstr "Try adjusting your filters or add a new purchase to get started."
 
-#: src/components/layout/notification-popover.tsx:98
-#~ msgid "Tudo em dia!"
-#~ msgstr "Tudo em dia!"
+#: src/components/purchases/nfce-scanner-component.tsx:165
+#: src/components/purchases/nfce-url-component.tsx:157
+msgid "Try Again"
+msgstr "Try Again"
 
-#: src/components/family/markets-form.tsx:310
+#: src/components/family/markets-form.tsx:272
 msgid "Type"
 msgstr "Type"
 
-#: src/components/family/history-tab.tsx:275
-#~ msgid "Último ano"
-#~ msgstr "Último ano"
+#: src/components/examples/toolbar-examples.tsx:374
+#~ msgid "Undo"
+#~ msgstr "Undo"
 
-#: src/components/family/history-tab.tsx:272
-#~ msgid "Último mês"
-#~ msgstr "Último mês"
-
-#: src/components/family/history-tab.tsx:273
-#~ msgid "Últimos 3 meses"
-#~ msgstr "Últimos 3 meses"
-
-#: src/components/family/history-tab.tsx:274
-#~ msgid "Últimos 6 meses"
-#~ msgstr "Últimos 6 meses"
-
-#: src/components/list/shopping-list-component-new.tsx:325
+#: src/components/list/shopping-list-component-new.tsx:362
 msgid "Unit"
 msgstr "Unit"
 
-#: src/components/family/history-tab.tsx:437
-#: src/components/scan/manual-purchase-form.tsx:102
-#: src/components/scan/manual-purchase-form.tsx:168
-#: src/components/scan/pdf-import-component.tsx:400
-#: src/components/scan/pdf-import-component.tsx:620
-#: src/routes/dashboard/home/route.tsx:652
+#: src/components/family/history-tab.tsx:528
+#: src/components/family/history-tab.tsx:759
+#: src/components/purchases/manual-purchase-form.tsx:102
+#: src/components/purchases/manual-purchase-form.tsx:168
+#: src/components/purchases/nfce-scanner-component.tsx:217
+#: src/components/purchases/pdf-import-component.tsx:407
+#: src/components/purchases/pdf-import-component.tsx:629
+#: src/routes/home/route.tsx:1057
 msgid "Unit Price"
 msgstr "Unit Price"
 
-#: src/components/dashboard/insight-modal.tsx:268
+#: src/components/dashboard/insight-modal.tsx:389
 msgid "Unlock detailed consumption analyses and personalized insights by upgrading to our Premium plan."
 msgstr "Unlock detailed consumption analyses and personalized insights by upgrading to our Premium plan."
 
@@ -1974,149 +2263,155 @@ msgstr "Unlock detailed consumption analyses and personalized insights by upgrad
 msgid "Update your personal details."
 msgstr "Update your personal details."
 
-#: src/components/dashboard/insight-modal.tsx:272
+#: src/components/settings/profile-form.tsx:163
+msgid "Updating..."
+msgstr "Updating..."
+
+#: src/components/subscription/PremiumFeatureGuard.tsx:77
+msgid "Upgrade to access this and many other advanced features."
+msgstr "Upgrade to access this and many other advanced features."
+
+#: src/components/dashboard/insight-modal.tsx:393
 msgid "Upgrade your Plan"
 msgstr "Upgrade your Plan"
 
-#: src/components/layout/main-nav.tsx:61
-#: src/routes/dashboard/admin/reports/route.tsx:21
+#: src/components/purchases/nfce-scanner-component.tsx:326
+msgid "URL Manual"
+msgstr "URL Manual"
+
+#: src/components/layout/main-nav.tsx:99
+#: src/routes/admin/reports/route.tsx:21
 msgid "Usage Reports"
 msgstr "Usage Reports"
 
-#: src/components/layout/notification-popover.tsx:105
-#~ msgid "Ver todas as notificações"
-#~ msgstr "Ver todas as notificações"
+#: src/components/manual-url-input.tsx:108
+msgid "Use a QR code reader to obtain the URL"
+msgstr "Use a QR code reader to obtain the URL"
 
 #: src/components/layout/notification-popover.tsx:105
 msgid "View all notifications"
 msgstr "View all notifications"
 
-#: src/components/family/history-tab.tsx:208
+#: src/components/family/history-tab.tsx:365
 msgid "View and filter all your past purchases."
 msgstr "View and filter all your past purchases."
 
-#: src/routes/dashboard/admin/users/route.tsx:22
+#: src/routes/admin/users/route.tsx:22
 msgid "View and manage all registered users."
 msgstr "View and manage all registered users."
 
-#: src/routes/dashboard/admin/logs/route.tsx:22
+#: src/routes/admin/logs/route.tsx:22
 msgid "View system and application logs."
 msgstr "View system and application logs."
-
-#: src/routes/dashboard/home/route.tsx:583
-#~ msgid "Visão Geral do Consumo"
-#~ msgstr "Visão Geral do Consumo"
 
 #: src/routes/index.tsx:63
 msgid "Visual Insights"
 msgstr "Visual Insights"
 
-#: src/components/family/history-tab.tsx:237
-#~ msgid "Visualize e filtre todas as suas compras passadas."
-#~ msgstr "Visualize e filtre todas as suas compras passadas."
-
-#: src/routes/dashboard/admin/logs/route.tsx:22
-#~ msgid "Visualize os logs do sistema e da aplicação."
-#~ msgstr "Visualize os logs do sistema e da aplicação."
-
-#: src/components/layout/notification-popover.tsx:99
-#~ msgid "Você não tem nenhuma nova notificação."
-#~ msgstr "Você não tem nenhuma nova notificação."
-
-#: src/components/family/history-tab.tsx:156
-#~ msgid "Você precisa estar logado para realizar esta ação."
-#~ msgstr "Você precisa estar logado para realizar esta ação."
-
-#: src/components/settings/preferences-form.tsx:55
-#~ msgid "Você precisa estar logado para salvar as preferências."
-#~ msgstr "Você precisa estar logado para salvar as preferências."
-
-#: src/components/family/history-tab.tsx:431
-#: src/components/scan/manual-purchase-form.tsx:166
+#: src/components/family/history-tab.tsx:753
+#: src/components/purchases/manual-purchase-form.tsx:166
 msgid "Volume"
 msgstr "Volume"
 
-#: src/routes/dashboard/home/route.tsx:112
+#: src/routes/home/route.tsx:948
+#: src/routes/home/route.tsx:949
+msgid "vs avg"
+msgstr "vs avg"
+
+#: src/routes/home/route.tsx:115
 msgid "vs last month"
 msgstr "vs last month"
 
-#: src/components/scan/pdf-import-component.tsx:244
+#: src/components/purchases/nfce-scanner-component.tsx:150
+#: src/components/purchases/nfce-url-component.tsx:142
+msgid "We are extracting information from your fiscal receipt. This may take a few seconds."
+msgstr "We are extracting information from your fiscal receipt. This may take a few seconds."
+
+#: src/components/purchases/pdf-import-component.tsx:247
 msgid "We couldn't extract data from the PDF. Please ensure it's a valid electronic fiscal receipt (NFC-e) and try again. If the problem persists, you can enter the data manually."
 msgstr "We couldn't extract data from the PDF. Please ensure it's a valid electronic fiscal receipt (NFC-e) and try again. If the problem persists, you can enter the data manually."
 
-#: src/components/dashboard/insight-modal.tsx:303
+#: src/components/dashboard/insight-modal.tsx:424
 msgid "We couldn't generate an analysis for this dataset. Try again later or add more purchase data."
 msgstr "We couldn't generate an analysis for this dataset. Try again later or add more purchase data."
 
-#: src/components/family/markets-form.tsx:243
+#: src/components/family/markets-form.tsx:201
 msgid "We will not use data from these stores for price comparison insights."
 msgstr "We will not use data from these stores for price comparison insights."
 
-#: src/components/auth/login-form.tsx:75
+#: src/types/finance-examples.ts:362
+msgid "Weekly"
+msgstr "Weekly"
+
+#: src/components/auth/login-form.tsx:66
 msgid "Welcome Back!"
 msgstr "Welcome Back!"
 
-#: src/routes/dashboard/admin/route.tsx:25
+#: src/routes/admin/route.tsx:25
 msgid "Welcome to the admin dashboard. Here you can manage users, view reports, and configure the system."
 msgstr "Welcome to the admin dashboard. Here you can manage users, view reports, and configure the system."
 
-#: src/components/family/markets-form.tsx:63
-#: src/components/family/markets-form.tsx:283
+#: src/components/family/markets-form.tsx:64
+#: src/components/family/markets-form.tsx:241
 msgid "Wholesale"
 msgstr "Wholesale"
 
-#: src/components/family/history-tab.tsx:546
+#: src/types/finance-examples.ts:365
+msgid "Yearly"
+msgstr "Yearly"
+
+#: src/components/family/history-tab.tsx:988
 msgid "Yes, delete"
 msgstr "Yes, delete"
 
-#: src/routes/dashboard/settings/route.tsx:121
+#: src/routes/settings/route.tsx:128
 msgid "Yes, delete my account"
 msgstr "Yes, delete my account"
 
-#: src/routes/dashboard/settings/route.tsx:95
+#: src/routes/settings/route.tsx:102
 msgid "Yes, delete my data"
 msgstr "Yes, delete my data"
 
-#: src/components/layout/main-nav.tsx:155
+#: src/components/layout/main-nav.tsx:403
 msgid "Yes, sign out"
 msgstr "Yes, sign out"
-
-#: src/routes/dashboard/scan/route.tsx:64
-msgid "You can import a purchase from a PDF fiscal receipt or enter the details manually."
-msgstr "You can import a purchase from a PDF fiscal receipt or enter the details manually."
 
 #: src/components/layout/notification-popover.tsx:99
 msgid "You have no new notifications."
 msgstr "You have no new notifications."
 
-#: src/components/family/history-tab.tsx:140
-#: src/routes/dashboard/scan/route.tsx:31
+#: src/components/family/history-tab.tsx:208
+#: src/routes/purchases/route.tsx:28
 msgid "You need to be logged in to perform this action."
 msgstr "You need to be logged in to perform this action."
 
 #: src/components/family/family-composition-form.tsx:53
-#: src/components/settings/preferences-form.tsx:53
+#: src/components/settings/preferences-form.tsx:52
 msgid "You need to be logged in to save preferences."
 msgstr "You need to be logged in to save preferences."
 
-#: src/components/layout/main-nav.tsx:150
+#: src/components/layout/main-nav.tsx:398
 msgid "You will be redirected to the home page."
 msgstr "You will be redirected to the home page."
 
-#: src/components/settings/profile-form.tsx:113
-#~ msgid "Your account was linked successfully."
-#~ msgstr "Your account was linked successfully."
+#: src/components/layout/shopping-list-popover.tsx:124
+msgid "Your active shopping list at the moment."
+msgstr "Your active shopping list at the moment."
 
-#: src/components/settings/profile-form.tsx:136
+#: src/components/settings/profile-form.tsx:125
 msgid "Your email address cannot be changed."
 msgstr "Your email address cannot be changed."
 
-#: src/components/auth/signup-form.tsx:134
+#: src/components/auth/signup-form.tsx:78
 msgid "Your Name"
 msgstr "Your Name"
 
+#: src/components/family/payment-buttons.tsx:118
+msgid "Your payment has been processed successfully."
+msgstr "Your payment has been processed successfully."
+
 #: src/components/family/family-composition-form.tsx:64
-#: src/components/settings/preferences-form.tsx:64
+#: src/components/settings/preferences-form.tsx:63
 msgid "Your preferences have been saved."
 msgstr "Your preferences have been saved."
 
@@ -2124,7 +2419,14 @@ msgstr "Your preferences have been saved."
 msgid "Your profile has been updated."
 msgstr "Your profile has been updated."
 
-#: src/routes/dashboard/home/route.tsx:560
-#: src/routes/dashboard/home/route.tsx:571
-msgid "Your spending behavior over the last 12 months."
-msgstr "Your spending behavior over the last 12 months."
+#: src/components/family/history-tab.tsx:310
+msgid "Your request is queued to avoid API rate limits."
+msgstr "Your request is queued to avoid API rate limits."
+
+#: src/routes/home/route.tsx:865
+msgid "Your spending behavior over time, with current focus on {currentMonthName}."
+msgstr "Your spending behavior over time, with current focus on {currentMonthName}."
+
+#: src/routes/home/route.tsx:881
+msgid "Your spending behavior through {currentMonthName}. Current month is highlighted."
+msgstr "Your spending behavior through {currentMonthName}. Current month is highlighted."

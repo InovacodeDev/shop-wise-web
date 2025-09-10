@@ -16,20 +16,20 @@ import { trackEvent } from "@/services/analytics-service";
 import { useLingui } from '@lingui/react/macro';
 import { apiService } from "@/services/api";
 
-const profileSchema = z.object({
-    displayName: z.string().min(2, { message: "O nome deve ter pelo menos 2 caracteres." }),
-    email: z.string().email({ message: "Email inválido." }),
-});
-
-const passwordSchema = z.object({
-    currentPassword: z.string().min(6, { message: "Senha atual é obrigatória." }),
-    newPassword: z.string().min(6, { message: "A nova senha deve ter pelo menos 6 caracteres." }),
-});
-
 export function ProfileForm() {
     const { user, reloadUser } = useAuth();
     const { toast } = useToast();
     const { t } = useLingui();
+
+    const profileSchema = z.object({
+        displayName: z.string().min(2, { message: t`O nome deve ter pelo menos 2 caracteres.` }),
+        email: z.string().email({ message: t`Email inválido.` }),
+    });
+
+    const passwordSchema = z.object({
+        currentPassword: z.string().min(6, { message: t`Senha atual é obrigatória.` }),
+        newPassword: z.string().min(6, { message: t`A nova senha deve ter pelo menos 6 caracteres.` }),
+    });
 
     useEffect(() => {
         if (user) {

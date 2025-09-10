@@ -51,8 +51,8 @@ function BankPage() {
                     <div className="font-medium">{a.bankName} ••••{a.accountNumber.slice(-4)}</div>
                     <div className="text-sm text-muted-foreground">Balance: ${a.balance.toFixed(2)}</div>
                     <div className="flex gap-2 mt-2">
-                      <button className="px-3 py-1 rounded bg-blue-600 text-white text-sm" onClick={() => sync(a._id)}>Sincronizar</button>
-                      <button className="px-3 py-1 rounded bg-gray-600 text-white text-sm" onClick={() => loadTransactions(a._id)}>Ver transações</button>
+                      <button className="px-3 py-1 rounded bg-blue-600 text-white text-sm" onClick={() => sync(a._id)}>{'Sync'}</button>
+                      <button className="px-3 py-1 rounded bg-gray-600 text-white text-sm" onClick={() => loadTransactions(a._id)}>{'View transactions'}</button>
                     </div>
                     {tx[a._id] && (
                       <div className="mt-3 text-sm">

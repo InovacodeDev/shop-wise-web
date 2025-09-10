@@ -20,10 +20,10 @@ export async function savePurchase(
             const existingPurchases = await apiService.getPurchases(familyId);
             const duplicate = existingPurchases.find((p: any) => p.accessKey === sanitizedKeyAccess);
             if (duplicate) {
-                throw new Error('Este cupom fiscal já foi importado.');
+                throw new Error('This fiscal receipt has already been imported.');
             }
         } catch (error: any) {
-            if (error.message === 'Este cupom fiscal já foi importado.') {
+            if (error.message === 'This fiscal receipt has already been imported.') {
                 throw error;
             }
             console.warn('Could not check for duplicate purchases:', error);

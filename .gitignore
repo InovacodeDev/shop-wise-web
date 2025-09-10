@@ -50,3 +50,6 @@ next-env.d.ts
 # act related files
 act_*
 .act
+
+# others
+/src/components/examples/

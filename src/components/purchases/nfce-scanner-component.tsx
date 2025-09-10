@@ -344,7 +344,7 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
                                 console.error('QR Scanner error:', error);
                                 toast({
                                     variant: 'destructive',
-                                    title: t`Erro no scanner`,
+                                    title: t`Scanner error`,
                                     description: error.message,
                                 });
                             }}

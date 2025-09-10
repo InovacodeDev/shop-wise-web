@@ -1,8 +1,10 @@
 /**
- * Exemplos de uso dos tipos financeiros implementados no projeto web
- * Este arquivo demonstra como utilizar todos os tipos disponíveis
- * para desenvolvimento de funcionalidades financeiras
+ * Example usage of the financial types implemented in the web project
+ * This file demonstrates how to use the available types
+ * for developing financial features
  */
+import { t } from '@lingui/core/macro';
+
 import type {
     Account,
     Achievement,
@@ -31,7 +33,7 @@ export const exampleExpense: Expense = {
     categoryId: 'cat_food',
     category: {
         _id: 'cat_food',
-        name: 'Alimentação',
+        name: 'Food',
         color: '#EF4444',
         icon: 'utensils',
         createdAt: '2024-01-01T00:00:00Z',
@@ -40,9 +42,9 @@ export const exampleExpense: Expense = {
     amount: 150.5,
     date: '2024-01-15T14:30:00Z',
     paymentMethod: 'credit_card',
-    description: 'Compras no supermercado',
+    description: 'Grocery purchases',
     accountId: 'acc_123',
-    tags: ['mercado', 'semanal'],
+    tags: ['market', 'weekly'],
     isRecurring: false,
     createdAt: '2024-01-15T14:30:00Z',
     updatedAt: '2024-01-15T14:30:00Z',
@@ -52,7 +54,7 @@ export const exampleExpense: Expense = {
 export const exampleAccount: Account = {
     _id: 'acc_123',
     userId: 'user_456',
-    name: 'Conta Corrente Nubank',
+    name: 'Nubank Checking Account',
     currentBalance: 2500.75,
     type: 'checking',
     institution: 'Nubank',
@@ -71,7 +73,7 @@ export const exampleAccount: Account = {
 export const exampleInvestment: Investment = {
     _id: 'inv_123',
     userId: 'user_456',
-    name: 'Carteira de Ações Tech',
+    name: 'Tech Stocks Portfolio',
     type: 'stocks',
     asset: 'PETR4',
     quantity: 100,
@@ -83,7 +85,7 @@ export const exampleInvestment: Investment = {
     profitabilityPercent: 12.75,
     lastUpdated: '2024-01-15T16:00:00Z',
     broker: 'XP Investimentos',
-    notes: 'Investimento em tecnologia para longo prazo',
+    notes: 'Long-term tech investment',
     isActive: true,
     createdAt: '2024-01-01T09:00:00Z',
     updatedAt: '2024-01-15T16:00:00Z',
@@ -96,7 +98,7 @@ export const exampleInvestment: Investment = {
 export const exampleCreditCard: CreditCard = {
     _id: 'card_123',
     userId: 'user_456',
-    name: 'Cartão Itaú Platinum',
+    name: 'Itaú Platinum Card',
     lastFourDigits: '4321',
     cardType: 'visa',
     creditLimit: 8000.0,
@@ -119,7 +121,7 @@ export const exampleBudget: Budget = {
     _id: 'budget_123',
     userId: 'user_456',
     categoryId: 'cat_food',
-    name: 'Orçamento Alimentação',
+    name: 'Food Budget',
     limit: 1200.0,
     period: 'monthly',
     startDate: '2024-01-01T00:00:00Z',
@@ -138,7 +140,7 @@ export const exampleBudget: Budget = {
 export const exampleGoal: Goal = {
     _id: 'goal_123',
     userId: 'user_456',
-    name: 'Fundo de Emergência',
+    name: 'Emergency Fund',
     targetAmount: 10000.0,
     currentAmount: 3200.0,
     targetDate: '2024-12-31T00:00:00Z',
@@ -164,32 +166,32 @@ export const examplePlan: Plan = {
     interval: 'monthly',
     features: [
         {
-            name: 'Controle Básico de Finanças',
-            description: 'Registro de despesas, contas e categorias',
+            name: t`Basic finance control`,
+            description: t`Track expenses, accounts and categories`,
             code: 'basic_finances',
             isEnabled: true,
         },
         {
-            name: 'Orçamentos Avançados',
-            description: 'Sistema completo de orçamentos',
+            name: t`Advanced budgets`,
+            description: t`Full featured budget system`,
             code: 'advanced_finances',
             isEnabled: true,
         },
         {
-            name: 'Portfólio de Investimentos',
-            description: 'Acompanhamento completo de investimentos',
+            name: t`Investment portfolio`,
+            description: t`Complete investment tracking`,
             code: 'investments',
             isEnabled: true,
         },
         {
-            name: 'Integração Bancária',
-            description: 'Sincronização automática com bancos',
+            name: t`Bank integration`,
+            description: t`Automatic synchronization with banks`,
             code: 'bank_integration',
             isEnabled: true,
         },
         {
-            name: 'Relatórios Avançados',
-            description: 'Analytics detalhados e projeções',
+            name: t`Advanced reports`,
+            description: t`Detailed analytics and projections`,
             code: 'advanced_reports',
             isEnabled: true,
         },
@@ -247,14 +249,14 @@ export const exampleUserFeatures: UserFeatures = {
 export const exampleRecurringTransaction: RecurringTransaction = {
     _id: 'rec_123',
     userId: 'user_456',
-    name: 'Salário',
+    name: 'Salary',
     amount: 5000.0,
     frequency: 'monthly',
     startDate: '2024-01-01T00:00:00Z',
     categoryId: 'cat_income',
     accountId: 'acc_123',
     paymentMethod: 'bank_transfer',
-    description: 'Salário mensal da empresa',
+    description: 'Monthly salary from company',
     isActive: true,
     nextDueDate: '2024-02-01T00:00:00Z',
     createdAt: '2024-01-01T00:00:00Z',
@@ -275,20 +277,20 @@ export const exampleBalanceProjection: BalanceProjection = {
             balance: 18000.0,
             income: 5000.0,
             expenses: 3200.0,
-            description: 'Projeção para fevereiro',
+            description: 'Projection for February',
         },
         {
             date: '2024-03-01T00:00:00Z',
             balance: 21000.0,
             income: 5000.0,
             expenses: 3200.0,
-            description: 'Projeção para março',
+            description: 'Projection for March',
         },
     ],
     alerts: [
         {
             type: 'warning',
-            message: 'Considere reduzir gastos em lazer',
+            message: 'Consider reducing leisure spending',
             projectedDate: '2024-06-01T00:00:00Z',
         },
     ],
@@ -310,8 +312,8 @@ export const exampleBankAccount: BankAccount = {
 export const exampleAchievement: Achievement = {
     _id: 'ach_123',
     userId: 'user_456',
-    name: 'Investidor Experiente',
-    description: 'Realizou 10 transações de investimento',
+    name: 'Experienced Investor',
+    description: 'Completed 10 investment transactions',
     iconName: 'trending-up',
     category: 'investment',
     points: 150,
@@ -322,12 +324,12 @@ export const exampleAchievement: Achievement = {
 
 export const exampleEducationalContent: EducationalContent = {
     _id: 'edu_123',
-    title: 'Como Criar um Orçamento Pessoal Eficaz',
-    content: 'Aprenda passo a passo como organizar suas finanças...',
+    title: 'How to Create an Effective Personal Budget',
+    content: 'Learn step-by-step how to organize your finances...',
     category: 'budgeting',
     difficulty: 'beginner',
     estimatedReadTime: 10,
-    tags: ['orçamento', 'finanças pessoais', 'planejamento'],
+    tags: ['budget', 'personal finance', 'planning'],
     isPremium: false,
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z',
@@ -338,43 +340,43 @@ export const exampleEducationalContent: EducationalContent = {
 // ================================
 
 export const PAYMENT_METHODS = [
-    { value: 'cash', label: 'Dinheiro' },
-    { value: 'credit_card', label: 'Cartão de Crédito' },
-    { value: 'debit_card', label: 'Cartão de Débito' },
-    { value: 'bank_transfer', label: 'Transferência Bancária' },
-    { value: 'pix', label: 'PIX' },
-    { value: 'other', label: 'Outro' },
+    { value: 'cash', label: t`Cash` },
+    { value: 'credit_card', label: t`Credit Card` },
+    { value: 'debit_card', label: t`Debit Card` },
+    { value: 'bank_transfer', label: t`Bank Transfer` },
+    { value: 'pix', label: t`PIX` },
+    { value: 'other', label: t`Other` },
 ] as const;
 
 export const INVESTMENT_TYPES = [
-    { value: 'stocks', label: 'Ações' },
-    { value: 'bonds', label: 'Títulos' },
-    { value: 'funds', label: 'Fundos' },
-    { value: 'crypto', label: 'Criptomoedas' },
-    { value: 'real_estate', label: 'Imóveis' },
-    { value: 'other', label: 'Outros' },
+    { value: 'stocks', label: t`Stocks` },
+    { value: 'bonds', label: t`Bonds` },
+    { value: 'funds', label: t`Funds` },
+    { value: 'crypto', label: t`Cryptocurrencies` },
+    { value: 'real_estate', label: t`Real Estate` },
+    { value: 'other', label: t`Other` },
 ] as const;
 
 export const BUDGET_PERIODS = [
-    { value: 'daily', label: 'Diário' },
-    { value: 'weekly', label: 'Semanal' },
-    { value: 'monthly', label: 'Mensal' },
-    { value: 'quarterly', label: 'Trimestral' },
-    { value: 'yearly', label: 'Anual' },
+    { value: 'daily', label: t`Daily` },
+    { value: 'weekly', label: t`Weekly` },
+    { value: 'monthly', label: t`Monthly` },
+    { value: 'quarterly', label: t`Quarterly` },
+    { value: 'yearly', label: t`Yearly` },
 ] as const;
 
 export const GOAL_PRIORITIES = [
-    { value: 'low', label: 'Baixa' },
-    { value: 'medium', label: 'Média' },
-    { value: 'high', label: 'Alta' },
+    { value: 'low', label: t`Low` },
+    { value: 'medium', label: t`Medium` },
+    { value: 'high', label: t`High` },
 ] as const;
 
 export const SUBSCRIPTION_STATUSES = [
-    { value: 'trial', label: 'Teste Gratuito' },
-    { value: 'active', label: 'Ativo' },
-    { value: 'canceled', label: 'Cancelado' },
-    { value: 'expired', label: 'Expirado' },
-    { value: 'past_due', label: 'Vencido' },
+    { value: 'trial', label: t`Trial` },
+    { value: 'active', label: t`Active` },
+    { value: 'canceled', label: t`Canceled` },
+    { value: 'expired', label: t`Expired` },
+    { value: 'past_due', label: t`Past due` },
 ] as const;
 
 // ================================

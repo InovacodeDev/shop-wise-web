@@ -1,4 +1,5 @@
 import React from 'react';
+import { t } from '@lingui/core/macro';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -14,7 +15,7 @@ interface MonthlyExpenseChartProps {
 
 const MonthlyExpenseChart: React.FC<MonthlyExpenseChartProps> = ({
     monthlyData,
-    title = "Evolução Mensal das Despesas",
+    title = "Monthly Expense Trend",
 }) => {
     const formatCurrency = (value: number) => {
         return new Intl.NumberFormat('pt-BR', {
@@ -45,7 +46,7 @@ const MonthlyExpenseChart: React.FC<MonthlyExpenseChartProps> = ({
 
     const chartConfig = {
         amount: {
-            label: "Valor",
+            label: t`Amount`,
             color: "hsl(var(--chart-1))",
         },
     };
@@ -84,7 +85,7 @@ const MonthlyExpenseChart: React.FC<MonthlyExpenseChartProps> = ({
                                             <div className="grid grid-cols-2 gap-2">
                                                 <div className="flex flex-col">
                                                     <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                                        Mês
+                                                        {t`Month`}
                                                     </span>
                                                     <span className="font-bold text-muted-foreground">
                                                         {label}
@@ -92,7 +93,7 @@ const MonthlyExpenseChart: React.FC<MonthlyExpenseChartProps> = ({
                                                 </div>
                                                 <div className="flex flex-col">
                                                     <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                                        Valor
+                                                        {t`Amount`}
                                                     </span>
                                                     <span className="font-bold">
                                                         {formatCurrency(data.amount)}
@@ -120,15 +121,15 @@ const MonthlyExpenseChart: React.FC<MonthlyExpenseChartProps> = ({
             {/* Statistics */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div className="p-4 rounded-lg bg-muted/50">
-                    <div className="text-sm text-muted-foreground">Média Mensal</div>
+                    <div className="text-sm text-muted-foreground">Monthly Average</div>
                     <div className="text-lg font-semibold">{formatCurrency(averageAmount)}</div>
                 </div>
                 <div className="p-4 rounded-lg bg-muted/50">
-                    <div className="text-sm text-muted-foreground">Maior Valor</div>
+                    <div className="text-sm text-muted-foreground">Highest</div>
                     <div className="text-lg font-semibold">{formatCurrency(maxAmount)}</div>
                 </div>
                 <div className="p-4 rounded-lg bg-muted/50">
-                    <div className="text-sm text-muted-foreground">Menor Valor</div>
+                    <div className="text-sm text-muted-foreground">Lowest</div>
                     <div className="text-lg font-semibold">{formatCurrency(minAmount)}</div>
                 </div>
             </div>
@@ -136,7 +137,7 @@ const MonthlyExpenseChart: React.FC<MonthlyExpenseChartProps> = ({
             {/* Trend Analysis */}
             {monthlyData.length >= 2 && (
                 <div className="p-4 rounded-lg bg-muted/50">
-                    <div className="text-sm text-muted-foreground mb-2">Tendência</div>
+                    <div className="text-sm text-muted-foreground mb-2">Trend</div>
                     <div className="text-sm">
                         {(() => {
                             const firstHalf = amounts.slice(0, Math.floor(amounts.length / 2));
@@ -150,19 +151,19 @@ const MonthlyExpenseChart: React.FC<MonthlyExpenseChartProps> = ({
                             if (trend > 5) {
                                 return (
                                     <span className="text-red-600 font-medium">
-                                        📈 Aumento de {trend.toFixed(1)}% nos últimos meses
+                                        📈 Increase of {trend.toFixed(1)}% in recent months
                                     </span>
                                 );
                             } else if (trend < -5) {
                                 return (
                                     <span className="text-green-600 font-medium">
-                                        📉 Redução de {Math.abs(trend).toFixed(1)}% nos últimos meses
+                                        📉 Decrease of {Math.abs(trend).toFixed(1)}% in recent months
                                     </span>
                                 );
                             } else {
                                 return (
                                     <span className="text-gray-600 font-medium">
-                                        ➡️ Valores estáveis nos últimos meses
+                                        ➡️ Stable values in recent months
                                     </span>
                                 );
                             }

@@ -90,7 +90,9 @@ function SettingsPage() {
                                     <CardDescription>{t`Permanently delete all your purchase history and related data.`}</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <p className="text-sm text-muted-foreground">{t`This action is irreversible. All your shopping lists, history and insights will be permanently deleted. This cannot be undone.`}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {t`This action is irreversible. All your shopping lists, history and insights will be permanently deleted. This cannot be undone.`}
+                                    </p>
                                 </CardContent>
                                 <CardFooter>
                                     <DeleteConfirmationDialog
