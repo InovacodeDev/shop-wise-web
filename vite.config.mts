@@ -2,6 +2,7 @@ import { lingui } from '@lingui/vite-plugin';
 // import tailwindcss from "@tailwindcss/vite";
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
@@ -19,6 +20,7 @@ export default defineConfig({
         },
     },
     plugins: [
+        visualizer({ open: true, filename: 'bundle-analysis.html' }),
         // tailwindcss(),
         tsconfigPaths(),
         tanstackRouter({
