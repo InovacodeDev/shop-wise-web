@@ -139,6 +139,32 @@ export interface CreateStoreRequest {
 }
 
 // ===============================
+// Store Preference Types
+// ===============================
+
+export type StorePreferenceType = 'favorite' | 'ignored' | 'neutral';
+
+export interface StorePreference extends BaseEntity {
+    familyId: string;
+    storeId: string;
+    preference: StorePreferenceType;
+    purchaseCount: number;
+    lastPurchaseDate: string;
+    notes?: string;
+}
+
+export interface CreateStorePreferenceRequest {
+    storeId: string;
+    preference: StorePreferenceType;
+    notes?: string;
+}
+
+export interface UpdateStorePreferenceRequest {
+    preference?: StorePreferenceType;
+    notes?: string;
+}
+
+// ===============================
 // Category Types
 // ===============================
 

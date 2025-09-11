@@ -30,6 +30,7 @@ import type {
     CreatePurchaseRequest,
     CreateShoppingListItemRequest,
     CreateShoppingListRequest,
+    CreateStorePreferenceRequest,
     CreateStoreRequest,
     CreateUserRequest,
     CreditCard,
@@ -80,6 +81,7 @@ import type {
     SignUpRequest,
     // Store types
     Store,
+    StorePreference,
     Subscription,
     SuggestMissingItemsOutput,
     SuggestMissingItemsRequest,
@@ -89,6 +91,7 @@ import type {
     UpdatePurchaseRequest,
     UpdateShoppingListItemRequest,
     UpdateShoppingListRequest,
+    UpdateStorePreferenceRequest,
     UpdateUserRequest,
     // User types
     User,
@@ -370,6 +373,18 @@ export class ApiService {
         });
     }
 
+    async deleteAllUserData(id: string): Promise<{ message: string; transferredFamilyTo?: string }> {
+        return this.makeRequest<{ message: string; transferredFamilyTo?: string }>(`/auth/data`, {
+            method: 'DELETE',
+        });
+    }
+
+    async deleteUserAccountAndData(id: string): Promise<{ message: string; transferredFamilyTo?: string }> {
+        return this.makeRequest<{ message: string; transferredFamilyTo?: string }>(`/auth/account`, {
+            method: 'DELETE',
+        });
+    }
+
     // Products endpoints
     async getProducts(): Promise<Product[]> {
         return this.makeRequest<Product[]>('/products');
@@ -400,6 +415,47 @@ export class ApiService {
 
     async getStore(id: string): Promise<Store> {
         return this.makeRequest<Store>(`/stores/${id}`);
+    }
+
+    // Store Preferences endpoints
+    async getStorePreferences(familyId: string): Promise<StorePreference[]> {
+        return this.makeRequest<StorePreference[]>(`/families/${familyId}/store-preferences`);
+    }
+
+    async getFavoriteStores(familyId: string): Promise<StorePreference[]> {
+        return this.makeRequest<StorePreference[]>(`/families/${familyId}/store-preferences/favorites`);
+    }
+
+    async getIgnoredStores(familyId: string): Promise<StorePreference[]> {
+        return this.makeRequest<StorePreference[]>(`/families/${familyId}/store-preferences/ignored`);
+    }
+
+    async createStorePreference(familyId: string, data: CreateStorePreferenceRequest): Promise<StorePreference> {
+        return this.makeRequest<StorePreference>(`/families/${familyId}/store-preferences`, {
+            method: 'POST',
+            data: data,
+        });
+    }
+
+    async getStorePreference(familyId: string, storeId: string): Promise<StorePreference> {
+        return this.makeRequest<StorePreference>(`/families/${familyId}/store-preferences/${storeId}`);
+    }
+
+    async updateStorePreference(
+        familyId: string,
+        storeId: string,
+        data: UpdateStorePreferenceRequest,
+    ): Promise<StorePreference> {
+        return this.makeRequest<StorePreference>(`/families/${familyId}/store-preferences/${storeId}`, {
+            method: 'PATCH',
+            data: data,
+        });
+    }
+
+    async deleteStorePreference(familyId: string, storeId: string): Promise<DeleteResponse> {
+        return this.makeRequest<DeleteResponse>(`/families/${familyId}/store-preferences/${storeId}`, {
+            method: 'DELETE',
+        });
     }
 
     // Purchases endpoints

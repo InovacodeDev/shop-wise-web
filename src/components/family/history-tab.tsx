@@ -32,7 +32,6 @@ import {
     faStore,
     faShoppingCart,
     faDollarSign,
-    faLightbulb,
     faBox,
     faReceipt,
     faHashtag,
@@ -446,21 +445,6 @@ export function HistoryTab() {
                 </Card>
             )}
 
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-xl font-headline flex items-center gap-2">
-                        <FontAwesomeIcon icon={faLightbulb} className="w-5 h-5 text-primary" />{" "}
-                        {t`Recommendations and Insights`}
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <EmptyState
-                        icon={faLightbulb}
-                        title={t`No Recommendations Yet`}
-                        description={t`As you add more purchases, our AI will generate personalized recommendations for you here.`}
-                    />
-                </CardContent>
-            </Card>
             {/* Selected Purchase Modal */}
             {selectedPurchase && (
                 <Dialog open={!!selectedPurchase} onOpenChange={(open) => { if (!open) setSelectedPurchase(null); }}>
@@ -514,52 +498,176 @@ export function HistoryTab() {
                         </DialogHeader>
 
                         <div
-                            className="max-h-[60vh] overflow-y-auto"
+                            className="overflow-hidden"
                             style={{
-                                borderRadius: materialShapes.corner.small,
-                                border: `1px solid hsl(var(--border))`,
+                                borderRadius: materialShapes.corner.medium,
+                                backgroundColor: 'hsl(var(--surface-container-lowest))',
+                                boxShadow: materialElevation.level1.shadow,
                             }}
                         >
-                            <Table className="min-w-full">
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead style={{ padding: materialSpacing.md }}>{t`Product`}</TableHead>
-                                        <TableHead className="w-[120px] text-center">{t`Qtt`}</TableHead>
-                                        <TableHead className="w-[140px] text-right">{t`Unit Price`}</TableHead>
-                                        <TableHead className="w-[140px] text-right">{t`Total Price`}</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {selectedPurchase.items.map((item) => {
-                                        const unitPrice = item.unitPrice !== undefined && item.unitPrice > 0 ? item.unitPrice : (item.quantity ? (item.price || 0) / item.quantity : 0);
-                                        return (
-                                            <TableRow key={item.id} className="hover:bg-surface-variant/20 transition-colors duration-150">
-                                                <TableCell style={{ padding: materialSpacing.md }}>
-                                                    <div
-                                                        className="font-medium truncate"
+                            <div className="max-h-[60vh] overflow-y-auto">
+                                <Table className="min-w-full">
+                                    <TableHeader>
+                                        <TableRow className="border-b border-outline-variant bg-surface-container-high/30">
+                                            <TableHead 
+                                                className="font-semibold text-on-surface"
+                                                style={{ 
+                                                    padding: `${materialSpacing.md} ${materialSpacing.lg}`,
+                                                    fontSize: materialTypography.titleSmall.fontSize,
+                                                    fontWeight: materialTypography.titleSmall.fontWeight,
+                                                }}
+                                            >
+                                                {t`Product`}
+                                            </TableHead>
+                                            <TableHead 
+                                                className="w-[120px] text-center font-semibold text-on-surface"
+                                                style={{
+                                                    fontSize: materialTypography.titleSmall.fontSize,
+                                                    fontWeight: materialTypography.titleSmall.fontWeight,
+                                                }}
+                                            >
+                                                {t`Qty`}
+                                            </TableHead>
+                                            <TableHead 
+                                                className="w-[140px] text-right font-semibold text-on-surface"
+                                                style={{
+                                                    fontSize: materialTypography.titleSmall.fontSize,
+                                                    fontWeight: materialTypography.titleSmall.fontWeight,
+                                                }}
+                                            >
+                                                {t`Unit Price`}
+                                            </TableHead>
+                                            <TableHead 
+                                                className="w-[140px] text-right font-semibold text-on-surface"
+                                                style={{
+                                                    padding: `${materialSpacing.md} ${materialSpacing.lg}`,
+                                                    fontSize: materialTypography.titleSmall.fontSize,
+                                                    fontWeight: materialTypography.titleSmall.fontWeight,
+                                                }}
+                                            >
+                                                {t`Total Price`}
+                                            </TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {selectedPurchase.items.map((item, index) => {
+                                            const unitPrice = item.unitPrice !== undefined && item.unitPrice > 0 ? item.unitPrice : (item.quantity ? (item.price || 0) / item.quantity : 0);
+                                            const isEven = index % 2 === 0;
+                                            return (
+                                                <TableRow 
+                                                    key={item.id} 
+                                                    className={`
+                                                        border-b border-outline-variant/40 transition-colors duration-200
+                                                        hover:bg-surface-container-high/50 cursor-pointer
+                                                        ${isEven ? 'bg-surface-container-lowest' : 'bg-surface-container-low/30'}
+                                                    `}
+                                                >
+                                                    <TableCell 
+                                                        style={{ padding: `${materialSpacing.md} ${materialSpacing.lg}` }}
+                                                        className="max-w-0"
+                                                    >
+                                                        <div className="flex flex-col gap-1">
+                                                            <div
+                                                                className="font-medium text-on-surface truncate"
+                                                                style={{
+                                                                    fontSize: materialTypography.bodyLarge.fontSize,
+                                                                    fontWeight: materialTypography.bodyLarge.fontWeight,
+                                                                }}
+                                                                title={item.name}
+                                                            >
+                                                                {item.name}
+                                                            </div>
+                                                            {item.volume && (
+                                                                <div
+                                                                    className="text-on-surface-variant flex items-center gap-1"
+                                                                    style={{
+                                                                        fontSize: materialTypography.bodySmall.fontSize,
+                                                                        fontWeight: materialTypography.bodySmall.fontWeight,
+                                                                    }}
+                                                                >
+                                                                    <FontAwesomeIcon icon={faBox} className="w-3 h-3 opacity-60" />
+                                                                    <span>{item.volume}</span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell 
+                                                        className="text-center"
                                                         style={{
                                                             fontSize: materialTypography.bodyMedium.fontSize,
                                                             fontWeight: materialTypography.bodyMedium.fontWeight,
                                                         }}
-                                                    >{item.name}</div>
-                                                    {item.volume && (
-                                                        <div
-                                                            className="text-on-surface-variant"
-                                                            style={{
-                                                                fontSize: materialTypography.bodySmall.fontSize,
-                                                                fontWeight: materialTypography.bodySmall.fontWeight,
-                                                            }}
-                                                        >{item.volume}</div>
-                                                    )}
-                                                </TableCell>
-                                                <TableCell className="text-center">{item.quantity}</TableCell>
-                                                <TableCell className="text-right">{i18n.number(unitPrice, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</TableCell>
-                                                <TableCell className="text-right font-medium">{i18n.number(item.price || (unitPrice * item.quantity), { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}</TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
+                                                    >
+                                                        <span className="inline-flex items-center justify-center min-w-8 h-6 px-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                                                            {item.quantity}
+                                                        </span>
+                                                    </TableCell>
+                                                    <TableCell 
+                                                        className="text-right text-on-surface"
+                                                        style={{
+                                                            fontSize: materialTypography.bodyMedium.fontSize,
+                                                            fontWeight: materialTypography.bodyMedium.fontWeight,
+                                                        }}
+                                                    >
+                                                        {i18n.number(unitPrice, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                                    </TableCell>
+                                                    <TableCell 
+                                                        className="text-right font-semibold text-on-surface"
+                                                        style={{ 
+                                                            padding: `${materialSpacing.md} ${materialSpacing.lg}`,
+                                                            fontSize: materialTypography.bodyLarge.fontSize,
+                                                            fontWeight: '600',
+                                                        }}
+                                                    >
+                                                        {i18n.number(item.price || (unitPrice * item.quantity), { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                    </TableBody>
+                                </Table>
+                                
+                                {/* Total Summary Footer */}
+                                <div 
+                                    className="border-t border-outline-variant bg-surface-container-high/50 p-4"
+                                    style={{ padding: materialSpacing.lg }}
+                                >
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex items-center gap-2">
+                                            <FontAwesomeIcon icon={faReceipt} className="w-4 h-4 text-on-surface-variant" />
+                                            <span 
+                                                className="text-on-surface-variant"
+                                                style={{
+                                                    fontSize: materialTypography.bodyMedium.fontSize,
+                                                    fontWeight: materialTypography.bodyMedium.fontWeight,
+                                                }}
+                                            >
+                                                <Plural value={selectedPurchase.items.length} one="# item" other="# items" />
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <span 
+                                                className="text-on-surface-variant"
+                                                style={{
+                                                    fontSize: materialTypography.bodyMedium.fontSize,
+                                                    fontWeight: materialTypography.bodyMedium.fontWeight,
+                                                }}
+                                            >
+                                                {t`Total:`}
+                                            </span>
+                                            <span 
+                                                className="text-primary font-bold text-xl"
+                                                style={{
+                                                    fontSize: materialTypography.titleMedium.fontSize,
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                {i18n.number(selectedPurchase.totalAmount, { style: 'currency', currency: getCurrencyFromLocale(i18n.locale) })}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </DialogContent>
                 </Dialog>

@@ -113,6 +113,10 @@ export function ShoppingListComponent() {
         });
     }, [profile, getOrCreateActiveList, loadItems]);
 
+    useEffect(() => {
+        loadItems(profile?.familyId!, activeListId!);
+    }, []);
+
     const handleAddItem = async () => {
         if (newItemName.trim() !== "" && Number(newItemQty) > 0 && profile?.familyId && activeListId) {
             try {
@@ -270,6 +274,7 @@ export function ShoppingListComponent() {
     const pendingItems = items.filter((item) => !item.checked);
     const completedItems = items.filter((item) => item.checked);
 
+    console.log({ loading });
     if (loading) {
         return (
             <Card>

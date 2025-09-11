@@ -13,6 +13,9 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faGears } from "@fortawesome/free-solid-svg-icons/faGears";
 import { useLingui } from '@lingui/react/macro';
 import { SideBarLayout } from '@/components/layout/sidebar-layout';
+import { useAuth } from "@/hooks/use-auth";
+import { apiService } from "@/services/api";
+import { toast } from "@/hooks/use-toast";
 
 export const Route = createFileRoute("/settings")({
     component: SettingsPage,
@@ -28,6 +31,7 @@ function SettingsPage() {
     const router = useRouter();
     const { tab } = useSearch({ from: Route.id });
     const [activeTab, setActiveTab] = useState(tab);
+    const { profile } = useAuth();
 
     useEffect(() => {
         setActiveTab(tab);
@@ -39,15 +43,67 @@ function SettingsPage() {
     };
 
     const handleDeleteData = async () => {
-        console.log("Deleting all user data...");
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        console.log("User data deleted.");
+        if (!profile?._id) {
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "User not authenticated",
+            });
+            return;
+        }
+
+        try {
+            const result = await apiService.deleteAllUserData(profile._id);
+            
+            toast({
+                title: "Success",
+                description: result.message + (result.transferredFamilyTo ? 
+                    ` Family ownership has been transferred.` : ''),
+            });
+
+            // Refresh the page or redirect to force data reload
+            window.location.reload();
+        } catch (error) {
+            console.error("Error deleting user data:", error);
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "Failed to delete user data. Please try again.",
+            });
+        }
     };
 
     const handleDeleteAccount = async () => {
-        console.log("Deleting user account...");
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        console.log("User account deleted.");
+        if (!profile?._id) {
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "User not authenticated",
+            });
+            return;
+        }
+
+        try {
+            const result = await apiService.deleteUserAccountAndData(profile._id);
+            
+            toast({
+                title: "Account Deleted",
+                description: result.message + (result.transferredFamilyTo ? 
+                    ` Family ownership has been transferred.` : ''),
+            });
+
+            // Clear local storage and redirect to home
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = "/login";
+        } catch (error) {
+            console.error("Error deleting user account:", error);
+            toast({
+                variant: "destructive",
+                title: "Error", 
+                description: "Failed to delete user account. Please try again.",
+            });
+        }
     };
 
     return (
