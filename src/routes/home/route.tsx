@@ -391,12 +391,29 @@ function DashboardPage() {
                 };
             });
 
-            // Populate category spending data for each month
+            // Populate category spending data for each month using items
+            // but keep the total amount from monthlyGroups to avoid discrepancies
             allItems.forEach((item) => {
                 const monthKey = format(item.purchaseDate, "MMM/yy", { locale });
                 if (monthlyData[monthKey]) {
                     const categoryKey = getCategoryKey(item.category);
                     monthlyData[monthKey][categoryKey] = (monthlyData[monthKey][categoryKey] || 0) + item.totalPrice;
+                }
+            });
+
+            // Adjust category totals to match the correct totalAmount from monthlyGroups
+            Object.values(monthlyData).forEach((month: any) => {
+                const categoryKeys = Object.keys(chartConfig).filter((k) => !["total", "value"].includes(k));
+                const categoriesTotal = categoryKeys.reduce((sum, key) => sum + (month[key] || 0), 0);
+                const correctTotal = month.totalAmount || 0;
+                const difference = correctTotal - categoriesTotal;
+                
+                // If there's a significant difference, add it to "others" category
+                if (difference > 0.01) {
+                    month.others = (month.others || 0) + difference;
+                    if (month.isCurrentMonth) {
+                        console.log(`Adjusted monthly data for ${month.monthYear}: categoriesTotal=${categoriesTotal}, correctTotal=${correctTotal}, difference=${difference}`);
+                    }
                 }
             });
 
@@ -409,6 +426,19 @@ function DashboardPage() {
                 acc[categoryKey] = (acc[categoryKey] || 0) + item.totalPrice;
                 return acc;
             }, {} as { [key: string]: number });
+
+            // Calculate total from items and compare with correct total from monthlyGroups
+            const itemsTotal = Object.values(thisMonthCategorySpending).reduce((sum, value) => sum + value, 0);
+            const currentMonthKey2 = format(now, "yyyy-MM");
+            const currentMonthGroup2 = monthlyGroups.find(g => g.monthYear === currentMonthKey2);
+            const correctTotal = currentMonthGroup2?.totalAmount || itemsTotal;
+            
+            // If there's a difference, add it to "others" category to match the correct total
+            const difference = correctTotal - itemsTotal;
+            if (difference > 0.01) { // Only adjust if difference is significant (more than 1 cent)
+                thisMonthCategorySpending.others = (thisMonthCategorySpending.others || 0) + difference;
+                console.log(`Adjusted categories total: itemsTotal=${itemsTotal}, correctTotal=${correctTotal}, difference=${difference}`);
+            }
 
             const pieData = Object.entries(thisMonthCategorySpending).map(([category, value]) => ({
                 category,
@@ -448,7 +478,12 @@ function DashboardPage() {
             setTopExpensesData(top5Expenses);
 
             // -- Process other card data --
-            setTotalSpentMonth(thisMonthTotalSpent);
+            // Use the correct total from monthlyGroups instead of calculated from items
+            const currentMonthYearKey = format(now, "yyyy-MM");
+            const currentMonthGroup = monthlyGroups.find(g => g.monthYear === currentMonthYearKey);
+            const correctTotalSpent = currentMonthGroup?.totalAmount || thisMonthTotalSpent;
+            
+            setTotalSpentMonth(correctTotalSpent);
             setTotalItemsBought(thisMonthTotalItems);
             setRecentItems(
                 [...thisMonthItems].sort((a, b) => b.purchaseDate.getTime() - a.purchaseDate.getTime()).slice(0, 10)
@@ -487,12 +522,12 @@ function DashboardPage() {
 
             // Fetch goals and progress to merge into the dashboard
             try {
-                const [g, p] = await Promise.all([
-                    apiService.getGoals(),
-                    apiService.getGoalProgress(),
-                ]);
-                setGoals(g);
-                setGoalProgress(p);
+                // const [g, p] = await Promise.all([
+                //     apiService.getGoals(),
+                //     apiService.getGoalProgress(),
+                // ]);
+                // setGoals(g);
+                // setGoalProgress(p);
             } catch (err) {
                 // ignore errors for goals fetching so insights still render
             }

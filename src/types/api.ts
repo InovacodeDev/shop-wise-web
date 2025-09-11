@@ -430,10 +430,9 @@ export interface ShoppingList extends BaseEntity {
 }
 
 export interface CreateShoppingListRequest {
-    name: string;
-    description?: string;
-    isActive?: boolean;
-    status?: string;
+    listName: string;
+    familySize: number;
+    preferences?: string;
 }
 
 export interface UpdateShoppingListRequest {

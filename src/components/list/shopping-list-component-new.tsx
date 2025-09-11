@@ -55,19 +55,18 @@ export function ShoppingListComponent() {
                 const lists = await apiService.getShoppingLists(familyId);
                 const activeList = lists.find((list: ApiShoppingList) => list.status === "active");
 
-                console.log({ activeList });
                 if (activeList) {
                     return activeList.id || activeList._id;
                 } else {
                     // Create new active list
                     const newList = await apiService.createShoppingList(familyId, {
-                        name: t`Main Shopping List`,
-                        status: "active",
+                        listName: t`Main Shopping List`,
+                        familySize: (profile?.family?.adults || 1) + (profile?.family?.children || 0),
+                        preferences: '',
                     });
                     return newList.id || newList._id;
                 }
             } catch (error) {
-                console.error("Error getting or creating active list:", error);
                 toast({
                     variant: "destructive",
                     title: t`Error`,
@@ -81,16 +80,17 @@ export function ShoppingListComponent() {
 
     const loadItems = useCallback(async (familyId: string, listId: string) => {
         try {
-            const items = await apiService.getShoppingListItems(familyId, listId);
-            setItems(items.map(item => ({
-                id: item.id || item._id,
-                name: item.name,
-                checked: item.checked || item.isCompleted || false,
-                quantity: item.quantity,
-                unit: item.unit || ''
-            })));
+            if (listId) {
+                const items = await apiService.getShoppingListItems(familyId, listId);
+                setItems(items.map(item => ({
+                    id: item.id || item._id,
+                    name: item.name,
+                    checked: item.checked || item.isCompleted || false,
+                    quantity: item.quantity,
+                    unit: item.unit || ''
+                })));
+            }
         } catch (error) {
-            console.error("Error loading items:", error);
             toast({
                 variant: "destructive",
                 title: t`Error`,
@@ -102,20 +102,17 @@ export function ShoppingListComponent() {
     }, [toast, t]);
 
     useEffect(() => {
-        if (!profile?.familyId || !profile.uid) return;
+        console.log({ profile });
+        if (!profile?.familyId || !profile._id) return;
 
         setLoading(true);
-        getOrCreateActiveList(profile.familyId, profile.uid).then((listId) => {
+        getOrCreateActiveList(profile.familyId, profile._id).then((listId) => {
             if (listId) {
                 setActiveListId(listId);
                 loadItems(profile.familyId!, listId);
             }
         });
     }, [profile, getOrCreateActiveList, loadItems]);
-
-    useEffect(() => {
-        loadItems(profile?.familyId!, activeListId!);
-    }, []);
 
     const handleAddItem = async () => {
         if (newItemName.trim() !== "" && Number(newItemQty) > 0 && profile?.familyId && activeListId) {
@@ -251,18 +248,13 @@ export function ShoppingListComponent() {
                 unit: "UN",
             });
 
-            // Reload items
             loadItems(profile.familyId, activeListId);
-
-            // Remove from suggestions
             setSuggestedItems(suggestedItems.filter(item => item !== itemName));
-
             trackEvent("shopping_list_item_added", {
                 item_name: itemName,
                 source: "ai_suggestion",
             });
         } catch (error) {
-            console.error("Error adding suggested item:", error);
             toast({
                 variant: "destructive",
                 title: t`Error`,
@@ -274,7 +266,6 @@ export function ShoppingListComponent() {
     const pendingItems = items.filter((item) => !item.checked);
     const completedItems = items.filter((item) => item.checked);
 
-    console.log({ loading });
     if (loading) {
         return (
             <Card>

@@ -5,7 +5,6 @@ import { useRouter } from "@tanstack/react-router";
 
 interface Profile {
     _id: string;
-    uid?: string;
     displayName?: string;
     email: string;
     familyId: string | null;
@@ -51,7 +50,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             const profileData: Profile = {
                 _id: user._id,
-                uid: userData.uid,
                 displayName: userData.displayName || '',
                 email: userData.email,
                 familyId: familyIdString,
