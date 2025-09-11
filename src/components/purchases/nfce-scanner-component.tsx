@@ -34,11 +34,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { apiService } from '@/services/api';
+import { useAuth } from '@/hooks/use-auth';
 import type { NfceAnalysisState, QrScanResult, NfceData, EnhancedNfceData } from '@/types/webcrawler';
 import { useLingui } from '@lingui/react/macro';
 import { useToast } from '@/hooks/use-toast';
 import { getCurrencyFromLocale } from '@/lib/localeCurrency';
 import type { ExtractProductDataOutput, Product } from '@/types/ai-flows';
+import { useRouter } from '@tanstack/react-router';
 
 interface NfceScannerComponentProps {
     onSave: (purchaseData: ExtractProductDataOutput, products: Product[], entryMethod?: 'import' | 'nfce') => Promise<void>;
@@ -47,6 +49,7 @@ interface NfceScannerComponentProps {
 export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
     const { t, i18n } = useLingui();
     const { toast } = useToast();
+    const { profile } = useAuth();
     const [analysisState, setAnalysisState] = useState<NfceAnalysisState>({
         step: 'scan'
     });
@@ -66,18 +69,31 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
         setAnalysisState(prev => ({ ...prev, step: 'loading', url }));
 
         try {
-            // First, get raw NFCe data
+            // First, get raw NFCe data (available to all plans)
             const rawData = await apiService.crawlNfce({ url });
 
-            // Then, get enhanced data with AI processing
-            const enhancedData = await apiService.crawlAndEnhanceNfce({ url });
+            // Only perform AI-enhanced parsing for premium plans
+            let enhancedData: EnhancedNfceData | undefined = undefined;
+            let isEnhanced = false;
+
+            if (profile?.plan === 'premium') {
+                try {
+                    enhancedData = await apiService.crawlAndEnhanceNfce({ url });
+                    isEnhanced = Boolean(enhancedData?.success);
+                } catch (e) {
+                    // If enhancement fails, don't block the raw result
+                    console.warn('AI enhancement failed:', e);
+                    enhancedData = undefined;
+                    isEnhanced = false;
+                }
+            }
 
             setAnalysisState(prev => ({
                 ...prev,
                 step: 'results',
                 data: rawData,
                 enhancedData,
-                isEnhanced: enhancedData.success
+                isEnhanced
             }));
         } catch (error) {
             console.error('Error processing NFCe:', error);
@@ -171,6 +187,8 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
         if (!analysisState.data) return null;
 
         const { data } = analysisState;
+        const isPremium = profile?.plan === 'premium';
+        const router = useRouter();
 
         return (
             <div className="space-y-6">
@@ -293,14 +311,32 @@ export function NfceScannerComponent({ onSave }: NfceScannerComponentProps) {
 
                 {/* Action Buttons */}
                 <div className="flex justify-between gap-4">
+                    {!isPremium && (
+                        <div className="flex items-center gap-4">
+                            <div className="p-3 rounded-md bg-yellow-50 border border-yellow-200">
+                                <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-yellow-700" />
+                            </div>
+                            <div className="text-sm">
+                                <div className="font-medium">{t`Enhanced parsing available in Premium`}</div>
+                                <div className="text-muted-foreground">{t`Upgrade to Premium to get AI-enriched product names, categories, and automatic corrections.`}</div>
+                            </div>
+                        </div>
+                    )}
                     <Button variant="destructive" onClick={resetScan} className="flex items-center gap-2">
                         <FontAwesomeIcon icon={faTimesCircle} className="w-4 h-4" />
                         {t`Cancel and Start New Import`}
                     </Button>
-                    <Button onClick={handleSaveData} className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
-                        <FontAwesomeIcon icon={faSave} className="w-4 h-4" />
-                        {t`Confirm and Save Purchase`}
-                    </Button>
+                    <div className="flex items-center gap-2">
+                        <Button onClick={handleSaveData} className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
+                            <FontAwesomeIcon icon={faSave} className="w-4 h-4" />
+                            {t`Confirm and Save Purchase`}
+                        </Button>
+                        {!isPremium && (
+                            <Button variant="outlined" onClick={() => router.navigate({ to: '/family', search: { tab: 'plan' } })}>
+                                {t`Upgrade to Premium`}
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
         );
