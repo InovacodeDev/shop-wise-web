@@ -46,13 +46,13 @@ const tabsListVariants = cva(
 );
 
 const tabsTriggerVariants = cva(
-    "inline-flex items-center justify-center relative cursor-pointer transition-all duration-200 ease-in-out text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center relative cursor-pointer transition-all duration-200 ease-in-out text-sm font-normal border-b-2 border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
             variant: {
-                primary: "h-12 px-6 gap-2 text-on-surface-variant hover:text-on-surface data-[active]:text-primary", // 48dp
-                "primary-with-icon": "h-16 px-6 gap-2 flex-col text-on-surface-variant hover:text-on-surface data-[active]:text-primary", // 64dp
-                secondary: "h-12 px-4 gap-2 text-on-surface-variant hover:text-on-surface data-[active]:text-on-surface", // 48dp
+                primary: "h-12 px-6 gap-2 text-on-surface-variant hover:text-on-surface data-[active=true]:text-primary data-[active=true]:font-bold data-[active=true]:text-base", // 48dp
+                "primary-with-icon": "h-16 px-6 gap-2 flex-col text-on-surface-variant hover:text-on-surface data-[active=true]:text-primary data-[active=true]:font-bold data-[active=true]:text-base", // 64dp
+                secondary: "h-12 px-4 gap-2 text-on-surface-variant hover:text-on-surface data-[active=true]:text-on-surface data-[active=true]:font-bold data-[active=true]:text-base", // 48dp
             },
             type: {
                 fixed: "flex-1 min-w-0",
@@ -60,7 +60,7 @@ const tabsTriggerVariants = cva(
             },
             state: {
                 default: "",
-                active: "data-[active]:text-primary",
+                active: "data-[active=true]:text-primary",
                 hover: "hover:bg-surface-variant/50",
                 focus: "focus-visible:bg-surface-variant/50",
                 pressed: "active:bg-surface-variant/70",
@@ -70,15 +70,24 @@ const tabsTriggerVariants = cva(
             // Active indicator positioning
             {
                 variant: "primary",
-                class: "data-[active]:after:absolute data-[active]:after:bottom-0 data-[active]:after:left-2 data-[active]:after:right-2 data-[active]:after:h-0.75 data-[active]:after:bg-primary data-[active]:after:rounded-t-full data-[active]:after:min-w-6", // 3dp height, 24dp min width
+                class: "data-[active=true]:after:absolute data-[active=true]:after:bottom-0 data-[active=true]:after:left-2 data-[active=true]:after:right-2 data-[active=true]:after:h-0.75 data-[active=true]:after:bg-primary data-[active=true]:after:rounded-t-full data-[active=true]:after:min-w-6", // 3dp height, 24dp min width
             },
             {
                 variant: "primary-with-icon",
-                class: "data-[active]:after:absolute data-[active]:after:bottom-0 data-[active]:after:left-2 data-[active]:after:right-2 data-[active]:after:h-0.75 data-[active]:after:bg-primary data-[active]:after:rounded-t-full data-[active]:after:min-w-6",
+                class: "data-[active=true]:after:absolute data-[active=true]:after:bottom-0 data-[active=true]:after:left-2 data-[active=true]:after:right-2 data-[active=true]:after:h-0.75 data-[active=true]:after:bg-primary data-[active=true]:after:rounded-t-full data-[active=true]:after:min-w-6",
             },
             {
                 variant: "secondary",
-                class: "data-[active]:after:absolute data-[active]:after:bottom-0 data-[active]:after:left-2 data-[active]:after:right-2 data-[active]:after:h-0.5 data-[active]:after:bg-primary data-[active]:after:rounded-t-full data-[active]:after:min-w-6", // 2dp height
+                class: "data-[active=true]:after:absolute data-[active=true]:after:bottom-0 data-[active=true]:after:left-2 data-[active=true]:after:right-2 data-[active=true]:after:h-0.5 data-[active=true]:after:bg-primary data-[active=true]:after:rounded-t-full data-[active=true]:after:min-w-6", // 2dp height
+            },
+            // Active state border emphasis
+            {
+                variant: "primary",
+                class: "data-[active=true]:border-primary",
+            },
+            {
+                variant: "primary-with-icon",
+                class: "data-[active=true]:border-primary",
             },
         ],
         defaultVariants: {

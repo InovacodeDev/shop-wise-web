@@ -106,20 +106,17 @@ export function MainNav() {
     ];
 
     const handleSignOut = async () => {
-        // Attempt to revoke server-side refresh token (clears HttpOnly cookie)
         try {
             await apiService.revoke();
         } catch (e) {
             // ignore
         }
-        // Clear backend tokens (client-side)
         try {
             apiService.clearAuthState();
         } catch (e) {
             console.warn('Error clearing tokens on logout:', e);
         }
 
-        // Reload auth context so UI updates
         try {
             await reloadUser();
         } catch {
@@ -150,7 +147,7 @@ export function MainNav() {
                                 variant="filled"
                                 size="icon"
                                 className={cn(
-                                    "w-10 h-10 my-2 rounded-full mx-auto",
+                                    "w-10 h-10 rounded-full mx-auto",
                                     "bg-primary hover:bg-primary/90 text-on-primary"
                                 )}
                             >
@@ -187,7 +184,7 @@ export function MainNav() {
                                 className={cn(
                                     "w-full justify-start rounded-r-none border-r-0",
                                     "bg-primary hover:bg-primary/90 text-on-primary",
-                                    "h-12 px-4"
+                                    "h-10 px-4"
                                 )}
                             >
                                 <FontAwesomeIcon icon={faPlus} className="h-4 w-4" />
@@ -202,7 +199,7 @@ export function MainNav() {
                                     className={cn(
                                         "rounded-l-none border-l border-primary-container/20",
                                         "bg-primary hover:bg-primary/90 text-on-primary",
-                                        "h-12 w-12 shrink-0"
+                                        "h-10 w-12 shrink-0"
                                     )}
                                 >
                                     <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3" />
@@ -260,7 +257,7 @@ export function MainNav() {
                 {/* <p
                     className={cn(
                         "px-4 py-2 text-xs font-semibold text-muted-foreground transition-opacity duration-300",
-                        state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
+                        state === "collapsed" ? "opacity-0 h-auto" : "opacity-100 h-auto"
                     )}
                 >
                     {t`Personal Finance`}
@@ -285,7 +282,7 @@ export function MainNav() {
                 <p
                     className={cn(
                         "px-4 py-2 text-xs font-semibold text-muted-foreground transition-opacity duration-300",
-                        state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
+                        state === "collapsed" ? "opacity-0 h-auto" : "opacity-100 h-auto"
                     )}
                 >
                     {t`Purchases`}
@@ -316,7 +313,7 @@ export function MainNav() {
                 {/* <p
                     className={cn(
                         "px-4 py-2 text-xs font-semibold text-muted-foreground transition-opacity duration-300",
-                        state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
+                        state === "collapsed" ? "opacity-0 h-auto" : "opacity-100 h-auto"
                     )}
                 >
                     {t`Educacional`}
@@ -343,7 +340,7 @@ export function MainNav() {
                 <p
                     className={cn(
                         "px-4 py-2 text-xs font-semibold text-muted-foreground transition-opacity duration-300",
-                        state === "collapsed" ? "opacity-0 h-0" : "opacity-100 h-auto"
+                        state === "collapsed" ? "opacity-0 h-auto" : "opacity-100 h-auto"
                     )}
                 >
                     {t`Settings`}
