@@ -1021,3 +1021,71 @@ export interface ExpenseFilters {
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
 }
+
+// ===============================
+// Payment Types
+// ===============================
+
+export interface CreateCheckoutRequest {
+    products: string[];
+    customerId?: string;
+    customerEmail?: string;
+    successUrl?: string;
+    metadata?: Record<string, any>;
+    customerBillingAddress?: {
+        line1?: string;
+        line2?: string;
+        city?: string;
+        state?: string;
+        postalCode?: string;
+        country: string;
+    };
+}
+
+export interface CheckoutResponse {
+    id: string;
+    url?: string;
+    status: string;
+    amount?: number;
+    currency?: string;
+    expiresAt?: string;
+    createdAt: string;
+    metadata?: Record<string, any>;
+}
+
+export interface PaymentStatusResponse {
+    transactionId: string;
+    polarCheckoutId: string;
+    status: string;
+    amount: number;
+    currency: string;
+    productId?: string;
+    customerId?: string;
+    checkoutUrl?: string;
+    createdAt: string;
+    updatedAt: string;
+    completedAt?: string;
+    expiresAt?: string;
+    metadata?: Record<string, any>;
+}
+
+export interface UserPaymentListResponse {
+    payments: PaymentStatusResponse[];
+    total: number;
+    page: number;
+    limit: number;
+    hasMore: boolean;
+}
+
+export interface PaymentListParams {
+    status?: string;
+    limit?: number;
+    page?: number;
+}
+
+export interface PollStatusResponse {
+    isPolling: boolean;
+    pollIntervalMs: number;
+    maxRetries: number;
+    pollingTimeoutMs: number;
+}

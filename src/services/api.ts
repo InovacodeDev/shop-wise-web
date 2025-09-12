@@ -21,7 +21,9 @@ import type {
     BulkUpdatePurchaseItemsResponse,
     // Category types
     Category,
+    CheckoutResponse,
     CreateCategoryRequest,
+    CreateCheckoutRequest,
     CreateFamilyRequest,
     CreateNotificationRequest,
     CreatePantryItemRequest,
@@ -62,8 +64,12 @@ import type {
     Notification,
     // Pantry Item types
     PantryItem,
+    // Payment types
+    PaymentListParams,
     PaymentMethod,
+    PaymentStatusResponse,
     Plan,
+    PollStatusResponse,
     // Product types
     Product,
     // Purchase types
@@ -96,6 +102,7 @@ import type {
     // User types
     User,
     UserFeatures,
+    UserPaymentListResponse,
     UserStats,
 } from '@/types/api';
 import type { CrawlAndEnhanceNfceResponse, CrawlNfceRequest, CrawlNfceResponse } from '@/types/webcrawler';
@@ -1124,6 +1131,61 @@ export class ApiService {
             method: 'POST',
             data: request,
         });
+    }
+
+    // ===============================
+    // Payment Methods
+    // ===============================
+
+    /**
+     * Create a new checkout session
+     */
+    async createCheckout(request: CreateCheckoutRequest): Promise<CheckoutResponse> {
+        logApiCall('/payments/checkout', 'POST');
+        return this.makeRequest<CheckoutResponse>('/payments/checkout', {
+            method: 'POST',
+            data: request,
+        });
+    }
+
+    /**
+     * Get payment status by transaction ID
+     */
+    async getPaymentStatus(transactionId: string): Promise<PaymentStatusResponse> {
+        logApiCall(`/payments/${transactionId}/status`);
+        return this.makeRequest<PaymentStatusResponse>(`/payments/${transactionId}/status`);
+    }
+
+    /**
+     * List user payments with pagination
+     */
+    async listUserPayments(params?: PaymentListParams): Promise<UserPaymentListResponse> {
+        const queryParams = new URLSearchParams();
+        if (params?.status) queryParams.append('status', params.status);
+        if (params?.limit) queryParams.append('limit', params.limit.toString());
+        if (params?.page) queryParams.append('page', params.page.toString());
+
+        const url = `/payments/user/payments${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
+        logApiCall(url);
+        return this.makeRequest<UserPaymentListResponse>(url);
+    }
+
+    /**
+     * Force poll a specific transaction (for testing/debugging)
+     */
+    async forcePollTransaction(transactionId: string): Promise<{ message: string }> {
+        logApiCall(`/payments/${transactionId}/force-poll`, 'POST');
+        return this.makeRequest<{ message: string }>(`/payments/${transactionId}/force-poll`, {
+            method: 'POST',
+        });
+    }
+
+    /**
+     * Get polling service status
+     */
+    async getPollingStatus(): Promise<PollStatusResponse> {
+        logApiCall('/payments/polling/status');
+        return this.makeRequest<PollStatusResponse>('/payments/polling/status');
     }
 
     // Purchase methods

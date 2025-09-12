@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faChartColumn,
     faCog,
-    faHome,
     faList,
     faMicroscope,
     faPlusCircle,
